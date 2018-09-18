@@ -1,0 +1,2 @@
+# EntityFrameworkCore.Generator
+Generator EntityFrameworkCore models
