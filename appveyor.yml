@@ -1,0 +1,33 @@
+version: 1.0.0.{build}
+os: Visual Studio 2017
+
+environment:
+  ASPNETCORE_ENVIRONMENT: appveyor
+  COVERALLS_REPO_TOKEN:
+    secure: FUpI+qx/M+lkfdUL40MekgpNGvOvPUy2TOJo0tEpUgUpHgwTDX0uYKUtQy8pcTyf
+
+init:
+  - git config --global core.autocrlf input
+
+dotnet_csproj:
+  patch: true
+  file: 'build\version.props'
+  version: '{version}'
+  package_version: '{version}'
+  assembly_version: '{version}'
+  file_version: '{version}'
+  informational_version: '{version}'
+
+build_script:
+  - dotnet pack EntityFrameworkCore.Generator.sln --configuration Release --include-symbols --include-source 
+
+test_script:
+  - dotnet test test\EntityFrameworkCore.Generator.Core.Tests\EntityFrameworkCore.Generator.Core.Tests.csproj --configuration Release /p:CollectCoverage=true /p:CoverletOutputFormat=opencover
+
+artifacts:
+- path: artifacts\*.nupkg
+  name: Packages
+
+deploy:
+- provider: Environment
+  name: MyGet
