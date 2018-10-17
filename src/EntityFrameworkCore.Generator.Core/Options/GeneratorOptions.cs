@@ -7,6 +7,9 @@ namespace EntityFrameworkCore.Generator.Options
     /// </summary>
     public class GeneratorOptions
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="GeneratorOptions"/> class.
+        /// </summary>
         public GeneratorOptions()
         {
             Project = new ProjectOptions();

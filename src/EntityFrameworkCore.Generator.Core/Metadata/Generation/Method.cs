@@ -9,8 +9,10 @@ namespace EntityFrameworkCore.Generator.Metadata.Generation
     {
         public Method()
         {
-            Properties = new List<Property>();
+            Properties = new PropertyCollection<Entity>();
         }
+
+        public Entity Entity { get; set; }
 
         public string NameSuffix { get; set; }
         public string SourceName { get; set; }
@@ -19,6 +21,6 @@ namespace EntityFrameworkCore.Generator.Metadata.Generation
         public bool IsUnique { get; set; }
         public bool IsIndex { get; set; }
 
-        public List<Property> Properties { get; set; }
+        public PropertyCollection<Entity> Properties { get; set; }
     }
 }

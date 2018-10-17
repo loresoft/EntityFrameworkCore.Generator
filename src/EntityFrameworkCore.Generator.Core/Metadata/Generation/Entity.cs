@@ -7,7 +7,7 @@ namespace EntityFrameworkCore.Generator.Metadata.Generation
     /// An entity model for a database table used when reverse engineering an existing database.
     /// </summary>
     /// <seealso cref="ModelBase" />
-    [DebuggerDisplay("Class: {EntityClass}, Table: {FullName}, Context: {ContextName}")]
+    [DebuggerDisplay("Class: {EntityClass}, Table: {TableName}, Context: {ContextProperty}")]
     public class Entity : ModelBase
     {
         /// <summary>
@@ -15,11 +15,18 @@ namespace EntityFrameworkCore.Generator.Metadata.Generation
         /// </summary>
         public Entity()
         {
-            Properties = new PropertyCollection();
+            Properties = new PropertyCollection<Entity>();
             Relationships = new RelationshipCollection();
             Methods = new MethodCollection();
         }
 
+        /// <summary>
+        /// Gets or sets the parent <see cref="EntityContext"/> this entity belong to.
+        /// </summary>
+        /// <value>
+        /// The parent context this entity belongs to.
+        /// </value>
+        public EntityContext Context { get; set; }
 
         /// <summary>
         /// Gets or sets the property name for this entity on the data context.
@@ -27,7 +34,10 @@ namespace EntityFrameworkCore.Generator.Metadata.Generation
         /// <value>
         /// The property name for this entity on the data context.
         /// </value>
-        public string ContextName { get; set; }
+        public string ContextProperty { get; set; }
+
+
+        public string EntityNamespace { get; set; }
 
         /// <summary>
         /// Gets or sets the name of the entity class.
@@ -36,6 +46,11 @@ namespace EntityFrameworkCore.Generator.Metadata.Generation
         /// The name of the entity class.
         /// </value>
         public string EntityClass { get; set; }
+
+        public string EntityBaseClass { get; set; }
+
+
+        public string MappingNamespace { get; set; }
 
         /// <summary>
         /// Gets or sets the name of the table mapping class.
@@ -46,32 +61,6 @@ namespace EntityFrameworkCore.Generator.Metadata.Generation
         public string MappingClass { get; set; }
 
 
-        /// <summary>
-        /// Gets or sets the read view model class name.
-        /// </summary>
-        /// <value>
-        /// The read view model class name.
-        /// </value>
-        public string ReadModel { get; set; }
-
-        /// <summary>
-        /// Gets or sets the create view model class name.
-        /// </summary>
-        /// <value>
-        /// The create view model class name.
-        /// </value>
-        public string CreateModel { get; set; }
-
-        /// <summary>
-        /// Gets or sets the edit view model class name.
-        /// </summary>
-        /// <value>
-        /// The edit view model class name.
-        /// </value>
-        public string EditModel { get; set; }
-
-
-        
         /// <summary>
         /// Gets or sets the table schema.
         /// </summary>
@@ -88,14 +77,6 @@ namespace EntityFrameworkCore.Generator.Metadata.Generation
         /// </value>
         public string TableName { get; set; }
 
-        /// <summary>
-        /// Gets or sets the table full name.
-        /// </summary>
-        /// <value>
-        /// The table full name.
-        /// </value>
-        public string FullName { get; set; }
-
 
         /// <summary>
         /// Gets or sets the entity's properties.
@@ -103,7 +84,7 @@ namespace EntityFrameworkCore.Generator.Metadata.Generation
         /// <value>
         /// The entity's properties.
         /// </value>
-        public PropertyCollection Properties { get; set; }
+        public PropertyCollection<Entity> Properties { get; set; }
 
         /// <summary>
         /// Gets or sets the entity's relationships.
@@ -120,5 +101,25 @@ namespace EntityFrameworkCore.Generator.Metadata.Generation
         /// The entity's methods.
         /// </value>
         public MethodCollection Methods { get; set; }
+
+    }
+
+    public class Model : ModelBase
+    {
+        public Entity Entity { get; set; }
+
+        public string ModelNamespace { get; set; }
+
+        public string ModelClass { get; set; }
+
+        public string ModelBaseClass { get; set; }
+
+        public string ValidatorNamespace { get; set; }
+
+        public string ValidatorClass { get; set; }
+
+        public string ValidatorBaseClass { get; set; }
+
+        public PropertyCollection<Model> Properties { get; set; }
     }
 }

@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "EntityFrameworkCore.Generator": {
+      "commandName": "Project",
+      "commandLineArgs": "generate"
+    }
+  }
+}

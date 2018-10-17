@@ -1,31 +1,84 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.Generic;
 using System.Linq;
 
 namespace EntityFrameworkCore.Generator.Metadata.Generation
 {
-    public class PropertyCollection
-      : ObservableCollection<Property>
+    /// <summary>
+    /// A collection of <see cref="Property{TEntity}"/> instances
+    /// </summary>
+    /// <typeparam name="TEntity">The type of the entity.</typeparam>
+    public class PropertyCollection<TEntity>
+      : List<Property<TEntity>>
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PropertyCollection{TParent}"/> class.
+        /// </summary>
+        public PropertyCollection()
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PropertyCollection{TParent}"/> class.
+        /// </summary>
+        /// <param name="collection">The collection whose elements are copied to the new list.</param>
+        public PropertyCollection(IEnumerable<Property<TEntity>> collection) : base(collection)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PropertyCollection{TParent}"/> class.
+        /// </summary>
+        /// <param name="list">The list.</param>
+        public PropertyCollection(List<Property<TEntity>> list) : base(list)
+        {
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether this instance is processed.
+        /// </summary>
+        /// <value>
+        ///   <c>true</c> if this instance is processed; otherwise, <c>false</c>.
+        /// </value>
         public bool IsProcessed { get; set; }
 
-        public IEnumerable<Property> PrimaryKeys
+        /// <summary>
+        /// Gets the primary keys properties.
+        /// </summary>
+        /// <value>
+        /// The primary keys properties.
+        /// </value>
+        public IEnumerable<Property<TEntity>> PrimaryKeys
         {
             get { return this.Where(p => p.IsPrimaryKey == true); }
         }
 
-        public IEnumerable<Property> ForeignKeys
+        /// <summary>
+        /// Gets the foreign keys properties.
+        /// </summary>
+        /// <value>
+        /// The foreign keys.
+        /// </value>
+        public IEnumerable<Property<TEntity>> ForeignKeys
         {
             get { return this.Where(p => p.IsForeignKey == true); }
         }
 
-        public Property ByColumn(string columnName)
+        /// <summary>
+        /// Gets the property by column name
+        /// </summary>
+        /// <param name="columnName">Name of the column.</param>
+        /// <returns></returns>
+        public Property<TEntity> ByColumn(string columnName)
         {
             return this.FirstOrDefault(x => x.ColumnName == columnName);
         }
 
-        public Property ByProperty(string propertyName)
+        /// <summary>
+        /// Gets the property by property name
+        /// </summary>
+        /// <param name="propertyName">Name of the property.</param>
+        /// <returns></returns>
+        public Property<TEntity> ByProperty(string propertyName)
         {
             return this.FirstOrDefault(x => x.PropertyName == propertyName);
         }

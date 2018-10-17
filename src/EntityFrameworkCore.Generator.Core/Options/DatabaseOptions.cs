@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System.Collections.Generic;
+using System.ComponentModel;
 
 namespace EntityFrameworkCore.Generator.Options
 {
@@ -42,5 +43,22 @@ namespace EntityFrameworkCore.Generator.Options
         /// </value>
         [DefaultValue(TableNaming.Singular)]
         public TableNaming TableNaming { get; set; } = TableNaming.Singular;
+
+
+        /// <summary>
+        /// Gets or sets the tables to include in the model, or an empty enumerable to include all
+        /// </summary>
+        /// <value>
+        /// The tables to include in the model, or an empty enumerable to include all
+        /// </value>
+        public List<string> Tables { get; set; } = new List<string>();
+
+        /// <summary>
+        /// Gets or sets the schema to include in the model, or an empty enumerable to include all.
+        /// </summary>
+        /// <value>
+        /// The schema to include in the model, or an empty enumerable to include all.
+        /// </value>
+        public List<string> Schemas { get; set; } = new List<string>();
     }
 }

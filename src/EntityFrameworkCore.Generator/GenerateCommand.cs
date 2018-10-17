@@ -1,17 +1,21 @@
 ﻿using System;
+using EntityFrameworkCore.Generator.Extensions;
 using EntityFrameworkCore.Generator.Options;
 using McMaster.Extensions.CommandLineUtils;
+using Microsoft.Extensions.Logging;
 
 namespace EntityFrameworkCore.Generator
 {
     [Command("generate")]
-    public class GenerateCommand : CommandBase
+    public class GenerateCommand : OptionsCommandBase
     {
-        [Option("-d <Directory>", Description = "The root working directory")]
-        public string WorkingDirectory { get; set; } = Environment.CurrentDirectory;
+        private readonly ICodeGenerator _codeGenerator;
 
-        [Option("-f <File>", Description = "The options file name")]
-        public string OptionsFile { get; set; } = GeneratorOptionsSerializer.OptionsFileName;
+        public GenerateCommand(ILoggerFactory logger, IConsole console, IGeneratorOptionsSerializer serializer, ICodeGenerator codeGenerator)
+            : base(logger, console, serializer)
+        {
+            _codeGenerator = codeGenerator;
+        }
 
         [Option("-p <Provider>", Description = "Database provider to reverse engineer")]
         public DatabaseProviders? Provider { get; set; }
@@ -32,7 +36,40 @@ namespace EntityFrameworkCore.Generator
 
         protected override int OnExecute(CommandLineApplication application)
         {
-            return 0;
+            var workingDirectory = WorkingDirectory ?? Environment.CurrentDirectory;
+            var optionsFile = OptionsFile ?? GeneratorOptionsSerializer.OptionsFileName;
+
+            var options = Serializer.Load(workingDirectory, optionsFile);
+            if (options == null)
+            {
+                Logger.LogInformation($"Using default options");
+                options = new GeneratorOptions();
+            }
+
+            // override options
+            if (ConnectionString.HasValue())
+                options.Database.ConnectionString = ConnectionString;
+
+            if (Provider.HasValue)
+                options.Database.Provider = Provider.Value;
+
+            if (Extensions.HasValue)
+                options.Data.Query.Generate = Extensions.Value;
+
+            if (Views.HasValue)
+                options.Data.View.Generate = Views.Value;
+
+            if (Models.HasValue)
+            {
+                options.Model.Read.Generate = Models.Value;
+                options.Model.Create.Generate = Models.Value;
+                options.Model.Update.Generate = Models.Value;
+            }
+            
+            var result = _codeGenerator.Generate(options);
+
+            return result ? 0 : 1;
         }
+
     }
 }

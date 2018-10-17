@@ -11,10 +11,16 @@ namespace EntityFrameworkCore.Generator.Metadata.Generation
             Entities = new EntityCollection();
         }
 
+        public string ContextNamespace { get; set; }
+
         public string ContextClass { get; set; }
+
+        public string ContextBaseClass { get; set; }
+
         public string DatabaseName { get; set; }
 
         public EntityCollection Entities { get; set; }
+
 
         public void RenameEntity(string originalName, string newName)
         {
@@ -27,13 +33,13 @@ namespace EntityFrameworkCore.Generator.Metadata.Generation
                 if (entity.EntityClass == originalName)
                     entity.EntityClass = newName;
 
-                foreach (var relationship in entity.Relationships)
-                {
-                    if (relationship.ThisEntity == originalName)
-                        relationship.ThisEntity = newName;
-                    if (relationship.OtherEntity == originalName)
-                        relationship.OtherEntity = newName;
-                }
+                //foreach (var relationship in entity.Relationships)
+                //{
+                //    if (relationship.ThisEntity == originalName)
+                //        relationship.ThisEntity = newName;
+                //    if (relationship.OtherEntity == originalName)
+                //        relationship.OtherEntity = newName;
+                //}
             }
         }
 
@@ -52,18 +58,18 @@ namespace EntityFrameworkCore.Generator.Metadata.Generation
                         property.PropertyName = newName;
                 }
 
-                foreach (var relationship in entity.Relationships)
-                {
-                    if (relationship.ThisEntity == entityName)
-                        for (int i = 0; i < relationship.ThisProperties.Count; i++)
-                            if (relationship.ThisProperties[i] == originalName)
-                                relationship.ThisProperties[i] = newName;
+                //foreach (var relationship in entity.Relationships)
+                //{
+                //    if (relationship.ThisEntity == entityName)
+                //        for (int i = 0; i < relationship.ThisProperties.Count; i++)
+                //            if (relationship.ThisProperties[i] == originalName)
+                //                relationship.ThisProperties[i] = newName;
 
-                    if (relationship.OtherEntity == entityName)
-                        for (int i = 0; i < relationship.OtherProperties.Count; i++)
-                            if (relationship.OtherProperties[i] == originalName)
-                                relationship.OtherProperties[i] = newName;
-                }
+                //    if (relationship.OtherEntity == entityName)
+                //        for (int i = 0; i < relationship.OtherProperties.Count; i++)
+                //            if (relationship.OtherProperties[i] == originalName)
+                //                relationship.OtherProperties[i] = newName;
+                //}
             }
 
         }

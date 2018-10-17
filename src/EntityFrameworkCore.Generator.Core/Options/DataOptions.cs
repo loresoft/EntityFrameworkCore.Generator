@@ -7,6 +7,9 @@ namespace EntityFrameworkCore.Generator.Options
     /// </summary>
     public class DataOptions
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DataOptions"/> class.
+        /// </summary>
         public DataOptions()
         {
             Mapping = new MappingClassOptions();

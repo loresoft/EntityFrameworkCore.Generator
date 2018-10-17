@@ -10,6 +10,9 @@ namespace EntityFrameworkCore.Generator.Options
     /// <seealso cref="ClassOptionsBase" />
     public class ContextClassOptions : ClassOptionsBase
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ContextClassOptions"/> class.
+        /// </summary>
         public ContextClassOptions()
         {
             Namespace = "{Project.Namespace}.Data";

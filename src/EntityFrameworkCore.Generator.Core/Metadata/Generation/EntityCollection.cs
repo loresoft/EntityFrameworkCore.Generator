@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.ObjectModel;
+﻿using System.Collections.Generic;
 using System.Linq;
 
 namespace EntityFrameworkCore.Generator.Metadata.Generation
@@ -9,8 +8,31 @@ namespace EntityFrameworkCore.Generator.Metadata.Generation
     /// </summary>
     /// <seealso cref="System.Collections.ObjectModel.ObservableCollection{Entity}" />
     public class EntityCollection
-      : ObservableCollection<Entity>
+      : List<Entity>
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="EntityCollection"/> class.
+        /// </summary>
+        public EntityCollection()
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="EntityCollection"/> class.
+        /// </summary>
+        /// <param name="collection">The collection whose elements are copied to the new list.</param>
+        public EntityCollection(IEnumerable<Entity> collection) : base(collection)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="EntityCollection"/> class.
+        /// </summary>
+        /// <param name="capacity">The number of elements that the new list can initially store.</param>
+        public EntityCollection(int capacity) : base(capacity)
+        {
+        }
+
         /// <summary>
         /// Gets or sets a value indicating whether this instance is processed.
         /// </summary>
@@ -18,16 +40,6 @@ namespace EntityFrameworkCore.Generator.Metadata.Generation
         ///   <c>true</c> if this instance is processed; otherwise, <c>false</c>.
         /// </value>
         public bool IsProcessed { get; set; }
-
-        /// <summary>
-        /// Get <see cref="Entity" /> with the specified table <paramref name="fullName"/>.
-        /// </summary>
-        /// <param name="fullName">The full name.</param>
-        /// <returns>The <see cref="Entity"/> with the specified table <paramref name="fullName"/>. </returns>
-        public Entity ByTable(string fullName)
-        {
-            return this.FirstOrDefault(x => x.FullName == fullName);
-        }
 
         /// <summary>
         /// Get <see cref="Entity" /> with the specified table <paramref name="tableName" /> and <paramref name="tableSchema" />.

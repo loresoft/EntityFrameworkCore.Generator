@@ -1,17 +1,28 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Text;
+using EntityFrameworkCore.Generator.Options;
+using Microsoft.Extensions.Logging;
 using YamlDotNet.Serialization;
 using YamlDotNet.Serialization.NamingConventions;
 
-namespace EntityFrameworkCore.Generator.Options
+namespace EntityFrameworkCore.Generator
 {
     /// <summary>
     /// Serialization and Deserialization for the <see cref="GeneratorOptions"/> class
     /// </summary>
-    public class GeneratorOptionsSerializer
+    public class GeneratorOptionsSerializer : IGeneratorOptionsSerializer
     {
+        private readonly ILogger<GeneratorOptionsSerializer> _logger;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="GeneratorOptionsSerializer"/> class.
+        /// </summary>
+        /// <param name="logger">The logger.</param>
+        public GeneratorOptionsSerializer(ILogger<GeneratorOptionsSerializer> logger)
+        {
+            _logger = logger;
+        }
+
         /// <summary>
         /// The options file name. Default 'generation.yml'
         /// </summary>
@@ -33,12 +44,16 @@ namespace EntityFrameworkCore.Generator.Options
 
             var path = Path.Combine(directory, file);
             if (!File.Exists(path))
+            {
+                _logger.LogWarning($"Option file not found: {file}");
                 return null;
+            }
 
             var deserializer = new DeserializerBuilder()
                 .WithNamingConvention(new CamelCaseNamingConvention())
                 .Build();
 
+            _logger.LogInformation($"Loading options file: {file}");
             GeneratorOptions generatorOptions;
             using (var streamReader = File.OpenText(path))
                 generatorOptions = deserializer.Deserialize<GeneratorOptions>(streamReader);
@@ -60,6 +75,14 @@ namespace EntityFrameworkCore.Generator.Options
 
             if (string.IsNullOrWhiteSpace(file))
                 file = OptionsFileName;
+
+            if (!Directory.Exists(directory))
+            {
+                _logger.LogTrace($"Creating Directory: {directory}");
+                Directory.CreateDirectory(directory);
+            }
+
+            _logger.LogInformation($"Saving options file: {file}");
 
             var path = Path.Combine(directory, file);
 
