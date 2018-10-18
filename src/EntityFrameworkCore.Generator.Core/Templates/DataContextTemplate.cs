@@ -58,11 +58,6 @@ namespace EntityFrameworkCore.Generator.Templates
         {
             var contextName = _entityContext.ContextClass.ToSafeName();
 
-            CodeBuilder.AppendLine($"public {contextName}()")
-                .AppendLine("{")
-                .AppendLine("}")
-                .AppendLine();
-
             CodeBuilder.AppendLine($"public {contextName}(DbContextOptions<{contextName}> options)")
                 .IncrementIndent()
                 .AppendLine(": base(options)")

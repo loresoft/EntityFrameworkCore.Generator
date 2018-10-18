@@ -8,13 +8,14 @@
 
   <ItemGroup>
     <PackageReference Include="Humanizer" Version="2.5.1" />
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="2.9.0" />
     <PackageReference Include="System.ComponentModel.TypeConverter" Version="4.3.0" />
     <PackageReference Include="System.Reflection.Emit.Lightweight" Version="4.3.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="2.1.4" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="2.1.4" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.1.4" />
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="2.1.2" />
-    <PackageReference Include="YamlDotNet" Version="5.2.0" />
+    <PackageReference Include="YamlDotNet" Version="5.2.1" />
   </ItemGroup>
 
 </Project>

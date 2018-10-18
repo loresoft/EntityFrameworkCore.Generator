@@ -54,6 +54,24 @@ namespace EntityFrameworkCore.Generator
             GenerateDataContext(entityContext);
             GenerateEntityClasses(entityContext);
             GenerateMappingClasses(entityContext);
+
+            if (Options.Data.Query.Generate)
+                GenerateQueryExtensions(entityContext);
+
+        }
+
+        private void GenerateQueryExtensions(EntityContext entityContext)
+        {
+            foreach (var entity in entityContext.Entities)
+            {
+                var directory = NameFormatter.Format(Options.Data.Query.Directory, Options);
+                var file = entity.EntityClass + "Extensions.cs";
+                var path = Path.Combine(directory, file);
+
+                var template = new QueryExtensionTemplate(entity, Options);
+                template.WriteCode(path);
+            }
+
         }
 
         private void GenerateMappingClasses(EntityContext entityContext)

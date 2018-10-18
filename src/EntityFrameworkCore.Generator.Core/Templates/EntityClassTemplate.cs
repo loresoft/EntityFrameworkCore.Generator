@@ -39,12 +39,16 @@ namespace EntityFrameworkCore.Generator.Templates
         {
             var entityClass = _entity.EntityClass.ToSafeName();
 
+            CodeBuilder.AppendLine("/// <summary>");
+            CodeBuilder.AppendLine($"/// Entity class representing data for table '{_entity.TableName}'.");
+            CodeBuilder.AppendLine("/// </summary>");
             CodeBuilder.AppendLine($"public partial class {entityClass}");
             CodeBuilder.AppendLine("{");
 
             using (CodeBuilder.Indent())
             {
                 GenerateConstructor();
+
                 GenerateProperties();
                 GenerateRelationshipProperties();
             }
@@ -59,7 +63,12 @@ namespace EntityFrameworkCore.Generator.Templates
                 .Where(r => r.Cardinality == Cardinality.Many)
                 .ToList();
 
-            CodeBuilder.AppendLine($"public {_entity.EntityClass.ToSafeName()}()");
+            var entityClass = _entity.EntityClass.ToSafeName();
+
+            CodeBuilder.AppendLine("/// <summary>");
+            CodeBuilder.AppendLine($"/// Initializes a new instance of the <see cref=\"{entityClass}\"/> class.");
+            CodeBuilder.AppendLine("/// </summary>");
+            CodeBuilder.AppendLine($"public {entityClass}()");
             if (_entity.EntityBaseClass.HasValue())
                 using (CodeBuilder.Indent())
                     CodeBuilder.AppendLine($": {_entity.EntityBaseClass}");
@@ -68,7 +77,7 @@ namespace EntityFrameworkCore.Generator.Templates
 
             using (CodeBuilder.Indent())
             {
-                CodeBuilder.AppendLine("#region Generated Initializes");
+                CodeBuilder.AppendLine("#region Generated Constructor");
                 foreach (var relationship in relationships)
                 {
                     var propertyName = relationship.PropertyName.ToSafeName();
@@ -91,9 +100,17 @@ namespace EntityFrameworkCore.Generator.Templates
                 var propertyType = property.SystemType.ToNullableType(property.IsNullable == true);
                 var propertyName = property.PropertyName.ToSafeName();
 
+                CodeBuilder.AppendLine("/// <summary>");
+                CodeBuilder.AppendLine($"/// Gets or sets the property value representing column '{property.ColumnName}'.");
+                CodeBuilder.AppendLine("/// </summary>");
+                CodeBuilder.AppendLine("/// <value>");
+                CodeBuilder.AppendLine($"/// The property value representing column '{property.ColumnName}'.");
+                CodeBuilder.AppendLine("/// </value>");
                 CodeBuilder.AppendLine($"public {propertyType} {propertyName} {{ get; set; }}");
+                CodeBuilder.AppendLine();
             }
             CodeBuilder.AppendLine("#endregion");
+            CodeBuilder.AppendLine();
         }
 
         private void GenerateRelationshipProperties()
@@ -105,11 +122,31 @@ namespace EntityFrameworkCore.Generator.Templates
                 var primaryName = relationship.PrimaryEntity.EntityClass.ToSafeName();
 
                 if (relationship.Cardinality == Cardinality.Many)
+                {
+                    CodeBuilder.AppendLine("/// <summary>");
+                    CodeBuilder.AppendLine($"/// Gets or sets the navigation collection for entity <see cref=\"{primaryName}\" />.");
+                    CodeBuilder.AppendLine("/// </summary>");
+                    CodeBuilder.AppendLine("/// <value>");
+                    CodeBuilder.AppendLine($"/// The the navigation collection for entity <see cref=\"{primaryName}\" />.");
+                    CodeBuilder.AppendLine("/// </value>");
                     CodeBuilder.AppendLine($"public virtual ICollection<{primaryName}> {propertyName} {{ get; set; }}");
+                    CodeBuilder.AppendLine();
+                }
                 else
+                {
+                    CodeBuilder.AppendLine("/// <summary>");
+                    CodeBuilder.AppendLine($"/// Gets or sets the navigation property for entity <see cref=\"{primaryName}\" />.");
+                    CodeBuilder.AppendLine("/// </summary>");
+                    CodeBuilder.AppendLine("/// <value>");
+                    CodeBuilder.AppendLine($"/// The the navigation property for entity <see cref=\"{primaryName}\" />.");
+                    CodeBuilder.AppendLine("/// </value>");
+                    CodeBuilder.AppendLine($"/// <seealso cref=\"{relationship.Properties.First().PropertyName}\" />");
                     CodeBuilder.AppendLine($"public virtual {primaryName} {propertyName} {{ get; set; }}");
+                    CodeBuilder.AppendLine();
+                }
             }
             CodeBuilder.AppendLine("#endregion");
+            CodeBuilder.AppendLine();
         }
     }
 }

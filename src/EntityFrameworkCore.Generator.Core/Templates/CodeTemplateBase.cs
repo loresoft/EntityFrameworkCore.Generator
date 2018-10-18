@@ -56,8 +56,9 @@ namespace EntityFrameworkCore.Generator.Templates
 
                 int startIndex = originalRegion.StartIndex + offset;
                 int beforeReplace = originalBuilder.Length;
+                int length = (originalRegion.EndIndex + offset) - startIndex;
 
-                originalBuilder.Remove(startIndex, originalRegion.EndIndex);
+                originalBuilder.Remove(startIndex, length);
                 originalBuilder.Insert(startIndex, outputRegion.Content);
 
                 int afterReplace = originalBuilder.Length;

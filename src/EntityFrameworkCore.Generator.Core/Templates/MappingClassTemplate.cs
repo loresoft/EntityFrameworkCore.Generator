@@ -43,11 +43,15 @@ namespace EntityFrameworkCore.Generator.Templates
         {
             var mappingClass = _entity.MappingClass.ToSafeName();
             var entityClass = _entity.EntityClass.ToSafeName();
+            var safeName = $"{_entity.EntityNamespace}.{entityClass}";
 
+            CodeBuilder.AppendLine("/// <summary>");
+            CodeBuilder.AppendLine($"/// Allows configuration for an entity type <see cref=\"{safeName}\" />");
+            CodeBuilder.AppendLine("/// </summary>");
             CodeBuilder.AppendLine($"public partial class {mappingClass}");
 
             using (CodeBuilder.Indent())
-                CodeBuilder.AppendLine($": IEntityTypeConfiguration<{_entity.EntityNamespace}.{entityClass}>");
+                CodeBuilder.AppendLine($": IEntityTypeConfiguration<{safeName}>");
 
             CodeBuilder.AppendLine("{");
 
@@ -63,8 +67,13 @@ namespace EntityFrameworkCore.Generator.Templates
         private void GenerateConfigure()
         {
             var entityClass = _entity.EntityClass.ToSafeName();
+            var safeName = $"{_entity.EntityNamespace}.{entityClass}";
 
-            CodeBuilder.AppendLine($"public void Configure(Microsoft.EntityFrameworkCore.Metadata.Builders.EntityTypeBuilder<{_entity.EntityNamespace}.{entityClass}> builder)");
+            CodeBuilder.AppendLine("/// <summary>");
+            CodeBuilder.AppendLine($"/// Configures the entity of type <see cref=\"{safeName}\" />");
+            CodeBuilder.AppendLine("/// </summary>");
+            CodeBuilder.AppendLine("/// <param name=\"builder\">The builder to be used to configure the entity type.</param>");
+            CodeBuilder.AppendLine($"public void Configure(Microsoft.EntityFrameworkCore.Metadata.Builders.EntityTypeBuilder<{safeName}> builder)");
             CodeBuilder.AppendLine("{");
 
             using (CodeBuilder.Indent())
@@ -87,7 +96,7 @@ namespace EntityFrameworkCore.Generator.Templates
         private void GenerateRelationshipMapping()
         {
             CodeBuilder.AppendLine("// relationships");
-            foreach (var relationship in _entity.Relationships)
+            foreach (var relationship in _entity.Relationships.Where(e => e.IsMapped))
             {
                 GenerateRelationshipMapping(relationship);
                 CodeBuilder.AppendLine();
@@ -202,7 +211,7 @@ namespace EntityFrameworkCore.Generator.Templates
             if ((isString || isByteArray) && property.Size > 0 && property.IsMaxLength != true)
             {
                 CodeBuilder.AppendLine();
-                CodeBuilder.Append($".HasMaxLength(\"{property.Size}\")");
+                CodeBuilder.Append($".HasMaxLength({property.Size})");
             }
 
             if (!string.IsNullOrEmpty(property.Default))
