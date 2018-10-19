@@ -47,23 +47,63 @@ namespace EntityFrameworkCore.Generator
 
             string contextClass = NameFormatter.Format(_options.Data.Context.Name, _options);
             contextClass = _namer.UniqueClassName(contextClass);
-            
+
             string contextNamespace = NameFormatter.Format(_options.Data.Context.Namespace, _options);
             string contextBaseClass = NameFormatter.Format(_options.Data.Context.BaseClass, _options);
 
             entityContext.ContextClass = contextClass;
             entityContext.ContextNamespace = contextNamespace;
             entityContext.ContextBaseClass = contextBaseClass;
-            
+
             var tables = databaseModel.Tables;
 
             foreach (var t in tables)
             {
                 _logger.LogInformation($"Getting Table Schema: {t}");
-                GetEntity(entityContext, t);
+                var entity = GetEntity(entityContext, t);
+                GetModels(entity);
             }
 
             return entityContext;
+        }
+
+        private void GetModels(Entity entity)
+        {
+            if (entity == null || entity.Models.IsProcessed)
+                return;
+
+            if (_options.Model.Read.Generate)
+                CreateReadModel(entity);
+            if (_options.Model.Create.Generate)
+                CreateInsertModel(entity);
+            if (_options.Model.Update.Generate)
+                CreateUpdateModel(entity);
+
+            entity.Models.IsProcessed = true;
+        }
+
+        private void CreateUpdateModel(Entity entity)
+        {
+            var model = new Model { Entity = entity };
+
+            entity.Models.Add(model);
+        }
+
+        private void CreateInsertModel(Entity entity)
+        {
+            var model = new Model { Entity = entity };
+
+            string modellass = NameFormatter.Format(_options.Model.Create.Name, _options);
+
+
+            entity.Models.Add(model);
+        }
+
+        private void CreateReadModel(Entity entity)
+        {
+            var model = new Model { Entity = entity };
+
+            entity.Models.Add(model);
         }
 
 
@@ -338,7 +378,7 @@ namespace EntityFrameworkCore.Generator
 
         private Method GetMethodFromColumns(Entity entity, IEnumerable<DatabaseColumn> columns)
         {
-            var method = new Method{ Entity = entity };
+            var method = new Method { Entity = entity };
             var methodName = new StringBuilder();
 
             foreach (var column in columns)

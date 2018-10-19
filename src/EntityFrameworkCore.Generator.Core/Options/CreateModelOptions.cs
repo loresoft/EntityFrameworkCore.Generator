@@ -14,7 +14,7 @@ namespace EntityFrameworkCore.Generator.Options
         public CreateModelOptions()
         {
             Namespace = "{Project.Namespace}.Domain.Models";
-            Directory = @".\Domain\Models";
+            Directory = @"{Project.Directory}\Domain\Models";
 
             BaseClass = "EntityCreateModel";
             Name = "{Entity.Name}CreateModel";

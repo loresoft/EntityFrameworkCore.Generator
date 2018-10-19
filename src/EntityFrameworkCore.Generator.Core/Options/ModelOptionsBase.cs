@@ -14,7 +14,7 @@ namespace EntityFrameworkCore.Generator.Options
         protected ModelOptionsBase()
         {
             Namespace = "{Project.Namespace}.Models";
-            Directory = @".\Models";
+            Directory = @"{Project.Directory}\Models";
 
             Generate = true;
 

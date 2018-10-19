@@ -15,7 +15,7 @@ namespace EntityFrameworkCore.Generator.Options
         public ViewClassOptions()
         {
             Namespace = "{Project.Namespace}.Data.Entities";
-            Directory = @".\Data\Entities";
+            Directory = @"{Project.Directory}\Data\Entities";
 
             Generate = true;
         }

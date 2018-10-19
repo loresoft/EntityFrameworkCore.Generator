@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace EntityFrameworkCore.Generator.Parsing
+namespace EntityFrameworkCore.Generator.Metadata.Parsing
 {
     public class CodeRegion
     {

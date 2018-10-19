@@ -18,6 +18,7 @@ namespace EntityFrameworkCore.Generator.Metadata.Generation
             Properties = new PropertyCollection<Entity>();
             Relationships = new RelationshipCollection();
             Methods = new MethodCollection();
+            Models = new ModelCollection();
         }
 
         /// <summary>
@@ -102,24 +103,14 @@ namespace EntityFrameworkCore.Generator.Metadata.Generation
         /// </value>
         public MethodCollection Methods { get; set; }
 
-    }
 
-    public class Model : ModelBase
-    {
-        public Entity Entity { get; set; }
+        /// <summary>
+        /// Gets or sets the models for this entity.
+        /// </summary>
+        /// <value>
+        /// The models for this entity.
+        /// </value>
+        public ModelCollection Models { get; set; }
 
-        public string ModelNamespace { get; set; }
-
-        public string ModelClass { get; set; }
-
-        public string ModelBaseClass { get; set; }
-
-        public string ValidatorNamespace { get; set; }
-
-        public string ValidatorClass { get; set; }
-
-        public string ValidatorBaseClass { get; set; }
-
-        public PropertyCollection<Model> Properties { get; set; }
     }
 }

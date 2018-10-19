@@ -14,7 +14,7 @@ namespace EntityFrameworkCore.Generator.Options
         public MapperClassOptions()
         {
             Namespace = "{Project.Namespace}.Domain.Mapping";
-            Directory = @".\Domain\Mapping";
+            Directory = @"{Project.Directory}\Domain\Mapping";
 
             BaseClass = "Profile";
             Name = "{Model.Name}Profile";

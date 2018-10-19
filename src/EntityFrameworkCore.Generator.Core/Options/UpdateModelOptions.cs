@@ -14,7 +14,7 @@ namespace EntityFrameworkCore.Generator.Options
         public UpdateModelOptions()
         {
             Namespace = "{Project.Namespace}.Domain.Models";
-            Directory = @".\Domain\Models";
+            Directory = @"{Project.Directory}\Domain\Models";
 
             BaseClass = "EntityUpdateModel";
             Name = "{Entity.Name}UpdateModel";

@@ -13,7 +13,7 @@ namespace EntityFrameworkCore.Generator.Options
         protected ClassOptionsBase()
         {
             Namespace = "{Project.Namespace}";
-            Directory = @".\";
+            Directory = @"{Project.Directory}\";
         }
 
         /// <summary>

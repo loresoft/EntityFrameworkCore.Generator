@@ -14,7 +14,7 @@ namespace EntityFrameworkCore.Generator.Options
         public ValidatorClassOptions()
         {
             Namespace = "{Project.Namespace}.Domain.Validation";
-            Directory = @".\Domain\Validation";
+            Directory = @"{Project.Directory}\Domain\Validation";
 
             BaseClass = "AbstractValidator<{Model.Name}>";
             Name = "{Model.Name}Validator";

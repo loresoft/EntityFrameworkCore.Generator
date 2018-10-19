@@ -41,6 +41,10 @@ namespace EntityFrameworkCore.Generator.Templates
             var contextClass = _entityContext.ContextClass.ToSafeName();
             var baseClass = _entityContext.ContextBaseClass.ToSafeName();
 
+            CodeBuilder.AppendLine("/// <summary>");
+            CodeBuilder.AppendLine("/// A <see cref=\"DbContext\" /> instance represents a session with the database and can be used to query and save instances of entities. ");
+            CodeBuilder.AppendLine("/// </summary>");
+
             CodeBuilder.AppendLine($"public partial class {contextClass} : {baseClass}");
             CodeBuilder.AppendLine("{");
 
@@ -58,6 +62,12 @@ namespace EntityFrameworkCore.Generator.Templates
         {
             var contextName = _entityContext.ContextClass.ToSafeName();
 
+            CodeBuilder.AppendLine("/// <summary>");
+            CodeBuilder.AppendLine($"/// Initializes a new instance of the <see cref=\"{contextName}\"/> class.");
+            CodeBuilder.AppendLine("/// </summary>");
+            CodeBuilder.AppendLine("/// <param name=\"options\">The options to be used by this <see cref=\"DbContext\" />.</param>");
+
+
             CodeBuilder.AppendLine($"public {contextName}(DbContextOptions<{contextName}> options)")
                 .IncrementIndent()
                 .AppendLine(": base(options)")
@@ -74,8 +84,17 @@ namespace EntityFrameworkCore.Generator.Templates
             {
                 var entityClass = entityType.EntityClass.ToSafeName();
                 var propertyName = entityType.ContextProperty.ToSafeName();
+                var safeName = $"{entityType.EntityNamespace}.{entityClass}";
 
-                CodeBuilder.AppendLine($"public virtual DbSet<{entityType.EntityNamespace}.{entityClass}> {propertyName} {{ get; set; }}");
+                CodeBuilder.AppendLine("/// <summary>");
+                CodeBuilder.AppendLine($"/// Gets or sets the <see cref=\"T:Microsoft.EntityFrameworkCore.DbSet`1\" /> that can be used to query and save instances of <see cref=\"{safeName}\"/>.");
+                CodeBuilder.AppendLine("/// </summary>");
+                CodeBuilder.AppendLine("/// <value>");
+                CodeBuilder.AppendLine($"/// The <see cref=\"T:Microsoft.EntityFrameworkCore.DbSet`1\" /> that can be used to query and save instances of <see cref=\"{safeName}\"/>.");
+                CodeBuilder.AppendLine("/// </value>");
+
+                CodeBuilder.AppendLine($"public virtual DbSet<{safeName}> {propertyName} {{ get; set; }}");
+                CodeBuilder.AppendLine();
             }
 
             CodeBuilder.AppendLine("#endregion");
@@ -86,6 +105,11 @@ namespace EntityFrameworkCore.Generator.Templates
 
         private void GenerateOnConfiguring()
         {
+            CodeBuilder.AppendLine("/// <summary>");
+            CodeBuilder.AppendLine("/// Configure the model that was discovered from the entity types exposed in <see cref=\"T:Microsoft.EntityFrameworkCore.DbSet`1\" /> properties on this context.");
+            CodeBuilder.AppendLine("/// </summary>");
+            CodeBuilder.AppendLine("/// <param name=\"modelBuilder\">The builder being used to construct the model for this context.</param>");
+
             CodeBuilder.AppendLine("protected override void OnModelCreating(ModelBuilder modelBuilder)");
             CodeBuilder.AppendLine("{");
 

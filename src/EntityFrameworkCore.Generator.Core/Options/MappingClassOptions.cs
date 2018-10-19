@@ -14,7 +14,7 @@ namespace EntityFrameworkCore.Generator.Options
         public MappingClassOptions()
         {
             Namespace = "{Project.Namespace}.Data.Mapping";
-            Directory = @".\Data\Mapping";
+            Directory = @"{Project.Directory}\Data\Mapping";
         }
     }
 }

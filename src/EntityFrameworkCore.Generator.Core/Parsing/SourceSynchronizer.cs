@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using EntityFrameworkCore.Generator.Metadata.Generation;
+using EntityFrameworkCore.Generator.Metadata.Parsing;
 
 namespace EntityFrameworkCore.Generator.Parsing
 {

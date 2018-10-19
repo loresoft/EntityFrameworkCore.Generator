@@ -6,7 +6,6 @@ namespace EntityFrameworkCore.Generator.Metadata.Generation
     /// <summary>
     /// A collection of <see cref="Entity"/>
     /// </summary>
-    /// <seealso cref="System.Collections.ObjectModel.ObservableCollection{Entity}" />
     public class EntityCollection
       : List<Entity>
     {

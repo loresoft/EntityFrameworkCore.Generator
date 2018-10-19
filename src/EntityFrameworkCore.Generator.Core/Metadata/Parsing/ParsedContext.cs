@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 
-namespace EntityFrameworkCore.Generator.Parsing
+namespace EntityFrameworkCore.Generator.Metadata.Parsing
 {
     [DebuggerDisplay("Context: {ContextClass}")]
     public class ParsedContext

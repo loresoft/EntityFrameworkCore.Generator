@@ -1,7 +1,6 @@
 ﻿using System.Linq;
 using EntityFrameworkCore.Generator.Extensions;
 using EntityFrameworkCore.Generator.Metadata.Generation;
-using Microsoft.EntityFrameworkCore.Internal;
 
 namespace EntityFrameworkCore.Generator.Templates
 {
@@ -106,6 +105,7 @@ namespace EntityFrameworkCore.Generator.Templates
                 CodeBuilder.AppendLine("/// <value>");
                 CodeBuilder.AppendLine($"/// The property value representing column '{property.ColumnName}'.");
                 CodeBuilder.AppendLine("/// </value>");
+
                 CodeBuilder.AppendLine($"public {propertyType} {propertyName} {{ get; set; }}");
                 CodeBuilder.AppendLine();
             }

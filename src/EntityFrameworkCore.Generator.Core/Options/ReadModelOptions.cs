@@ -12,7 +12,7 @@
         public ReadModelOptions()
         {
             Namespace = "{Project.Namespace}.Domain.Models";
-            Directory = @".\Domain\Models";
+            Directory = @"{Project.Directory}\Domain\Models";
 
             BaseClass = "EntityReadModel";
             Name = "{Entity.Name}ReadModel";

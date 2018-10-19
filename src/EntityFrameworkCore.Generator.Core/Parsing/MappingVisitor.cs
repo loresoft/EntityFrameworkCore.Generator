@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using EntityFrameworkCore.Generator.Metadata.Parsing;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
+using EntityFrameworkCore.Generator.Metadata.Parsing;
 
 namespace EntityFrameworkCore.Generator.Parsing
 {

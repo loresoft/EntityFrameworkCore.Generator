@@ -14,6 +14,7 @@ namespace EntityFrameworkCore.Generator.Options
         public ProjectOptions()
         {
             Namespace = "{Database.Name}";
+            Directory = @".\";
         }
 
         /// <summary>
@@ -23,5 +24,13 @@ namespace EntityFrameworkCore.Generator.Options
         /// The project root namespace.
         /// </value>
         public string Namespace { get; set; }
+
+        /// <summary>
+        /// Gets or sets the project directory.
+        /// </summary>
+        /// <value>
+        /// The project directory.
+        /// </value>
+        public string Directory { get; set; }
     }
 }
