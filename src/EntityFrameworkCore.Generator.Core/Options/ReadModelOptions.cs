@@ -9,7 +9,8 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="ReadModelOptions"/> class.
         /// </summary>
-        public ReadModelOptions()
+        public ReadModelOptions(VariableDictionary variables, string prefix)
+            : base(variables, AppendPrefix(prefix, "Read"))
         {
             Namespace = "{Project.Namespace}.Domain.Models";
             Directory = @"{Project.Directory}\Domain\Models";

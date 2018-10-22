@@ -11,7 +11,8 @@ namespace EntityFrameworkCore.Generator.Options
         /// <summary>
         /// Initializes a new instance of the <see cref="MappingClassOptions"/> class.
         /// </summary>
-        public MappingClassOptions()
+        public MappingClassOptions(VariableDictionary variables, string prefix)
+            : base(variables, AppendPrefix(prefix, "Mapping"))
         {
             Namespace = "{Project.Namespace}.Data.Mapping";
             Directory = @"{Project.Directory}\Data\Mapping";

@@ -29,7 +29,7 @@ namespace EntityFrameworkCore.Generator.Templates
             CodeBuilder.AppendLine("using Microsoft.EntityFrameworkCore;");
             CodeBuilder.AppendLine();
 
-            var extensionNamespace = NameFormatter.Format(_options.Data.Query.Namespace, _options);
+            var extensionNamespace = _options.Data.Query.Namespace;
 
             CodeBuilder.AppendLine($"namespace {extensionNamespace}");
             CodeBuilder.AppendLine("{");
@@ -202,7 +202,7 @@ namespace EntityFrameworkCore.Generator.Templates
                 CodeBuilder.AppendLine($"/// <param name=\"{paramName}\">The value to filter by.</param>");
             }
         }
-        
+
         private void AppendParameters(Method method)
         {
             bool wrote = false;
@@ -224,7 +224,7 @@ namespace EntityFrameworkCore.Generator.Templates
                 wrote = true;
             }
         }
-        
+
         private void AppendNames(Method method)
         {
             bool wrote = false;

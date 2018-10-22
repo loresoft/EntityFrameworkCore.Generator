@@ -5,18 +5,20 @@ namespace EntityFrameworkCore.Generator.Options
     /// <summary>
     /// Model options group
     /// </summary>
-    public class ModelOptions
+    public class ModelOptions : OptionsBase
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ModelOptions"/> class.
         /// </summary>
-        public ModelOptions()
+        /// <param name="variables"></param>
+        public ModelOptions(VariableDictionary variables, string prefix)
+            : base(variables, AppendPrefix(prefix, "Model"))
         {
-            Read = new ReadModelOptions();
-            Create = new CreateModelOptions();
-            Update = new UpdateModelOptions();
-            Mapper = new MapperClassOptions();
-            Validator = new ValidatorClassOptions();
+            Read = new ReadModelOptions(Variables, Prefix);
+            Create = new CreateModelOptions(Variables, Prefix);
+            Update = new UpdateModelOptions(Variables, Prefix);
+            Mapper = new MapperClassOptions(Variables, Prefix);
+            Validator = new ValidatorClassOptions(Variables, Prefix);
         }
 
 

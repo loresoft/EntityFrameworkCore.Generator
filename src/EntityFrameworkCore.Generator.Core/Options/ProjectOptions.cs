@@ -1,17 +1,16 @@
-﻿using System;
-
-namespace EntityFrameworkCore.Generator.Options
+﻿namespace EntityFrameworkCore.Generator.Options
 {
-
     /// <summary>
     /// Project options
     /// </summary>
-    public class ProjectOptions
+    public class ProjectOptions : OptionsBase
     {
+
         /// <summary>
         /// Initializes a new instance of the <see cref="ProjectOptions"/> class.
         /// </summary>
-        public ProjectOptions()
+        public ProjectOptions(VariableDictionary variables, string prefix)
+            : base(variables, AppendPrefix(prefix, "Project"))
         {
             Namespace = "{Database.Name}";
             Directory = @".\";
@@ -23,7 +22,11 @@ namespace EntityFrameworkCore.Generator.Options
         /// <value>
         /// The project root namespace.
         /// </value>
-        public string Namespace { get; set; }
+        public string Namespace
+        {
+            get => GetProperty();
+            set => SetProperty(value);
+        }
 
         /// <summary>
         /// Gets or sets the project directory.
@@ -31,6 +34,11 @@ namespace EntityFrameworkCore.Generator.Options
         /// <value>
         /// The project directory.
         /// </value>
-        public string Directory { get; set; }
+        public string Directory
+        {
+            get => GetProperty();
+            set => SetProperty(value);
+        }
+
     }
 }

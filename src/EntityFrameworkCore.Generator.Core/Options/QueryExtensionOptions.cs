@@ -11,7 +11,8 @@ namespace EntityFrameworkCore.Generator.Options
         /// <summary>
         /// Initializes a new instance of the <see cref="QueryExtensionOptions"/> class.
         /// </summary>
-        public QueryExtensionOptions()
+        public QueryExtensionOptions(VariableDictionary variables, string prefix)
+            : base(variables, AppendPrefix(prefix, "Query"))
         {
             Namespace = "{Project.Namespace}.Data.Queries";
             Directory = @"{Project.Directory}\Data\Queries";
@@ -35,7 +36,11 @@ namespace EntityFrameworkCore.Generator.Options
         /// <value>
         /// The prefix of query method names
         /// </value>
-        public string IndexPrefix { get; set; }
+        public string IndexPrefix
+        {
+            get => GetProperty();
+            set => SetProperty(value);
+        }
 
         /// <summary>
         /// Gets or sets the prefix of unique query method names.
@@ -43,6 +48,10 @@ namespace EntityFrameworkCore.Generator.Options
         /// <value>
         /// The prefix of unique query method names.
         /// </value>
-        public string UniquePrefix { get; set; }
+        public string UniquePrefix
+        {
+            get => GetProperty();
+            set => SetProperty(value);
+        }
     }
 }

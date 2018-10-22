@@ -5,18 +5,20 @@ namespace EntityFrameworkCore.Generator.Options
     /// <summary>
     /// The data options group
     /// </summary>
-    public class DataOptions
+    public class DataOptions : OptionsBase
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="DataOptions"/> class.
         /// </summary>
-        public DataOptions()
+        /// <param name="variables"></param>
+        public DataOptions(VariableDictionary variables, string prefix)
+            : base(variables, AppendPrefix(prefix, "Data"))
         {
-            Mapping = new MappingClassOptions();
-            Entity = new EntityClassOptions();
-            Context = new ContextClassOptions();
-            View = new ViewClassOptions();
-            Query = new QueryExtensionOptions();
+            Mapping = new MappingClassOptions(Variables, Prefix);
+            Entity = new EntityClassOptions(Variables, Prefix);
+            Context = new ContextClassOptions(Variables, Prefix);
+            View = new ViewClassOptions(Variables, Prefix);
+            Query = new QueryExtensionOptions(Variables, Prefix);
         }
 
         /// <summary>

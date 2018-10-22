@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
-using EntityFrameworkCore.Generator.Extensions;
+﻿using EntityFrameworkCore.Generator.Extensions;
 using EntityFrameworkCore.Generator.Metadata.Generation;
 using EntityFrameworkCore.Generator.Options;
 using EntityFrameworkCore.Generator.Providers;
@@ -12,6 +7,11 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Scaffolding.Metadata;
 using Microsoft.EntityFrameworkCore.Scaffolding.Metadata.Internal;
 using Microsoft.Extensions.Logging;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Text.RegularExpressions;
 
 namespace EntityFrameworkCore.Generator
 {
@@ -42,14 +42,14 @@ namespace EntityFrameworkCore.Generator
             if (_options.Database.Name.IsNullOrWhiteSpace())
                 _options.Database.Name = databaseModel.DatabaseName;
 
-            string projectNamespace = NameFormatter.Format(_options.Project.Namespace, _options);
+            string projectNamespace = _options.Project.Namespace;
             _options.Project.Namespace = projectNamespace;
 
-            string contextClass = NameFormatter.Format(_options.Data.Context.Name, _options);
+            string contextClass = _options.Data.Context.Name;
             contextClass = _namer.UniqueClassName(contextClass);
 
-            string contextNamespace = NameFormatter.Format(_options.Data.Context.Namespace, _options);
-            string contextBaseClass = NameFormatter.Format(_options.Data.Context.BaseClass, _options);
+            string contextNamespace = _options.Data.Context.Namespace;
+            string contextBaseClass = _options.Data.Context.BaseClass;
 
             entityContext.ContextClass = contextClass;
             entityContext.ContextNamespace = contextNamespace;
@@ -65,45 +65,6 @@ namespace EntityFrameworkCore.Generator
             }
 
             return entityContext;
-        }
-
-        private void GetModels(Entity entity)
-        {
-            if (entity == null || entity.Models.IsProcessed)
-                return;
-
-            if (_options.Model.Read.Generate)
-                CreateReadModel(entity);
-            if (_options.Model.Create.Generate)
-                CreateInsertModel(entity);
-            if (_options.Model.Update.Generate)
-                CreateUpdateModel(entity);
-
-            entity.Models.IsProcessed = true;
-        }
-
-        private void CreateUpdateModel(Entity entity)
-        {
-            var model = new Model { Entity = entity };
-
-            entity.Models.Add(model);
-        }
-
-        private void CreateInsertModel(Entity entity)
-        {
-            var model = new Model { Entity = entity };
-
-            string modellass = NameFormatter.Format(_options.Model.Create.Name, _options);
-
-
-            entity.Models.Add(model);
-        }
-
-        private void CreateReadModel(Entity entity)
-        {
-            var model = new Model { Entity = entity };
-
-            entity.Models.Add(model);
         }
 
 
@@ -137,14 +98,14 @@ namespace EntityFrameworkCore.Generator
             string entityClass = ToClassName(tableSchema.Name);
             entityClass = _namer.UniqueClassName(entityClass);
 
-            string entityNamespace = NameFormatter.Format(_options.Data.Entity.Namespace, _options);
-            string entiyBaseClass = NameFormatter.Format(_options.Data.Entity.BaseClass, _options);
+            string entityNamespace = _options.Data.Entity.Namespace;
+            string entiyBaseClass = _options.Data.Entity.BaseClass;
 
 
             string mappingName = entityClass + "Map";
             mappingName = _namer.UniqueClassName(mappingName);
 
-            string mappingNamespace = NameFormatter.Format(_options.Data.Mapping.Namespace, _options);
+            string mappingNamespace = _options.Data.Mapping.Namespace;
 
             string contextName = ContextName(entityClass);
             contextName = ToPropertyName(entityContext.ContextClass, contextName);
@@ -174,7 +135,7 @@ namespace EntityFrameworkCore.Generator
 
                 if (property == null)
                 {
-                    property = new Property<Entity>
+                    property = new Property
                     {
                         Entity = entity,
                         ColumnName = column.Name
@@ -266,10 +227,10 @@ namespace EntityFrameworkCore.Generator
             foreignRelationship.Cardinality = foreignMembersRequired ? Cardinality.One : Cardinality.ZeroOrOne;
 
             foreignRelationship.PrimaryEntity = primaryEntity;
-            foreignRelationship.PrimaryProperties = new PropertyCollection<Entity>(primaryMembers);
+            foreignRelationship.PrimaryProperties = new PropertyCollection(primaryMembers);
 
             foreignRelationship.Entity = foreignEntity;
-            foreignRelationship.Properties = new PropertyCollection<Entity>(foreignMembers);
+            foreignRelationship.Properties = new PropertyCollection(foreignMembers);
 
             string prefix = GetMemberPrefix(foreignRelationship, primaryName, foreignName);
 
@@ -291,10 +252,10 @@ namespace EntityFrameworkCore.Generator
             primaryRelationship.IsForeignKey = false;
 
             primaryRelationship.PrimaryEntity = foreignEntity;
-            primaryRelationship.PrimaryProperties = new PropertyCollection<Entity>(foreignMembers);
+            primaryRelationship.PrimaryProperties = new PropertyCollection(foreignMembers);
 
             primaryRelationship.Entity = primaryEntity;
-            primaryRelationship.Properties = new PropertyCollection<Entity>(primaryMembers);
+            primaryRelationship.Properties = new PropertyCollection(primaryMembers);
 
             bool isOneToOne = IsOneToOne(tableKeySchema, foreignRelationship);
             if (isOneToOne)
@@ -399,9 +360,70 @@ namespace EntityFrameworkCore.Generator
         }
 
 
-        private List<Property<Entity>> GetKeyMembers(Entity entity, IEnumerable<DatabaseColumn> members, string relationshipName)
+        private void GetModels(Entity entity)
         {
-            var keyMembers = new List<Property<Entity>>();
+            if (entity == null || entity.Models.IsProcessed)
+                return;
+
+            _options.Variables.Set("Entity.Name", entity.EntityClass);
+
+            if (_options.Model.Read.Generate)
+                CreateModel(entity, _options.Model.Read, ModelType.Read);
+            if (_options.Model.Create.Generate)
+                CreateModel(entity, _options.Model.Create, ModelType.Create);
+            if (_options.Model.Update.Generate)
+                CreateModel(entity, _options.Model.Update, ModelType.Update);
+
+            if (entity.Models.Count > 0)
+            {
+                entity.MapperClass = _options.Model.Mapper.Name;
+                entity.MapperNamespace = _options.Model.Mapper.Namespace;
+                entity.MapperBaseClass = _options.Model.Mapper.BaseClass;
+            }
+
+            _options.Variables.Remove("Entity.Name");
+
+            entity.Models.IsProcessed = true;
+        }
+
+        private void CreateModel<TOption>(Entity entity, TOption options, ModelType modelType)
+            where TOption : ModelOptionsBase
+        {
+            if (IsIgnored(entity, options))
+                return;
+
+            var model = new Model
+            {
+                Entity = entity,
+                ModelType = modelType,
+                ModelBaseClass = options.BaseClass,
+                ModelNamespace = options.Namespace,
+                ModelClass = options.Name
+            };
+
+            foreach (var property in entity.Properties)
+            {
+                if (IsIgnored(property, options))
+                    continue;
+
+                model.Properties.Add(property);
+            }
+
+            _options.Variables.Set("Model.Name", model.ModelClass);
+
+            model.ValidatorBaseClass = _options.Model.Validator.BaseClass;
+            model.ValidatorClass = _options.Model.Validator.Name;
+            model.ValidatorNamespace = _options.Model.Validator.Namespace;
+
+            entity.Models.Add(model);
+
+            _options.Variables.Remove("Model.Name");
+        }
+
+
+        private List<Property> GetKeyMembers(Entity entity, IEnumerable<DatabaseColumn> members, string relationshipName)
+        {
+            var keyMembers = new List<Property>();
 
             foreach (var member in members)
             {
@@ -527,6 +549,42 @@ namespace EntityFrameworkCore.Generator
             return legalName;
         }
         #endregion
+
+
+        private static bool IsIgnored<TOption>(Property property, TOption options)
+            where TOption : ModelOptionsBase
+        {
+            var name = $"{property.Entity.EntityClass}.{property.PropertyName}";
+
+            var includeExpressions = options?.Include?.Properties ?? Enumerable.Empty<string>();
+            var excludeExpressions = options?.Exclude?.Properties ?? Enumerable.Empty<string>();
+
+            return IsIgnored(name, excludeExpressions, includeExpressions);
+        }
+
+        private static bool IsIgnored<TOption>(Entity entity, TOption options)
+            where TOption : ModelOptionsBase
+        {
+            var name = entity.EntityClass;
+
+            var includeExpressions = options?.Include?.Entities ?? Enumerable.Empty<string>();
+            var excludeExpressions = options?.Exclude?.Entities ?? Enumerable.Empty<string>();
+
+            return IsIgnored(name, excludeExpressions, includeExpressions);
+        }
+
+        private static bool IsIgnored(string name, IEnumerable<string> excludeExpressions, IEnumerable<string> includeExpressions)
+        {
+            foreach (var expression in includeExpressions)
+                if (Regex.IsMatch(name, expression))
+                    return false;
+
+            foreach (var expression in excludeExpressions)
+                if (Regex.IsMatch(name, expression))
+                    return true;
+
+            return false;
+        }
 
 
         private IProviderTypeMapping GetTypeMapper()

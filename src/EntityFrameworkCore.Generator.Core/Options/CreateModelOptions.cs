@@ -11,7 +11,8 @@ namespace EntityFrameworkCore.Generator.Options
         /// <summary>
         /// Initializes a new instance of the <see cref="CreateModelOptions"/> class.
         /// </summary>
-        public CreateModelOptions()
+        public CreateModelOptions(VariableDictionary variables, string prefix)
+            : base(variables, AppendPrefix(prefix, "Create"))
         {
             Namespace = "{Project.Namespace}.Domain.Models";
             Directory = @"{Project.Directory}\Domain\Models";

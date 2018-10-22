@@ -113,8 +113,8 @@ namespace EntityFrameworkCore.Generator.Templates
 
             CodeBuilder.IncrementIndent();
 
-            CodeBuilder.Append(relationship.PrimaryCardinality == Cardinality.Many 
-                ? ".WithMany(t => t." 
+            CodeBuilder.Append(relationship.PrimaryCardinality == Cardinality.Many
+                ? ".WithMany(t => t."
                 : ".WithOne(t => t.");
 
             CodeBuilder.Append(relationship.PrimaryPropertyName);
@@ -179,7 +179,7 @@ namespace EntityFrameworkCore.Generator.Templates
             }
         }
 
-        private void GeneratePropertyMapping(Property<Entity> property)
+        private void GeneratePropertyMapping(Property property)
         {
             bool isString = property.SystemType == typeof(string);
             bool isByteArray = property.SystemType == typeof(byte[]);

@@ -4,32 +4,31 @@ using System.Linq;
 namespace EntityFrameworkCore.Generator.Metadata.Generation
 {
     /// <summary>
-    /// A collection of <see cref="Property{TEntity}"/> instances
+    /// A collection of <see cref="Property"/> instances
     /// </summary>
-    /// <typeparam name="TEntity">The type of the entity.</typeparam>
-    public class PropertyCollection<TEntity>
-      : List<Property<TEntity>>
+    public class PropertyCollection
+      : List<Property>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="PropertyCollection{TParent}"/> class.
+        /// Initializes a new instance of the <see cref="PropertyCollection"/> class.
         /// </summary>
         public PropertyCollection()
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="PropertyCollection{TParent}"/> class.
+        /// Initializes a new instance of the <see cref="PropertyCollection"/> class.
         /// </summary>
         /// <param name="collection">The collection whose elements are copied to the new list.</param>
-        public PropertyCollection(IEnumerable<Property<TEntity>> collection) : base(collection)
+        public PropertyCollection(IEnumerable<Property> collection) : base(collection)
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="PropertyCollection{TParent}"/> class.
+        /// Initializes a new instance of the <see cref="PropertyCollection"/> class.
         /// </summary>
         /// <param name="list">The list.</param>
-        public PropertyCollection(List<Property<TEntity>> list) : base(list)
+        public PropertyCollection(List<Property> list) : base(list)
         {
         }
 
@@ -47,7 +46,7 @@ namespace EntityFrameworkCore.Generator.Metadata.Generation
         /// <value>
         /// The primary keys properties.
         /// </value>
-        public IEnumerable<Property<TEntity>> PrimaryKeys
+        public IEnumerable<Property> PrimaryKeys
         {
             get { return this.Where(p => p.IsPrimaryKey == true); }
         }
@@ -58,7 +57,7 @@ namespace EntityFrameworkCore.Generator.Metadata.Generation
         /// <value>
         /// The foreign keys.
         /// </value>
-        public IEnumerable<Property<TEntity>> ForeignKeys
+        public IEnumerable<Property> ForeignKeys
         {
             get { return this.Where(p => p.IsForeignKey == true); }
         }
@@ -68,7 +67,7 @@ namespace EntityFrameworkCore.Generator.Metadata.Generation
         /// </summary>
         /// <param name="columnName">Name of the column.</param>
         /// <returns></returns>
-        public Property<TEntity> ByColumn(string columnName)
+        public Property ByColumn(string columnName)
         {
             return this.FirstOrDefault(x => x.ColumnName == columnName);
         }
@@ -78,7 +77,7 @@ namespace EntityFrameworkCore.Generator.Metadata.Generation
         /// </summary>
         /// <param name="propertyName">Name of the property.</param>
         /// <returns></returns>
-        public Property<TEntity> ByProperty(string propertyName)
+        public Property ByProperty(string propertyName)
         {
             return this.FirstOrDefault(x => x.PropertyName == propertyName);
         }

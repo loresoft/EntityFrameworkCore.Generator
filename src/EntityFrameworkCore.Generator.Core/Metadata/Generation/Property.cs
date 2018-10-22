@@ -6,9 +6,9 @@ using Microsoft.EntityFrameworkCore.Metadata;
 namespace EntityFrameworkCore.Generator.Metadata.Generation
 {
     [DebuggerDisplay("Property: {PropertyName}, Column: {ColumnName}, Type: {StoreType}")]
-    public class Property<TEntity> : ModelBase
+    public class Property : ModelBase
     {
-        public TEntity Entity { get; set; }
+        public Entity Entity { get; set; }
 
         public string PropertyName { get; set; }
 
@@ -35,7 +35,7 @@ namespace EntityFrameworkCore.Generator.Metadata.Generation
         public bool? IsReadOnly { get; set; }
 
         public bool? IsRowVersion { get; set; }
-        
+
         public bool? IsUnique { get; set; }
 
         public bool? IsMaxLength { get; set; }

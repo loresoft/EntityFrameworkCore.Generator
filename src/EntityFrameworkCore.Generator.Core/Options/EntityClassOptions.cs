@@ -12,7 +12,8 @@ namespace EntityFrameworkCore.Generator.Options
         /// <summary>
         /// Initializes a new instance of the <see cref="EntityClassOptions"/> class.
         /// </summary>
-        public EntityClassOptions()
+        public EntityClassOptions(VariableDictionary variables, string prefix)
+            : base(variables, AppendPrefix(prefix, "Entity"))
         {
             Namespace = "{Project.Namespace}.Data.Entities";
             Directory = @"{Project.Directory}\Data\Entities";
@@ -27,7 +28,11 @@ namespace EntityFrameworkCore.Generator.Options
         /// <value>
         /// The base class.
         /// </value>
-        public string BaseClass { get; set; }
+        public string BaseClass
+        {
+            get => GetProperty();
+            set => SetProperty(value);
+        }
 
         /// <summary>
         /// Gets or sets the entity class naming strategy.

@@ -7,8 +7,8 @@ namespace EntityFrameworkCore.Generator.Metadata.Generation
     {
         public Relationship()
         {
-            Properties = new PropertyCollection<Entity>();
-            PrimaryProperties = new PropertyCollection<Entity>();
+            Properties = new PropertyCollection();
+            PrimaryProperties = new PropertyCollection();
         }
 
         public string RelationshipName { get; set; }
@@ -16,7 +16,7 @@ namespace EntityFrameworkCore.Generator.Metadata.Generation
 
         public Entity Entity { get; set; }
 
-        public PropertyCollection<Entity> Properties { get; set; }
+        public PropertyCollection Properties { get; set; }
 
         public string PropertyName { get; set; }
 
@@ -25,7 +25,7 @@ namespace EntityFrameworkCore.Generator.Metadata.Generation
 
         public Entity PrimaryEntity { get; set; }
 
-        public PropertyCollection<Entity> PrimaryProperties { get; set; }
+        public PropertyCollection PrimaryProperties { get; set; }
 
         public string PrimaryPropertyName { get; set; }
 

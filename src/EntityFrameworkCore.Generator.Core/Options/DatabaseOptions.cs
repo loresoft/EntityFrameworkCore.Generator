@@ -6,8 +6,16 @@ namespace EntityFrameworkCore.Generator.Options
     /// <summary>
     /// Database options for reverse engineering the database
     /// </summary>
-    public class DatabaseOptions
+    public class DatabaseOptions : OptionsBase
     {
+        public DatabaseOptions(VariableDictionary variables, string prefix)
+            : base(variables, AppendPrefix(prefix, "Database"))
+        {
+            Provider = DatabaseProviders.SqlServer;
+            TableNaming = TableNaming.Singular;
+            Tables = new List<string>();
+            Schemas = new List<string>();
+        }
 
         /// <summary>
         /// Gets or sets the name of the database.
@@ -15,7 +23,12 @@ namespace EntityFrameworkCore.Generator.Options
         /// <value>
         /// The name of the database.
         /// </value>
-        public string Name { get; set; }
+        public string Name
+        {
+            get => GetProperty();
+            set => SetProperty(value);
+        }
+
 
         /// <summary>
         /// Gets or sets the database to generate code for.
@@ -24,7 +37,8 @@ namespace EntityFrameworkCore.Generator.Options
         /// The database to generate code for.
         /// </value>
         [DefaultValue(DatabaseProviders.SqlServer)]
-        public DatabaseProviders Provider { get; set; } = DatabaseProviders.SqlServer;
+        public DatabaseProviders Provider { get; set; }
+
 
         /// <summary>
         /// Gets or sets the connection string for reverse engineering the database
@@ -32,7 +46,12 @@ namespace EntityFrameworkCore.Generator.Options
         /// <value>
         /// The connection string for reverse engineering the database
         /// </value>
-        public string ConnectionString { get; set; }
+        public string ConnectionString
+        {
+            get => GetProperty();
+            set => SetProperty(value);
+        }
+
 
 
         /// <summary>
@@ -42,7 +61,8 @@ namespace EntityFrameworkCore.Generator.Options
         /// The table naming hint for how tables are named.
         /// </value>
         [DefaultValue(TableNaming.Singular)]
-        public TableNaming TableNaming { get; set; } = TableNaming.Singular;
+        public TableNaming TableNaming { get; set; }
+
 
 
         /// <summary>
@@ -51,7 +71,7 @@ namespace EntityFrameworkCore.Generator.Options
         /// <value>
         /// The tables to include in the model, or an empty enumerable to include all
         /// </value>
-        public List<string> Tables { get; set; } = new List<string>();
+        public List<string> Tables { get; set; }
 
         /// <summary>
         /// Gets or sets the schema to include in the model, or an empty enumerable to include all.
@@ -59,6 +79,6 @@ namespace EntityFrameworkCore.Generator.Options
         /// <value>
         /// The schema to include in the model, or an empty enumerable to include all.
         /// </value>
-        public List<string> Schemas { get; set; } = new List<string>();
+        public List<string> Schemas { get; set; }
     }
 }

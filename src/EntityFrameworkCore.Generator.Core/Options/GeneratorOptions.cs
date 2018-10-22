@@ -1,4 +1,5 @@
 ﻿using System;
+using YamlDotNet.Serialization;
 
 namespace EntityFrameworkCore.Generator.Options
 {
@@ -12,11 +13,16 @@ namespace EntityFrameworkCore.Generator.Options
         /// </summary>
         public GeneratorOptions()
         {
-            Project = new ProjectOptions();
-            Database = new DatabaseOptions();
-            Data = new DataOptions();
-            Model = new ModelOptions();
+            Variables = new VariableDictionary();
+
+            Project = new ProjectOptions(Variables, null);
+            Database = new DatabaseOptions(Variables, null);
+            Data = new DataOptions(Variables, null);
+            Model = new ModelOptions(Variables, null);
         }
+
+        [YamlIgnore]
+        public VariableDictionary Variables { get; }
 
         /// <summary>
         /// Gets or sets the project options.

@@ -11,7 +11,8 @@ namespace EntityFrameworkCore.Generator.Options
         /// <summary>
         /// Initializes a new instance of the <see cref="ModelOptionsBase"/> class.
         /// </summary>
-        protected ModelOptionsBase()
+        protected ModelOptionsBase(VariableDictionary variables, string prefix)
+            : base(variables, prefix)
         {
             Namespace = "{Project.Namespace}.Models";
             Directory = @"{Project.Directory}\Models";
@@ -36,7 +37,11 @@ namespace EntityFrameworkCore.Generator.Options
         /// <value>
         /// The class name template.
         /// </value>
-        public string Name { get; set; }
+        public string Name
+        {
+            get => GetProperty();
+            set => SetProperty(value);
+        }
 
         /// <summary>
         /// Gets or sets the base class to inherit from.
@@ -44,7 +49,11 @@ namespace EntityFrameworkCore.Generator.Options
         /// <value>
         /// The base class.
         /// </value>
-        public string BaseClass { get; set; }
+        public string BaseClass
+        {
+            get => GetProperty();
+            set => SetProperty(value);
+        }
 
 
         /// <summary>

@@ -12,7 +12,8 @@ namespace EntityFrameworkCore.Generator.Options
         /// <summary>
         /// Initializes a new instance of the <see cref="ViewClassOptions"/> class.
         /// </summary>
-        public ViewClassOptions()
+        public ViewClassOptions(VariableDictionary variables, string prefix)
+            : base(variables, AppendPrefix(prefix, "View"))
         {
             Namespace = "{Project.Namespace}.Data.Entities";
             Directory = @"{Project.Directory}\Data\Entities";
@@ -34,7 +35,11 @@ namespace EntityFrameworkCore.Generator.Options
         /// <value>
         /// The base class.
         /// </value>
-        public string BaseClass { get; set; }
+        public string BaseClass
+        {
+            get => GetProperty();
+            set => SetProperty(value);
+        }
 
         /// <summary>
         /// Gets or sets the view class naming strategy.

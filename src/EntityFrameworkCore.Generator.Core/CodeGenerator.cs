@@ -1,7 +1,4 @@
-﻿using System;
-using System.Diagnostics;
-using System.IO;
-using EntityFrameworkCore.Generator.Metadata.Generation;
+﻿using EntityFrameworkCore.Generator.Metadata.Generation;
 using EntityFrameworkCore.Generator.Options;
 using EntityFrameworkCore.Generator.Templates;
 using Microsoft.EntityFrameworkCore;
@@ -10,6 +7,9 @@ using Microsoft.EntityFrameworkCore.Internal;
 using Microsoft.EntityFrameworkCore.Scaffolding;
 using Microsoft.EntityFrameworkCore.Scaffolding.Metadata;
 using Microsoft.Extensions.Logging;
+using System;
+using System.Diagnostics;
+using System.IO;
 
 namespace EntityFrameworkCore.Generator
 {
@@ -58,13 +58,14 @@ namespace EntityFrameworkCore.Generator
             if (Options.Data.Query.Generate)
                 GenerateQueryExtensions(entityContext);
 
+            GenerateModelClasses(entityContext);
         }
 
         private void GenerateQueryExtensions(EntityContext entityContext)
         {
             foreach (var entity in entityContext.Entities)
             {
-                var directory = NameFormatter.Format(Options.Data.Query.Directory, Options);
+                var directory = Options.Data.Query.Directory;
                 var file = entity.EntityClass + "Extensions.cs";
                 var path = Path.Combine(directory, file);
 
@@ -78,7 +79,7 @@ namespace EntityFrameworkCore.Generator
         {
             foreach (var entity in entityContext.Entities)
             {
-                var directory = NameFormatter.Format(Options.Data.Mapping.Directory, Options);
+                var directory = Options.Data.Mapping.Directory;
                 var file = entity.MappingClass + ".cs";
                 var path = Path.Combine(directory, file);
 
@@ -91,24 +92,108 @@ namespace EntityFrameworkCore.Generator
         {
             foreach (var entity in entityContext.Entities)
             {
-                var directory = NameFormatter.Format(Options.Data.Entity.Directory, Options);
+                Options.Variables.Set("Entity.Name", entity.EntityClass);
+
+                var directory = Options.Data.Entity.Directory;
                 var file = entity.EntityClass + ".cs";
                 var path = Path.Combine(directory, file);
 
                 var template = new EntityClassTemplate(entity);
                 template.WriteCode(path);
             }
+
+            Options.Variables.Remove("Entity.Name");
         }
 
         private void GenerateDataContext(EntityContext entityContext)
         {
-            var directory = NameFormatter.Format(Options.Data.Context.Directory, Options);
+            var directory = Options.Data.Context.Directory;
             var file = entityContext.ContextClass + ".cs";
             var path = Path.Combine(directory, file);
 
             var template = new DataContextTemplate(entityContext);
             template.WriteCode(path);
         }
+
+
+        private void GenerateModelClasses(EntityContext entityContext)
+        {
+            foreach (var entity in entityContext.Entities)
+            {
+                Options.Variables.Set("Entity.Name", entity.EntityClass);
+                if (entity.Models.Count <= 0)
+                    continue;
+
+                GenerateModelClasses(entity);
+                GenerateValidatorClasses(entity);
+                GenerateMapperClass(entity);
+            }
+
+            Options.Variables.Remove("Entity.Name");
+        }
+
+
+        private void GenerateModelClasses(Entity entity)
+        {
+            foreach (var model in entity.Models)
+            {
+                Options.Variables.Set("Model.Name", entity.EntityClass);
+
+                var directory = GetModelDirectory(model);
+                var file = model.ModelClass + ".cs";
+                var path = Path.Combine(directory, file);
+
+                var template = new ModelClassTemplate(model);
+                template.WriteCode(path);
+            }
+
+            Options.Variables.Remove("Model.Name");
+        }
+
+        private string GetModelDirectory(Model model)
+        {
+            if (model.ModelType == ModelType.Create)
+                return Options.Model.Create.Directory;
+
+            if (model.ModelType == ModelType.Update)
+                return Options.Model.Update.Directory;
+
+            return Options.Model.Read.Directory;
+        }
+
+
+        private void GenerateValidatorClasses(Entity entity)
+        {
+            foreach (var model in entity.Models)
+            {
+                Options.Variables.Set("Model.Name", entity.EntityClass);
+
+                // don't validate read models
+                if (model.ModelType == ModelType.Read)
+                    continue;
+
+                var directory = Options.Model.Validator.Directory;
+                var file = model.ValidatorClass + ".cs";
+                var path = Path.Combine(directory, file);
+
+                var template = new ValidatorClassTemplate(model);
+                template.WriteCode(path);
+            }
+
+            Options.Variables.Remove("Model.Name");
+        }
+
+
+        private void GenerateMapperClass(Entity entity)
+        {
+            var directory = Options.Model.Mapper.Directory;
+            var file = entity.MapperClass + ".cs";
+            var path = Path.Combine(directory, file);
+
+            var template = new MapperClassTemplate(entity);
+            template.WriteCode(path);
+        }
+
 
         private DatabaseModel GetDatabaseModel(IDatabaseModelFactory factory)
         {

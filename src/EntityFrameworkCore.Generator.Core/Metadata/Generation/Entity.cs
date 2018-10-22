@@ -15,7 +15,7 @@ namespace EntityFrameworkCore.Generator.Metadata.Generation
         /// </summary>
         public Entity()
         {
-            Properties = new PropertyCollection<Entity>();
+            Properties = new PropertyCollection();
             Relationships = new RelationshipCollection();
             Methods = new MethodCollection();
             Models = new ModelCollection();
@@ -62,6 +62,13 @@ namespace EntityFrameworkCore.Generator.Metadata.Generation
         public string MappingClass { get; set; }
 
 
+        public string MapperClass { get; set; }
+
+        public string MapperNamespace { get; set; }
+
+        public string MapperBaseClass { get; set; }
+
+
         /// <summary>
         /// Gets or sets the table schema.
         /// </summary>
@@ -85,7 +92,7 @@ namespace EntityFrameworkCore.Generator.Metadata.Generation
         /// <value>
         /// The entity's properties.
         /// </value>
-        public PropertyCollection<Entity> Properties { get; set; }
+        public PropertyCollection Properties { get; set; }
 
         /// <summary>
         /// Gets or sets the entity's relationships.

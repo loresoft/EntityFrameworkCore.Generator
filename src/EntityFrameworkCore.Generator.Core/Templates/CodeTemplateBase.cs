@@ -69,7 +69,7 @@ namespace EntityFrameworkCore.Generator.Templates
             var finalContent = originalBuilder.ToString();
             if (originalContent == finalContent)
                 return;
-            
+
             File.WriteAllText(fullPath, finalContent);
         }
     }

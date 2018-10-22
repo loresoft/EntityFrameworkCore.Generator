@@ -49,8 +49,11 @@ namespace EntityFrameworkCore.Generator
                 return null;
             }
 
+            var factory = new GeneratorOptionsFactory();
+
             var deserializer = new DeserializerBuilder()
                 .WithNamingConvention(new CamelCaseNamingConvention())
+                .WithObjectFactory(factory)
                 .Build();
 
             _logger.LogInformation($"Loading options file: {file}");
@@ -58,6 +61,7 @@ namespace EntityFrameworkCore.Generator
             using (var streamReader = File.OpenText(path))
                 generatorOptions = deserializer.Deserialize<GeneratorOptions>(streamReader);
 
+            generatorOptions.Variables.ShouldEvaluate = true;
             return generatorOptions;
         }
 
@@ -90,8 +94,12 @@ namespace EntityFrameworkCore.Generator
                 .WithNamingConvention(new CamelCaseNamingConvention())
                 .Build();
 
+            generatorOptions.Variables.ShouldEvaluate = false;
+
             using (var streamWriter = File.CreateText(path))
                 serializer.Serialize(streamWriter, generatorOptions);
+
+            generatorOptions.Variables.ShouldEvaluate = true;
 
             return path;
         }

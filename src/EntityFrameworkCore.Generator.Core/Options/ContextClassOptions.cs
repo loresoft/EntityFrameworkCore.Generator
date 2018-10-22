@@ -13,7 +13,8 @@ namespace EntityFrameworkCore.Generator.Options
         /// <summary>
         /// Initializes a new instance of the <see cref="ContextClassOptions"/> class.
         /// </summary>
-        public ContextClassOptions()
+        public ContextClassOptions(VariableDictionary variables, string prefix)
+            : base(variables, AppendPrefix(prefix, "Context"))
         {
             Namespace = "{Project.Namespace}.Data";
             Directory = @"{Project.Directory}\Data";
@@ -29,7 +30,11 @@ namespace EntityFrameworkCore.Generator.Options
         /// <value>
         /// The class name for the <see cref="DbContext"/> file.
         /// </value>
-        public string Name { get; set; }
+        public string Name
+        {
+            get => GetProperty();
+            set => SetProperty(value);
+        }
 
         /// <summary>
         /// Gets or sets the base class to inherit from. Default is <see cref="DbContext"/>.
@@ -37,7 +42,11 @@ namespace EntityFrameworkCore.Generator.Options
         /// <value>
         /// The base class.
         /// </value>
-        public string BaseClass { get; set; }
+        public string BaseClass
+        {
+            get => GetProperty();
+            set => SetProperty(value);
+        }
 
         /// <summary>
         /// Gets or sets the property naming strategy for entity data set property.
