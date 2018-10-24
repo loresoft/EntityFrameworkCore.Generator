@@ -9,6 +9,9 @@ environment:
 init:
   - git config --global core.autocrlf input
 
+services:
+  - mssql2016
+
 dotnet_csproj:
   patch: true
   file: 'build\version.props'
@@ -19,7 +22,7 @@ dotnet_csproj:
   informational_version: '{version}'
 
 build_script:
-  - dotnet pack EntityFrameworkCore.Generator.sln --configuration Release --include-symbols --include-source 
+  - dotnet pack EntityFrameworkCore.Generator.sln --configuration Release --include-symbols --include-source
 
 test_script:
   - dotnet test test\EntityFrameworkCore.Generator.Core.Tests\EntityFrameworkCore.Generator.Core.Tests.csproj --configuration Release /p:CollectCoverage=true /p:CoverletOutputFormat=opencover
