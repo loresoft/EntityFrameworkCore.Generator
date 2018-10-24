@@ -33,6 +33,8 @@ namespace EntityFrameworkCore.Generator
             if (databaseModel == null)
                 throw new ArgumentNullException(nameof(databaseModel));
 
+            _logger.LogInformation($"Building code generation model from database: {databaseModel.DatabaseName}");
+
             _options = options ?? throw new ArgumentNullException(nameof(options));
             _typeMapper = GetTypeMapper();
 
@@ -59,7 +61,8 @@ namespace EntityFrameworkCore.Generator
 
             foreach (var t in tables)
             {
-                _logger.LogInformation($"Getting Table Schema: {t}");
+                _logger.LogDebug($"  Processing Table : {t.Name}");
+
                 var entity = GetEntity(entityContext, t);
                 GetModels(entity);
             }

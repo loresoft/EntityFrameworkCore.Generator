@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace EntityFrameworkCore.Generator.Options
+﻿namespace EntityFrameworkCore.Generator.Options
 {
     /// <summary>
     /// View model mapper class options
@@ -14,12 +12,21 @@ namespace EntityFrameworkCore.Generator.Options
         public MapperClassOptions(VariableDictionary variables, string prefix)
             : base(variables, AppendPrefix(prefix, "Mapper"))
         {
+            Generate = true;
             Namespace = "{Project.Namespace}.Domain.Mapping";
             Directory = @"{Project.Directory}\Domain\Mapping";
 
             BaseClass = "Profile";
-            Name = "{Model.Name}Profile";
+            Name = "{Entity.Name}Profile";
         }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether this option is generated.
+        /// </summary>
+        /// <value>
+        ///   <c>true</c> to generate; otherwise, <c>false</c>.
+        /// </value>
+        public bool Generate { get; set; }
 
         /// <summary>
         /// Gets or sets the mapper class name template.

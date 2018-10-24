@@ -15,12 +15,14 @@ namespace EntityFrameworkCore.Generator
 {
     public class CodeGenerator : ICodeGenerator
     {
+        private readonly ILoggerFactory _loggerFactory;
         private readonly ILogger _logger;
         private readonly IDiagnosticsLogger<DbLoggerCategory.Scaffolding> _diagnosticsLogger;
         private readonly ModelGenerator _modelGenerator;
 
         public CodeGenerator(ILoggerFactory loggerFactory)
         {
+            _loggerFactory = loggerFactory;
             _logger = loggerFactory.CreateLogger<CodeGenerator>();
             _diagnosticsLogger = new DiagnosticsLogger<DbLoggerCategory.Scaffolding>(loggerFactory, new LoggingOptions(), new DiagnosticListener(""));
             _modelGenerator = new ModelGenerator(loggerFactory);
@@ -41,7 +43,7 @@ namespace EntityFrameworkCore.Generator
             // update database variables
             Options.Database.Name = databaseModel.DatabaseName;
 
-            _logger.LogTrace($"Loaded database model for: {databaseModel.DatabaseName}");
+            _logger.LogInformation($"Loaded database model for: {databaseModel.DatabaseName}");
 
             var context = _modelGenerator.Generate(Options, databaseModel);
             GenerateFiles(context);
@@ -69,6 +71,8 @@ namespace EntityFrameworkCore.Generator
                 var file = entity.EntityClass + "Extensions.cs";
                 var path = Path.Combine(directory, file);
 
+                _logger.LogInformation($"Creating query extensions class: {file}");
+
                 var template = new QueryExtensionTemplate(entity, Options);
                 template.WriteCode(path);
             }
@@ -82,6 +86,8 @@ namespace EntityFrameworkCore.Generator
                 var directory = Options.Data.Mapping.Directory;
                 var file = entity.MappingClass + ".cs";
                 var path = Path.Combine(directory, file);
+
+                _logger.LogInformation($"Creating mapping class: {file}");
 
                 var template = new MappingClassTemplate(entity);
                 template.WriteCode(path);
@@ -98,6 +104,8 @@ namespace EntityFrameworkCore.Generator
                 var file = entity.EntityClass + ".cs";
                 var path = Path.Combine(directory, file);
 
+                _logger.LogInformation($"Creating entity class: {file}");
+
                 var template = new EntityClassTemplate(entity);
                 template.WriteCode(path);
             }
@@ -107,9 +115,12 @@ namespace EntityFrameworkCore.Generator
 
         private void GenerateDataContext(EntityContext entityContext)
         {
+
             var directory = Options.Data.Context.Directory;
             var file = entityContext.ContextClass + ".cs";
             var path = Path.Combine(directory, file);
+
+            _logger.LogInformation($"Creating data context class: {file}");
 
             var template = new DataContextTemplate(entityContext);
             template.WriteCode(path);
@@ -143,6 +154,9 @@ namespace EntityFrameworkCore.Generator
                 var file = model.ModelClass + ".cs";
                 var path = Path.Combine(directory, file);
 
+                _logger.LogInformation($"Creating model class: {file}");
+
+
                 var template = new ModelClassTemplate(model);
                 template.WriteCode(path);
             }
@@ -164,6 +178,9 @@ namespace EntityFrameworkCore.Generator
 
         private void GenerateValidatorClasses(Entity entity)
         {
+            if (!Options.Model.Validator.Generate)
+                return;
+
             foreach (var model in entity.Models)
             {
                 Options.Variables.Set("Model.Name", entity.EntityClass);
@@ -176,6 +193,8 @@ namespace EntityFrameworkCore.Generator
                 var file = model.ValidatorClass + ".cs";
                 var path = Path.Combine(directory, file);
 
+                _logger.LogInformation($"Creating validation class: {file}");
+
                 var template = new ValidatorClassTemplate(model);
                 template.WriteCode(path);
             }
@@ -186,9 +205,14 @@ namespace EntityFrameworkCore.Generator
 
         private void GenerateMapperClass(Entity entity)
         {
+            if (!Options.Model.Mapper.Generate)
+                return;
+
             var directory = Options.Model.Mapper.Directory;
             var file = entity.MapperClass + ".cs";
             var path = Path.Combine(directory, file);
+
+            _logger.LogInformation($"Creating object mapper class: {file}");
 
             var template = new MapperClassTemplate(entity);
             template.WriteCode(path);
@@ -197,7 +221,7 @@ namespace EntityFrameworkCore.Generator
 
         private DatabaseModel GetDatabaseModel(IDatabaseModelFactory factory)
         {
-            _logger.LogTrace("Creating database model ...");
+            _logger.LogInformation("Loading database model ...");
 
             var database = Options.Database;
             return factory.Create(database.ConnectionString, database.Tables, database.Schemas);
@@ -207,7 +231,7 @@ namespace EntityFrameworkCore.Generator
         {
             var provider = Options.Database.Provider;
 
-            _logger.LogTrace($"Creating database model factory for: {provider}");
+            _logger.LogDebug($"Creating database model factory for: {provider}");
             if (provider == DatabaseProviders.SqlServer)
                 return new Microsoft.EntityFrameworkCore.SqlServer.Scaffolding.Internal.SqlServerDatabaseModelFactory(_diagnosticsLogger);
 

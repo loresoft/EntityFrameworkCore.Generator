@@ -1,9 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using EntityFrameworkCore.Generator.Parsing;
+using FluentAssertions;
+using System;
 using System.Linq;
 using System.Text;
-using EntityFrameworkCore.Generator.Parsing;
-using FluentAssertions;
 using Xunit;
 
 namespace EntityFrameworkCore.Generator.Core.Tests.Parsing
@@ -45,7 +44,7 @@ namespace EntityFrameworkCore.Generator.Core.Tests.Parsing
         public void ParseMultipleRegions()
         {
             var parser = new RegionParser();
-            
+
             var source = new StringBuilder();
             source.AppendLine(@"using System;");
             source.AppendLine(@"using System.Collections.Generic;");
@@ -114,7 +113,7 @@ namespace EntityFrameworkCore.Generator.Core.Tests.Parsing
             var result = parser.ParseRegions(source.ToString());
             result.Should().NotBeNull();
             result.Count.Should().Be(2);
-            
+
             var nested = result["Nested Properties"];
             nested.Should().NotBeNull();
             nested.Name.Should().Be("Nested Properties");
