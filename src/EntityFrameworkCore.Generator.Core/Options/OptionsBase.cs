@@ -6,8 +6,10 @@ namespace EntityFrameworkCore.Generator.Options
     public class OptionsBase
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="OptionsBase"/> class.
+        /// Initializes a new instance of the <see cref="OptionsBase" /> class.
         /// </summary>
+        /// <param name="variables">The shared variables dictionary.</param>
+        /// <param name="prefix">The variable key prefix.</param>
         public OptionsBase(VariableDictionary variables, string prefix)
         {
             Variables = variables;

@@ -1,0 +1,95 @@
+project:
+  namespace: '{Database.Name}.Core'
+  directory: .\
+database:
+  connectionString: Data Source=(local);Initial Catalog=Tracker;Integrated Security=True
+data:
+  context:
+    name: '{Database.Name}Context'
+    baseClass: DbContext
+    namespace: '{Project.Namespace}.Data'
+    directory: '{Project.Directory}\Data'
+  entity:
+    namespace: '{Project.Namespace}.Data.Entities'
+    directory: '{Project.Directory}\Data\Entities'
+  mapping:
+    namespace: '{Project.Namespace}.Data.Mapping'
+    directory: '{Project.Directory}\Data\Mapping'
+  view:
+    generate: true
+    namespace: '{Project.Namespace}.Data.Entities'
+    directory: '{Project.Directory}\Data\Entities'
+  query:
+    generate: true
+    indexPrefix: By
+    uniquePrefix: GetBy
+    namespace: '{Project.Namespace}.Data.Queries'
+    directory: '{Project.Directory}\Data\Queries'
+model:
+  read:
+    generate: true
+    name: '{Entity.Name}ReadModel'
+    baseClass: EntityReadModel
+    namespace: '{Project.Namespace}.Domain.Models'
+    directory: '{Project.Directory}\Domain\{Entity.Name}\Models'
+    exclude:
+      properties:
+        - '\.Id$'
+        - '\.Created$'
+        - '\.CreatedBy$'
+        - '\.Updated$'
+        - '\.UpdatedBy$'
+        - '\.RowVersion$'
+        - 'User\.PasswordHash$'
+        - 'User\.ResetHash$'
+        - 'User\.InviteHash$'
+  create:
+    generate: true
+    name: '{Entity.Name}CreateModel'
+    baseClass: EntityCreateModel
+    namespace: '{Project.Namespace}.Domain.Models'
+    directory: '{Project.Directory}\Domain\{Entity.Name}\Models'
+    exclude:
+      entities:
+        - 'EmailDelivery'
+        - 'UserLogin'
+      properties:
+        - '\.Id$'
+        - '\.Created$'
+        - '\.CreatedBy$'
+        - '\.Updated$'
+        - '\.UpdatedBy$'
+        - '\.RowVersion$'
+        - 'User\.PasswordHash$'
+        - 'User\.ResetHash$'
+        - 'User\.InviteHash$'
+  update:
+    generate: true
+    name: '{Entity.Name}UpdateModel'
+    baseClass: EntityUpdateModel
+    namespace: '{Project.Namespace}.Domain.Models'
+    directory: '{Project.Directory}\Domain\{Entity.Name}\Models'
+    exclude:
+      entities:
+        - 'EmailDelivery'
+        - 'UserLogin'
+      properties:
+        - '\.Id$'
+        - '\.Created$'
+        - '\.CreatedBy$'
+        - '\.Updated$'
+        - '\.UpdatedBy$'
+        - '\.RowVersion$'
+        - 'User\.PasswordHash$'
+        - 'User\.ResetHash$'
+        - 'User\.InviteHash$'
+  mapper:
+    name: '{Entity.Name}Profile'
+    baseClass: Profile
+    namespace: '{Project.Namespace}.Domain.Mapping'
+    directory: '{Project.Directory}\Domain\{Entity.Name}\Mapping'
+  validator:
+    name: '{Model.Name}Validator'
+    baseClass: AbstractValidator<{Model.Name}>
+    namespace: '{Project.Namespace}.Domain.Validation'
+    directory: '{Project.Directory}\Domain\{Entity.Name}\Validation'

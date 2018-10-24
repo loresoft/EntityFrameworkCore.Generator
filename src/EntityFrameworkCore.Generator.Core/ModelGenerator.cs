@@ -202,8 +202,6 @@ namespace EntityFrameworkCore.Generator
             string relationshipName = tableKeySchema.Name;
             relationshipName = _namer.UniqueRelationshipName(relationshipName);
 
-            bool isCascadeDelete = false; //IsCascadeDelete(tableKeySchema);
-
             var foreignMembers = GetKeyMembers(foreignEntity, tableKeySchema.Columns, tableKeySchema.Name);
             bool foreignMembersRequired = foreignMembers.Any(c => c.IsRequired);
 

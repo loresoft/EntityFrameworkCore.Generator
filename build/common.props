@@ -21,5 +21,6 @@
     <PackageLicenseUrl>https://raw.githubusercontent.com/loresoft/EntityFrameworkCore.Generator/master/LICENSE</PackageLicenseUrl>
     <RepositoryType>git</RepositoryType>
     <RepositoryUrl>https://github.com/loresoft/EntityFrameworkCore.Generator</RepositoryUrl>
+    <NoWarn>1591</NoWarn>
   </PropertyGroup>
 </Project>

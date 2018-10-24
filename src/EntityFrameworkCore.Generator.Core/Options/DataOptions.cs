@@ -8,9 +8,10 @@ namespace EntityFrameworkCore.Generator.Options
     public class DataOptions : OptionsBase
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="DataOptions"/> class.
+        /// Initializes a new instance of the <see cref="DataOptions" /> class.
         /// </summary>
-        /// <param name="variables"></param>
+        /// <param name="variables">The shared variables dictionary.</param>
+        /// <param name="prefix">The variable key prefix.</param>
         public DataOptions(VariableDictionary variables, string prefix)
             : base(variables, AppendPrefix(prefix, "Data"))
         {
