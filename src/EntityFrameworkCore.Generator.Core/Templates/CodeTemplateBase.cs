@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Text;
+using EntityFrameworkCore.Generator.Options;
 using EntityFrameworkCore.Generator.Parsing;
 using Microsoft.EntityFrameworkCore.Internal;
 
@@ -8,11 +9,15 @@ namespace EntityFrameworkCore.Generator.Templates
 {
     public abstract class CodeTemplateBase
     {
-        protected CodeTemplateBase()
+
+        protected CodeTemplateBase(GeneratorOptions options)
         {
+            Options = options;
             CodeBuilder = new IndentedStringBuilder();
             RegionParser = new RegionParser();
         }
+
+        public GeneratorOptions Options { get; }
 
         protected RegionParser RegionParser { get; }
 

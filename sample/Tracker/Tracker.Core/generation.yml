@@ -84,11 +84,13 @@ model:
         - 'User\.ResetHash$'
         - 'User\.InviteHash$'
   mapper:
+    generate: true
     name: '{Entity.Name}Profile'
     baseClass: Profile
     namespace: '{Project.Namespace}.Domain.Mapping'
     directory: '{Project.Directory}\Domain\{Entity.Name}\Mapping'
   validator:
+    generate: true
     name: '{Model.Name}Validator'
     baseClass: AbstractValidator<{Model.Name}>
     namespace: '{Project.Namespace}.Domain.Validation'

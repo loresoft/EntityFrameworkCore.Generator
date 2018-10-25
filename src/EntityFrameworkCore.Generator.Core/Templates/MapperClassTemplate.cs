@@ -1,7 +1,7 @@
-﻿using System;
+﻿using EntityFrameworkCore.Generator.Extensions;
 using EntityFrameworkCore.Generator.Metadata.Generation;
+using EntityFrameworkCore.Generator.Options;
 using System.Collections.Generic;
-using EntityFrameworkCore.Generator.Extensions;
 
 namespace EntityFrameworkCore.Generator.Templates
 {
@@ -9,7 +9,7 @@ namespace EntityFrameworkCore.Generator.Templates
     {
         private readonly Entity _entity;
 
-        public MapperClassTemplate(Entity entity)
+        public MapperClassTemplate(Entity entity, GeneratorOptions options) : base(options)
         {
             _entity = entity;
         }
@@ -51,9 +51,12 @@ namespace EntityFrameworkCore.Generator.Templates
             var entityClass = _entity.EntityClass.ToSafeName();
             var mapperClass = _entity.MapperClass.ToSafeName();
 
-            CodeBuilder.AppendLine("/// <summary>");
-            CodeBuilder.AppendLine($"/// Mapper class for entity <see cref=\"{entityClass}\"/> .");
-            CodeBuilder.AppendLine("/// </summary>");
+            if (Options.Model.Mapper.Document)
+            {
+                CodeBuilder.AppendLine("/// <summary>");
+                CodeBuilder.AppendLine($"/// Mapper class for entity <see cref=\"{entityClass}\"/> .");
+                CodeBuilder.AppendLine("/// </summary>");
+            }
 
             CodeBuilder.AppendLine($"public partial class {mapperClass}");
 
@@ -79,9 +82,12 @@ namespace EntityFrameworkCore.Generator.Templates
             var mapperClass = _entity.MapperClass.ToSafeName();
             var entityClass = _entity.EntityClass.ToSafeName();
 
-            CodeBuilder.AppendLine("/// <summary>");
-            CodeBuilder.AppendLine($"/// Initializes a new instance of the <see cref=\"{mapperClass}\"/> class.");
-            CodeBuilder.AppendLine("/// </summary>");
+            if (Options.Model.Mapper.Document)
+            {
+                CodeBuilder.AppendLine("/// <summary>");
+                CodeBuilder.AppendLine($"/// Initializes a new instance of the <see cref=\"{mapperClass}\"/> class.");
+                CodeBuilder.AppendLine("/// </summary>");
+            }
 
             CodeBuilder.AppendLine($"public {mapperClass}()");
             CodeBuilder.AppendLine("{");

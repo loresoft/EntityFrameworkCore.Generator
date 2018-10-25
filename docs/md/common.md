@@ -1,0 +1,1 @@
+# Common Model Template Configuration

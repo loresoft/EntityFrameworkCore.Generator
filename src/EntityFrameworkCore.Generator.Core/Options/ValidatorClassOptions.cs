@@ -12,7 +12,7 @@
         public ValidatorClassOptions(VariableDictionary variables, string prefix)
             : base(variables, AppendPrefix(prefix, "Validator"))
         {
-            Generate = true;
+            Generate = false;
             Namespace = "{Project.Namespace}.Domain.Validation";
             Directory = @"{Project.Directory}\Domain\Validation";
 

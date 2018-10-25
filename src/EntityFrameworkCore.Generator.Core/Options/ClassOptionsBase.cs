@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace EntityFrameworkCore.Generator.Options
+﻿namespace EntityFrameworkCore.Generator.Options
 {
     /// <summary>
     /// Base class for Class generation
@@ -15,6 +13,7 @@ namespace EntityFrameworkCore.Generator.Options
         {
             Namespace = "{Project.Namespace}";
             Directory = @"{Project.Directory}\";
+            Document = true;
         }
 
         /// <summary>
@@ -40,5 +39,13 @@ namespace EntityFrameworkCore.Generator.Options
             get => GetProperty();
             set => SetProperty(value);
         }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether to create xml documentation.
+        /// </summary>
+        /// <value>
+        ///   <c>true</c> to create xml documentation; otherwise, <c>false</c>.
+        /// </value>
+        public bool Document { get; set; }
     }
 }

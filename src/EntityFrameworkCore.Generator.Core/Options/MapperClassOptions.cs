@@ -12,7 +12,7 @@
         public MapperClassOptions(VariableDictionary variables, string prefix)
             : base(variables, AppendPrefix(prefix, "Mapper"))
         {
-            Generate = true;
+            Generate = false;
             Namespace = "{Project.Namespace}.Domain.Mapping";
             Directory = @"{Project.Directory}\Domain\Mapping";
 

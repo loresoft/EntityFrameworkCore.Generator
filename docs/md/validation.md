@@ -1,0 +1,1 @@
+# Model Validation Template Configuration

@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using EntityFrameworkCore.Generator.Extensions;
+﻿using EntityFrameworkCore.Generator.Extensions;
 using EntityFrameworkCore.Generator.Metadata.Generation;
+using EntityFrameworkCore.Generator.Options;
 
 namespace EntityFrameworkCore.Generator.Templates
 {
@@ -10,7 +8,7 @@ namespace EntityFrameworkCore.Generator.Templates
     {
         private readonly Model _model;
 
-        public ValidatorClassTemplate(Model model)
+        public ValidatorClassTemplate(Model model, GeneratorOptions options) : base(options)
         {
             _model = model;
         }
@@ -45,9 +43,12 @@ namespace EntityFrameworkCore.Generator.Templates
             var validatorClass = _model.ValidatorClass.ToSafeName();
             var modelClass = _model.ModelClass.ToSafeName();
 
-            CodeBuilder.AppendLine("/// <summary>");
-            CodeBuilder.AppendLine($"/// Validator class for <see cref=\"{modelClass}\"/> .");
-            CodeBuilder.AppendLine("/// </summary>");
+            if (Options.Model.Validator.Document)
+            {
+                CodeBuilder.AppendLine("/// <summary>");
+                CodeBuilder.AppendLine($"/// Validator class for <see cref=\"{modelClass}\"/> .");
+                CodeBuilder.AppendLine("/// </summary>");
+            }
 
             CodeBuilder.AppendLine($"public partial class {validatorClass}");
 
@@ -72,9 +73,12 @@ namespace EntityFrameworkCore.Generator.Templates
         {
             var validatorClass = _model.ValidatorClass.ToSafeName();
 
-            CodeBuilder.AppendLine("/// <summary>");
-            CodeBuilder.AppendLine($"/// Initializes a new instance of the <see cref=\"{validatorClass}\"/> class.");
-            CodeBuilder.AppendLine("/// </summary>");
+            if (Options.Model.Validator.Document)
+            {
+                CodeBuilder.AppendLine("/// <summary>");
+                CodeBuilder.AppendLine($"/// Initializes a new instance of the <see cref=\"{validatorClass}\"/> class.");
+                CodeBuilder.AppendLine("/// </summary>");
+            }
 
             CodeBuilder.AppendLine($"public {validatorClass}()");
             CodeBuilder.AppendLine("{");

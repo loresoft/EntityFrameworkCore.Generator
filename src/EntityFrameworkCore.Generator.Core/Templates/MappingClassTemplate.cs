@@ -1,8 +1,8 @@
-﻿using System.Linq;
-using EntityFrameworkCore.Generator.Extensions;
+﻿using EntityFrameworkCore.Generator.Extensions;
 using EntityFrameworkCore.Generator.Metadata.Generation;
-using Microsoft.EntityFrameworkCore.Internal;
+using EntityFrameworkCore.Generator.Options;
 using Microsoft.EntityFrameworkCore.Metadata;
+using System.Linq;
 
 namespace EntityFrameworkCore.Generator.Templates
 {
@@ -10,7 +10,7 @@ namespace EntityFrameworkCore.Generator.Templates
     {
         private Entity _entity;
 
-        public MappingClassTemplate(Entity entity)
+        public MappingClassTemplate(Entity entity, GeneratorOptions options) : base(options)
         {
             _entity = entity;
         }
@@ -45,9 +45,13 @@ namespace EntityFrameworkCore.Generator.Templates
             var entityClass = _entity.EntityClass.ToSafeName();
             var safeName = $"{_entity.EntityNamespace}.{entityClass}";
 
-            CodeBuilder.AppendLine("/// <summary>");
-            CodeBuilder.AppendLine($"/// Allows configuration for an entity type <see cref=\"{safeName}\" />");
-            CodeBuilder.AppendLine("/// </summary>");
+            if (Options.Data.Mapping.Document)
+            {
+                CodeBuilder.AppendLine("/// <summary>");
+                CodeBuilder.AppendLine($"/// Allows configuration for an entity type <see cref=\"{safeName}\" />");
+                CodeBuilder.AppendLine("/// </summary>");
+            }
+
             CodeBuilder.AppendLine($"public partial class {mappingClass}");
 
             using (CodeBuilder.Indent())
@@ -69,10 +73,14 @@ namespace EntityFrameworkCore.Generator.Templates
             var entityClass = _entity.EntityClass.ToSafeName();
             var safeName = $"{_entity.EntityNamespace}.{entityClass}";
 
-            CodeBuilder.AppendLine("/// <summary>");
-            CodeBuilder.AppendLine($"/// Configures the entity of type <see cref=\"{safeName}\" />");
-            CodeBuilder.AppendLine("/// </summary>");
-            CodeBuilder.AppendLine("/// <param name=\"builder\">The builder to be used to configure the entity type.</param>");
+            if (Options.Data.Mapping.Document)
+            {
+                CodeBuilder.AppendLine("/// <summary>");
+                CodeBuilder.AppendLine($"/// Configures the entity of type <see cref=\"{safeName}\" />");
+                CodeBuilder.AppendLine("/// </summary>");
+                CodeBuilder.AppendLine("/// <param name=\"builder\">The builder to be used to configure the entity type.</param>");
+            }
+
             CodeBuilder.AppendLine($"public void Configure(Microsoft.EntityFrameworkCore.Metadata.Builders.EntityTypeBuilder<{safeName}> builder)");
             CodeBuilder.AppendLine("{");
 

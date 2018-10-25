@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using EntityFrameworkCore.Generator.Extensions;
+﻿using EntityFrameworkCore.Generator.Extensions;
 using EntityFrameworkCore.Generator.Metadata.Generation;
+using EntityFrameworkCore.Generator.Options;
 
 namespace EntityFrameworkCore.Generator.Templates
 {
@@ -10,7 +8,7 @@ namespace EntityFrameworkCore.Generator.Templates
     {
         private readonly Model _model;
 
-        public ModelClassTemplate(Model model)
+        public ModelClassTemplate(Model model, GeneratorOptions options) : base(options)
         {
             _model = model;
         }
@@ -40,9 +38,14 @@ namespace EntityFrameworkCore.Generator.Templates
         {
             var modelClass = _model.ModelClass.ToSafeName();
 
-            CodeBuilder.AppendLine("/// <summary>");
-            CodeBuilder.AppendLine("/// View Model class");
-            CodeBuilder.AppendLine("/// </summary>");
+
+            if (ShouldDocument())
+            {
+                CodeBuilder.AppendLine("/// <summary>");
+                CodeBuilder.AppendLine("/// View Model class");
+                CodeBuilder.AppendLine("/// </summary>");
+            }
+
             CodeBuilder.AppendLine($"public partial class {modelClass}");
 
             if (_model.ModelBaseClass.HasValue())
@@ -63,6 +66,7 @@ namespace EntityFrameworkCore.Generator.Templates
 
         }
 
+
         private void GenerateProperties()
         {
             CodeBuilder.AppendLine("#region Generated Properties");
@@ -71,12 +75,15 @@ namespace EntityFrameworkCore.Generator.Templates
                 var propertyType = property.SystemType.ToNullableType(property.IsNullable == true);
                 var propertyName = property.PropertyName.ToSafeName();
 
-                CodeBuilder.AppendLine("/// <summary>");
-                CodeBuilder.AppendLine($"/// Gets or sets the property value for '{property.PropertyName}'.");
-                CodeBuilder.AppendLine("/// </summary>");
-                CodeBuilder.AppendLine("/// <value>");
-                CodeBuilder.AppendLine($"/// The property value for '{property.PropertyName}'.");
-                CodeBuilder.AppendLine("/// </value>");
+                if (ShouldDocument())
+                {
+                    CodeBuilder.AppendLine("/// <summary>");
+                    CodeBuilder.AppendLine($"/// Gets or sets the property value for '{property.PropertyName}'.");
+                    CodeBuilder.AppendLine("/// </summary>");
+                    CodeBuilder.AppendLine("/// <value>");
+                    CodeBuilder.AppendLine($"/// The property value for '{property.PropertyName}'.");
+                    CodeBuilder.AppendLine("/// </value>");
+                }
 
                 CodeBuilder.AppendLine($"public {propertyType} {propertyName} {{ get; set; }}");
                 CodeBuilder.AppendLine();
@@ -86,5 +93,15 @@ namespace EntityFrameworkCore.Generator.Templates
         }
 
 
+        private bool ShouldDocument()
+        {
+            if (_model.ModelType == ModelType.Create)
+                return Options.Model.Create.Document;
+
+            if (_model.ModelType == ModelType.Update)
+                return Options.Model.Update.Document;
+
+            return Options.Model.Read.Document;
+        }
     }
 }

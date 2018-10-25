@@ -1,0 +1,27 @@
+site_name: Entity Framework Core Generator
+theme: readthedocs
+repo_url: https://github.com/loresoft/EntityFrameworkCore.Generator
+
+pages:
+- Home: index.md
+
+- Quick Start: quickStart.md
+- Features: features.md
+- Providers: providers.md
+- Configuration: configuration.md
+
+- EntityFramework Templates:
+    - Data Context: ef/dataContext.md
+    - Entity: ef/entity.md
+    - Mapping: ef/mapping.md
+    - Extensions: ef/extensions.md
+
+- Model Templates:
+    - Common Configuration: md/common.md
+    - Read Model: md/read.md
+    - Create Model: md/create.md
+    - Update Model: md/update.md
+    - Validation: md/validation.md
+    - Object Mapper: md/mapper.md
+
+- Regeneration: regeneration.md

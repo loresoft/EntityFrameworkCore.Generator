@@ -1,0 +1,1 @@
+# Model Object Mapper Template Configuration

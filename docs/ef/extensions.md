@@ -1,0 +1,1 @@
+# Query Extensions Template Configuratoin

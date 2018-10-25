@@ -10,12 +10,10 @@ namespace EntityFrameworkCore.Generator.Templates
     public class QueryExtensionTemplate : CodeTemplateBase
     {
         private readonly Entity _entity;
-        private readonly GeneratorOptions _options;
 
-        public QueryExtensionTemplate(Entity entity, GeneratorOptions options)
+        public QueryExtensionTemplate(Entity entity, GeneratorOptions options) : base(options)
         {
             _entity = entity;
-            _options = options;
         }
 
         public override string WriteCode()
@@ -29,7 +27,7 @@ namespace EntityFrameworkCore.Generator.Templates
             CodeBuilder.AppendLine("using Microsoft.EntityFrameworkCore;");
             CodeBuilder.AppendLine();
 
-            var extensionNamespace = _options.Data.Query.Namespace;
+            var extensionNamespace = Options.Data.Query.Namespace;
 
             CodeBuilder.AppendLine($"namespace {extensionNamespace}");
             CodeBuilder.AppendLine("{");
@@ -50,9 +48,13 @@ namespace EntityFrameworkCore.Generator.Templates
             var entityClass = _entity.EntityClass.ToSafeName();
             string safeName = _entity.EntityNamespace + "." + entityClass;
 
-            CodeBuilder.AppendLine("/// <summary>");
-            CodeBuilder.AppendLine($"/// Query extensions for entity <see cref=\"{safeName}\" />.");
-            CodeBuilder.AppendLine("/// </summary>");
+            if (Options.Data.Query.Document)
+            {
+                CodeBuilder.AppendLine("/// <summary>");
+                CodeBuilder.AppendLine($"/// Query extensions for entity <see cref=\"{safeName}\" />.");
+                CodeBuilder.AppendLine("/// </summary>");
+            }
+
             CodeBuilder.AppendLine($"public static partial class {entityClass}Extensions");
             CodeBuilder.AppendLine("{");
 
@@ -93,15 +95,18 @@ namespace EntityFrameworkCore.Generator.Templates
         private void GenerateMethod(Method method)
         {
             string safeName = _entity.EntityNamespace + "." + _entity.EntityClass.ToSafeName();
-            string prefix = _options.Data.Query.IndexPrefix;
+            string prefix = Options.Data.Query.IndexPrefix;
             string suffix = method.NameSuffix;
 
-            CodeBuilder.AppendLine("/// <summary>");
-            CodeBuilder.AppendLine("/// Filters a sequence of values based on a predicate.");
-            CodeBuilder.AppendLine("/// </summary>");
-            CodeBuilder.AppendLine("/// <param name=\"queryable\">An <see cref=\"T:System.Linq.IQueryable`1\" /> to filter.</param>");
-            AppendDocumentation(method);
-            CodeBuilder.AppendLine("/// <returns>An <see cref=\"T: System.Linq.IQueryable`1\" /> that contains elements from the input sequence that satisfy the condition specified.</returns>");
+            if (Options.Data.Query.Document)
+            {
+                CodeBuilder.AppendLine("/// <summary>");
+                CodeBuilder.AppendLine("/// Filters a sequence of values based on a predicate.");
+                CodeBuilder.AppendLine("/// </summary>");
+                CodeBuilder.AppendLine("/// <param name=\"queryable\">An <see cref=\"T:System.Linq.IQueryable`1\" /> to filter.</param>");
+                AppendDocumentation(method);
+                CodeBuilder.AppendLine("/// <returns>An <see cref=\"T: System.Linq.IQueryable`1\" /> that contains elements from the input sequence that satisfy the condition specified.</returns>");
+            }
 
             CodeBuilder.Append($"public static IQueryable<{safeName}> {prefix}{suffix}(this IQueryable<{safeName}> queryable, ");
             AppendParameters(method);
@@ -122,18 +127,21 @@ namespace EntityFrameworkCore.Generator.Templates
         private void GenerateUniqueMethod(Method method, bool async = false)
         {
             string safeName = _entity.EntityNamespace + "." + _entity.EntityClass.ToSafeName();
-            string uniquePrefix = _options.Data.Query.UniquePrefix;
+            string uniquePrefix = Options.Data.Query.UniquePrefix;
             string suffix = method.NameSuffix;
 
             string asyncSuffix = async ? "Async" : string.Empty;
             string returnType = async ? $"Task<{safeName}>" : safeName;
 
-            CodeBuilder.AppendLine("/// <summary>");
-            CodeBuilder.AppendLine($"/// Gets an instance of <see cref=\"T:{safeName}\"/> by using a unique index.");
-            CodeBuilder.AppendLine("/// </summary>");
-            CodeBuilder.AppendLine("/// <param name=\"queryable\">An <see cref=\"T:System.Linq.IQueryable`1\" /> to filter.</param>");
-            AppendDocumentation(method);
-            CodeBuilder.AppendLine($"/// <returns>An instance of <see cref=\"T:{safeName}\"/> or null if not found.</returns>");
+            if (Options.Data.Query.Document)
+            {
+                CodeBuilder.AppendLine("/// <summary>");
+                CodeBuilder.AppendLine($"/// Gets an instance of <see cref=\"T:{safeName}\"/> by using a unique index.");
+                CodeBuilder.AppendLine("/// </summary>");
+                CodeBuilder.AppendLine("/// <param name=\"queryable\">An <see cref=\"T:System.Linq.IQueryable`1\" /> to filter.</param>");
+                AppendDocumentation(method);
+                CodeBuilder.AppendLine($"/// <returns>An instance of <see cref=\"T:{safeName}\"/> or null if not found.</returns>");
+            }
 
             CodeBuilder.Append($"public static {returnType} {uniquePrefix}{suffix}{asyncSuffix}(this IQueryable<{safeName}> queryable, ");
             AppendParameters(method);
@@ -154,17 +162,20 @@ namespace EntityFrameworkCore.Generator.Templates
         private void GenerateKeyMethod(Method method, bool async = false)
         {
             string safeName = _entity.EntityNamespace + "." + _entity.EntityClass.ToSafeName();
-            string uniquePrefix = _options.Data.Query.UniquePrefix;
+            string uniquePrefix = Options.Data.Query.UniquePrefix;
 
             string asyncSuffix = async ? "Async" : string.Empty;
             string returnType = async ? $"Task<{safeName}>" : safeName;
 
-            CodeBuilder.AppendLine("/// <summary>");
-            CodeBuilder.AppendLine("/// Gets an instance by the primary key.");
-            CodeBuilder.AppendLine("/// </summary>");
-            CodeBuilder.AppendLine("/// <param name=\"queryable\">An <see cref=\"T:System.Linq.IQueryable`1\" /> to filter.</param>");
-            AppendDocumentation(method);
-            CodeBuilder.AppendLine($"/// <returns>An instance of <see cref=\"T:{safeName}\"/> or null if not found.</returns>");
+            if (Options.Data.Query.Document)
+            {
+                CodeBuilder.AppendLine("/// <summary>");
+                CodeBuilder.AppendLine("/// Gets an instance by the primary key.");
+                CodeBuilder.AppendLine("/// </summary>");
+                CodeBuilder.AppendLine("/// <param name=\"queryable\">An <see cref=\"T:System.Linq.IQueryable`1\" /> to filter.</param>");
+                AppendDocumentation(method);
+                CodeBuilder.AppendLine($"/// <returns>An instance of <see cref=\"T:{safeName}\"/> or null if not found.</returns>");
+            }
 
             CodeBuilder.Append($"public static {returnType} {uniquePrefix}Key{asyncSuffix}(this IQueryable<{safeName}> queryable, ");
             AppendParameters(method);

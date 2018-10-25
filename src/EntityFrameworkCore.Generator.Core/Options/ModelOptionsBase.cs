@@ -17,7 +17,7 @@ namespace EntityFrameworkCore.Generator.Options
             Namespace = "{Project.Namespace}.Models";
             Directory = @"{Project.Directory}\Models";
 
-            Generate = true;
+            Generate = false;
 
             Include = new SelectionOptions();
             Exclude = new SelectionOptions();

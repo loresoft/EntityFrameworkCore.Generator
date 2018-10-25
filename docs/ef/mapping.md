@@ -1,0 +1,1 @@
+# Entity Mapping Template Configuration

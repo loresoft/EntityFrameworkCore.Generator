@@ -1,6 +1,7 @@
-﻿using System.Linq;
-using EntityFrameworkCore.Generator.Extensions;
+﻿using EntityFrameworkCore.Generator.Extensions;
 using EntityFrameworkCore.Generator.Metadata.Generation;
+using EntityFrameworkCore.Generator.Options;
+using System.Linq;
 
 namespace EntityFrameworkCore.Generator.Templates
 {
@@ -8,7 +9,7 @@ namespace EntityFrameworkCore.Generator.Templates
     {
         private readonly Entity _entity;
 
-        public EntityClassTemplate(Entity entity)
+        public EntityClassTemplate(Entity entity, GeneratorOptions options) : base(options)
         {
             _entity = entity;
         }
@@ -38,9 +39,13 @@ namespace EntityFrameworkCore.Generator.Templates
         {
             var entityClass = _entity.EntityClass.ToSafeName();
 
-            CodeBuilder.AppendLine("/// <summary>");
-            CodeBuilder.AppendLine($"/// Entity class representing data for table '{_entity.TableName}'.");
-            CodeBuilder.AppendLine("/// </summary>");
+            if (Options.Data.Entity.Document)
+            {
+                CodeBuilder.AppendLine("/// <summary>");
+                CodeBuilder.AppendLine($"/// Entity class representing data for table '{_entity.TableName}'.");
+                CodeBuilder.AppendLine("/// </summary>");
+            }
+
             CodeBuilder.AppendLine($"public partial class {entityClass}");
             CodeBuilder.AppendLine("{");
 
@@ -64,9 +69,13 @@ namespace EntityFrameworkCore.Generator.Templates
 
             var entityClass = _entity.EntityClass.ToSafeName();
 
-            CodeBuilder.AppendLine("/// <summary>");
-            CodeBuilder.AppendLine($"/// Initializes a new instance of the <see cref=\"{entityClass}\"/> class.");
-            CodeBuilder.AppendLine("/// </summary>");
+            if (Options.Data.Entity.Document)
+            {
+                CodeBuilder.AppendLine("/// <summary>");
+                CodeBuilder.AppendLine($"/// Initializes a new instance of the <see cref=\"{entityClass}\"/> class.");
+                CodeBuilder.AppendLine("/// </summary>");
+            }
+
             CodeBuilder.AppendLine($"public {entityClass}()");
             if (_entity.EntityBaseClass.HasValue())
                 using (CodeBuilder.Indent())
@@ -99,12 +108,15 @@ namespace EntityFrameworkCore.Generator.Templates
                 var propertyType = property.SystemType.ToNullableType(property.IsNullable == true);
                 var propertyName = property.PropertyName.ToSafeName();
 
-                CodeBuilder.AppendLine("/// <summary>");
-                CodeBuilder.AppendLine($"/// Gets or sets the property value representing column '{property.ColumnName}'.");
-                CodeBuilder.AppendLine("/// </summary>");
-                CodeBuilder.AppendLine("/// <value>");
-                CodeBuilder.AppendLine($"/// The property value representing column '{property.ColumnName}'.");
-                CodeBuilder.AppendLine("/// </value>");
+                if (Options.Data.Entity.Document)
+                {
+                    CodeBuilder.AppendLine("/// <summary>");
+                    CodeBuilder.AppendLine($"/// Gets or sets the property value representing column '{property.ColumnName}'.");
+                    CodeBuilder.AppendLine("/// </summary>");
+                    CodeBuilder.AppendLine("/// <value>");
+                    CodeBuilder.AppendLine($"/// The property value representing column '{property.ColumnName}'.");
+                    CodeBuilder.AppendLine("/// </value>");
+                }
 
                 CodeBuilder.AppendLine($"public {propertyType} {propertyName} {{ get; set; }}");
                 CodeBuilder.AppendLine();
@@ -123,24 +135,34 @@ namespace EntityFrameworkCore.Generator.Templates
 
                 if (relationship.Cardinality == Cardinality.Many)
                 {
-                    CodeBuilder.AppendLine("/// <summary>");
-                    CodeBuilder.AppendLine($"/// Gets or sets the navigation collection for entity <see cref=\"{primaryName}\" />.");
-                    CodeBuilder.AppendLine("/// </summary>");
-                    CodeBuilder.AppendLine("/// <value>");
-                    CodeBuilder.AppendLine($"/// The the navigation collection for entity <see cref=\"{primaryName}\" />.");
-                    CodeBuilder.AppendLine("/// </value>");
+                    if (Options.Data.Entity.Document)
+                    {
+                        CodeBuilder.AppendLine("/// <summary>");
+                        CodeBuilder.AppendLine($"/// Gets or sets the navigation collection for entity <see cref=\"{primaryName}\" />.");
+                        CodeBuilder.AppendLine("/// </summary>");
+                        CodeBuilder.AppendLine("/// <value>");
+                        CodeBuilder.AppendLine($"/// The the navigation collection for entity <see cref=\"{primaryName}\" />.");
+                        CodeBuilder.AppendLine("/// </value>");
+                    }
+
                     CodeBuilder.AppendLine($"public virtual ICollection<{primaryName}> {propertyName} {{ get; set; }}");
                     CodeBuilder.AppendLine();
                 }
                 else
                 {
-                    CodeBuilder.AppendLine("/// <summary>");
-                    CodeBuilder.AppendLine($"/// Gets or sets the navigation property for entity <see cref=\"{primaryName}\" />.");
-                    CodeBuilder.AppendLine("/// </summary>");
-                    CodeBuilder.AppendLine("/// <value>");
-                    CodeBuilder.AppendLine($"/// The the navigation property for entity <see cref=\"{primaryName}\" />.");
-                    CodeBuilder.AppendLine("/// </value>");
-                    CodeBuilder.AppendLine($"/// <seealso cref=\"{relationship.Properties.First().PropertyName}\" />");
+                    if (Options.Data.Entity.Document)
+                    {
+                        CodeBuilder.AppendLine("/// <summary>");
+                        CodeBuilder.AppendLine($"/// Gets or sets the navigation property for entity <see cref=\"{primaryName}\" />.");
+                        CodeBuilder.AppendLine("/// </summary>");
+                        CodeBuilder.AppendLine("/// <value>");
+                        CodeBuilder.AppendLine($"/// The the navigation property for entity <see cref=\"{primaryName}\" />.");
+                        CodeBuilder.AppendLine("/// </value>");
+
+                        foreach (var property in relationship.Properties)
+                            CodeBuilder.AppendLine($"/// <seealso cref=\"{property.PropertyName}\" />");
+                    }
+
                     CodeBuilder.AppendLine($"public virtual {primaryName} {propertyName} {{ get; set; }}");
                     CodeBuilder.AppendLine();
                 }
