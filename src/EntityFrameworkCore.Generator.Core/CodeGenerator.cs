@@ -89,7 +89,7 @@ namespace EntityFrameworkCore.Generator
 
                 _logger.LogInformation($"Creating mapping class: {file}");
 
-                var template = new MappingClassTemplate(entity);
+                var template = new MappingClassTemplate(entity, Options);
                 template.WriteCode(path);
             }
         }
@@ -106,7 +106,7 @@ namespace EntityFrameworkCore.Generator
 
                 _logger.LogInformation($"Creating entity class: {file}");
 
-                var template = new EntityClassTemplate(entity);
+                var template = new EntityClassTemplate(entity, Options);
                 template.WriteCode(path);
             }
 
@@ -122,7 +122,7 @@ namespace EntityFrameworkCore.Generator
 
             _logger.LogInformation($"Creating data context class: {file}");
 
-            var template = new DataContextTemplate(entityContext);
+            var template = new DataContextTemplate(entityContext, Options);
             template.WriteCode(path);
         }
 
@@ -157,7 +157,7 @@ namespace EntityFrameworkCore.Generator
                 _logger.LogInformation($"Creating model class: {file}");
 
 
-                var template = new ModelClassTemplate(model);
+                var template = new ModelClassTemplate(model, Options);
                 template.WriteCode(path);
             }
 
@@ -195,7 +195,7 @@ namespace EntityFrameworkCore.Generator
 
                 _logger.LogInformation($"Creating validation class: {file}");
 
-                var template = new ValidatorClassTemplate(model);
+                var template = new ValidatorClassTemplate(model, Options);
                 template.WriteCode(path);
             }
 
@@ -214,7 +214,7 @@ namespace EntityFrameworkCore.Generator
 
             _logger.LogInformation($"Creating object mapper class: {file}");
 
-            var template = new MapperClassTemplate(entity);
+            var template = new MapperClassTemplate(entity, Options);
             template.WriteCode(path);
         }
 
