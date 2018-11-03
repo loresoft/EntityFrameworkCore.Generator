@@ -1,5 +1,6 @@
 ﻿using EntityFrameworkCore.Generator.Metadata.Generation;
 using EntityFrameworkCore.Generator.Options;
+using EntityFrameworkCore.Generator.Parsing;
 using EntityFrameworkCore.Generator.Templates;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
@@ -19,6 +20,7 @@ namespace EntityFrameworkCore.Generator
         private readonly ILogger _logger;
         private readonly IDiagnosticsLogger<DbLoggerCategory.Scaffolding> _diagnosticsLogger;
         private readonly ModelGenerator _modelGenerator;
+        private readonly SourceSynchronizer _synchronizer;
 
         public CodeGenerator(ILoggerFactory loggerFactory)
         {
@@ -26,6 +28,7 @@ namespace EntityFrameworkCore.Generator
             _logger = loggerFactory.CreateLogger<CodeGenerator>();
             _diagnosticsLogger = new DiagnosticsLogger<DbLoggerCategory.Scaffolding>(loggerFactory, new LoggingOptions(), new DiagnosticListener(""));
             _modelGenerator = new ModelGenerator(loggerFactory);
+            _synchronizer = new SourceSynchronizer(loggerFactory);
         }
 
         public GeneratorOptions Options { get; set; }
@@ -46,6 +49,9 @@ namespace EntityFrameworkCore.Generator
             _logger.LogInformation($"Loaded database model for: {databaseModel.DatabaseName}");
 
             var context = _modelGenerator.Generate(Options, databaseModel);
+
+            _synchronizer.UpdateFromSource(context, options);
+
             GenerateFiles(context);
 
             return true;
@@ -71,7 +77,9 @@ namespace EntityFrameworkCore.Generator
                 var file = entity.EntityClass + "Extensions.cs";
                 var path = Path.Combine(directory, file);
 
-                _logger.LogInformation($"Creating query extensions class: {file}");
+                _logger.LogInformation(File.Exists(path)
+                    ? $"Updating query extensions class: {file}"
+                    : $"Creating query extensions class: {file}");
 
                 var template = new QueryExtensionTemplate(entity, Options);
                 template.WriteCode(path);
@@ -87,7 +95,9 @@ namespace EntityFrameworkCore.Generator
                 var file = entity.MappingClass + ".cs";
                 var path = Path.Combine(directory, file);
 
-                _logger.LogInformation($"Creating mapping class: {file}");
+                _logger.LogInformation(File.Exists(path)
+                    ? $"Updating mapping class: {file}"
+                    : $"Creating mapping class: {file}");
 
                 var template = new MappingClassTemplate(entity, Options);
                 template.WriteCode(path);
@@ -104,7 +114,9 @@ namespace EntityFrameworkCore.Generator
                 var file = entity.EntityClass + ".cs";
                 var path = Path.Combine(directory, file);
 
-                _logger.LogInformation($"Creating entity class: {file}");
+                _logger.LogInformation(File.Exists(path)
+                    ? $"Updating entity class: {file}"
+                    : $"Creating entity class: {file}");
 
                 var template = new EntityClassTemplate(entity, Options);
                 template.WriteCode(path);
@@ -120,7 +132,9 @@ namespace EntityFrameworkCore.Generator
             var file = entityContext.ContextClass + ".cs";
             var path = Path.Combine(directory, file);
 
-            _logger.LogInformation($"Creating data context class: {file}");
+            _logger.LogInformation(File.Exists(path)
+                ? $"Updating data context class: {file}"
+                : $"Creating data context class: {file}");
 
             var template = new DataContextTemplate(entityContext, Options);
             template.WriteCode(path);
@@ -154,7 +168,9 @@ namespace EntityFrameworkCore.Generator
                 var file = model.ModelClass + ".cs";
                 var path = Path.Combine(directory, file);
 
-                _logger.LogInformation($"Creating model class: {file}");
+                _logger.LogInformation(File.Exists(path)
+                    ? $"Updating model class: {file}"
+                    : $"Creating model class: {file}");
 
 
                 var template = new ModelClassTemplate(model, Options);
@@ -193,7 +209,9 @@ namespace EntityFrameworkCore.Generator
                 var file = model.ValidatorClass + ".cs";
                 var path = Path.Combine(directory, file);
 
-                _logger.LogInformation($"Creating validation class: {file}");
+                _logger.LogInformation(File.Exists(path)
+                    ? $"Updating validation class: {file}"
+                    : $"Creating validation class: {file}");
 
                 var template = new ValidatorClassTemplate(model, Options);
                 template.WriteCode(path);
@@ -212,7 +230,9 @@ namespace EntityFrameworkCore.Generator
             var file = entity.MapperClass + ".cs";
             var path = Path.Combine(directory, file);
 
-            _logger.LogInformation($"Creating object mapper class: {file}");
+            _logger.LogInformation(File.Exists(path)
+                ? $"Updating object mapper class: {file}"
+                : $"Creating object mapper class: {file}");
 
             var template = new MapperClassTemplate(entity, Options);
             template.WriteCode(path);

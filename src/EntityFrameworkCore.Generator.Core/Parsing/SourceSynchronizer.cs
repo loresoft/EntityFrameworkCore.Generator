@@ -1,26 +1,36 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
+﻿using EntityFrameworkCore.Generator.Metadata.Generation;
+using EntityFrameworkCore.Generator.Metadata.Parsing;
+using EntityFrameworkCore.Generator.Options;
+using Microsoft.Extensions.Logging;
 using System.IO;
 using System.Linq;
-using System.Text;
-using EntityFrameworkCore.Generator.Metadata.Generation;
-using EntityFrameworkCore.Generator.Metadata.Parsing;
 
 namespace EntityFrameworkCore.Generator.Parsing
 {
     public class SourceSynchronizer
     {
-        public bool UpdateFromSource(EntityContext generatedContext, string contextDirectory, string mappingDirectory)
+        private readonly ILoggerFactory _loggerFactory;
+        private readonly ILogger _logger;
+
+        public SourceSynchronizer(ILoggerFactory loggerFactory)
+        {
+            _loggerFactory = loggerFactory;
+            _logger = loggerFactory.CreateLogger<SourceSynchronizer>();
+        }
+
+        public bool UpdateFromSource(EntityContext generatedContext, GeneratorOptions options)
         {
             if (generatedContext == null)
                 return false;
 
+            _logger.LogInformation("Parsing existing source for changes ...");
+
             // make sure to update the entities before the context
-            UpdateFromMapping(generatedContext, mappingDirectory);
-            UpdateFromContext(generatedContext, contextDirectory);
+            UpdateFromMapping(generatedContext, options.Data.Mapping.Directory);
+            UpdateFromContext(generatedContext, options.Data.Context.Directory);
             return true;
         }
+
 
         private void UpdateFromContext(EntityContext generatedContext, string contextDirectory)
         {
@@ -29,24 +39,23 @@ namespace EntityFrameworkCore.Generator.Parsing
               || !Directory.Exists(contextDirectory))
                 return;
 
-            var parser = new ContextParser();
+            var parser = new ContextParser(_loggerFactory);
 
-            // parse context
+            // search all cs files looking for DbContext.  need this in case of context class rename
             ParsedContext parsedContext = null;
-            using (var files = Directory.EnumerateFiles(contextDirectory, "*.Generated.cs").GetEnumerator())
-            {
+            using (var files = Directory.EnumerateFiles(contextDirectory, "*.cs").GetEnumerator())
                 while (files.MoveNext() && parsedContext == null)
                     parsedContext = parser.Parse(files.Current);
-            }
 
             if (parsedContext == null)
                 return;
 
             if (generatedContext.ContextClass != parsedContext.ContextClass)
             {
-                Debug.WriteLine("Rename Context Class'{0}' to '{1}'.",
-                                generatedContext.ContextClass,
-                                parsedContext.ContextClass);
+                _logger.LogInformation(
+                    "Rename Context Class'{0}' to '{1}'.",
+                    generatedContext.ContextClass,
+                    parsedContext.ContextClass);
 
                 generatedContext.ContextClass = parsedContext.ContextClass;
             }
@@ -57,13 +66,13 @@ namespace EntityFrameworkCore.Generator.Parsing
                 if (entity == null)
                     continue;
 
-
                 if (entity.ContextProperty == parsedProperty.ContextProperty)
                     continue;
 
-                Debug.WriteLine("Rename Context Property'{0}' to '{1}'.",
-                                entity.ContextProperty,
-                                parsedProperty.ContextProperty);
+                _logger.LogInformation(
+                    "Rename Context Property'{0}' to '{1}'.",
+                    entity.ContextProperty,
+                    parsedProperty.ContextProperty);
 
                 entity.ContextProperty = parsedProperty.ContextProperty;
             }
@@ -76,16 +85,14 @@ namespace EntityFrameworkCore.Generator.Parsing
               || !Directory.Exists(mappingDirectory))
                 return;
 
-            var parser = new MappingParser();
+            var parser = new MappingParser(_loggerFactory);
 
             // parse all mapping files
-            var mappingFiles = Directory.EnumerateFiles(mappingDirectory, "*.Generated.cs");
+            var mappingFiles = Directory.EnumerateFiles(mappingDirectory, "*.cs");
             var parsedEntities = mappingFiles
               .Select(parser.Parse)
               .Where(parsedEntity => parsedEntity != null)
               .ToList();
-
-            var relationshipQueue = new List<Tuple<Entity, ParsedEntity>>();
 
             // update all entity and property names first because relationships are linked by property names
             foreach (var parsedEntity in parsedEntities)
@@ -100,15 +107,15 @@ namespace EntityFrameworkCore.Generator.Parsing
                 // sync names
                 if (entity.MappingClass != parsedEntity.MappingClass)
                 {
-                    Debug.WriteLine("Rename Mapping Class'{0}' to '{1}'.",
-                          entity.MappingClass,
-                          parsedEntity.MappingClass);
+                    _logger.LogInformation(
+                        "  Rename Mapping Class'{0}' to '{1}'.",
+                        entity.MappingClass,
+                        parsedEntity.MappingClass);
 
                     entity.MappingClass = parsedEntity.MappingClass;
                 }
 
-                // use rename api to make sure all instances are renamed
-                generatedContext.RenameEntity(entity.EntityClass, parsedEntity.EntityClass);
+                RenameEntity(generatedContext, entity.EntityClass, parsedEntity.EntityClass);
 
                 // sync properties
                 foreach (var parsedProperty in parsedEntity.Properties)
@@ -118,72 +125,45 @@ namespace EntityFrameworkCore.Generator.Parsing
                     if (property == null)
                         continue;
 
-                    // use rename api to make sure all instances are renamed
-                    generatedContext.RenameProperty(
-                      entity.EntityClass,
-                      property.PropertyName,
-                      parsedProperty.PropertyName);
+                    RenameProperty(
+                        generatedContext,
+                        entity.EntityClass,
+                        property.PropertyName,
+                        parsedProperty.PropertyName);
                 }
-
-                // save relationship for later processing
-                var item = new Tuple<Entity, ParsedEntity>(entity, parsedEntity);
-                relationshipQueue.Add(item);
             }
-
-            // update relationships last
-            foreach (var tuple in relationshipQueue)
-                UpdateRelationships(generatedContext, tuple.Item1, tuple.Item2);
         }
 
-        private void UpdateRelationships(EntityContext generatedContext, Entity entity, ParsedEntity parsedEntity)
+
+        private void RenameEntity(EntityContext generatedContext, string originalName, string newName)
         {
-            // sync relationships
-            //foreach (var parsedRelationship in parsedEntity.Relationships)
-            //{
-            //    var parsedProperties = parsedRelationship.ThisProperties;
-            //    var relationship = entity.Relationships
-            //        .FirstOrDefault(r => !r.ThisProperties.Except(parsedProperties).Any());
+            if (originalName == newName)
+                return;
 
-            //    if (relationship == null)
-            //        continue;
+            _logger.LogInformation("  Rename Entity '{0}' to '{1}'.", originalName, newName);
+            foreach (var entity in generatedContext.Entities)
+            {
+                if (entity.EntityClass == originalName)
+                    entity.EntityClass = newName;
+            }
+        }
 
-            //    bool isThisSame = relationship.ThisPropertyName == parsedRelationship.ThisPropertyName;
-            //    bool isOtherSame = relationship.OtherPropertyName == parsedRelationship.OtherPropertyName;
+        private void RenameProperty(EntityContext generatedContext, string entityName, string originalName, string newName)
+        {
+            if (originalName == newName)
+                return;
 
-            //    if (isThisSame && isOtherSame)
-            //        continue;
+            _logger.LogInformation("  Rename Property '{0}' to '{1}' in Entity '{2}'.", originalName, newName, entityName);
+            foreach (var entity in generatedContext.Entities)
+            {
+                if (entity.EntityClass != entityName)
+                    continue;
 
-            //    if (!isThisSame)
-            //    {
-            //        Debug.WriteLine("Rename Relationship Property '{0}.{1}' to '{0}.{2}'.",
-            //              relationship.ThisEntity,
-            //              relationship.ThisPropertyName,
-            //              parsedRelationship.ThisPropertyName);
+                var property = entity.Properties.ByProperty(originalName);
+                if (property != null)
+                    property.PropertyName = newName;
+            }
 
-            //        relationship.ThisPropertyName = parsedRelationship.ThisPropertyName;
-            //    }
-            //    if (!isOtherSame)
-            //    {
-            //        Debug.WriteLine("Rename Relationship Property '{0}.{1}' to '{0}.{2}'.",
-            //              relationship.OtherEntity,
-            //              relationship.OtherPropertyName,
-            //              parsedRelationship.OtherPropertyName);
-
-            //        relationship.OtherPropertyName = parsedRelationship.OtherPropertyName;
-            //    }
-
-            //    // sync other relationship
-            //    var otherEntity = generatedContext.Entities.ByClass(relationship.OtherEntity);
-            //    if (otherEntity == null)
-            //        continue;
-
-            //    var otherRelationship = otherEntity.Relationships.ByName(relationship.RelationshipName);
-            //    if (otherRelationship == null)
-            //        continue;
-
-            //    otherRelationship.ThisPropertyName = relationship.OtherPropertyName;
-            //    otherRelationship.OtherPropertyName = relationship.ThisPropertyName;
-            //}
         }
     }
 }

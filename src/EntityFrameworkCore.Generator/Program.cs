@@ -28,15 +28,18 @@ namespace EntityFrameworkCore.Generator
         public static int Main(string[] args)
         {
             Log.Logger = new LoggerConfiguration()
-                .MinimumLevel.Debug()
+                .MinimumLevel.Verbose()
                 .Enrich.FromLogContext()
-                .WriteTo.Console()
+                .WriteTo.Console(outputTemplate: "{Timestamp:HH:mm:ss} {Level:u1} {Message:lj}{NewLine}{Exception}")
                 .CreateLogger();
 
             try
             {
                 var services = new ServiceCollection()
-                    .AddLogging(logger => logger.AddSerilog())
+                    .AddLogging(logger => logger
+                        .AddSerilog()
+                        .SetMinimumLevel(LogLevel.Information)
+                    )
                     .AddSingleton(PhysicalConsole.Singleton)
                     .AddTransient<IGeneratorOptionsSerializer, GeneratorOptionsSerializer>()
                     .AddTransient<ICodeGenerator, CodeGenerator>()
