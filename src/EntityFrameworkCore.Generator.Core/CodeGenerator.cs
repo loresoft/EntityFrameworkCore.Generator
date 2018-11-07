@@ -11,6 +11,7 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Diagnostics;
 using System.IO;
+using EntityFrameworkCore.Generator.Extensions;
 
 namespace EntityFrameworkCore.Generator
 {
@@ -183,12 +184,18 @@ namespace EntityFrameworkCore.Generator
         private string GetModelDirectory(Model model)
         {
             if (model.ModelType == ModelType.Create)
-                return Options.Model.Create.Directory;
+                return Options.Model.Create.Directory.HasValue()
+                    ? Options.Model.Create.Directory
+                    : Options.Model.Shared.Directory;
 
             if (model.ModelType == ModelType.Update)
-                return Options.Model.Update.Directory;
+                return Options.Model.Update.Directory.HasValue()
+                    ? Options.Model.Update.Directory
+                    : Options.Model.Shared.Directory;
 
-            return Options.Model.Read.Directory;
+            return Options.Model.Read.Directory.HasValue()
+                ? Options.Model.Read.Directory
+                : Options.Model.Shared.Directory;
         }
 
 

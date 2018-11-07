@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 
 namespace EntityFrameworkCore.Generator.Options
 {
@@ -12,7 +11,7 @@ namespace EntityFrameworkCore.Generator.Options
         /// Preserve the entity name as is
         /// </summary>
         Preserve = 0,
-        
+
         /// <summary>
         /// Convert the entity to plural form
         /// </summary>

@@ -12,7 +12,7 @@ The connection string can be stored in the configuration yaml file under the `da
 
 ```YAML
 database:
-  connectionString: Data Source=(local);Initial Catalog=Tracker;Integrated Security=True
+  connectionString: 'Data Source=(local);Initial Catalog=Tracker;Integrated Security=True'
 ```
 
 Use the the `database/connectionString` configuration with caution.  You don't want to have a database user name and password stored in clear text when its committed to source control.

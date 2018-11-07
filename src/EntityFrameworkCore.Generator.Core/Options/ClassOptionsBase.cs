@@ -1,4 +1,6 @@
-﻿namespace EntityFrameworkCore.Generator.Options
+﻿using System.ComponentModel;
+
+namespace EntityFrameworkCore.Generator.Options
 {
     /// <summary>
     /// Base class for Class generation
@@ -13,7 +15,7 @@
         {
             Namespace = "{Project.Namespace}";
             Directory = @"{Project.Directory}\";
-            Document = true;
+            Document = false;
         }
 
         /// <summary>
@@ -46,6 +48,7 @@
         /// <value>
         ///   <c>true</c> to create xml documentation; otherwise, <c>false</c>.
         /// </value>
+        [DefaultValue(false)]
         public bool Document { get; set; }
     }
 }

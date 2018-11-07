@@ -2,9 +2,7 @@
 
 .NET Core command-line (CLI) tool to generate Entity Framework Core source files.
 
-[![Build status](https://ci.appveyor.com/api/projects/status/7ncldyr182jpu524?svg=true)](https://ci.appveyor.com/project/LoreSoft/entityframeworkcore-generator)
-
-## Download
+## Install
 
 The Entity Framework Core Generator tool is available on nuget.org via package name `EntityFrameworkCore.Generator`.
 
@@ -14,13 +12,6 @@ To install EntityFrameworkCore.Generator, run the following command in the conso
 
 More information about NuGet package available at
 <https://nuget.org/packages/EntityFrameworkCore.Generator>
-
-## Development Builds
-
-Development builds are available on the myget.org feed.  A development build is promoted to the main NuGet feed when it's determined to be stable.
-
-In your Package Manager settings add the following package source for development builds:
-<http://www.myget.org/F/loresoft/>
 
 ## Features
 

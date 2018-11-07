@@ -390,21 +390,25 @@ namespace EntityFrameworkCore.Generator
         private void CreateModel<TOption>(Entity entity, TOption options, ModelType modelType)
             where TOption : ModelOptionsBase
         {
-            if (IsIgnored(entity, options))
+            if (IsIgnored(entity, options, _options.Model.Shared))
                 return;
+
+            var modelNamespace = options.Namespace.HasValue()
+                ? options.Namespace
+                : _options.Model.Shared.Namespace;
 
             var model = new Model
             {
                 Entity = entity,
                 ModelType = modelType,
                 ModelBaseClass = options.BaseClass,
-                ModelNamespace = options.Namespace,
+                ModelNamespace = modelNamespace,
                 ModelClass = options.Name
             };
 
             foreach (var property in entity.Properties)
             {
-                if (IsIgnored(property, options))
+                if (IsIgnored(property, options, _options.Model.Shared))
                     continue;
 
                 model.Properties.Add(property);
@@ -552,24 +556,40 @@ namespace EntityFrameworkCore.Generator
         #endregion
 
 
-        private static bool IsIgnored<TOption>(Property property, TOption options)
+        private static bool IsIgnored<TOption>(Property property, TOption options, SharedModelOptions sharedOptions)
             where TOption : ModelOptionsBase
         {
             var name = $"{property.Entity.EntityClass}.{property.PropertyName}";
 
-            var includeExpressions = options?.Include?.Properties ?? Enumerable.Empty<string>();
-            var excludeExpressions = options?.Exclude?.Properties ?? Enumerable.Empty<string>();
+            var includeExpressions = new HashSet<string>(sharedOptions.Include.Properties);
+            var excludeExpressions = new HashSet<string>(sharedOptions.Exclude.Properties);
+
+            var includeProperties = options?.Include?.Properties ?? Enumerable.Empty<string>();
+            foreach (var expression in includeProperties)
+                includeExpressions.Add(expression);
+
+            var excludeProperties = options?.Exclude?.Properties ?? Enumerable.Empty<string>();
+            foreach (var expression in excludeProperties)
+                excludeExpressions.Add(expression);
 
             return IsIgnored(name, excludeExpressions, includeExpressions);
         }
 
-        private static bool IsIgnored<TOption>(Entity entity, TOption options)
+        private static bool IsIgnored<TOption>(Entity entity, TOption options, SharedModelOptions sharedOptions)
             where TOption : ModelOptionsBase
         {
             var name = entity.EntityClass;
 
-            var includeExpressions = options?.Include?.Entities ?? Enumerable.Empty<string>();
-            var excludeExpressions = options?.Exclude?.Entities ?? Enumerable.Empty<string>();
+            var includeExpressions = new HashSet<string>(sharedOptions.Include.Entities);
+            var excludeExpressions = new HashSet<string>(sharedOptions.Exclude.Entities);
+
+            var includeEntities = options?.Include?.Entities ?? Enumerable.Empty<string>();
+            foreach (var expression in includeEntities)
+                includeExpressions.Add(expression);
+
+            var excludeEntities = options?.Exclude?.Entities ?? Enumerable.Empty<string>();
+            foreach (var expression in excludeEntities)
+                excludeExpressions.Add(expression);
 
             return IsIgnored(name, excludeExpressions, includeExpressions);
         }

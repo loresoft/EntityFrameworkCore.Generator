@@ -4,9 +4,13 @@
 
 [![Build status](https://ci.appveyor.com/api/projects/status/7ncldyr182jpu524?svg=true)](https://ci.appveyor.com/project/LoreSoft/entityframeworkcore-generator)
 
+## Documentation
+
+Entity Framework Core Generator documentation is available via [Read the Docs](https://efg.loresoft.com)
+
 ## Download
 
-The Entity Framework Core library is available on nuget.org via package name `EntityFrameworkCore.Generator`.
+The Entity Framework Core Generator tool is available on nuget.org via package name `EntityFrameworkCore.Generator`.
 
 To install EntityFrameworkCore.Generator, run the following command in the console
 

@@ -15,6 +15,7 @@ namespace EntityFrameworkCore.Generator.Options
         public ModelOptions(VariableDictionary variables, string prefix)
             : base(variables, AppendPrefix(prefix, "Model"))
         {
+            Shared = new SharedModelOptions(Variables, Prefix);
             Read = new ReadModelOptions(Variables, Prefix);
             Create = new CreateModelOptions(Variables, Prefix);
             Update = new UpdateModelOptions(Variables, Prefix);
@@ -22,6 +23,13 @@ namespace EntityFrameworkCore.Generator.Options
             Validator = new ValidatorClassOptions(Variables, Prefix);
         }
 
+        /// <summary>
+        /// Gets or sets the shared options between read,create and update models
+        /// </summary>
+        /// <value>
+        /// The shared options between read,create and update models.
+        /// </value>
+        public SharedModelOptions Shared { get; set; }
 
         /// <summary>
         /// Gets or sets the read model options.

@@ -18,6 +18,11 @@ namespace EntityFrameworkCore.Generator.Options
         PostgreSQL,
 
         /// <summary>
+        /// The MySQL provider
+        /// </summary>
+        MySQL,
+
+        /// <summary>
         /// The sqlite provider
         /// </summary>
         Sqlite
