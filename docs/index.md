@@ -6,7 +6,7 @@
 
 ## Download
 
-The Entity Framework Core library is available on nuget.org via package name `EntityFrameworkCore.Generator`.
+The Entity Framework Core Generator tool is available on nuget.org via package name `EntityFrameworkCore.Generator`.
 
 To install EntityFrameworkCore.Generator, run the following command in the console
 
@@ -35,14 +35,4 @@ In your Package Manager settings add the following package source for developmen
 
 To generate source code files from your database, use the generate command with your connection string.
 
-    efg generate -c "Data Source=(local);Initial Catalog=Tracker;Integrated Security=True"
-
-
-Entity Framework Core Generator makes use of a yaml configuration file for generation.  To create an initial version of the configuration file, run the following command.
-
-    efg initialize
-
-The `initialize` command will create the `generation.yml` file.  
-
-
-
+    efg generate -c <ConnectionString>

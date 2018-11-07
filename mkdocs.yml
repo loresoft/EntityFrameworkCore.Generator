@@ -6,9 +6,9 @@ pages:
 - Home: index.md
 
 - Quick Start: quickStart.md
-- Features: features.md
-- Providers: providers.md
-- Configuration: configuration.md
+- Database Connection: connectionString.md
+- Database Providers: providers.md
+- Generation Configuration: configuration.md
 
 - EntityFramework Templates:
     - Data Context: ef/dataContext.md
