@@ -8,6 +8,7 @@ pages:
 - Quick Start: quickStart.md
 - Database Connection: connectionString.md
 - Database Providers: providers.md
+- Regeneration: regeneration.md
 - Generation Configuration: configuration.md
 
 - EntityFramework Templates:
@@ -17,11 +18,10 @@ pages:
     - Extensions: ef/extensions.md
 
 - Model Templates:
-    - Common Configuration: md/common.md
+    - Shared Configuration: md/shared.md
     - Read Model: md/read.md
     - Create Model: md/create.md
     - Update Model: md/update.md
     - Validation: md/validation.md
     - Object Mapper: md/mapper.md
 
-- Regeneration: regeneration.md
