@@ -46,11 +46,11 @@ public partial class Status
 
 ## Configuration
 
-The entity template has the following configuration that can be set in the yaml [configuration file](configuration.md).
+The entity template has the following configuration that can be set in the yaml [configuration file](../configuration.md).
 
 ### namespace
 
-The namespace for the the class. *Variables Supported*
+The namespace for the class. *Variables Supported*
 
 ### directory
 

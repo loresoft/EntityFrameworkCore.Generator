@@ -53,7 +53,7 @@ public partial class TrackerContext : DbContext
 
 ## Configuration
 
-The data context template has the following configuration that can be set in the yaml [configuration file](configuration.md).
+The data context template has the following configuration that can be set in the yaml [configuration file](../configuration.md).
 
 ### name
 
@@ -65,7 +65,7 @@ The base class to inherit from.  Default `DbContext` *Variables Supported*
 
 ### namespace
 
-The namespace for the the class. *Variables Supported*
+The namespace for the class. *Variables Supported*
 
 ### directory
 
