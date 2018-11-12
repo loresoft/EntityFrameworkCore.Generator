@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace EntityFrameworkCore.Generator.Options
+﻿namespace EntityFrameworkCore.Generator.Options
 {
     /// <summary>
     /// Relationship property naming strategy
@@ -16,7 +14,7 @@ namespace EntityFrameworkCore.Generator.Options
         /// Convert the property name to the entity plural name
         /// </summary>
         Plural = 1,
-        
+
         /// <summary>
         /// Add 'List' to the end of the entity name.
         /// </summary>

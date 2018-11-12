@@ -53,7 +53,7 @@ public partial class TrackerContext : DbContext
 
 ## Configuration
 
-The data context template has the following configuration that can be set in the yaml config file.
+The data context template has the following configuration that can be set in the yaml [configuration file](configuration.md).
 
 ### name
 
@@ -78,6 +78,10 @@ Configuration on how to generate names for the DbSet properties on the data cont
 * **Preserve** - Keep underlying entity name as property name
 * **Plural** - Use the plural form of the entity name
 * **Suffix** - Add 'DataSet' to the end of the entity name
+
+### document
+
+Include XML documentation for the generated class.  Default: `false`
 
 ## Regeneration
 

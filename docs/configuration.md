@@ -59,6 +59,8 @@ data:
 
     # how to generate names for the DbSet properties on the data context.  Default: Plural
     propertyNaming: Preserve|Plural|Suffix
+    #include XML documentation
+    document: false
 
   # entity class file configuration
   entity:
@@ -70,11 +72,15 @@ data:
 
     # how to generate relationship collections names for the entity.  Default: Plural
     relationshipNaming: Preserve|Plural|Suffix
+    #include XML documentation
+    document: false
 
   # mapping class file configuration
   mapping:
     namespace: '{Project.Namespace}.Data.Mapping'   # the mapping class namespace
     directory: '{Project.Directory}\Data\Mapping'   # the mapping class output directory
+    #include XML documentation
+    document: false
 
   # query extension class file configuration
   query:
@@ -83,6 +89,8 @@ data:
     uniquePrefix: GetBy     # Prefix for queries built from unique indexes
     namespace: '{Project.Namespace}.Data.Queries'   # the mapping class namespace
     directory: '{Project.Directory}\Data\Queries'   # the mapping class output directory
+    #include XML documentation
+    document: false
 
 #---------------------------------#
 # model section - controls the optional view model generation
