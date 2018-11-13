@@ -50,6 +50,10 @@ public static partial class TaskExtensions
 
 The query extension class has the following configuration that can be set in the yaml [configuration file](../configuration.md).
 
+### generate
+
+Flag to enable generating the output for this template.  Default: `true`
+
 ### namespace
 
 The namespace for the class. *Variables Supported*
