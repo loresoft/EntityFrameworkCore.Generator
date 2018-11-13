@@ -20,7 +20,6 @@ More information about NuGet package available at
 - Safe Renaming via mapping file parsing
 - Optionally generate read, create and update models from entity
 - Optionally generate validation and object mapper classes
-- Optionally generate TypeScript definition files from view models
 
 ## Usage
 

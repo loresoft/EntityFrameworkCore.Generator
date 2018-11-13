@@ -33,7 +33,6 @@ In your Package Manager settings add the following package source for developmen
 - Safe Renaming via mapping file parsing
 - Optionally generate read, create and update models from entity
 - Optionally generate validation and object mapper classes
-- Optionally generate TypeScript definition files from view models
 
 ## Usage
 

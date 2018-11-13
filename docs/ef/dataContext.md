@@ -55,6 +55,18 @@ public partial class TrackerContext : DbContext
 
 The data context template has the following configuration that can be set in the yaml [configuration file](../configuration.md).
 
+Example configuration
+
+```YAML
+data:
+  context:
+    name: '{Database.Name}Context'
+    baseClass: DbContext
+    namespace: '{Project.Namespace}.Data'
+    directory: '{Project.Directory}\Data'
+    propertyNaming: Plural
+```
+
 ### name
 
 The class name the data context.  *Variables Supported*

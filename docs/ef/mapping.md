@@ -115,6 +115,13 @@ public partial class TaskMap
 
 The entity template has the following configuration that can be set in the yaml [configuration file](../configuration.md).
 
+```YAML
+data:
+  mapping:
+    namespace: '{Project.Namespace}.Data.Mapping'
+    directory: '{Project.Directory}\Data\Mapping'
+```
+
 ### namespace
 
 The namespace for the class. *Variables Supported*

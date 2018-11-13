@@ -50,6 +50,16 @@ public static partial class TaskExtensions
 
 The query extension class has the following configuration that can be set in the yaml [configuration file](../configuration.md).
 
+```YAML
+data:
+  query:
+    generate: true
+    indexPrefix: By
+    uniquePrefix: GetBy
+    namespace: '{Project.Namespace}.Data.Queries'
+    directory: '{Project.Directory}\Data\Queries'
+```
+
 ### generate
 
 Flag to enable generating the output for this template.  Default: `true`

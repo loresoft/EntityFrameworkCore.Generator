@@ -6,6 +6,20 @@ The [Read](read.md), [Create](create.md) and [Update](update.md) model templates
 
 Shared configuration values are applied to all the model templates.
 
+Example configuration
+
+```YAML
+model:
+  shared:
+    exclude:
+      entities:
+        - 'EmailDelivery'
+        - 'UserLogin'
+      properties:
+        - 'User\.PasswordHash$'
+        - 'User\.ResetHash$'
+```
+
 ### namespace
 
 The namespace for the model class. *Variables Supported*
@@ -26,16 +40,3 @@ Exclude all entities that match any of the listed regular expressions.
 
 Exclude all properties that match any of the listed regular expressions.  The value to match contains the parent entity the property belongs too, `Entity.Property`.
 
-Example configuration
-
-```YAML
-model:
-  shared:
-    exclude:
-      entities:
-        - 'EmailDelivery'
-        - 'UserLogin'
-      properties:
-        - 'User\.PasswordHash$'
-        - 'User\.ResetHash$'
-```

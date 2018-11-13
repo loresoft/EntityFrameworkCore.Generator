@@ -48,6 +48,17 @@ public partial class Status
 
 The entity template has the following configuration that can be set in the yaml [configuration file](../configuration.md).
 
+Example configuration
+
+```YAML
+data:
+  entity:
+    namespace: '{Project.Namespace}.Data.Entities'
+    directory: '{Project.Directory}\Data\Entities'
+    entityNaming: Singular
+    relationshipNaming: Plural
+```
+
 ### namespace
 
 The namespace for the class. *Variables Supported*
@@ -82,7 +93,7 @@ The entity template has three regions that are replaced on regeneration.
 
 ### Generated Constructor
 
-The `Generated Constructor` region initialized any relationship collection in the constructor.
+The `Generated Constructor` region initializes any relationship collection in the constructor.
 
 ### Generated Properties
 
