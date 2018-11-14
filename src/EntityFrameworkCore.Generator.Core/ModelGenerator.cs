@@ -548,6 +548,11 @@ namespace EntityFrameworkCore.Generator
         private string ToLegalName(string name)
         {
             string legalName = name;
+
+            // remove invalid leading identifiers
+            if (Regex.IsMatch(name, @"^[^a-zA-Z_]+"))
+                legalName = Regex.Replace(legalName, @"^[^a-zA-Z_]+", "");
+
             legalName = legalName.ToPascalCase();
 
             return legalName;
