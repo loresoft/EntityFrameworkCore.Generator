@@ -48,14 +48,6 @@ namespace EntityFrameworkCore.Generator.Options
         public MappingClassOptions Mapping { get; set; }
 
         /// <summary>
-        /// Gets or sets the view class options.
-        /// </summary>
-        /// <value>
-        /// The view class options.
-        /// </value>
-        public ViewClassOptions View { get; set; }
-
-        /// <summary>
         /// Gets or sets the query extension options.
         /// </summary>
         /// <value>
