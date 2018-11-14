@@ -490,7 +490,6 @@ namespace EntityFrameworkCore.Generator
         }
 
 
-        #region Name Helpers
         private string RelationshipName(string name)
         {
             var naming = _options.Data.Entity.RelationshipNaming;
@@ -553,7 +552,6 @@ namespace EntityFrameworkCore.Generator
 
             return legalName;
         }
-        #endregion
 
 
         private static bool IsIgnored<TOption>(Property property, TOption options, SharedModelOptions sharedOptions)

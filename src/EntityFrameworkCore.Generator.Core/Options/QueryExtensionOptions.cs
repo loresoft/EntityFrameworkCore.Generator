@@ -17,7 +17,7 @@ namespace EntityFrameworkCore.Generator.Options
             Namespace = "{Project.Namespace}.Data.Queries";
             Directory = @"{Project.Directory}\Data\Queries";
 
-            Generate = true;
+            Generate = false;
             IndexPrefix = "By";
             UniquePrefix = "GetBy";
         }

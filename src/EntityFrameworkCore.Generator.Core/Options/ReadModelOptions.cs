@@ -12,9 +12,6 @@
         public ReadModelOptions(VariableDictionary variables, string prefix)
             : base(variables, AppendPrefix(prefix, "Read"))
         {
-            Namespace = "{Project.Namespace}.Domain.Models";
-            Directory = @"{Project.Directory}\Domain\Models";
-
             BaseClass = "EntityReadModel";
             Name = "{Entity.Name}ReadModel";
         }

@@ -14,8 +14,9 @@ namespace EntityFrameworkCore.Generator.Options
         protected ModelOptionsBase(VariableDictionary variables, string prefix)
             : base(variables, prefix)
         {
-            Namespace = "{Project.Namespace}.Models";
-            Directory = @"{Project.Directory}\Models";
+            // null so shared option is used
+            Namespace = null;
+            Directory = null;
 
             Generate = false;
 

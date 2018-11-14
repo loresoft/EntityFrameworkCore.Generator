@@ -14,9 +14,6 @@ namespace EntityFrameworkCore.Generator.Options
         public CreateModelOptions(VariableDictionary variables, string prefix)
             : base(variables, AppendPrefix(prefix, "Create"))
         {
-            Namespace = "{Project.Namespace}.Domain.Models";
-            Directory = @"{Project.Directory}\Domain\Models";
-
             BaseClass = "EntityCreateModel";
             Name = "{Entity.Name}CreateModel";
         }

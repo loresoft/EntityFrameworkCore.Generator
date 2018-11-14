@@ -1,8 +1,8 @@
-﻿using System;
-using EntityFrameworkCore.Generator.Extensions;
+﻿using EntityFrameworkCore.Generator.Extensions;
 using EntityFrameworkCore.Generator.Options;
 using McMaster.Extensions.CommandLineUtils;
 using Microsoft.Extensions.Logging;
+using System;
 
 namespace EntityFrameworkCore.Generator
 {
@@ -24,14 +24,17 @@ namespace EntityFrameworkCore.Generator
         public string ConnectionString { get; set; }
 
 
-        [Option("--views", Description = "Include views in generation")]
-        public bool? Views { get; set; }
-
         [Option("--extensions", Description = "Include query extensions in generation")]
         public bool? Extensions { get; set; }
 
         [Option("--models", Description = "Include view models in generation")]
         public bool? Models { get; set; }
+
+        [Option("--mapper", Description = "Include object mapper in generation")]
+        public bool? Mapper { get; set; }
+
+        [Option("--validator", Description = "Include model validation in generation")]
+        public bool? Validator { get; set; }
 
 
         protected override int OnExecute(CommandLineApplication application)
@@ -42,7 +45,7 @@ namespace EntityFrameworkCore.Generator
             var options = Serializer.Load(workingDirectory, optionsFile);
             if (options == null)
             {
-                Logger.LogInformation($"Using default options");
+                Logger.LogInformation("Using default options");
                 options = new GeneratorOptions();
             }
 
@@ -56,8 +59,6 @@ namespace EntityFrameworkCore.Generator
             if (Extensions.HasValue)
                 options.Data.Query.Generate = Extensions.Value;
 
-            if (Views.HasValue)
-                options.Data.View.Generate = Views.Value;
 
             if (Models.HasValue)
             {
@@ -65,7 +66,13 @@ namespace EntityFrameworkCore.Generator
                 options.Model.Create.Generate = Models.Value;
                 options.Model.Update.Generate = Models.Value;
             }
-            
+
+            if (Mapper.HasValue)
+                options.Model.Mapper.Generate = Mapper.Value;
+
+            if (Validator.HasValue)
+                options.Model.Validator.Generate = Validator.Value;
+
             var result = _codeGenerator.Generate(options);
 
             return result ? 0 : 1;

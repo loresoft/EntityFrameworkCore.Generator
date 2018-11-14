@@ -36,13 +36,7 @@ namespace EntityFrameworkCore.Generator
         /// <returns>An instance of <see cref="GeneratorOptions"/> if the file exists; otherwise <c>null</c>.</returns>
         public GeneratorOptions Load(string directory = null, string file = OptionsFileName)
         {
-            if (string.IsNullOrWhiteSpace(directory))
-                directory = Environment.CurrentDirectory;
-
-            if (string.IsNullOrWhiteSpace(file))
-                file = OptionsFileName;
-
-            var path = Path.Combine(directory, file);
+            var path = GetPath(directory, file);
             if (!File.Exists(path))
             {
                 _logger.LogWarning($"Option file not found: {file}");
@@ -101,6 +95,31 @@ namespace EntityFrameworkCore.Generator
 
             generatorOptions.Variables.ShouldEvaluate = true;
 
+            return path;
+        }
+
+        /// <summary>
+        /// Determines if the specified options file exists.
+        /// </summary>
+        /// <param name="directory">The directory where the file is located.</param>
+        /// <param name="file">The name of the options file.</param>
+        /// <returns><c>true</c> if options file exits; otherwise <c>false</c>.</returns>
+        public bool Exists(string directory = null, string file = OptionsFileName)
+        {
+            var path = GetPath(directory, file);
+            return File.Exists(path);
+        }
+
+
+        private static string GetPath(string directory, string file)
+        {
+            if (string.IsNullOrWhiteSpace(directory))
+                directory = Environment.CurrentDirectory;
+
+            if (string.IsNullOrWhiteSpace(file))
+                file = OptionsFileName;
+
+            var path = Path.Combine(directory, file);
             return path;
         }
     }

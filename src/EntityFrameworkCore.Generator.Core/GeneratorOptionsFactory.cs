@@ -40,6 +40,8 @@ namespace EntityFrameworkCore.Generator
             if (type == typeof(QueryExtensionOptions))
                 return _generatorOptions.Data.Query;
 
+            if (type == typeof(SharedModelOptions))
+                return _generatorOptions.Model.Shared;
             if (type == typeof(ReadModelOptions))
                 return _generatorOptions.Model.Read;
             if (type == typeof(CreateModelOptions))

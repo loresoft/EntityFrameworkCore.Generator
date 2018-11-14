@@ -61,4 +61,4 @@ Include XML documentation for the generated mapper class.  Default: `false`
 
 ## Regeneration
 
-The mapper template does not support regeneration.  The mapper class will only be create if one doesn't exist for an entity.
+The mapper template does not support regeneration.  The mapper class will only be created if one doesn't exist for an entity.

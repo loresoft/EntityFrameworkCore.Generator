@@ -1,4 +1,5 @@
-﻿using EntityFrameworkCore.Generator.Metadata.Generation;
+﻿using EntityFrameworkCore.Generator.Extensions;
+using EntityFrameworkCore.Generator.Metadata.Generation;
 using EntityFrameworkCore.Generator.Options;
 using EntityFrameworkCore.Generator.Parsing;
 using EntityFrameworkCore.Generator.Templates;
@@ -11,7 +12,6 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Diagnostics;
 using System.IO;
-using EntityFrameworkCore.Generator.Extensions;
 
 namespace EntityFrameworkCore.Generator
 {
@@ -251,7 +251,24 @@ namespace EntityFrameworkCore.Generator
             _logger.LogInformation("Loading database model ...");
 
             var database = Options.Database;
-            return factory.Create(database.ConnectionString, database.Tables, database.Schemas);
+            var connectionString = ResolveConnectionString(database);
+
+            return factory.Create(connectionString, database.Tables, database.Schemas);
+        }
+
+        private string ResolveConnectionString(DatabaseOptions database)
+        {
+            if (database.ConnectionString.HasValue())
+                return database.ConnectionString;
+
+            if (database.UserSecretsId.HasValue())
+            {
+                var secretsStore = new SecretsStore(database.UserSecretsId);
+                if (secretsStore.ContainsKey(database.ConnectionName))
+                    return secretsStore[database.ConnectionName];
+            }
+
+            throw new InvalidOperationException("Could not find connection string.");
         }
 
         private IDatabaseModelFactory GetDatabaseModelFactory()
