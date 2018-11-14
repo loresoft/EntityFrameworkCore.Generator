@@ -35,8 +35,6 @@ namespace EntityFrameworkCore.Generator
                 return _generatorOptions.Data.Entity;
             if (type == typeof(MappingClassOptions))
                 return _generatorOptions.Data.Mapping;
-            if (type == typeof(ViewClassOptions))
-                return _generatorOptions.Data.View;
             if (type == typeof(QueryExtensionOptions))
                 return _generatorOptions.Data.Query;
 

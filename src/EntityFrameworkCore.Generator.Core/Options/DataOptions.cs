@@ -18,7 +18,6 @@ namespace EntityFrameworkCore.Generator.Options
             Mapping = new MappingClassOptions(Variables, Prefix);
             Entity = new EntityClassOptions(Variables, Prefix);
             Context = new ContextClassOptions(Variables, Prefix);
-            View = new ViewClassOptions(Variables, Prefix);
             Query = new QueryExtensionOptions(Variables, Prefix);
         }
 
