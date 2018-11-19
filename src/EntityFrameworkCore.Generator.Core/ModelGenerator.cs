@@ -41,8 +41,8 @@ namespace EntityFrameworkCore.Generator
             var entityContext = new EntityContext();
             entityContext.DatabaseName = databaseModel.DatabaseName;
 
-            if (_options.Database.Name.IsNullOrWhiteSpace())
-                _options.Database.Name = databaseModel.DatabaseName;
+            // update database variables
+            _options.Database.Name = ToLegalName(databaseModel.DatabaseName);
 
             string projectNamespace = _options.Project.Namespace;
             _options.Project.Namespace = projectNamespace;
@@ -377,8 +377,13 @@ namespace EntityFrameworkCore.Generator
 
             if (entity.Models.Count > 0)
             {
-                entity.MapperClass = _options.Model.Mapper.Name;
-                entity.MapperNamespace = _options.Model.Mapper.Namespace;
+                var mapperNamespace = _options.Model.Mapper.Namespace;
+
+                var mapperClass = ToLegalName(_options.Model.Mapper.Name);
+                mapperClass = _namer.UniqueModelName(mapperNamespace, mapperClass);
+
+                entity.MapperClass = mapperClass;
+                entity.MapperNamespace = mapperNamespace;
                 entity.MapperBaseClass = _options.Model.Mapper.BaseClass;
             }
 
@@ -397,13 +402,16 @@ namespace EntityFrameworkCore.Generator
                 ? options.Namespace
                 : _options.Model.Shared.Namespace;
 
+            var modelClass = ToLegalName(options.Name);
+            modelClass = _namer.UniqueModelName(modelNamespace, modelClass);
+
             var model = new Model
             {
                 Entity = entity,
                 ModelType = modelType,
                 ModelBaseClass = options.BaseClass,
                 ModelNamespace = modelNamespace,
-                ModelClass = options.Name
+                ModelClass = modelClass
             };
 
             foreach (var property in entity.Properties)
@@ -416,9 +424,13 @@ namespace EntityFrameworkCore.Generator
 
             _options.Variables.Set("Model.Name", model.ModelClass);
 
+            var validatorNamespace = _options.Model.Validator.Namespace;
+            var validatorClass = ToLegalName(options.Name);
+            validatorClass = _namer.UniqueModelName(validatorNamespace, validatorClass);
+
             model.ValidatorBaseClass = _options.Model.Validator.BaseClass;
-            model.ValidatorClass = _options.Model.Validator.Name;
-            model.ValidatorNamespace = _options.Model.Validator.Namespace;
+            model.ValidatorClass = validatorClass;
+            model.ValidatorNamespace = validatorNamespace;
 
             entity.Models.Add(model);
 

@@ -44,9 +44,6 @@ namespace EntityFrameworkCore.Generator
             if (databaseModel == null)
                 throw new InvalidOperationException("Failed to create database model");
 
-            // update database variables
-            Options.Database.Name = databaseModel.DatabaseName;
-
             _logger.LogInformation($"Loaded database model for: {databaseModel.DatabaseName}");
 
             var context = _modelGenerator.Generate(Options, databaseModel);

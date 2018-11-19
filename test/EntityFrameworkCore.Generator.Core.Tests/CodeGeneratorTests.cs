@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using EntityFrameworkCore.Generator.Options;
+﻿using EntityFrameworkCore.Generator.Options;
 using FluentAssertions;
 using FluentCommand.SqlServer.Tests;
 using Microsoft.Extensions.Logging.Abstractions;
@@ -10,9 +7,9 @@ using Xunit.Abstractions;
 
 namespace EntityFrameworkCore.Generator.Core.Tests
 {
-    public class CodeGeneratorTest : DatabaseTestBase
+    public class CodeGeneratorTests : DatabaseTestBase
     {
-        public CodeGeneratorTest(ITestOutputHelper output, DatabaseFixture databaseFixture) : base(output, databaseFixture)
+        public CodeGeneratorTests(ITestOutputHelper output, DatabaseFixture databaseFixture) : base(output, databaseFixture)
         {
         }
 

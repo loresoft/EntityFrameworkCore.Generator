@@ -37,9 +37,9 @@ namespace EntityFrameworkCore.Generator
             return UniqueName(globalClassName, className);
         }
 
-        public string UniqueModelName(string className)
+        public string UniqueModelName(string @namespace, string className)
         {
-            const string globalClassName = "global::ModelClass";
+            string globalClassName = "global::ModelClass::" + @namespace;
             return UniqueName(globalClassName, className);
         }
 
