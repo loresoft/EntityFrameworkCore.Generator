@@ -80,7 +80,9 @@ namespace EntityFrameworkCore.Generator.Templates
         private void GenerateConstructor()
         {
             var mapperClass = _entity.MapperClass.ToSafeName();
+
             var entityClass = _entity.EntityClass.ToSafeName();
+            var entityFullName = $"{_entity.EntityNamespace}.{entityClass}";
 
             if (Options.Model.Mapper.Document)
             {
@@ -97,15 +99,16 @@ namespace EntityFrameworkCore.Generator.Templates
                 foreach (var model in _entity.Models)
                 {
                     var modelClass = model.ModelClass.ToSafeName();
+                    var modelFullName = $"{model.ModelNamespace}.{modelClass}";
 
                     switch (model.ModelType)
                     {
                         case ModelType.Read:
-                            CodeBuilder.AppendLine($"CreateMap<{entityClass}, {modelClass}>();");
+                            CodeBuilder.AppendLine($"CreateMap<{entityFullName}, {modelFullName}>();");
                             break;
                         case ModelType.Create:
                         case ModelType.Update:
-                            CodeBuilder.AppendLine($"CreateMap<{modelClass}, {entityClass}>();");
+                            CodeBuilder.AppendLine($"CreateMap<{modelFullName}, {entityFullName}>();");
                             break;
                     }
                 }

@@ -71,17 +71,17 @@ namespace EntityFrameworkCore.Generator.Templates
         private void GenerateConfigure()
         {
             var entityClass = _entity.EntityClass.ToSafeName();
-            var safeName = $"{_entity.EntityNamespace}.{entityClass}";
+            var entityFullName = $"{_entity.EntityNamespace}.{entityClass}";
 
             if (Options.Data.Mapping.Document)
             {
                 CodeBuilder.AppendLine("/// <summary>");
-                CodeBuilder.AppendLine($"/// Configures the entity of type <see cref=\"{safeName}\" />");
+                CodeBuilder.AppendLine($"/// Configures the entity of type <see cref=\"{entityFullName}\" />");
                 CodeBuilder.AppendLine("/// </summary>");
                 CodeBuilder.AppendLine("/// <param name=\"builder\">The builder to be used to configure the entity type.</param>");
             }
 
-            CodeBuilder.AppendLine($"public void Configure(Microsoft.EntityFrameworkCore.Metadata.Builders.EntityTypeBuilder<{safeName}> builder)");
+            CodeBuilder.AppendLine($"public void Configure(Microsoft.EntityFrameworkCore.Metadata.Builders.EntityTypeBuilder<{entityFullName}> builder)");
             CodeBuilder.AppendLine("{");
 
             using (CodeBuilder.Indent())
