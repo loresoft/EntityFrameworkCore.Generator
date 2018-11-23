@@ -36,7 +36,13 @@ namespace EntityFrameworkCore.Generator.Core.Tests.Parsing
             var first = result.Values.First();
             first.Should().NotBeNull();
             first.Name.Should().Be("Generated Properties");
-            first.Content.Should().Be("        public Guid Id { get; set; }" + Environment.NewLine);
+
+            var content = new StringBuilder();
+            content.AppendLine(@"#region Generated Properties");
+            content.AppendLine(@"        public Guid Id { get; set; }");
+            content.AppendLine(@"        #endregion");
+
+            first.Content.Should().Be(content.ToString());
 
         }
 
@@ -104,7 +110,7 @@ namespace EntityFrameworkCore.Generator.Core.Tests.Parsing
             source.AppendLine(@"        #region Nested Properties");
             source.AppendLine(@"        public string EmailAddress { get; set; }");
             source.AppendLine(@"        #endregion");
-            source.AppendLine(@"    ");
+            source.AppendLine(@"");
             source.AppendLine(@"        #endregion");
             source.AppendLine(@"    }");
             source.AppendLine(@"}");
@@ -117,11 +123,29 @@ namespace EntityFrameworkCore.Generator.Core.Tests.Parsing
             var nested = result["Nested Properties"];
             nested.Should().NotBeNull();
             nested.Name.Should().Be("Nested Properties");
-            nested.Content.Should().Be("        public string EmailAddress { get; set; }" + Environment.NewLine);
+
+            var nestedContent = new StringBuilder();
+            nestedContent.AppendLine(@"#region Nested Properties");
+            nestedContent.AppendLine(@"        public string EmailAddress { get; set; }");
+            nestedContent.AppendLine(@"        #endregion");
+
+            nested.Content.Should().Be(nestedContent.ToString());
 
             var generated = result["Generated Properties"];
             generated.Should().NotBeNull();
             generated.Name.Should().Be("Generated Properties");
+
+            var generatedContent = new StringBuilder();
+            generatedContent.AppendLine(@"#region Generated Properties");
+            generatedContent.AppendLine(@"        public Guid Id { get; set; }");
+            generatedContent.AppendLine(@"");
+            generatedContent.AppendLine(@"        #region Nested Properties");
+            generatedContent.AppendLine(@"        public string EmailAddress { get; set; }");
+            generatedContent.AppendLine(@"        #endregion");
+            generatedContent.AppendLine(@"");
+            generatedContent.AppendLine(@"        #endregion");
+
+            generated.Content.Should().Be(generatedContent.ToString());
 
         }
 

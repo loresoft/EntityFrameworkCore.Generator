@@ -1,8 +1,8 @@
-﻿using EntityFrameworkCore.Generator.Extensions;
+﻿using System.Linq;
+using EntityFrameworkCore.Generator.Extensions;
 using EntityFrameworkCore.Generator.Metadata.Generation;
 using EntityFrameworkCore.Generator.Options;
 using Microsoft.EntityFrameworkCore.Metadata;
-using System.Linq;
 
 namespace EntityFrameworkCore.Generator.Templates
 {

@@ -1,46 +1,35 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text.RegularExpressions;
+﻿using System.Collections.Generic;
 using EntityFrameworkCore.Generator.Metadata.Parsing;
+using Microsoft.CodeAnalysis.CSharp;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace EntityFrameworkCore.Generator.Parsing
 {
     public class RegionParser
     {
-        private static readonly Lazy<Regex> _regionExpression = new Lazy<Regex>(() =>
-            new Regex(@"(?:(?<end>^[ \t]*#endregion.*\r?\n)|(?<start>^[ \t]*#region(?:[ \t]+(?<name>[^\r\n]*))?\r?\n))", RegexOptions.Multiline | RegexOptions.Compiled));
-
-
         public Dictionary<string, CodeRegion> ParseRegions(string content)
         {
-            var regions = new Dictionary<string, CodeRegion>(StringComparer.OrdinalIgnoreCase);
-            var stack = new Stack<CodeRegion>();
+            var syntaxTree = CSharpSyntaxTree.ParseText(content);
+            var root = (CompilationUnitSyntax)syntaxTree.GetRoot();
 
-            var matches = _regionExpression.Value.Matches(content);
+            var visitor = new RegionVisitor();
+            visitor.Visit(root);
 
-            foreach (Match match in matches)
+            var regions = visitor.Regions;
+
+            // extract content using start and end indexes
+            foreach (var pair in regions)
             {
-                var isStart = match.Groups["start"].Success;
-                if (isStart)
-                {
-                    var region = new CodeRegion
-                    {
-                        StartIndex = match.Index + match.Length,
-                        Name = match.Groups["name"].Value.Trim()
-                    };
-                    stack.Push(region);
-                }
-                else
-                {
-                    var region = stack.Pop();
-                    region.EndIndex = match.Index;
-                    region.Content = content.Substring(region.StartIndex, region.EndIndex - region.StartIndex);
-                    regions[region.Name] = region;
-                }
+                var region = pair.Value;
+
+                var start = region.StartIndex;
+                var end = region.EndIndex;
+                var length = end - start;
+
+                region.Content = content.Substring(start, length);
             }
 
             return regions;
         }
-
     }
 }
