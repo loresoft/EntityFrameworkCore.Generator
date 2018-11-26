@@ -229,6 +229,71 @@ namespace EntityFrameworkCore.Generator.Core.Tests
             numberProperty.Should().NotBeNull();
             numberProperty.PropertyName.Should().Be("Number404");
         }
+
+        [Fact]
+        public void GenerateWithComplexDefaultValue()
+        {
+            var generatorOptions = new GeneratorOptions();
+            var databaseModel = new DatabaseModel
+            {
+                DatabaseName = "TestDatabase",
+                DefaultSchema = "dbo"
+            };
+            var testTable = new DatabaseTable
+            {
+                Database = databaseModel,
+                Name = "TestTable",
+                Schema = "dbo"
+            };
+            databaseModel.Tables.Add(testTable);
+
+            var identifierColumn = new DatabaseColumn
+            {
+                Table = testTable,
+                Name = "Id",
+                IsNullable = false,
+                StoreType = "int"
+            };
+            testTable.Columns.Add(identifierColumn);
+
+            var nameColumn = new DatabaseColumn
+            {
+                Table = testTable,
+                Name = "Name",
+                IsNullable = true,
+                StoreType = "varchar(50)",
+                DefaultValueSql = @"/****** Object:  Default dbo.abc0    Script Date: 4/11/99 12:35:41 PM ******/
+create default abc0 as 0
+"
+            };
+            testTable.Columns.Add(nameColumn);
+            var generator = new ModelGenerator(NullLoggerFactory.Instance);
+
+            var result = generator.Generate(generatorOptions, databaseModel);
+            result.ContextClass.Should().Be("TestDatabaseContext");
+            result.ContextNamespace.Should().Be("TestDatabase.Data");
+            result.Entities.Count.Should().Be(1);
+
+            var firstEntity = result.Entities[0];
+            firstEntity.TableName.Should().Be("TestTable");
+            firstEntity.TableSchema.Should().Be("dbo");
+            firstEntity.EntityClass.Should().Be("TestTable");
+            firstEntity.EntityNamespace.Should().Be("TestDatabase.Data.Entities");
+            firstEntity.MappingClass.Should().Be("TestTableMap");
+            firstEntity.MappingNamespace.Should().Be("TestDatabase.Data.Mapping");
+
+            firstEntity.Properties.Count.Should().Be(2);
+
+            var identifierProperty = firstEntity.Properties.ByColumn("Id");
+            identifierProperty.Should().NotBeNull();
+            identifierProperty.PropertyName.Should().Be("Id");
+
+            var nameProperty = firstEntity.Properties.ByColumn("Name");
+            nameProperty.Should().NotBeNull();
+            nameProperty.PropertyName.Should().Be("Name");
+        }
+
+
     }
 }
 

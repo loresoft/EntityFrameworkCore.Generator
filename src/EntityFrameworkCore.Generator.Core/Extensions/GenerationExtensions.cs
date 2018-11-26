@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using EntityFrameworkCore.Generator.Metadata.Generation;
 
 namespace EntityFrameworkCore.Generator.Extensions
@@ -106,8 +107,7 @@ namespace EntityFrameworkCore.Generator.Extensions
             if (type == "System.Xml.XmlDocument")
                 type = "System.String";
 
-            string t;
-            if (language == CodeLanguage.CSharp && _csharpTypeAlias.TryGetValue(type, out t))
+            if (language == CodeLanguage.CSharp && _csharpTypeAlias.TryGetValue(type, out string t))
                 return t;
 
             // drop system from namespace
@@ -144,6 +144,13 @@ namespace EntityFrameworkCore.Generator.Extensions
 
             var t = Type.GetType(type, false);
             return t != null && t.IsValueType;
+        }
+
+        public static string ToLiteral(this string value)
+        {
+            return value.Contains('\n') || value.Contains('\r')
+                ? "@\"" + value.Replace("\"", "\"\"") + "\""
+                : "\"" + value.Replace("\\", "\\\\").Replace("\"", "\\\"") + "\"";
         }
     }
 }

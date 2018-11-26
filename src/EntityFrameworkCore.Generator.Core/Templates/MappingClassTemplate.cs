@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Globalization;
+using System.Linq;
 using EntityFrameworkCore.Generator.Extensions;
 using EntityFrameworkCore.Generator.Metadata.Generation;
 using EntityFrameworkCore.Generator.Options;
@@ -208,24 +209,24 @@ namespace EntityFrameworkCore.Generator.Templates
             }
 
             CodeBuilder.AppendLine();
-            CodeBuilder.Append($".HasColumnName(\"{property.ColumnName}\")");
+            CodeBuilder.Append($".HasColumnName({property.ColumnName.ToLiteral()})");
 
             if (!string.IsNullOrEmpty(property.StoreType))
             {
                 CodeBuilder.AppendLine();
-                CodeBuilder.Append($".HasColumnType(\"{property.StoreType}\")");
+                CodeBuilder.Append($".HasColumnType({property.StoreType.ToLiteral()})");
             }
 
             if ((isString || isByteArray) && property.Size > 0 && property.IsMaxLength != true)
             {
                 CodeBuilder.AppendLine();
-                CodeBuilder.Append($".HasMaxLength({property.Size})");
+                CodeBuilder.Append($".HasMaxLength({property.Size.Value.ToString(CultureInfo.InvariantCulture)})");
             }
 
             if (!string.IsNullOrEmpty(property.Default))
             {
                 CodeBuilder.AppendLine();
-                CodeBuilder.Append($".HasDefaultValueSql(\"{property.Default}\")");
+                CodeBuilder.Append($".HasDefaultValueSql({property.Default.ToLiteral()})");
             }
 
             switch (property.ValueGenerated)
