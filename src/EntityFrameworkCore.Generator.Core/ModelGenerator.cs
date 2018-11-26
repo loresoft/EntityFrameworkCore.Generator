@@ -425,7 +425,7 @@ namespace EntityFrameworkCore.Generator
             _options.Variables.Set("Model.Name", model.ModelClass);
 
             var validatorNamespace = _options.Model.Validator.Namespace;
-            var validatorClass = ToLegalName(options.Name);
+            var validatorClass = ToLegalName(_options.Model.Validator.Name);
             validatorClass = _namer.UniqueModelName(validatorNamespace, validatorClass);
 
             model.ValidatorBaseClass = _options.Model.Validator.BaseClass;

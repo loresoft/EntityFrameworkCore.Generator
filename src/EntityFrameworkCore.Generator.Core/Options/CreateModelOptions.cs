@@ -14,7 +14,6 @@ namespace EntityFrameworkCore.Generator.Options
         public CreateModelOptions(VariableDictionary variables, string prefix)
             : base(variables, AppendPrefix(prefix, "Create"))
         {
-            BaseClass = "EntityCreateModel";
             Name = "{Entity.Name}CreateModel";
         }
     }

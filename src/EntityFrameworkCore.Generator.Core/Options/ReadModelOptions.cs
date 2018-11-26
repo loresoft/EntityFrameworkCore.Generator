@@ -12,7 +12,6 @@
         public ReadModelOptions(VariableDictionary variables, string prefix)
             : base(variables, AppendPrefix(prefix, "Read"))
         {
-            BaseClass = "EntityReadModel";
             Name = "{Entity.Name}ReadModel";
         }
     }

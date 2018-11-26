@@ -14,7 +14,6 @@ namespace EntityFrameworkCore.Generator.Options
         public UpdateModelOptions(VariableDictionary variables, string prefix)
             : base(variables, AppendPrefix(prefix, "Update"))
         {
-            BaseClass = "EntityUpdateModel";
             Name = "{Entity.Name}UpdateModel";
         }
     }
