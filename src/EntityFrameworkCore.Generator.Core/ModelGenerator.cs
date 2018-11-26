@@ -565,6 +565,10 @@ namespace EntityFrameworkCore.Generator
             if (Regex.IsMatch(name, @"^[^a-zA-Z_]+"))
                 legalName = Regex.Replace(legalName, @"^[^a-zA-Z_]+", "");
 
+            // prefix with column when all characters removed
+            if (legalName.IsNullOrWhiteSpace())
+                legalName =  "Number" + name;
+
             legalName = legalName.ToPascalCase();
 
             return legalName;
