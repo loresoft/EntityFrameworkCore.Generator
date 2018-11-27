@@ -11,7 +11,7 @@ namespace EntityFrameworkCore.Generator
         public UniqueNamer()
         {
             _names = new ConcurrentDictionary<string, HashSet<string>>(StringComparer.OrdinalIgnoreCase);
-            Comparer = StringComparer.CurrentCulture;
+            Comparer = StringComparer.OrdinalIgnoreCase;
 
             // add existing
             UniqueContextName("ChangeTracker");
