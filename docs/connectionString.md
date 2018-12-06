@@ -31,14 +31,14 @@ To configure how Entity Framework Core Generator reads the user secret file, set
 
 ```YAML
 database:
-  connectionName: 'Generator:ConnectionString'
+  connectionName: 'ConnectionStrings:Generator'
   userSecretsId: '984ef0cf-2b22-4fd1-876d-e01499da4c1f'
 ```
 
 The connection string can also be store in the user secret file using the .NET Core `dotnet-user-secrets` nuget tool.
 
 ```Shell
-dotnet user-secrets set "Generator:ConnectionString" "Data Source=(local);Initial Catalog=Tracker;Integrated Security=True" --id "984ef0cf-2b22-4fd1-876d-e01499da4c1f"
+dotnet user-secrets set "ConnectionStrings:Generator" "Data Source=(local);Initial Catalog=Tracker;Integrated Security=True" --id "984ef0cf-2b22-4fd1-876d-e01499da4c1f"
 ```
 
 The `userSecretsId` can be shared with your .NET Core Project.

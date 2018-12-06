@@ -10,6 +10,7 @@ pages:
 - Database Providers: providers.md
 - Regeneration: regeneration.md
 - Generation Configuration: configuration.md
+- Command Line Reference: commands.md
 
 - EntityFramework Templates:
     - Data Context: ef/dataContext.md

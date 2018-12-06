@@ -28,7 +28,7 @@ database:
   provider: SqlServer|PostgreSQL|MySQL|Sqlite
 
   # config name to read the connection string from the user secrets file
-  connectionName: 'Generator:ConnectionString'
+  connectionName: 'ConnectionStrings:Generator'
   # the user secret identifier, can be shared with .net core project
   userSecretsId: '984ef0cf-2b22-4fd1-876d-e01499da4c1f'
   
@@ -157,7 +157,7 @@ model:
   validator:
     generate: true
     name: '{Model.Name}Validator'
-    baseClass: AbstractValidator<{Model.Name}>
+    baseClass: 'AbstractValidator<{Model.Name}>'
     namespace: '{Project.Namespace}.Domain.Validation'
     directory: '{Project.Directory}\Domain\Validation'
 
