@@ -1,9 +1,9 @@
-﻿using EntityFrameworkCore.Generator.Extensions;
+﻿using System;
+using System.IO;
+using EntityFrameworkCore.Generator.Extensions;
 using EntityFrameworkCore.Generator.Options;
 using McMaster.Extensions.CommandLineUtils;
 using Microsoft.Extensions.Logging;
-using System;
-using System.IO;
 
 namespace EntityFrameworkCore.Generator
 {
@@ -20,6 +20,12 @@ namespace EntityFrameworkCore.Generator
 
         [Option("-c <ConnectionString>", Description = "Database connection string to reverse engineer")]
         public string ConnectionString { get; set; }
+
+        [Option("--id <UserSecretsId>", Description = "The user secret ID to use")]
+        public string UserSecretsId { get; set; }
+
+        [Option("--name <ConnectionName>", Description = "The user secret configuration name")]
+        public string ConnectionName { get; set; }
 
 
         protected override int OnExecute(CommandLineApplication application)
@@ -42,11 +48,18 @@ namespace EntityFrameworkCore.Generator
             if (options == null)
                 options = CreateOptionsFile(optionsFile);
 
-            if (ConnectionString.HasValue())
-                options = CreateUserSecret(options);
+            if (UserSecretsId.HasValue())
+                options.Database.UserSecretsId = UserSecretsId;
+
+            if (ConnectionName.HasValue())
+                options.Database.ConnectionName = ConnectionName;
 
             if (Provider.HasValue)
                 options.Database.Provider = Provider.Value;
+
+            if (ConnectionString.HasValue())
+                options = CreateUserSecret(options);
+
 
 
             Serializer.Save(options, workingDirectory, optionsFile);
@@ -60,7 +73,7 @@ namespace EntityFrameworkCore.Generator
                 options.Database.UserSecretsId = Guid.NewGuid().ToString();
 
             if (options.Database.ConnectionName.IsNullOrWhiteSpace())
-                options.Database.ConnectionName = "Generator:ConnectionString";
+                options.Database.ConnectionName = "ConnectionStrings:Generator";
 
             Logger.LogInformation("Adding Connection String to User Secrets file");
 
@@ -78,7 +91,7 @@ namespace EntityFrameworkCore.Generator
 
             // set user secret values
             options.Database.UserSecretsId = Guid.NewGuid().ToString();
-            options.Database.ConnectionName = "Generator:ConnectionString";
+            options.Database.ConnectionName = "ConnectionStrings:Generator";
 
             // default all to generate
             options.Data.Query.Generate = true;

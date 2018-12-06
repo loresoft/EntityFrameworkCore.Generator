@@ -293,6 +293,65 @@ create default abc0 as 0
             nameProperty.PropertyName.Should().Be("Name");
         }
 
+        [Fact]
+        public void GenerateCheckNameCase()
+        {
+            var generatorOptions = new GeneratorOptions();
+            var databaseModel = new DatabaseModel
+            {
+                DatabaseName = "TestDatabase",
+                DefaultSchema = "dbo"
+            };
+            var testTable = new DatabaseTable
+            {
+                Database = databaseModel,
+                Name = "aammstest",
+                Schema = "dbo"
+            };
+            databaseModel.Tables.Add(testTable);
+
+            var identifierColumn = new DatabaseColumn
+            {
+                Table = testTable,
+                Name = "Id",
+                IsNullable = false,
+                StoreType = "int"
+            };
+            testTable.Columns.Add(identifierColumn);
+
+            var nameColumn = new DatabaseColumn
+            {
+                Table = testTable,
+                Name = "Name",
+                IsNullable = true,
+                StoreType = "varchar(50)"
+            };
+            testTable.Columns.Add(nameColumn);
+            var generator = new ModelGenerator(NullLoggerFactory.Instance);
+
+            var result = generator.Generate(generatorOptions, databaseModel);
+            result.ContextClass.Should().Be("TestDatabaseContext");
+            result.ContextNamespace.Should().Be("TestDatabase.Data");
+            result.Entities.Count.Should().Be(1);
+
+            var firstEntity = result.Entities[0];
+            firstEntity.TableName.Should().Be("aammstest");
+            firstEntity.TableSchema.Should().Be("dbo");
+            firstEntity.EntityClass.Should().Be("Aammstest");
+            firstEntity.EntityNamespace.Should().Be("TestDatabase.Data.Entities");
+            firstEntity.MappingClass.Should().Be("AammstestMap");
+            firstEntity.MappingNamespace.Should().Be("TestDatabase.Data.Mapping");
+
+            firstEntity.Properties.Count.Should().Be(2);
+
+            var identifierProperty = firstEntity.Properties.ByColumn("Id");
+            identifierProperty.Should().NotBeNull();
+            identifierProperty.PropertyName.Should().Be("Id");
+
+            var nameProperty = firstEntity.Properties.ByColumn("Name");
+            nameProperty.Should().NotBeNull();
+            nameProperty.PropertyName.Should().Be("Name");
+        }
 
     }
 }
