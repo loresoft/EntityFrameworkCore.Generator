@@ -18,7 +18,7 @@ namespace Tracker.Core.Data.Queries
         /// <param name="queryable">An <see cref="T:System.Linq.IQueryable`1" /> to filter.</param>
         /// <param name="id">The value to filter by.</param>
         /// <returns>An instance of <see cref="T:Tracker.Core.Data.Entities.Audit"/> or null if not found.</returns>
-        public static Tracker.Core.Data.Entities.Audit GetByKey(this IQueryable<Tracker.Core.Data.Entities.Audit> queryable, int id)
+        public static Tracker.Core.Data.Entities.Audit GetByKey(this IQueryable<Tracker.Core.Data.Entities.Audit> queryable, Guid id)
         {
             if (queryable is DbSet<Tracker.Core.Data.Entities.Audit> dbSet)
                 return dbSet.Find(id);
@@ -32,7 +32,7 @@ namespace Tracker.Core.Data.Queries
         /// <param name="queryable">An <see cref="T:System.Linq.IQueryable`1" /> to filter.</param>
         /// <param name="id">The value to filter by.</param>
         /// <returns>An instance of <see cref="T:Tracker.Core.Data.Entities.Audit"/> or null if not found.</returns>
-        public static Task<Tracker.Core.Data.Entities.Audit> GetByKeyAsync(this IQueryable<Tracker.Core.Data.Entities.Audit> queryable, int id)
+        public static Task<Tracker.Core.Data.Entities.Audit> GetByKeyAsync(this IQueryable<Tracker.Core.Data.Entities.Audit> queryable, Guid id)
         {
             if (queryable is DbSet<Tracker.Core.Data.Entities.Audit> dbSet)
                 return dbSet.FindAsync(id);

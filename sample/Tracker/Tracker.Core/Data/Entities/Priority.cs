@@ -1,12 +1,13 @@
 using System;
 using System.Collections.Generic;
+using Tracker.Core.Definitions;
 
 namespace Tracker.Core.Data.Entities
 {
     /// <summary>
     /// Entity class representing data for table 'Priority'.
     /// </summary>
-    public partial class Priority
+    public partial class Priority : IHaveIdentifier, ITrackCreated, ITrackUpdated
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="Priority"/> class.
@@ -25,7 +26,7 @@ namespace Tracker.Core.Data.Entities
         /// <value>
         /// The property value representing column 'Id'.
         /// </value>
-        public int Id { get; set; }
+        public Guid Id { get; set; }
 
         /// <summary>
         /// Gets or sets the property value representing column 'Name'.

@@ -27,7 +27,8 @@ namespace Tracker.Core.Data.Mapping
             builder.Property(t => t.Id)
                 .IsRequired()
                 .HasColumnName("Id")
-                .HasColumnType("int");
+                .HasColumnType("uniqueidentifier")
+                .HasDefaultValueSql("(newsequentialid())");
 
             builder.Property(t => t.Name)
                 .IsRequired()

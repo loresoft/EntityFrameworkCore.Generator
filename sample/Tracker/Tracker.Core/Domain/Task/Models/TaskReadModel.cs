@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 
+// ReSharper disable once CheckNamespace
 namespace Tracker.Core.Domain.Models
 {
     /// <summary>
@@ -16,7 +17,7 @@ namespace Tracker.Core.Domain.Models
         /// <value>
         /// The property value for 'StatusId'.
         /// </value>
-        public int StatusId { get; set; }
+        public Guid StatusId { get; set; }
 
         /// <summary>
         /// Gets or sets the property value for 'PriorityId'.
@@ -24,7 +25,7 @@ namespace Tracker.Core.Domain.Models
         /// <value>
         /// The property value for 'PriorityId'.
         /// </value>
-        public int? PriorityId { get; set; }
+        public Guid? PriorityId { get; set; }
 
         /// <summary>
         /// Gets or sets the property value for 'Title'.
@@ -75,6 +76,12 @@ namespace Tracker.Core.Domain.Models
         public Guid? AssignedId { get; set; }
 
         #endregion
+
+        public string StatusName { get; set; }
+
+        public string PriorityName { get; set; }
+
+        public string AssignedEmail { get; set; }
 
     }
 }

@@ -1,12 +1,13 @@
 using System;
 using System.Collections.Generic;
+using Tracker.Core.Definitions;
 
 namespace Tracker.Core.Data.Entities
 {
     /// <summary>
     /// Entity class representing data for table 'Task'.
     /// </summary>
-    public partial class Task
+    public partial class Task : IHaveIdentifier, ITrackCreated, ITrackUpdated
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="Task"/> class.
@@ -32,7 +33,7 @@ namespace Tracker.Core.Data.Entities
         /// <value>
         /// The property value representing column 'StatusId'.
         /// </value>
-        public int StatusId { get; set; }
+        public Guid StatusId { get; set; }
 
         /// <summary>
         /// Gets or sets the property value representing column 'PriorityId'.
@@ -40,7 +41,7 @@ namespace Tracker.Core.Data.Entities
         /// <value>
         /// The property value representing column 'PriorityId'.
         /// </value>
-        public int? PriorityId { get; set; }
+        public Guid? PriorityId { get; set; }
 
         /// <summary>
         /// Gets or sets the property value representing column 'Title'.

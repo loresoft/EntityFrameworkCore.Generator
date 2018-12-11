@@ -1,12 +1,13 @@
 using System;
 using System.Collections.Generic;
+using Tracker.Core.Definitions;
 
 namespace Tracker.Core.Data.Entities
 {
     /// <summary>
     /// Entity class representing data for table 'Role'.
     /// </summary>
-    public partial class Role
+    public partial class Role : IHaveIdentifier, ITrackCreated, ITrackUpdated
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="Role"/> class.

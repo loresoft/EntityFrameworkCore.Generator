@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Metadata;
 namespace Tracker.Core.Data
 {
     /// <summary>
-    /// A <see cref="DbContext" /> instance represents a session with the database and can be used to query and save instances of entities. 
+    /// A <see cref="DbContext" /> instance represents a session with the database and can be used to query and save instances of entities.
     /// </summary>
     public partial class TrackerContext : DbContext
     {
@@ -73,7 +73,7 @@ namespace Tracker.Core.Data
         /// <value>
         /// The <see cref="T:Microsoft.EntityFrameworkCore.DbSet`1" /> that can be used to query and save instances of <see cref="Tracker.Core.Data.Entities.TaskExtended"/>.
         /// </value>
-        public virtual DbSet<Tracker.Core.Data.Entities.TaskExtended> TaskExtendeds { get; set; }
+        public virtual DbSet<Tracker.Core.Data.Entities.TaskExtended> TaskExtended { get; set; }
 
         /// <summary>
         /// Gets or sets the <see cref="T:Microsoft.EntityFrameworkCore.DbSet`1" /> that can be used to query and save instances of <see cref="Tracker.Core.Data.Entities.UserLogin"/>.

@@ -3,6 +3,7 @@ using AutoMapper;
 using Tracker.Core.Data.Entities;
 using Tracker.Core.Domain.Models;
 
+// ReSharper disable once CheckNamespace
 namespace Tracker.Core.Domain.Mapping
 {
     /// <summary>
@@ -16,9 +17,13 @@ namespace Tracker.Core.Domain.Mapping
         /// </summary>
         public StatusProfile()
         {
-            CreateMap<Status, StatusReadModel>();
+            CreateMap<Status, StatusReadModel>()
+                .ForMember(d => d.RowVersion, opt => opt.MapFrom(s => Convert.ToBase64String(s.RowVersion)));
+
             CreateMap<StatusCreateModel, Status>();
-            CreateMap<StatusUpdateModel, Status>();
+
+            CreateMap<StatusUpdateModel, Status>()
+                .ForMember(d => d.RowVersion, opt => opt.MapFrom(s => Convert.FromBase64String(s.RowVersion)));
         }
 
     }

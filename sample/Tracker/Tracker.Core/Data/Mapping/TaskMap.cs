@@ -33,11 +33,11 @@ namespace Tracker.Core.Data.Mapping
             builder.Property(t => t.StatusId)
                 .IsRequired()
                 .HasColumnName("StatusId")
-                .HasColumnType("int");
+                .HasColumnType("uniqueidentifier");
 
             builder.Property(t => t.PriorityId)
                 .HasColumnName("PriorityId")
-                .HasColumnType("int");
+                .HasColumnType("uniqueidentifier");
 
             builder.Property(t => t.Title)
                 .IsRequired()

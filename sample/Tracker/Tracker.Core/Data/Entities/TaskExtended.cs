@@ -1,12 +1,13 @@
 using System;
 using System.Collections.Generic;
+using Tracker.Core.Definitions;
 
 namespace Tracker.Core.Data.Entities
 {
     /// <summary>
     /// Entity class representing data for table 'TaskExtended'.
     /// </summary>
-    public partial class TaskExtended
+    public partial class TaskExtended : ITrackCreated, ITrackUpdated
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="TaskExtended"/> class.

@@ -27,8 +27,8 @@ namespace Tracker.Core.Data.Mapping
             builder.Property(t => t.Id)
                 .IsRequired()
                 .HasColumnName("Id")
-                .HasColumnType("int")
-                .ValueGeneratedOnAdd();
+                .HasColumnType("uniqueidentifier")
+                .HasDefaultValueSql("(newsequentialid())");
 
             builder.Property(t => t.Date)
                 .IsRequired()
@@ -37,11 +37,11 @@ namespace Tracker.Core.Data.Mapping
 
             builder.Property(t => t.UserId)
                 .HasColumnName("UserId")
-                .HasColumnType("int");
+                .HasColumnType("uniqueidentifier");
 
             builder.Property(t => t.TaskId)
                 .HasColumnName("TaskId")
-                .HasColumnType("int");
+                .HasColumnType("uniqueidentifier");
 
             builder.Property(t => t.Content)
                 .IsRequired()

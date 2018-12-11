@@ -57,7 +57,7 @@ namespace Tracker.Core.Data.Queries
         /// <param name="queryable">An <see cref="T:System.Linq.IQueryable`1" /> to filter.</param>
         /// <param name="priorityId">The value to filter by.</param>
         /// <returns>An <see cref="T: System.Linq.IQueryable`1" /> that contains elements from the input sequence that satisfy the condition specified.</returns>
-        public static IQueryable<Tracker.Core.Data.Entities.Task> ByPriorityId(this IQueryable<Tracker.Core.Data.Entities.Task> queryable, int? priorityId)
+        public static IQueryable<Tracker.Core.Data.Entities.Task> ByPriorityId(this IQueryable<Tracker.Core.Data.Entities.Task> queryable, Guid? priorityId)
         {
             return queryable.Where(q => (q.PriorityId == priorityId || (priorityId == null && q.PriorityId == null)));
         }
@@ -68,7 +68,7 @@ namespace Tracker.Core.Data.Queries
         /// <param name="queryable">An <see cref="T:System.Linq.IQueryable`1" /> to filter.</param>
         /// <param name="statusId">The value to filter by.</param>
         /// <returns>An <see cref="T: System.Linq.IQueryable`1" /> that contains elements from the input sequence that satisfy the condition specified.</returns>
-        public static IQueryable<Tracker.Core.Data.Entities.Task> ByStatusId(this IQueryable<Tracker.Core.Data.Entities.Task> queryable, int statusId)
+        public static IQueryable<Tracker.Core.Data.Entities.Task> ByStatusId(this IQueryable<Tracker.Core.Data.Entities.Task> queryable, Guid statusId)
         {
             return queryable.Where(q => q.StatusId == statusId);
         }

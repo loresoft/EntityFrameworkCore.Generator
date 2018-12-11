@@ -1,12 +1,13 @@
 using System;
 using System.Collections.Generic;
+using Tracker.Core.Definitions;
 
 namespace Tracker.Core.Data.Entities
 {
     /// <summary>
     /// Entity class representing data for table 'Audit'.
     /// </summary>
-    public partial class Audit
+    public partial class Audit : IHaveIdentifier
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="Audit"/> class.
@@ -24,7 +25,7 @@ namespace Tracker.Core.Data.Entities
         /// <value>
         /// The property value representing column 'Id'.
         /// </value>
-        public int Id { get; set; }
+        public Guid Id { get; set; }
 
         /// <summary>
         /// Gets or sets the property value representing column 'Date'.
@@ -40,7 +41,7 @@ namespace Tracker.Core.Data.Entities
         /// <value>
         /// The property value representing column 'UserId'.
         /// </value>
-        public int? UserId { get; set; }
+        public Guid? UserId { get; set; }
 
         /// <summary>
         /// Gets or sets the property value representing column 'TaskId'.
@@ -48,7 +49,7 @@ namespace Tracker.Core.Data.Entities
         /// <value>
         /// The property value representing column 'TaskId'.
         /// </value>
-        public int? TaskId { get; set; }
+        public Guid? TaskId { get; set; }
 
         /// <summary>
         /// Gets or sets the property value representing column 'Content'.

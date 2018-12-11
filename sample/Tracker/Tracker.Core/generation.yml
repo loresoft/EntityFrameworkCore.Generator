@@ -2,96 +2,79 @@ project:
   namespace: '{Database.Name}.Core'
   directory: .\
 database:
-  connectionString: Data Source=(local);Initial Catalog=Tracker;Integrated Security=True
+  connectionName: ConnectionStrings:Tracker
+  userSecretsId: 984ef0cf-2b22-4fd1-876d-e01499da4c1f
 data:
   context:
     name: '{Database.Name}Context'
     baseClass: DbContext
     namespace: '{Project.Namespace}.Data'
     directory: '{Project.Directory}\Data'
+    document: true
   entity:
     namespace: '{Project.Namespace}.Data.Entities'
     directory: '{Project.Directory}\Data\Entities'
+    document: true
   mapping:
     namespace: '{Project.Namespace}.Data.Mapping'
     directory: '{Project.Directory}\Data\Mapping'
-  view:
-    generate: true
-    namespace: '{Project.Namespace}.Data.Entities'
-    directory: '{Project.Directory}\Data\Entities'
+    document: true
   query:
     generate: true
     indexPrefix: By
     uniquePrefix: GetBy
     namespace: '{Project.Namespace}.Data.Queries'
     directory: '{Project.Directory}\Data\Queries'
+    document: true
 model:
+  shared:
+    namespace: '{Project.Namespace}.Domain.Models'
+    directory: '{Project.Directory}\Domain\{Entity.Name}\Models'
+    exclude:
+      properties:
+        - '\.Id$'
+        - '\.Created$'
+        - '\.CreatedBy$'
+        - '\.Updated$'
+        - '\.UpdatedBy$'
+        - '\.RowVersion$'
+        - 'User\.PasswordHash$'
+        - 'User\.ResetHash$'
+        - 'User\.InviteHash$'
   read:
     generate: true
     name: '{Entity.Name}ReadModel'
     baseClass: EntityReadModel
-    namespace: '{Project.Namespace}.Domain.Models'
-    directory: '{Project.Directory}\Domain\{Entity.Name}\Models'
-    exclude:
-      properties:
-        - '\.Id$'
-        - '\.Created$'
-        - '\.CreatedBy$'
-        - '\.Updated$'
-        - '\.UpdatedBy$'
-        - '\.RowVersion$'
-        - 'User\.PasswordHash$'
-        - 'User\.ResetHash$'
-        - 'User\.InviteHash$'
+    document: true
   create:
     generate: true
     name: '{Entity.Name}CreateModel'
     baseClass: EntityCreateModel
-    namespace: '{Project.Namespace}.Domain.Models'
-    directory: '{Project.Directory}\Domain\{Entity.Name}\Models'
+    document: true
     exclude:
       entities:
         - 'EmailDelivery'
         - 'UserLogin'
-      properties:
-        - '\.Id$'
-        - '\.Created$'
-        - '\.CreatedBy$'
-        - '\.Updated$'
-        - '\.UpdatedBy$'
-        - '\.RowVersion$'
-        - 'User\.PasswordHash$'
-        - 'User\.ResetHash$'
-        - 'User\.InviteHash$'
   update:
     generate: true
     name: '{Entity.Name}UpdateModel'
     baseClass: EntityUpdateModel
-    namespace: '{Project.Namespace}.Domain.Models'
-    directory: '{Project.Directory}\Domain\{Entity.Name}\Models'
+    document: true
     exclude:
       entities:
         - 'EmailDelivery'
         - 'UserLogin'
-      properties:
-        - '\.Id$'
-        - '\.Created$'
-        - '\.CreatedBy$'
-        - '\.Updated$'
-        - '\.UpdatedBy$'
-        - '\.RowVersion$'
-        - 'User\.PasswordHash$'
-        - 'User\.ResetHash$'
-        - 'User\.InviteHash$'
   mapper:
     generate: true
     name: '{Entity.Name}Profile'
     baseClass: Profile
     namespace: '{Project.Namespace}.Domain.Mapping'
     directory: '{Project.Directory}\Domain\{Entity.Name}\Mapping'
+    document: true
   validator:
     generate: true
     name: '{Model.Name}Validator'
-    baseClass: AbstractValidator<{Model.Name}>
+    baseClass: 'AbstractValidator<{Model.Name}>'
     namespace: '{Project.Namespace}.Domain.Validation'
     directory: '{Project.Directory}\Domain\{Entity.Name}\Validation'
+    document: true
