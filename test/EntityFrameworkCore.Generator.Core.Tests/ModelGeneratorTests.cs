@@ -358,7 +358,7 @@ create default abc0 as 0
         {
 
             var generatorOptions = new GeneratorOptions();
-            generatorOptions.Data.Entity.PrefixEntityNamesWithSchemaName = true;
+            generatorOptions.Data.Entity.PrefixWithSchemaName = true;
             var databaseModel = new DatabaseModel
             {
                 DatabaseName = "TestDatabase",
