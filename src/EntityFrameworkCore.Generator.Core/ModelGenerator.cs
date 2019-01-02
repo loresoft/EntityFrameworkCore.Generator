@@ -542,9 +542,11 @@ namespace EntityFrameworkCore.Generator
 
         private string ToClassName(DatabaseTable table)
         {
-            
-            var mewName = EntityName($"{table.Schema}{table.Name}");
-            string legalName = ToLegalName(mewName);
+            var className = table.Name;
+            if (_options.Data.Entity.PrefixEntityNamesWithSchemaName)
+                className = $"{table.Schema}{table.Name}";
+
+            string legalName = ToLegalName(className);
 
             return legalName;
         }
