@@ -542,7 +542,9 @@ namespace EntityFrameworkCore.Generator
 
         private string ToClassName(string tableName, string tableSchema)
         {
+            tableName = EntityName(tableName);
             var className = tableName;
+
             if (_options.Data.Entity.PrefixWithSchemaName && tableSchema != null)
                 className = $"{tableSchema}{tableName}";
 
