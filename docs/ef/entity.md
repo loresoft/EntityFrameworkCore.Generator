@@ -1,6 +1,6 @@
 # Entity Template
 
-The entity class template.  An entity is created for each table in the context.
+The entity class template. An entity is created for each table in the context.
 
 ## Output
 
@@ -57,35 +57,40 @@ data:
     directory: '{Project.Directory}\Data\Entities'
     entityNaming: Singular
     relationshipNaming: Plural
+    prefixWithSchemaName: false
 ```
 
 ### namespace
 
-The namespace for the class. *Variables Supported*
+The namespace for the class. _Variables Supported_
 
 ### directory
 
-The directory location to write the source file. *Variables Supported*
+The directory location to write the source file. _Variables Supported_
 
 ### entityNaming
 
 Control how to generate entity class names from the table name. Default: `Singular`
 
-* **Preserve** - Keep table name as entity name
-* **Plural** - Use the plural form of the table name
-* **Singular** - Use the singular form of the table name
+- **Preserve** - Keep table name as entity name
+- **Plural** - Use the plural form of the table name
+- **Singular** - Use the singular form of the table name
 
 ### relationshipNaming
 
-Configuration on how to generate relationship property names.  Default: `Plural`
+Configuration on how to generate relationship property names. Default: `Plural`
 
-* **Preserve** - Keep underlying entity name as property name
-* **Plural** - Use the plural form of the entity name
-* **Suffix** - Add 'List' to the end of the entity name
+- **Preserve** - Keep underlying entity name as property name
+- **Plural** - Use the plural form of the entity name
+- **Suffix** - Add 'List' to the end of the entity name
+
+### prefixWithSchemaName
+
+Control if class names should be generated with schema name prefixed eg. dbo.MyTable = DboMyTable. Default: `false`
 
 ### document
 
-Include XML documentation for the generated class.  Default: `false`
+Include XML documentation for the generated class. Default: `false`
 
 ## Regeneration
 
@@ -99,10 +104,10 @@ The `Generated Constructor` region initializes any relationship collection in th
 
 The `Generated Properties` region contains all the properties that are mapped to columns for the entity.
 
-Property rename is supported.  The rename will be discovered during the parsing phase of the source generation.
+Property rename is supported. The rename will be discovered during the parsing phase of the source generation.
 
 ### Generated Relationships
 
 The `Generated Relationships` region contains all the relationship navigation properties.
 
-Property rename is supported.  The rename will be discovered during the parsing phase of the source generation.
+Property rename is supported. The rename will be discovered during the parsing phase of the source generation.

@@ -1,10 +1,10 @@
 # Configuration File
 
-The configuration yaml file controls various settings on how the source files are generated.  The default configuration file name is `generation.yml`.
+The configuration yaml file controls various settings on how the source files are generated. The default configuration file name is `generation.yml`.
 
 ## Variables
 
-The configuration file support self referencing variables. Variables are case insensitive.  See reference below for usage.
+The configuration file support self referencing variables. Variables are case insensitive. See reference below for usage.
 
 ## Reference
 
@@ -31,7 +31,7 @@ database:
   connectionName: 'ConnectionStrings:Generator'
   # the user secret identifier, can be shared with .net core project
   userSecretsId: '984ef0cf-2b22-4fd1-876d-e01499da4c1f'
-  
+
   # tables to include or empty to include all
   tables:
     - Priority
@@ -74,6 +74,9 @@ data:
     relationshipNaming: Preserve|Plural|Suffix
     #include XML documentation
     document: false
+
+    # Generate class names with prefixed schema name eg. dbo.MyTable = DboMyTable
+    prefixWithSchemaName: false
 
   # mapping class file configuration
   mapping:
@@ -133,7 +136,7 @@ model:
     exclude:
       entities: []
       properties: []
-  
+
   # update view model class configuration
   update:
     generate: true                      # generate update model class files
@@ -152,7 +155,7 @@ model:
     baseClass: Profile
     namespace: '{Project.Namespace}.Domain.Mapping'
     directory: '{Project.Directory}\Domain\Mapping'
-  
+
   # FluentValidation class configuration
   validator:
     generate: true
