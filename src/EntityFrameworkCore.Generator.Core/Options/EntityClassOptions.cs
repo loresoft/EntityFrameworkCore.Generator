@@ -20,6 +20,7 @@ namespace EntityFrameworkCore.Generator.Options
 
             RelationshipNaming = RelationshipNaming.Plural;
             EntityNaming = EntityNaming.Singular;
+            PrefixWithSchemaName = false;
         }
 
         /// <summary>
@@ -51,5 +52,11 @@ namespace EntityFrameworkCore.Generator.Options
         /// </value>
         [DefaultValue(RelationshipNaming.Plural)]
         public RelationshipNaming RelationshipNaming { get; set; }
+
+        /// <summary>
+        /// If true prefix classname with schema name to prevent naming conflicts
+        /// </summary>
+        [DefaultValue(false)]
+        public bool PrefixWithSchemaName { get; set; }
     }
 }

@@ -98,7 +98,7 @@ namespace EntityFrameworkCore.Generator
                 TableSchema = tableSchema.Schema
             };
 
-            string entityClass = ToClassName(tableSchema.Name);
+            string entityClass = ToClassName(tableSchema.Name, tableSchema.Schema);
             entityClass = _namer.UniqueClassName(entityClass);
 
             string entityNamespace = _options.Data.Entity.Namespace;
@@ -540,10 +540,15 @@ namespace EntityFrameworkCore.Generator
         }
 
 
-        private string ToClassName(string name)
+        private string ToClassName(string tableName, string tableSchema)
         {
-            name = EntityName(name);
-            string legalName = ToLegalName(name);
+            tableName = EntityName(tableName);
+            var className = tableName;
+
+            if (_options.Data.Entity.PrefixWithSchemaName && tableSchema != null)
+                className = $"{tableSchema}{tableName}";
+
+            string legalName = ToLegalName(className);
 
             return legalName;
         }
