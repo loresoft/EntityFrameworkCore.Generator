@@ -11,11 +11,8 @@ namespace EntityFrameworkCore.Generator.Parsing
     {
         public ContextVisitor()
         {
-            ContextBaseType = "DbContext";
             DataSetTypes = new HashSet<string> { "DbSet", "IDbSet" };
         }
-
-        public string ContextBaseType { get; set; }
 
         public HashSet<string> DataSetTypes { get; set; }
 
@@ -26,7 +23,7 @@ namespace EntityFrameworkCore.Generator.Parsing
             var hasBaseType = node.BaseList
                 .DescendantNodes()
                 .OfType<IdentifierNameSyntax>()
-                .Any(i => i.Identifier.ValueText == ContextBaseType);
+                .Any();
 
             if (hasBaseType)
             {

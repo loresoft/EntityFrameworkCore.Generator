@@ -1,8 +1,9 @@
-﻿using EntityFrameworkCore.Generator.Metadata.Parsing;
+﻿using System;
+using System.IO;
+using EntityFrameworkCore.Generator.Metadata.Parsing;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.Extensions.Logging;
-using System.IO;
 
 namespace EntityFrameworkCore.Generator.Parsing
 {
@@ -15,12 +16,24 @@ namespace EntityFrameworkCore.Generator.Parsing
             _logger = loggerFactory.CreateLogger<ContextParser>();
         }
 
-        public ParsedContext Parse(string contextFile)
+        public ParsedContext ParseFile(string contextFile)
         {
             if (string.IsNullOrEmpty(contextFile) || !File.Exists(contextFile))
                 return null;
 
+            _logger.LogDebug(
+                "Parsing Context File: '{0}'",
+                Path.GetFileName(contextFile));
+
             var code = File.ReadAllText(contextFile);
+            return ParseCode(code);
+        }
+
+        public ParsedContext ParseCode(string code)
+        {
+            if (string.IsNullOrWhiteSpace(code))
+                return null;
+
             var syntaxTree = CSharpSyntaxTree.ParseText(code);
             var root = (CompilationUnitSyntax)syntaxTree.GetRoot();
 
@@ -28,12 +41,13 @@ namespace EntityFrameworkCore.Generator.Parsing
             visitor.Visit(root);
 
             var parsedContext = visitor.ParsedContext;
+            if (parsedContext == null)
+                return null;
 
-            if (parsedContext != null)
-                _logger.LogDebug(
-                    "Parsed Context File: '{0}'; Entities: {1}",
-                    Path.GetFileName(contextFile),
-                    parsedContext.Properties.Count);
+            _logger.LogDebug(
+                "Parsed Context Class: {0}; Entities: {1}",
+                parsedContext.ContextClass,
+                parsedContext.Properties.Count);
 
             return parsedContext;
         }

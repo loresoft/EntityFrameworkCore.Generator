@@ -45,7 +45,7 @@ namespace EntityFrameworkCore.Generator.Parsing
             ParsedContext parsedContext = null;
             using (var files = Directory.EnumerateFiles(contextDirectory, "*.cs").GetEnumerator())
                 while (files.MoveNext() && parsedContext == null)
-                    parsedContext = parser.Parse(files.Current);
+                    parsedContext = parser.ParseFile(files.Current);
 
             if (parsedContext == null)
                 return;
@@ -90,7 +90,7 @@ namespace EntityFrameworkCore.Generator.Parsing
             // parse all mapping files
             var mappingFiles = Directory.EnumerateFiles(mappingDirectory, "*.cs");
             var parsedEntities = mappingFiles
-              .Select(parser.Parse)
+              .Select(parser.ParseFile)
               .Where(parsedEntity => parsedEntity != null)
               .ToList();
 
