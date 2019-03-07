@@ -1,4 +1,4 @@
-# Forked Changed
+# Forked Changes
 
  - Added the ability to include or exclude Entity columns at a global level (useful for databases with system columns unneeded for the application)
  
