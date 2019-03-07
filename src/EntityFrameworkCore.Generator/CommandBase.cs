@@ -10,7 +10,7 @@ namespace EntityFrameworkCore.Generator
         protected CommandBase(ILoggerFactory logger, IConsole console)
         {
             Logger = logger.CreateLogger(GetType());
-            Console = console;            
+            Console = console;
         }
 
         protected ILogger Logger { get; }

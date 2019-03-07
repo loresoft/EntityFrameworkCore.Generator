@@ -25,7 +25,7 @@ namespace EntityFrameworkCore.Generator.Templates
             CodeBuilder.AppendLine($"namespace {_entity.EntityNamespace}");
             CodeBuilder.AppendLine("{");
 
-            using (CodeBuilder.Indent())
+            using(CodeBuilder.Indent())
             {
                 GenerateClass();
             }
@@ -49,7 +49,7 @@ namespace EntityFrameworkCore.Generator.Templates
             CodeBuilder.AppendLine($"public partial class {entityClass}");
             CodeBuilder.AppendLine("{");
 
-            using (CodeBuilder.Indent())
+            using(CodeBuilder.Indent())
             {
                 GenerateConstructor();
 
@@ -78,12 +78,12 @@ namespace EntityFrameworkCore.Generator.Templates
 
             CodeBuilder.AppendLine($"public {entityClass}()");
             if (_entity.EntityBaseClass.HasValue())
-                using (CodeBuilder.Indent())
-                    CodeBuilder.AppendLine($": {_entity.EntityBaseClass}");
+                using(CodeBuilder.Indent())
+            CodeBuilder.AppendLine($": {_entity.EntityBaseClass}");
 
             CodeBuilder.AppendLine("{");
 
-            using (CodeBuilder.Indent())
+            using(CodeBuilder.Indent())
             {
                 CodeBuilder.AppendLine("#region Generated Constructor");
                 foreach (var relationship in relationships)
@@ -132,6 +132,8 @@ namespace EntityFrameworkCore.Generator.Templates
             {
                 var propertyName = relationship.PropertyName.ToSafeName();
                 var primaryName = relationship.PrimaryEntity.EntityClass.ToSafeName();
+
+                propertyName = propertyName.ToIdentifierName(Options.Data.Entity.IdentifierNaming);
 
                 if (relationship.Cardinality == Cardinality.Many)
                 {

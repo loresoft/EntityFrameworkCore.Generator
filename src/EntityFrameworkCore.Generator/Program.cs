@@ -7,23 +7,19 @@ using Serilog;
 
 namespace EntityFrameworkCore.Generator
 {
-    [Command("efg", Description = "Entity Framework Core model generation tool")]
+    [Command("zefg", Description = "Entity Framework Core model generation tool")]
     [Subcommand("initialize", typeof(InitializeCommand))]
     [Subcommand("generate", typeof(GenerateCommand))]
     [VersionOptionFromMember("--version", MemberName = nameof(GetVersion))]
     public class Program : CommandBase
     {
-        public Program(ILoggerFactory logger, IConsole console)
-            : base(logger, console)
-        {
-        }
+        public Program(ILoggerFactory logger, IConsole console) : base(logger, console) { }
 
         protected override int OnExecute(CommandLineApplication application)
         {
             application.ShowHelp();
             return 1;
         }
-
 
         public static int Main(string[] args)
         {
@@ -63,7 +59,6 @@ namespace EntityFrameworkCore.Generator
                 Log.CloseAndFlush();
             }
         }
-
 
         private static string GetVersion()
         {

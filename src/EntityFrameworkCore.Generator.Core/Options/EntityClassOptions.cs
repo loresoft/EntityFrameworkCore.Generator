@@ -12,8 +12,7 @@ namespace EntityFrameworkCore.Generator.Options
         /// <summary>
         /// Initializes a new instance of the <see cref="EntityClassOptions"/> class.
         /// </summary>
-        public EntityClassOptions(VariableDictionary variables, string prefix)
-            : base(variables, AppendPrefix(prefix, "Entity"))
+        public EntityClassOptions(VariableDictionary variables, string prefix) : base(variables, AppendPrefix(prefix, "Entity"))
         {
             Namespace = "{Project.Namespace}.Data.Entities";
             Directory = @"{Project.Directory}\Data\Entities";
@@ -21,6 +20,7 @@ namespace EntityFrameworkCore.Generator.Options
             RelationshipNaming = RelationshipNaming.Plural;
             EntityNaming = EntityNaming.Singular;
             PrefixWithSchemaName = false;
+            Exclude = new EntitySelectionOptions();
         }
 
         /// <summary>
@@ -45,6 +45,15 @@ namespace EntityFrameworkCore.Generator.Options
         public EntityNaming EntityNaming { get; set; }
 
         /// <summary>
+        /// Gets or sets the entity identifier naming strategy.
+        /// </summary>
+        /// <value>
+        /// The entity identifier naming strategy.
+        /// </value>
+        [DefaultValue(IdentifierNaming.Lower)]
+        public IdentifierNaming IdentifierNaming { get; set; }
+
+        /// <summary>
         /// Gets or sets the relationship property naming strategy.
         /// </summary>
         /// <value>
@@ -58,5 +67,13 @@ namespace EntityFrameworkCore.Generator.Options
         /// </summary>
         [DefaultValue(false)]
         public bool PrefixWithSchemaName { get; set; }
+
+        /// <summary>
+        /// Gets or sets the exclude selection options.
+        /// </summary>
+        /// <value>
+        /// The exclude selection options.
+        /// </value>
+        public EntitySelectionOptions Exclude { get; set; }
     }
 }
