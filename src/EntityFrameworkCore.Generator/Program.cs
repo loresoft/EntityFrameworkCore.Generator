@@ -7,7 +7,7 @@ using Serilog;
 
 namespace EntityFrameworkCore.Generator
 {
-    [Command("zefg", Description = "Entity Framework Core model generation tool")]
+    [Command("efg", Description = "Entity Framework Core model generation tool")]
     [Subcommand("initialize", typeof(InitializeCommand))]
     [Subcommand("generate", typeof(GenerateCommand))]
     [VersionOptionFromMember("--version", MemberName = nameof(GetVersion))]

@@ -24,7 +24,7 @@ namespace EntityFrameworkCore.Generator.Templates
             CodeBuilder.AppendLine($"namespace {_model.ModelNamespace}");
             CodeBuilder.AppendLine("{");
 
-            using (CodeBuilder.Indent())
+            using(CodeBuilder.Indent())
             {
                 GenerateClass();
             }
@@ -38,7 +38,6 @@ namespace EntityFrameworkCore.Generator.Templates
         {
             var modelClass = _model.ModelClass.ToSafeName();
 
-
             if (ShouldDocument())
             {
                 CodeBuilder.AppendLine("/// <summary>");
@@ -51,13 +50,13 @@ namespace EntityFrameworkCore.Generator.Templates
             if (_model.ModelBaseClass.HasValue())
             {
                 var modelBase = _model.ModelBaseClass.ToSafeName();
-                using (CodeBuilder.Indent())
-                    CodeBuilder.AppendLine($": {modelBase}");
+                using(CodeBuilder.Indent())
+                CodeBuilder.AppendLine($": {modelBase}");
             }
 
             CodeBuilder.AppendLine("{");
 
-            using (CodeBuilder.Indent())
+            using(CodeBuilder.Indent())
             {
                 GenerateProperties();
             }
@@ -66,32 +65,31 @@ namespace EntityFrameworkCore.Generator.Templates
 
         }
 
-
         private void GenerateProperties()
         {
             CodeBuilder.AppendLine("#region Generated Properties");
             foreach (var property in _model.Properties)
             {
                 var propertyType = property.SystemType.ToNullableType(property.IsNullable == true);
-                var propertyName = property.PropertyName.ToSafeName();
+                var propertyName = property.PropertyName.ToIdentifierName(Options.Data.Entity.IdentifierNaming);
 
                 if (ShouldDocument())
                 {
                     CodeBuilder.AppendLine("/// <summary>");
-                    CodeBuilder.AppendLine($"/// Gets or sets the property value for '{property.PropertyName}'.");
+                    CodeBuilder.AppendLine($"/// Gets or sets the property value for '{property.PropertyName.ToIdentifierName(Options.Data.Entity.IdentifierNaming)}'.");
                     CodeBuilder.AppendLine("/// </summary>");
                     CodeBuilder.AppendLine("/// <value>");
-                    CodeBuilder.AppendLine($"/// The property value for '{property.PropertyName}'.");
+                    CodeBuilder.AppendLine($"/// The property value for '{property.PropertyName.ToIdentifierName(Options.Data.Entity.IdentifierNaming)}'.");
                     CodeBuilder.AppendLine("/// </value>");
                 }
 
+                propertyName = propertyName.ToSafeName();
                 CodeBuilder.AppendLine($"public {propertyType} {propertyName} {{ get; set; }}");
                 CodeBuilder.AppendLine();
             }
             CodeBuilder.AppendLine("#endregion");
             CodeBuilder.AppendLine();
         }
-
 
         private bool ShouldDocument()
         {

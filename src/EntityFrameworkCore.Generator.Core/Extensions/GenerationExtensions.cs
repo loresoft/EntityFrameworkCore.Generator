@@ -298,16 +298,15 @@ namespace EntityFrameworkCore.Generator.Extensions
 
         public static string ToIdentifierName(this string name, IdentifierNaming identifierNaming = IdentifierNaming.Lower)
         {
-            if (identifierNaming == IdentifierNaming.Preserve)
-                return name;
-
             string idPattern = @"(\w*)(I[dD])";
             Regex idRegex = new Regex(idPattern);
 
-            if (Regex.IsMatch(name, idPattern))
+            // for a strange reason when I short-circuited: if (identifierNaming == IdentifierNaming.Preserve) return; -
+            // It ALWAYS bailed even though it was Lower. so the && statement below is because of that. 
+            if (Regex.IsMatch(name, idPattern) && (identifierNaming == IdentifierNaming.Lower || identifierNaming == IdentifierNaming.Upper))
             {
-                string replaceId = identifierNaming == IdentifierNaming.Lower ? "Id" : "ID";
-                name = Regex.Replace(name, idPattern, $"$1${replaceId}");
+                string replaceId = (identifierNaming == IdentifierNaming.Lower) ? "Id" : "ID";
+                name = Regex.Replace(name, idPattern, $"$1Id");
             }
 
             return name;

@@ -1,9 +1,9 @@
-﻿using EntityFrameworkCore.Generator.Metadata.Generation;
+﻿using System.IO;
+using System.Linq;
+using EntityFrameworkCore.Generator.Metadata.Generation;
 using EntityFrameworkCore.Generator.Metadata.Parsing;
 using EntityFrameworkCore.Generator.Options;
 using Microsoft.Extensions.Logging;
-using System.IO;
-using System.Linq;
 
 namespace EntityFrameworkCore.Generator.Parsing
 {
@@ -31,21 +31,20 @@ namespace EntityFrameworkCore.Generator.Parsing
             return true;
         }
 
-
         private void UpdateFromContext(EntityContext generatedContext, string contextDirectory)
         {
-            if (generatedContext == null
-              || contextDirectory == null
-              || !Directory.Exists(contextDirectory))
+            if (generatedContext == null ||
+                contextDirectory == null ||
+                !Directory.Exists(contextDirectory))
                 return;
 
             var parser = new ContextParser(_loggerFactory);
 
             // search all cs files looking for DbContext.  need this in case of context class rename
             ParsedContext parsedContext = null;
-            using (var files = Directory.EnumerateFiles(contextDirectory, "*.cs").GetEnumerator())
-                while (files.MoveNext() && parsedContext == null)
-                    parsedContext = parser.ParseFile(files.Current);
+            using(var files = Directory.EnumerateFiles(contextDirectory, "*.cs").GetEnumerator())
+            while (files.MoveNext() && parsedContext == null)
+                parsedContext = parser.ParseFile(files.Current);
 
             if (parsedContext == null)
                 return;
@@ -80,9 +79,9 @@ namespace EntityFrameworkCore.Generator.Parsing
 
         private void UpdateFromMapping(EntityContext generatedContext, string mappingDirectory)
         {
-            if (generatedContext == null
-              || mappingDirectory == null
-              || !Directory.Exists(mappingDirectory))
+            if (generatedContext == null ||
+                mappingDirectory == null ||
+                !Directory.Exists(mappingDirectory))
                 return;
 
             var parser = new MappingParser(_loggerFactory);
@@ -90,16 +89,16 @@ namespace EntityFrameworkCore.Generator.Parsing
             // parse all mapping files
             var mappingFiles = Directory.EnumerateFiles(mappingDirectory, "*.cs");
             var parsedEntities = mappingFiles
-              .Select(parser.ParseFile)
-              .Where(parsedEntity => parsedEntity != null)
-              .ToList();
+                .Select(parser.ParseFile)
+                .Where(parsedEntity => parsedEntity != null)
+                .ToList();
 
             // update all entity and property names first because relationships are linked by property names
             foreach (var parsedEntity in parsedEntities)
             {
                 // find entity by table name to support renaming entity
                 var entity = generatedContext.Entities
-                  .ByTable(parsedEntity.TableName, parsedEntity.TableSchema);
+                    .ByTable(parsedEntity.TableName, parsedEntity.TableSchema);
 
                 if (entity == null)
                     continue;
@@ -133,7 +132,6 @@ namespace EntityFrameworkCore.Generator.Parsing
                 }
             }
         }
-
 
         private void RenameEntity(EntityContext generatedContext, string originalName, string newName)
         {

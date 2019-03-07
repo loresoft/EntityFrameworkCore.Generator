@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Text.RegularExpressions;
 using EntityFrameworkCore.Generator.Extensions;
 using EntityFrameworkCore.Generator.Metadata.Generation;
 using EntityFrameworkCore.Generator.Options;
@@ -106,7 +107,10 @@ namespace EntityFrameworkCore.Generator.Templates
             foreach (var property in _entity.Properties)
             {
                 var propertyType = property.SystemType.ToNullableType(property.IsNullable == true);
-                var propertyName = property.PropertyName.ToSafeName();
+                var propertyName =
+                    property.PropertyName
+                    .ToSafeName()
+                    .ToIdentifierName(Options.Data.Entity.IdentifierNaming);
 
                 if (Options.Data.Entity.Document)
                 {
@@ -130,10 +134,12 @@ namespace EntityFrameworkCore.Generator.Templates
             CodeBuilder.AppendLine("#region Generated Relationships");
             foreach (var relationship in _entity.Relationships)
             {
-                var propertyName = relationship.PropertyName.ToSafeName();
-                var primaryName = relationship.PrimaryEntity.EntityClass.ToSafeName();
+                var propertyName =
+                    relationship.PropertyName
+                    .ToSafeName()
+                    .ToIdentifierName(Options.Data.Entity.IdentifierNaming);
 
-                propertyName = propertyName.ToIdentifierName(Options.Data.Entity.IdentifierNaming);
+                var primaryName = relationship.PrimaryEntity.EntityClass.ToSafeName();
 
                 if (relationship.Cardinality == Cardinality.Many)
                 {

@@ -16,7 +16,6 @@ namespace EntityFrameworkCore.Generator.Templates
             _entity = entity;
         }
 
-
         public override string WriteCode()
         {
             CodeBuilder.Clear();
@@ -29,7 +28,7 @@ namespace EntityFrameworkCore.Generator.Templates
             CodeBuilder.AppendLine($"namespace {_entity.MappingNamespace}");
             CodeBuilder.AppendLine("{");
 
-            using (CodeBuilder.Indent())
+            using(CodeBuilder.Indent())
             {
                 GenerateClass();
             }
@@ -38,7 +37,6 @@ namespace EntityFrameworkCore.Generator.Templates
 
             return CodeBuilder.ToString();
         }
-
 
         private void GenerateClass()
         {
@@ -55,12 +53,12 @@ namespace EntityFrameworkCore.Generator.Templates
 
             CodeBuilder.AppendLine($"public partial class {mappingClass}");
 
-            using (CodeBuilder.Indent())
-                CodeBuilder.AppendLine($": IEntityTypeConfiguration<{safeName}>");
+            using(CodeBuilder.Indent())
+            CodeBuilder.AppendLine($": IEntityTypeConfiguration<{safeName}>");
 
             CodeBuilder.AppendLine("{");
 
-            using (CodeBuilder.Indent())
+            using(CodeBuilder.Indent())
             {
                 GenerateConfigure();
             }
@@ -85,7 +83,7 @@ namespace EntityFrameworkCore.Generator.Templates
             CodeBuilder.AppendLine($"public void Configure(Microsoft.EntityFrameworkCore.Metadata.Builders.EntityTypeBuilder<{entityFullName}> builder)");
             CodeBuilder.AppendLine("{");
 
-            using (CodeBuilder.Indent())
+            using(CodeBuilder.Indent())
             {
                 CodeBuilder.AppendLine("#region Generated Configure");
 
@@ -101,7 +99,6 @@ namespace EntityFrameworkCore.Generator.Templates
             CodeBuilder.AppendLine();
         }
 
-
         private void GenerateRelationshipMapping()
         {
             CodeBuilder.AppendLine("// relationships");
@@ -116,17 +113,17 @@ namespace EntityFrameworkCore.Generator.Templates
         private void GenerateRelationshipMapping(Relationship relationship)
         {
             CodeBuilder.Append("builder.HasOne(t => t.");
-            CodeBuilder.Append(relationship.PropertyName);
+            CodeBuilder.Append(relationship.PropertyName.ToIdentifierName(Options.Data.Entity.IdentifierNaming));
             CodeBuilder.Append(")");
             CodeBuilder.AppendLine();
 
             CodeBuilder.IncrementIndent();
 
-            CodeBuilder.Append(relationship.PrimaryCardinality == Cardinality.Many
-                ? ".WithMany(t => t."
-                : ".WithOne(t => t.");
+            CodeBuilder.Append(relationship.PrimaryCardinality == Cardinality.Many ?
+                ".WithMany(t => t." :
+                ".WithOne(t => t.");
 
-            CodeBuilder.Append(relationship.PrimaryPropertyName);
+            CodeBuilder.Append(relationship.PrimaryPropertyName.ToIdentifierName(Options.Data.Entity.IdentifierNaming));
             CodeBuilder.Append(")");
 
             CodeBuilder.AppendLine();
@@ -146,7 +143,7 @@ namespace EntityFrameworkCore.Generator.Templates
 
             if (keys.Count == 1)
             {
-                var propertyName = keys.First().PropertyName.ToSafeName();
+                var propertyName = keys.First().PropertyName.ToSafeName().ToIdentifierName(Options.Data.Entity.IdentifierNaming);
                 CodeBuilder.Append($"d.{propertyName}");
             }
             else
@@ -177,7 +174,6 @@ namespace EntityFrameworkCore.Generator.Templates
             CodeBuilder.AppendLine(";");
         }
 
-
         private void GeneratePropertyMapping()
         {
             CodeBuilder.AppendLine("// properties");
@@ -193,7 +189,7 @@ namespace EntityFrameworkCore.Generator.Templates
             bool isString = property.SystemType == typeof(string);
             bool isByteArray = property.SystemType == typeof(byte[]);
 
-            CodeBuilder.Append($"builder.Property(t => t.{property.PropertyName})");
+            CodeBuilder.Append($"builder.Property(t => t.{property.PropertyName.ToIdentifierName(Options.Data.Entity.IdentifierNaming)})");
 
             CodeBuilder.IncrementIndent();
             if (property.IsRequired)
@@ -249,7 +245,6 @@ namespace EntityFrameworkCore.Generator.Templates
             CodeBuilder.AppendLine(";");
         }
 
-
         private void GenerateKeyMapping()
         {
             var keys = _entity.Properties.Where(p => p.IsPrimaryKey == true).ToList();
@@ -261,7 +256,7 @@ namespace EntityFrameworkCore.Generator.Templates
 
             if (keys.Count == 1)
             {
-                var propertyName = keys.First().PropertyName.ToSafeName();
+                var propertyName = keys.First().PropertyName.ToSafeName().ToIdentifierName(Options.Data.Entity.IdentifierNaming);
                 CodeBuilder.AppendLine($"t.{propertyName});");
                 CodeBuilder.AppendLine();
 
@@ -277,7 +272,7 @@ namespace EntityFrameworkCore.Generator.Templates
                     CodeBuilder.Append(", ");
 
                 CodeBuilder.Append("t.");
-                CodeBuilder.Append(p.PropertyName);
+                CodeBuilder.Append(p.PropertyName.ToIdentifierName(Options.Data.Entity.IdentifierNaming));
                 wroteLine = true;
             }
 
@@ -289,9 +284,9 @@ namespace EntityFrameworkCore.Generator.Templates
         {
             CodeBuilder.AppendLine("// table");
 
-            CodeBuilder.AppendLine(_entity.TableSchema.HasValue()
-                ? $"builder.ToTable(\"{_entity.TableName}\", \"{_entity.TableSchema}\");"
-                : $"builder.ToTable(\"{_entity.TableName}\");");
+            CodeBuilder.AppendLine(_entity.TableSchema.HasValue() ?
+                $"builder.ToTable(\"{_entity.TableName}\", \"{_entity.TableSchema}\");" :
+                $"builder.ToTable(\"{_entity.TableName}\");");
 
             CodeBuilder.AppendLine();
         }

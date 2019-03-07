@@ -21,6 +21,7 @@ namespace EntityFrameworkCore.Generator.Options
             EntityNaming = EntityNaming.Singular;
             PrefixWithSchemaName = false;
             Exclude = new EntitySelectionOptions();
+            Include = new EntitySelectionOptions();
         }
 
         /// <summary>
@@ -75,5 +76,13 @@ namespace EntityFrameworkCore.Generator.Options
         /// The exclude selection options.
         /// </value>
         public EntitySelectionOptions Exclude { get; set; }
+
+        /// <summary>
+        /// Gets or sets the include selection options.
+        /// </summary>
+        /// <value>
+        /// The include selection options.
+        /// </value>
+        public EntitySelectionOptions Include { get; set; }
     }
 }
