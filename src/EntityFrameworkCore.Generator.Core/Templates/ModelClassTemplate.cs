@@ -71,15 +71,15 @@ namespace EntityFrameworkCore.Generator.Templates
             foreach (var property in _model.Properties)
             {
                 var propertyType = property.SystemType.ToNullableType(property.IsNullable == true);
-                var propertyName = property.PropertyName.ToIdentifierName(Options.Data.Entity.IdentifierNaming);
+                var propertyName = property.PropertyName;
 
                 if (ShouldDocument())
                 {
                     CodeBuilder.AppendLine("/// <summary>");
-                    CodeBuilder.AppendLine($"/// Gets or sets the property value for '{property.PropertyName.ToIdentifierName(Options.Data.Entity.IdentifierNaming)}'.");
+                    CodeBuilder.AppendLine($"/// Gets or sets the property value for '{property.PropertyName}'.");
                     CodeBuilder.AppendLine("/// </summary>");
                     CodeBuilder.AppendLine("/// <value>");
-                    CodeBuilder.AppendLine($"/// The property value for '{property.PropertyName.ToIdentifierName(Options.Data.Entity.IdentifierNaming)}'.");
+                    CodeBuilder.AppendLine($"/// The property value for '{property.PropertyName}'.");
                     CodeBuilder.AppendLine("/// </value>");
                 }
 

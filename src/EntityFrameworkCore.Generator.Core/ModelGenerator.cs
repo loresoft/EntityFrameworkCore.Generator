@@ -557,7 +557,6 @@ namespace EntityFrameworkCore.Generator
             if (className.Equals(propertyName, StringComparison.OrdinalIgnoreCase))
                 propertyName += "Member";
 
-            propertyName = propertyName.ToIdentifierName(_options.Data.Entity.IdentifierNaming);
             return propertyName;
         }
 
@@ -573,12 +572,14 @@ namespace EntityFrameworkCore.Generator
             if (legalName.IsNullOrWhiteSpace())
                 legalName = "Number" + name;
 
-            legalName = legalName.ToPascalCase();
+            legalName = legalName
+                .ToPascalCase()
+                .ToIdentifierName(_options.Data.Entity.IdentifierNaming);
 
             return legalName;
         }
 
-        private bool IsIgnored<TOption>(Property property, TOption options, SharedModelOptions sharedOptions)
+        private static bool IsIgnored<TOption>(Property property, TOption options, SharedModelOptions sharedOptions)
         where TOption : ModelOptionsBase
         {
             var name = $"{property.Entity.EntityClass}.{property.PropertyName}";
@@ -597,7 +598,7 @@ namespace EntityFrameworkCore.Generator
             return IsIgnored(name, excludeExpressions, includeExpressions);
         }
 
-        private bool IsIgnored<TOption>(Entity entity, TOption options, SharedModelOptions sharedOptions)
+        private static bool IsIgnored<TOption>(Entity entity, TOption options, SharedModelOptions sharedOptions)
         where TOption : ModelOptionsBase
         {
             var name = entity.EntityClass;
@@ -616,14 +617,14 @@ namespace EntityFrameworkCore.Generator
             return IsIgnored(name, excludeExpressions, includeExpressions);
         }
 
-        private bool IsIgnored(string propertyName, EntityClassOptions entityClassOptions)
+        private static bool IsIgnored(string propertyName, EntityClassOptions entityClassOptions)
         {
             var excludeExpressions = new HashSet<string>(entityClassOptions.Exclude.Columns);
             var includeExpressions = new HashSet<string>(entityClassOptions.Include.Columns);
             return IsIgnored(propertyName, excludeExpressions, includeExpressions);
         }
 
-        private bool IsIgnored(string name, IEnumerable<string> excludeExpressions, IEnumerable<string> includeExpressions)
+        private static bool IsIgnored(string name, IEnumerable<string> excludeExpressions, IEnumerable<string> includeExpressions)
         {
 
             foreach (var expression in includeExpressions)
@@ -634,7 +635,6 @@ namespace EntityFrameworkCore.Generator
 
             foreach (var expression in excludeExpressions)
             {
-                _logger.LogInformation($"{name}: {expression}");
                 if (Regex.IsMatch(name, expression))
                     return true;
             }

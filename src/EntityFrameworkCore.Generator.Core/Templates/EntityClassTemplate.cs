@@ -108,10 +108,7 @@ namespace EntityFrameworkCore.Generator.Templates
             {
                 var propertyType = property.SystemType.ToNullableType(property.IsNullable == true);
                 var propertyName =
-                    property.PropertyName
-                    .ToSafeName()
-                    .ToIdentifierName(Options.Data.Entity.IdentifierNaming);
-
+                    property.PropertyName.ToSafeName();
                 if (Options.Data.Entity.Document)
                 {
                     CodeBuilder.AppendLine("/// <summary>");
@@ -135,9 +132,7 @@ namespace EntityFrameworkCore.Generator.Templates
             foreach (var relationship in _entity.Relationships)
             {
                 var propertyName =
-                    relationship.PropertyName
-                    .ToSafeName()
-                    .ToIdentifierName(Options.Data.Entity.IdentifierNaming);
+                    relationship.PropertyName.ToSafeName();
 
                 var primaryName = relationship.PrimaryEntity.EntityClass.ToSafeName();
 

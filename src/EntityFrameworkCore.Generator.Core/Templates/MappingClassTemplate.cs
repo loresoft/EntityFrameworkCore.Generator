@@ -113,7 +113,7 @@ namespace EntityFrameworkCore.Generator.Templates
         private void GenerateRelationshipMapping(Relationship relationship)
         {
             CodeBuilder.Append("builder.HasOne(t => t.");
-            CodeBuilder.Append(relationship.PropertyName.ToIdentifierName(Options.Data.Entity.IdentifierNaming));
+            CodeBuilder.Append(relationship.PropertyName);
             CodeBuilder.Append(")");
             CodeBuilder.AppendLine();
 
@@ -123,7 +123,7 @@ namespace EntityFrameworkCore.Generator.Templates
                 ".WithMany(t => t." :
                 ".WithOne(t => t.");
 
-            CodeBuilder.Append(relationship.PrimaryPropertyName.ToIdentifierName(Options.Data.Entity.IdentifierNaming));
+            CodeBuilder.Append(relationship.PrimaryPropertyName);
             CodeBuilder.Append(")");
 
             CodeBuilder.AppendLine();
@@ -143,7 +143,7 @@ namespace EntityFrameworkCore.Generator.Templates
 
             if (keys.Count == 1)
             {
-                var propertyName = keys.First().PropertyName.ToSafeName().ToIdentifierName(Options.Data.Entity.IdentifierNaming);
+                var propertyName = keys.First().PropertyName.ToSafeName();
                 CodeBuilder.Append($"d.{propertyName}");
             }
             else
@@ -189,7 +189,7 @@ namespace EntityFrameworkCore.Generator.Templates
             bool isString = property.SystemType == typeof(string);
             bool isByteArray = property.SystemType == typeof(byte[]);
 
-            CodeBuilder.Append($"builder.Property(t => t.{property.PropertyName.ToIdentifierName(Options.Data.Entity.IdentifierNaming)})");
+            CodeBuilder.Append($"builder.Property(t => t.{property.PropertyName})");
 
             CodeBuilder.IncrementIndent();
             if (property.IsRequired)
@@ -256,7 +256,7 @@ namespace EntityFrameworkCore.Generator.Templates
 
             if (keys.Count == 1)
             {
-                var propertyName = keys.First().PropertyName.ToSafeName().ToIdentifierName(Options.Data.Entity.IdentifierNaming);
+                var propertyName = keys.First().PropertyName.ToSafeName();
                 CodeBuilder.AppendLine($"t.{propertyName});");
                 CodeBuilder.AppendLine();
 
@@ -272,7 +272,7 @@ namespace EntityFrameworkCore.Generator.Templates
                     CodeBuilder.Append(", ");
 
                 CodeBuilder.Append("t.");
-                CodeBuilder.Append(p.PropertyName.ToIdentifierName(Options.Data.Entity.IdentifierNaming));
+                CodeBuilder.Append(p.PropertyName);
                 wroteLine = true;
             }
 
