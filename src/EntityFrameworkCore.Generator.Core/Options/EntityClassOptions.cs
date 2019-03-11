@@ -68,7 +68,6 @@ namespace EntityFrameworkCore.Generator.Options
         /// </summary>
         [DefaultValue(false)]
         public bool PrefixWithSchemaName { get; set; }
-
         /// <summary>
         /// Gets or sets the exclude selection options.
         /// </summary>
