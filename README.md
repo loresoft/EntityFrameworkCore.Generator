@@ -1,3 +1,22 @@
+# Forked Changes
+
+ - Added the ability to include or exclude Entity columns at a global level (useful for databases with system columns unneeded for the application)
+ 
+ - Added the ability to set casing of Identifier columns to ID or Id. See identifierNaming setting on the entity below. Options are: Upper, Lower, Preserve.  Upper: ID  Lower: Id  Preserve: <based on column> - This will not change the HasColumnName to preserve integrity.
+    
+ ```
+ entity:
+    namespace: '{Project.Namespace}'
+    directory: '{Project.Directory}'
+    entityNaming: Preserve
+    prefixWithSchemaName: false
+    identifierNaming: Lower
+    exclude:
+      columns:
+        - 'ExcludeMe'
+        - 'UnusedAppColumn'
+```
+
 # Overview
 
 .NET Core command-line (CLI) tool to generate Entity Framework Core model from an existing database.
