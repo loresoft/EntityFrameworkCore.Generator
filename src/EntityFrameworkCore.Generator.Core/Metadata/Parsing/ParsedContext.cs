@@ -14,6 +14,6 @@ namespace EntityFrameworkCore.Generator.Metadata.Parsing
 
         public string ContextClass { get; set; }
 
-        public List<ParsedEntitySet> Properties { get; private set; }
+        public List<ParsedEntitySet> Properties { get; }
     }
 }

@@ -118,5 +118,24 @@ namespace EntityFrameworkCore.Generator.Core.Tests.Parsing
 
         }
 
+        [Fact]
+        public void ParseNonContextFile()
+        {
+            var parser = new ContextParser(NullLoggerFactory.Instance);
+
+            var sb = new StringBuilder();
+            sb.AppendLine(@"namespace InstructorIQ.Core.Options");
+            sb.AppendLine(@"{");
+            sb.AppendLine(@"    public class HostingConfiguration : Options<User>");
+            sb.AppendLine(@"    {");
+            sb.AppendLine(@"        public string Version { get; set; }");
+            sb.AppendLine(@"    }");
+            sb.AppendLine(@"}");
+
+            var result = parser.ParseCode(sb.ToString());
+            result.Should().BeNull();
+
+        }
+
     }
 }

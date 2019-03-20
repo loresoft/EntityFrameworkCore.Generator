@@ -1,7 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
+using EntityFrameworkCore.Generator.Extensions;
 using EntityFrameworkCore.Generator.Metadata.Parsing;
+using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
@@ -18,9 +19,21 @@ namespace EntityFrameworkCore.Generator.Parsing
 
         public ParsedContext ParsedContext { get; set; }
 
+        public override void Visit(SyntaxNode node)
+        {
+            base.Visit(node);
+
+            if (ParsedContext == null)
+                return;
+
+            // clear if no properties found
+            if (ParsedContext.ContextClass.IsNullOrEmpty() || ParsedContext.Properties.Count == 0)
+                ParsedContext = null;
+        }
+
         public override void VisitClassDeclaration(ClassDeclarationSyntax node)
         {
-            var hasBaseType = node.BaseList
+            var hasBaseType = node.BaseList != null && node.BaseList
                 .DescendantNodes()
                 .OfType<IdentifierNameSyntax>()
                 .Any();
