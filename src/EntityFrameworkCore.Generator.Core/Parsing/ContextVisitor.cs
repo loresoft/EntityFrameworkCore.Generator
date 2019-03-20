@@ -10,6 +10,8 @@ namespace EntityFrameworkCore.Generator.Parsing
 {
     public class ContextVisitor : CSharpSyntaxWalker
     {
+        private string _currentClass;
+
         public ContextVisitor()
         {
             DataSetTypes = new HashSet<string> { "DbSet", "IDbSet" };
@@ -19,18 +21,6 @@ namespace EntityFrameworkCore.Generator.Parsing
 
         public ParsedContext ParsedContext { get; set; }
 
-        public override void Visit(SyntaxNode node)
-        {
-            base.Visit(node);
-
-            if (ParsedContext == null)
-                return;
-
-            // clear if no properties found
-            if (ParsedContext.ContextClass.IsNullOrEmpty() || ParsedContext.Properties.Count == 0)
-                ParsedContext = null;
-        }
-
         public override void VisitClassDeclaration(ClassDeclarationSyntax node)
         {
             var hasBaseType = node.BaseList != null && node.BaseList
@@ -39,13 +29,7 @@ namespace EntityFrameworkCore.Generator.Parsing
                 .Any();
 
             if (hasBaseType)
-            {
-                var name = node.Identifier.Text;
-                if (ParsedContext == null)
-                    ParsedContext = new ParsedContext();
-
-                ParsedContext.ContextClass = name;
-            }
+                _currentClass = node.Identifier.Text;
 
             base.VisitClassDeclaration(node);
         }
@@ -88,11 +72,15 @@ namespace EntityFrameworkCore.Generator.Parsing
             if (string.IsNullOrEmpty(className) || string.IsNullOrEmpty(propertyName))
                 return;
 
+            if (ParsedContext == null)
+                ParsedContext = new ParsedContext { ContextClass = _currentClass };
+
             var entitySet = new ParsedEntitySet
             {
                 EntityClass = className,
                 ContextProperty = propertyName
             };
+
             ParsedContext.Properties.Add(entitySet);
         }
     }
