@@ -1,4 +1,5 @@
-﻿using EntityFrameworkCore.Generator.Extensions;
+﻿using System.Linq;
+using EntityFrameworkCore.Generator.Extensions;
 using EntityFrameworkCore.Generator.Metadata.Generation;
 using EntityFrameworkCore.Generator.Options;
 
@@ -67,7 +68,7 @@ namespace EntityFrameworkCore.Generator.Templates
         private void GenerateMethods()
         {
             CodeBuilder.AppendLine("#region Generated Extensions");
-            foreach (var method in _entity.Methods)
+            foreach (var method in _entity.Methods.OrderBy(m => m.NameSuffix))
             {
                 if (method.IsKey)
                 {

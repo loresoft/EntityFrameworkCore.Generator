@@ -1,7 +1,7 @@
-﻿using EntityFrameworkCore.Generator.Extensions;
+﻿using System.Linq;
+using EntityFrameworkCore.Generator.Extensions;
 using EntityFrameworkCore.Generator.Metadata.Generation;
 using EntityFrameworkCore.Generator.Options;
-using Microsoft.EntityFrameworkCore.Internal;
 
 namespace EntityFrameworkCore.Generator.Templates
 {
@@ -86,7 +86,7 @@ namespace EntityFrameworkCore.Generator.Templates
         private void GenerateDbSets()
         {
             CodeBuilder.AppendLine("#region Generated Properties");
-            foreach (var entityType in _entityContext.Entities)
+            foreach (var entityType in _entityContext.Entities.OrderBy(e => e.ContextProperty))
             {
                 var entityClass = entityType.EntityClass.ToSafeName();
                 var propertyName = entityType.ContextProperty.ToSafeName();
@@ -128,7 +128,7 @@ namespace EntityFrameworkCore.Generator.Templates
             using (CodeBuilder.Indent())
             {
                 CodeBuilder.AppendLine("#region Generated Configuration");
-                foreach (var entityType in _entityContext.Entities)
+                foreach (var entityType in _entityContext.Entities.OrderBy(e => e.MappingClass))
                 {
                     var mappingClass = entityType.MappingClass.ToSafeName();
 
