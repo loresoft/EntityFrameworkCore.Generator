@@ -15,7 +15,10 @@ public partial class StatusProfile
         CreateMap<Status, StatusReadModel>();
         CreateMap<StatusCreateModel, Status>();
         CreateMap<StatusUpdateModel, Status>();
+        CreateCustomMap();
     }
+
+    partial void CreateCustomMap();
 }
 ```
 

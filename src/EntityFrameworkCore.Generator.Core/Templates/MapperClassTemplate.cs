@@ -72,6 +72,14 @@ namespace EntityFrameworkCore.Generator.Templates
             using (CodeBuilder.Indent())
             {
                 GenerateConstructor();
+
+                if (Options.Model.Mapper.Document)
+                {
+                    CodeBuilder.AppendLine("/// <summary>");
+                    CodeBuilder.AppendLine($"/// Partial method that can be implemented in a partial class to initialize custom mapping.");
+                    CodeBuilder.AppendLine("/// </summary>");
+                }
+                CodeBuilder.AppendLine("partial void CreateCustomMap();");
             }
 
             CodeBuilder.AppendLine("}");
@@ -115,6 +123,8 @@ namespace EntityFrameworkCore.Generator.Templates
                             break;
                     }
                 }
+
+                CodeBuilder.AppendLine("CreateCustomMap();");
             }
 
             CodeBuilder.AppendLine("}");
