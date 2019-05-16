@@ -73,6 +73,7 @@ namespace EntityFrameworkCore.Generator.Templates
         {
             var relationships = _entity.Relationships
                 .Where(r => r.Cardinality == Cardinality.Many)
+                .OrderBy(r => r.PropertyName)
                 .ToList();
 
             var entityClass = _entity.EntityClass.ToSafeName();
@@ -132,7 +133,7 @@ namespace EntityFrameworkCore.Generator.Templates
         private void GenerateRelationshipProperties()
         {
             CodeBuilder.AppendLine("#region Generated Relationships");
-            foreach (var relationship in _entity.Relationships)
+            foreach (var relationship in _entity.Relationships.OrderBy(r => r.PropertyName))
             {
                 var propertyName = relationship.PropertyName.ToSafeName();
                 var primaryName = relationship.PrimaryEntity.EntityClass.ToSafeName();
