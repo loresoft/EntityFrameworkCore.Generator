@@ -47,6 +47,14 @@ namespace EntityFrameworkCore.Generator.Templates
             }
 
             CodeBuilder.AppendLine($"public partial class {entityClass}");
+
+            if (_entity.EntityBaseClass.HasValue())
+            {
+                var entityBaseClass = _entity.EntityBaseClass.ToSafeName();
+                using (CodeBuilder.Indent())
+                    CodeBuilder.AppendLine($": {entityBaseClass}");
+            }
+
             CodeBuilder.AppendLine("{");
 
             using (CodeBuilder.Indent())
@@ -77,10 +85,6 @@ namespace EntityFrameworkCore.Generator.Templates
             }
 
             CodeBuilder.AppendLine($"public {entityClass}()");
-            if (_entity.EntityBaseClass.HasValue())
-                using (CodeBuilder.Indent())
-                    CodeBuilder.AppendLine($": {_entity.EntityBaseClass}");
-
             CodeBuilder.AppendLine("{");
 
             using (CodeBuilder.Indent())
