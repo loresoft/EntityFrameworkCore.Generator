@@ -7,7 +7,7 @@ using Microsoft.Extensions.Logging;
 
 namespace EntityFrameworkCore.Generator
 {
-    [Command("initialize")]
+    [Command("initialize", "init")]
     public class InitializeCommand : OptionsCommandBase
     {
         public InitializeCommand(ILoggerFactory logger, IConsole console, IGeneratorOptionsSerializer serializer)
