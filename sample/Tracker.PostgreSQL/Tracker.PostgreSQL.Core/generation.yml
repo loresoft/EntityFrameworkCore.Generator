@@ -1,0 +1,49 @@
+project:
+  namespace: '{Database.Name}.PostgreSQL.Core'
+  directory: .\
+database:
+  provider: PostgreSQL
+  connectionString: 'Server=ares;Port=5432;Database=Tracker;User Id=postgres;Password=!p@ssword;'
+data:
+  context:
+    name: '{Database.Name}Context'
+    baseClass: DbContext
+    namespace: '{Project.Namespace}.Data'
+    directory: '{Project.Directory}\Data'
+  entity:
+    namespace: '{Project.Namespace}.Data.Entities'
+    directory: '{Project.Directory}\Data\Entities'
+  mapping:
+    namespace: '{Project.Namespace}.Data.Mapping'
+    directory: '{Project.Directory}\Data\Mapping'
+  query:
+    generate: true
+    indexPrefix: By
+    uniquePrefix: GetBy
+    namespace: '{Project.Namespace}.Data.Queries'
+    directory: '{Project.Directory}\Data\Queries'
+model:
+  shared:
+    namespace: '{Project.Namespace}.Domain.Models'
+    directory: '{Project.Directory}\Domain\Models'
+  read:
+    generate: true
+    name: '{Entity.Name}ReadModel'
+  create:
+    generate: true
+    name: '{Entity.Name}CreateModel'
+  update:
+    generate: true
+    name: '{Entity.Name}UpdateModel'
+  mapper:
+    generate: true
+    name: '{Entity.Name}Profile'
+    baseClass: AutoMapper.Profile
+    namespace: '{Project.Namespace}.Domain.Mapping'
+    directory: '{Project.Directory}\Domain\Mapping'
+  validator:
+    generate: true
+    name: '{Model.Name}Validator'
+    baseClass: AbstractValidator<{Model.Name}>
+    namespace: '{Project.Namespace}.Domain.Validation'
+    directory: '{Project.Directory}\Domain\Validation'
