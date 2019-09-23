@@ -1,9 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using EntityFrameworkCore.Generator.Options;
 using FluentAssertions;
 using Microsoft.EntityFrameworkCore.Scaffolding.Metadata;
+using Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal;
+using Microsoft.EntityFrameworkCore.Storage;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Microsoft.Extensions.Logging.Abstractions;
 using Xunit;
 
@@ -47,7 +51,9 @@ namespace EntityFrameworkCore.Generator.Core.Tests
             testTable.Columns.Add(nameColumn);
             var generator = new ModelGenerator(NullLoggerFactory.Instance);
 
-            var result = generator.Generate(generatorOptions, databaseModel);
+            var typeMappingSource = CreateTypeMappingSource();
+
+            var result = generator.Generate(generatorOptions, databaseModel, typeMappingSource);
             result.ContextClass.Should().Be("TestDatabaseContext");
             result.ContextNamespace.Should().Be("TestDatabase.Data");
             result.Entities.Count.Should().Be(1);
@@ -70,7 +76,7 @@ namespace EntityFrameworkCore.Generator.Core.Tests
             nameProperty.Should().NotBeNull();
             nameProperty.PropertyName.Should().Be("Name");
         }
-
+        
         [Fact]
         public void GenerateModelsCheckNames()
         {
@@ -113,7 +119,9 @@ namespace EntityFrameworkCore.Generator.Core.Tests
             testTable.Columns.Add(nameColumn);
             var generator = new ModelGenerator(NullLoggerFactory.Instance);
 
-            var result = generator.Generate(generatorOptions, databaseModel);
+            var typeMappingSource = CreateTypeMappingSource();
+
+            var result = generator.Generate(generatorOptions, databaseModel, typeMappingSource);
             result.ContextClass.Should().Be("TestDatabaseContext");
             result.ContextNamespace.Should().Be("TestDatabase.Data");
             result.Entities.Count.Should().Be(1);
@@ -167,7 +175,9 @@ namespace EntityFrameworkCore.Generator.Core.Tests
             databaseTable.Columns.Add(databaseColumn);
 
             var generator = new ModelGenerator(NullLoggerFactory.Instance);
-            var result = generator.Generate(generatorOptions, databaseModel);
+            var typeMappingSource = CreateTypeMappingSource();
+
+            var result = generator.Generate(generatorOptions, databaseModel, typeMappingSource);
             result.ContextClass.Should().Be("TestSymbolContext");
             result.ContextNamespace.Should().Be("TestSymbol.Data");
 
@@ -211,7 +221,9 @@ namespace EntityFrameworkCore.Generator.Core.Tests
             testTable.Columns.Add(numberColumn);
             var generator = new ModelGenerator(NullLoggerFactory.Instance);
 
-            var result = generator.Generate(generatorOptions, databaseModel);
+            var typeMappingSource = CreateTypeMappingSource();
+
+            var result = generator.Generate(generatorOptions, databaseModel, typeMappingSource);
             result.ContextClass.Should().Be("TestDatabaseContext");
             result.ContextNamespace.Should().Be("TestDatabase.Data");
             result.Entities.Count.Should().Be(1);
@@ -269,7 +281,9 @@ create default abc0 as 0
             testTable.Columns.Add(nameColumn);
             var generator = new ModelGenerator(NullLoggerFactory.Instance);
 
-            var result = generator.Generate(generatorOptions, databaseModel);
+            var typeMappingSource = CreateTypeMappingSource();
+
+            var result = generator.Generate(generatorOptions, databaseModel, typeMappingSource);
             result.ContextClass.Should().Be("TestDatabaseContext");
             result.ContextNamespace.Should().Be("TestDatabase.Data");
             result.Entities.Count.Should().Be(1);
@@ -329,7 +343,9 @@ create default abc0 as 0
             testTable.Columns.Add(nameColumn);
             var generator = new ModelGenerator(NullLoggerFactory.Instance);
 
-            var result = generator.Generate(generatorOptions, databaseModel);
+            var typeMappingSource = CreateTypeMappingSource();
+
+            var result = generator.Generate(generatorOptions, databaseModel, typeMappingSource);
             result.ContextClass.Should().Be("TestDatabaseContext");
             result.ContextNamespace.Should().Be("TestDatabase.Data");
             result.Entities.Count.Should().Be(1);
@@ -415,7 +431,9 @@ create default abc0 as 0
 
             var generator = new ModelGenerator(NullLoggerFactory.Instance);
 
-            var result = generator.Generate(generatorOptions, databaseModel);
+            var typeMappingSource = CreateTypeMappingSource();
+
+            var result = generator.Generate(generatorOptions, databaseModel, typeMappingSource);
 
             result.ContextClass.Should().Be("TestDatabaseContext");
             result.ContextNamespace.Should().Be("TestDatabase.Data");
@@ -437,6 +455,22 @@ create default abc0 as 0
             secondEntity.MappingClass.Should().Be("TstTestTableMap");
             secondEntity.MappingNamespace.Should().Be("TestDatabase.Data.Mapping");
 
+        }
+
+        private static SqlServerTypeMappingSource CreateTypeMappingSource()
+        {
+#pragma warning disable EF1001 // Internal EF Core API usage.
+            var sqlServerTypeMappingSource = new SqlServerTypeMappingSource(
+                new TypeMappingSourceDependencies(
+                    new ValueConverterSelector(
+                        new ValueConverterSelectorDependencies()
+                    ),
+                    Enumerable.Empty<ITypeMappingSourcePlugin>()
+                ),
+                new RelationalTypeMappingSourceDependencies(Enumerable.Empty<IRelationalTypeMappingSourcePlugin>())
+            );
+#pragma warning restore EF1001 // Internal EF Core API usage.
+            return sqlServerTypeMappingSource;
         }
 
     }

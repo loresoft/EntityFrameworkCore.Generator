@@ -3,6 +3,7 @@ using System.Linq;
 using EntityFrameworkCore.Generator.Extensions;
 using EntityFrameworkCore.Generator.Metadata.Generation;
 using EntityFrameworkCore.Generator.Options;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace EntityFrameworkCore.Generator.Templates
@@ -252,11 +253,17 @@ namespace EntityFrameworkCore.Generator.Templates
 
         private void GenerateKeyMapping()
         {
+            CodeBuilder.AppendLine("// key");
+
             var keys = _entity.Properties.Where(p => p.IsPrimaryKey == true).ToList();
             if (keys.Count == 0)
-                return;
+            {
+                CodeBuilder.AppendLine("builder.HasNoKey();");
+                CodeBuilder.AppendLine();
 
-            CodeBuilder.AppendLine("// key");
+                return;
+            }
+
             CodeBuilder.Append("builder.HasKey(t => ");
 
             if (keys.Count == 1)
@@ -289,9 +296,13 @@ namespace EntityFrameworkCore.Generator.Templates
         {
             CodeBuilder.AppendLine("// table");
 
+            var method = _entity.IsView 
+                ? nameof(RelationalEntityTypeBuilderExtensions.ToView) 
+                : nameof(RelationalEntityTypeBuilderExtensions.ToTable);
+
             CodeBuilder.AppendLine(_entity.TableSchema.HasValue()
-                ? $"builder.ToTable(\"{_entity.TableName}\", \"{_entity.TableSchema}\");"
-                : $"builder.ToTable(\"{_entity.TableName}\");");
+                ? $"builder.{method}(\"{_entity.TableName}\", \"{_entity.TableSchema}\");"
+                : $"builder.{method}(\"{_entity.TableName}\");");
 
             CodeBuilder.AppendLine();
         }

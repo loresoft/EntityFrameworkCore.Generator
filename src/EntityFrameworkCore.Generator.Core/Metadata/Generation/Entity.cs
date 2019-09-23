@@ -119,5 +119,7 @@ namespace EntityFrameworkCore.Generator.Metadata.Generation
         /// </value>
         public ModelCollection Models { get; set; }
 
+        public bool IsView { get; set; }    
+
     }
 }
