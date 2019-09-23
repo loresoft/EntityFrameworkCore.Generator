@@ -1,17 +1,16 @@
-﻿using EntityFrameworkCore.Generator.Extensions;
+﻿using System;
+using System.IO;
+using EntityFrameworkCore.Generator.Extensions;
 using EntityFrameworkCore.Generator.Metadata.Generation;
 using EntityFrameworkCore.Generator.Options;
 using EntityFrameworkCore.Generator.Parsing;
 using EntityFrameworkCore.Generator.Templates;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Diagnostics;
-using Microsoft.EntityFrameworkCore.Internal;
+using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.EntityFrameworkCore.Scaffolding;
 using Microsoft.EntityFrameworkCore.Scaffolding.Metadata;
+using Microsoft.EntityFrameworkCore.Storage;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Diagnostics;
-using System.IO;
 
 namespace EntityFrameworkCore.Generator
 {
@@ -19,7 +18,6 @@ namespace EntityFrameworkCore.Generator
     {
         private readonly ILoggerFactory _loggerFactory;
         private readonly ILogger _logger;
-        private readonly IDiagnosticsLogger<DbLoggerCategory.Scaffolding> _diagnosticsLogger;
         private readonly ModelGenerator _modelGenerator;
         private readonly SourceSynchronizer _synchronizer;
 
@@ -27,7 +25,6 @@ namespace EntityFrameworkCore.Generator
         {
             _loggerFactory = loggerFactory;
             _logger = loggerFactory.CreateLogger<CodeGenerator>();
-            _diagnosticsLogger = new DiagnosticsLogger<DbLoggerCategory.Scaffolding>(loggerFactory, new LoggingOptions(), new DiagnosticListener(""));
             _modelGenerator = new ModelGenerator(loggerFactory);
             _synchronizer = new SourceSynchronizer(loggerFactory);
         }
@@ -38,15 +35,15 @@ namespace EntityFrameworkCore.Generator
         {
             Options = options ?? throw new ArgumentNullException(nameof(options));
 
-            var factory = GetDatabaseModelFactory();
-            var databaseModel = GetDatabaseModel(factory);
+            var databaseProviders = GetDatabaseProviders();
+            var databaseModel = GetDatabaseModel(databaseProviders.factory);
 
             if (databaseModel == null)
                 throw new InvalidOperationException("Failed to create database model");
 
             _logger.LogInformation($"Loaded database model for: {databaseModel.DatabaseName}");
 
-            var context = _modelGenerator.Generate(Options, databaseModel);
+            var context = _modelGenerator.Generate(Options, databaseModel, databaseProviders.mapping);
 
             _synchronizer.UpdateFromSource(context, options);
 
@@ -249,8 +246,9 @@ namespace EntityFrameworkCore.Generator
 
             var database = Options.Database;
             var connectionString = ResolveConnectionString(database);
+            var options = new DatabaseModelFactoryOptions(database.Tables, database.Schemas);
 
-            return factory.Create(connectionString, database.Tables, database.Schemas);
+            return factory.Create(connectionString, options);
         }
 
         private string ResolveConnectionString(DatabaseOptions database)
@@ -268,21 +266,71 @@ namespace EntityFrameworkCore.Generator
             throw new InvalidOperationException("Could not find connection string.");
         }
 
-        private IDatabaseModelFactory GetDatabaseModelFactory()
+
+        private (IDatabaseModelFactory factory, IRelationalTypeMappingSource mapping) GetDatabaseProviders()
         {
             var provider = Options.Database.Provider;
 
             _logger.LogDebug($"Creating database model factory for: {provider}");
-            if (provider == DatabaseProviders.SqlServer)
-                return new Microsoft.EntityFrameworkCore.SqlServer.Scaffolding.Internal.SqlServerDatabaseModelFactory(_diagnosticsLogger);
 
-            if (provider == DatabaseProviders.PostgreSQL)
-                return new Npgsql.EntityFrameworkCore.PostgreSQL.Scaffolding.Internal.NpgsqlDatabaseModelFactory(_diagnosticsLogger);
+            // start a new service container to create the database model factory
+            var services = new ServiceCollection()
+                .AddSingleton(_loggerFactory)
+                .AddEntityFrameworkDesignTimeServices();
 
-            //if (Options.Database.Provider == DatabaseProviders.Sqlite)
-            //    return new Microsoft.EntityFrameworkCore.Sqlite.Scaffolding.Internal.SqliteDatabaseModelFactory(_diagnosticsLogger, null);
+            switch (provider)
+            {
+                case DatabaseProviders.SqlServer:
+                    ConfigureSqlServerServices(services);
+                    break;
+                case DatabaseProviders.PostgreSQL:
+                    ConfigurePostgresServices(services);
+                    break;
+                case DatabaseProviders.MySQL:
+                    ConfigureMySqlServices(services);
+                    break;
+                case DatabaseProviders.Sqlite:
+                    ConfigureSqliteServices(services);
+                    break;
+                default:
+                    throw new NotSupportedException($"The specified provider '{provider}' is not supported.");
+            }
 
-            throw new NotSupportedException($"The specified provider '{provider}' is not supported.");
+            var serviceProvider = services
+                .BuildServiceProvider();
+
+            var databaseModelFactory = serviceProvider
+                .GetRequiredService<IDatabaseModelFactory>();
+
+            var typeMappingSource = serviceProvider
+                .GetRequiredService<IRelationalTypeMappingSource>();
+
+            return (databaseModelFactory, typeMappingSource);
+        }
+
+
+        private void ConfigureMySqlServices(IServiceCollection services)
+        {
+            var designTimeServices = new Pomelo.EntityFrameworkCore.MySql.Design.Internal.MySqlDesignTimeServices();
+            designTimeServices.ConfigureDesignTimeServices(services);
+        }
+        
+        private void ConfigurePostgresServices(IServiceCollection services)
+        {
+            var designTimeServices = new Npgsql.EntityFrameworkCore.PostgreSQL.Design.Internal.NpgsqlDesignTimeServices();
+            designTimeServices.ConfigureDesignTimeServices(services);
+        }
+
+        private void ConfigureSqlServerServices(IServiceCollection services)
+        {
+            var designTimeServices = new Microsoft.EntityFrameworkCore.SqlServer.Design.Internal.SqlServerDesignTimeServices();
+            designTimeServices.ConfigureDesignTimeServices(services);
+        }
+
+        private void ConfigureSqliteServices(IServiceCollection services)
+        {
+            var designTimeServices = new Microsoft.EntityFrameworkCore.Sqlite.Design.Internal.SqliteDesignTimeServices();
+            designTimeServices.ConfigureDesignTimeServices(services);
         }
     }
 }

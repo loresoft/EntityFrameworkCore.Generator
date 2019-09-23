@@ -1,5 +1,5 @@
-version: 1.1.0.{build}
-os: Visual Studio 2017
+version: 2.0.0.{build}
+os: Visual Studio 2019
 
 environment:
   ASPNETCORE_ENVIRONMENT: appveyor
@@ -9,8 +9,11 @@ environment:
 init:
   - git config --global core.autocrlf input
 
+install: 
+  - choco install dotnetcore-sdk
+
 services:
-  - mssql2016
+  - mssql2017
 
 dotnet_csproj:
   patch: true

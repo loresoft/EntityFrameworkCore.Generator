@@ -163,7 +163,7 @@ namespace EntityFrameworkCore.Generator.Templates
             string uniquePrefix = Options.Data.Query.UniquePrefix;
 
             string asyncSuffix = async ? "Async" : string.Empty;
-            string returnType = async ? $"Task<{safeName}>" : safeName;
+            string returnType = async ? $"ValueTask<{safeName}>" : safeName;
 
             if (Options.Data.Query.Document)
             {
@@ -191,9 +191,19 @@ namespace EntityFrameworkCore.Generator.Templates
                 }
 
                 CodeBuilder.AppendLine("");
-                CodeBuilder.Append($"return queryable.FirstOrDefault{asyncSuffix}(");
-                AppendLamba(method);
-                CodeBuilder.AppendLine(");");
+                if (async)
+                {
+                    CodeBuilder.Append($"var task = queryable.FirstOrDefault{asyncSuffix}(");
+                    AppendLamba(method);
+                    CodeBuilder.AppendLine(");");
+                    CodeBuilder.AppendLine($"return new {returnType}(task);");
+                }
+                else
+                {
+                    CodeBuilder.Append($"return queryable.FirstOrDefault{asyncSuffix}(");
+                    AppendLamba(method);
+                    CodeBuilder.AppendLine(");");
+                }
             }
             CodeBuilder.AppendLine("}");
             CodeBuilder.AppendLine();

@@ -1,12 +1,11 @@
-﻿using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Configuration.UserSecrets;
-using Microsoft.Extensions.Logging;
-using Newtonsoft.Json.Linq;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Configuration.UserSecrets;
 
 namespace EntityFrameworkCore.Generator
 {
@@ -51,16 +50,21 @@ namespace EntityFrameworkCore.Generator
             var secretDir = Path.GetDirectoryName(_secretsFilePath);
             Directory.CreateDirectory(secretDir);
 
-            var contents = new JObject();
-            if (_secrets != null)
+            var options = new JsonWriterOptions
             {
-                foreach (var secret in _secrets.AsEnumerable())
-                {
-                    contents[secret.Key] = secret.Value;
-                }
-            }
+                Indented = true
+            };
 
-            File.WriteAllText(_secretsFilePath, contents.ToString(), Encoding.UTF8);
+            using var stream = File.Create(_secretsFilePath);
+            using var writer = new Utf8JsonWriter(stream, options);
+
+            writer.WriteStartObject();
+
+            foreach (var secret in _secrets.AsEnumerable())
+                writer.WriteString(secret.Key, secret.Value);
+
+            writer.WriteEndObject();
+            writer.Flush();
         }
 
         protected virtual IDictionary<string, string> Load(string userSecretsId)
