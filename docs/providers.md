@@ -3,9 +3,9 @@
 Entity Framework Core Generator (efg) supports the following databases.
 
 * SQL Server
-* PostgreSQL *Coming Soon*
-* MySQL *Coming Soon*
-* Sqlite *Coming Soon*
+* PostgreSQL
+* MySQL
+* Sqlite
 
 ## Database Schema
 

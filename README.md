@@ -123,9 +123,9 @@ In order to capture and preserve Entity, Property and DbContext renames, the `ge
 Entity Framework Core Generator supports the following databases.
 
 - SQL Server
-- PostgreSQL *Coming Soon*
-- MySQL *Coming Soon*
-- Sqlite *Coming Soon*
+- PostgreSQL
+- MySQL
+- Sqlite
 
 The provider can be set via command line or via the [configuration file](https://efg.loresoft.com/en/latest/configuration/).
 
@@ -152,6 +152,12 @@ The database schema is loaded from the metadata model factory implementation of 
 Entity Framework Core Generator supports generating [Read](https://efg.loresoft.com/en/latest/md/read/), [Create](https://efg.loresoft.com/en/latest/md/create/) and [Update](https://efg.loresoft.com/en/latest/md/update/) view models from an entity.  Many projects rely on view models to shape data.  The model templates can be used to quickly get the basic view models created.  The model templates also support regeneration so any database change can easily be sync'd to the view models.  
 
 ## Change Log
+
+### Version 2.0
+
+- Add support for Entity Framework Core 3.0
+- Add provider support for PostgreSQL, MySQL and Sqlite
+- Add View support
 
 ### Version 1.1
 
