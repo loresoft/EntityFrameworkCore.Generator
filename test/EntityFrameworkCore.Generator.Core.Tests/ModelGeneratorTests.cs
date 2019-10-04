@@ -76,7 +76,7 @@ namespace EntityFrameworkCore.Generator.Core.Tests
             nameProperty.Should().NotBeNull();
             nameProperty.PropertyName.Should().Be("Name");
         }
-        
+
         [Fact]
         public void GenerateModelsCheckNames()
         {
@@ -147,6 +147,54 @@ namespace EntityFrameworkCore.Generator.Core.Tests
             firstModel.ValidatorClass.Should().EndWith("Validator");
             firstModel.ValidatorNamespace.Should().Be("TestDatabase.Domain.Validation");
 
+        }
+
+        [Fact]
+        public void GenerateCustomEntitieNames()
+        {
+            var generatorOptions = new GeneratorOptions();
+            generatorOptions.Data.Entity.Name = "{Entity.Name}Entity";
+
+            var databaseModel = new DatabaseModel
+            {
+                DatabaseName = "TestDatabase",
+                DefaultSchema = "dbo"
+            };
+            var testTable = new DatabaseTable
+            {
+                Database = databaseModel,
+                Name = "TestTable",
+                Schema = "dbo"
+            };
+            databaseModel.Tables.Add(testTable);
+
+            var identifierColumn = new DatabaseColumn
+            {
+                Table = testTable,
+                Name = "Id",
+                IsNullable = false,
+                StoreType = "int"
+            };
+            testTable.Columns.Add(identifierColumn);
+
+            var nameColumn = new DatabaseColumn
+            {
+                Table = testTable,
+                Name = "Name",
+                IsNullable = true,
+                StoreType = "varchar(50)"
+            };
+            testTable.Columns.Add(nameColumn);
+            var generator = new ModelGenerator(NullLoggerFactory.Instance);
+
+            var typeMappingSource = CreateTypeMappingSource();
+
+            var result = generator.Generate(generatorOptions, databaseModel, typeMappingSource);
+            var firstEntity = result.Entities[0];
+            firstEntity.TableName.Should().Be("TestTable");
+            firstEntity.TableSchema.Should().Be("dbo");
+            firstEntity.EntityClass.Should().Be("TestTableEntity");
+            firstEntity.EntityNamespace.Should().Be("TestDatabase.Data.Entities");
         }
 
         [Fact]

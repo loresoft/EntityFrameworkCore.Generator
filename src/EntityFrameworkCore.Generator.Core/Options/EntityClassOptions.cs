@@ -21,6 +21,7 @@ namespace EntityFrameworkCore.Generator.Options
             RelationshipNaming = RelationshipNaming.Plural;
             EntityNaming = EntityNaming.Singular;
             PrefixWithSchemaName = false;
+            Name = "{Entity.Name}";
         }
 
         /// <summary>
@@ -58,5 +59,17 @@ namespace EntityFrameworkCore.Generator.Options
         /// </summary>
         [DefaultValue(false)]
         public bool PrefixWithSchemaName { get; set; }
+
+        /// <summary>
+        /// Gets or sets the mapper class name template.
+        /// </summary>
+        /// <value>
+        /// The mapper class name template.
+        /// </value>
+        public string Name
+        {
+            get => GetProperty();
+            set => SetProperty(value);
+        }
     }
 }

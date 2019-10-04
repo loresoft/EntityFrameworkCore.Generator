@@ -65,9 +65,12 @@ namespace EntityFrameworkCore.Generator
             foreach (var t in tables)
             {
                 _logger.LogDebug($"  Processing Table : {t.Name}");
+                _options.Variables.Set("Entity.Name", t.Name);
 
                 var entity = GetEntity(entityContext, t);
                 GetModels(entity);
+
+                _options.Variables.Remove("Entity.Name");
             }
 
             return entityContext;
@@ -76,7 +79,7 @@ namespace EntityFrameworkCore.Generator
 
         private Entity GetEntity(EntityContext entityContext, DatabaseTable tableSchema, bool processRelationships = true, bool processMethods = true)
         {
-            Entity entity = entityContext.Entities.ByTable(tableSchema.Name, tableSchema.Schema)
+            Entity entity = entityContext.Entities.ByTable(_options.Data.Entity.Name, tableSchema.Schema)
                 ?? CreateEntity(entityContext, tableSchema);
 
             if (!entity.Properties.IsProcessed)
@@ -101,7 +104,7 @@ namespace EntityFrameworkCore.Generator
                 TableSchema = tableSchema.Schema
             };
 
-            string entityClass = ToClassName(tableSchema.Name, tableSchema.Schema);
+            string entityClass = ToClassName(_options.Data.Entity.Name, tableSchema.Schema);
             entityClass = _namer.UniqueClassName(entityClass);
 
             string entityNamespace = _options.Data.Entity.Namespace;
@@ -374,8 +377,6 @@ namespace EntityFrameworkCore.Generator
             if (entity == null || entity.Models.IsProcessed)
                 return;
 
-            _options.Variables.Set("Entity.Name", entity.EntityClass);
-
             if (_options.Model.Read.Generate)
                 CreateModel(entity, _options.Model.Read, ModelType.Read);
             if (_options.Model.Create.Generate)
@@ -394,8 +395,6 @@ namespace EntityFrameworkCore.Generator
                 entity.MapperNamespace = mapperNamespace;
                 entity.MapperBaseClass = _options.Model.Mapper.BaseClass;
             }
-
-            _options.Variables.Remove("Entity.Name");
 
             entity.Models.IsProcessed = true;
         }

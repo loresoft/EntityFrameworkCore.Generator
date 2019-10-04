@@ -64,6 +64,7 @@ data:
 
   # entity class file configuration
   entity:
+    name: '{EntityName}' # the entity class name
     namespace: '{Project.Namespace}.Data.Entities'  # the entity class namespace
     directory: '{Project.Directory}\Data\Entities'  # the entity class output directory
 

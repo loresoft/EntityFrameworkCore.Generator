@@ -53,12 +53,16 @@ Example configuration
 ```YAML
 data:
   entity:
+    name: '{Entity.Name}'
     namespace: '{Project.Namespace}.Data.Entities'
     directory: '{Project.Directory}\Data\Entities'
     entityNaming: Singular
     relationshipNaming: Plural
     prefixWithSchemaName: false
 ```
+### name
+
+The name for the class. _Variables Supported_
 
 ### namespace
 
