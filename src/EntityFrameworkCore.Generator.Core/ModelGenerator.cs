@@ -36,7 +36,7 @@ namespace EntityFrameworkCore.Generator
             if (databaseModel == null)
                 throw new ArgumentNullException(nameof(databaseModel));
 
-            _logger.LogInformation($"Building code generation model from database: {databaseModel.DatabaseName}");
+            _logger.LogInformation("Building code generation model from database: {databaseName}", databaseModel.DatabaseName);
 
             _options = options ?? throw new ArgumentNullException(nameof(options));
             _typeMapper = typeMappingSource;
@@ -64,7 +64,7 @@ namespace EntityFrameworkCore.Generator
 
             foreach (var t in tables)
             {
-                _logger.LogDebug($"  Processing Table : {t.Name}");
+                _logger.LogDebug("  Processing Table : {tableName}", t.Name);
 
                 var entity = GetEntity(entityContext, t);
                 GetModels(entity);
@@ -139,6 +139,14 @@ namespace EntityFrameworkCore.Generator
             foreach (var column in columns)
             {
                 var table = column.Table;
+                
+                var mapping = _typeMapper.FindMapping(column.StoreType);
+                if (mapping == null)
+                {
+                    _logger.LogWarning("Failed to map type {storeType} for {column}.", column.StoreType, column.Name);
+                    continue;
+                }
+
                 var property = entity.Properties.ByColumn(column.Name);
 
                 if (property == null)
@@ -172,16 +180,11 @@ namespace EntityFrameworkCore.Generator
                 if (property.ValueGenerated == null && !string.IsNullOrWhiteSpace(column.ComputedColumnSql))
                     property.ValueGenerated = ValueGenerated.OnAddOrUpdate;
 
-                var mapping = _typeMapper.FindMapping(column.StoreType);
                 property.StoreType = mapping.StoreType;
                 property.NativeType = mapping.StoreTypeNameBase;
                 property.DataType = mapping.DbType ?? DbType.AnsiString;
                 property.SystemType = mapping.ClrType;
-                //property.IsMaxLength = mapping.;
                 property.Size = mapping.Size;
-
-                //property.Precision = mapping.Precision;
-                //property.Scale = mapping.Scale;
 
                 property.IsProcessed = true;
             }
@@ -455,7 +458,7 @@ namespace EntityFrameworkCore.Generator
                 var property = entity.Properties.ByColumn(member.Name);
 
                 if (property == null)
-                    _logger.LogWarning("Could not find column {0} for relationship {1}.", member.Name, relationshipName);
+                    _logger.LogWarning("Could not find column {columnName} for relationship {relationshipName}.", member.Name, relationshipName);
                 else
                     keyMembers.Add(property);
             }

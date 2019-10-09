@@ -42,7 +42,7 @@ namespace EntityFrameworkCore.Generator
             if (databaseModel == null)
                 throw new InvalidOperationException("Failed to create database model");
 
-            _logger.LogInformation($"Loaded database model for: {databaseModel.DatabaseName}");
+            _logger.LogInformation("Loaded database model for: {databaseName}", databaseModel.DatabaseName);
 
             var context = _modelGenerator.Generate(Options, databaseModel, databaseProviders.mapping);
 
@@ -78,8 +78,8 @@ namespace EntityFrameworkCore.Generator
                 var path = Path.Combine(directory, file);
 
                 _logger.LogInformation(File.Exists(path)
-                    ? $"Updating query extensions class: {file}"
-                    : $"Creating query extensions class: {file}");
+                    ? "Updating query extensions class: {file}"
+                    : "Creating query extensions class: {file}", file);
 
                 var template = new QueryExtensionTemplate(entity, Options);
                 template.WriteCode(path);
@@ -99,8 +99,8 @@ namespace EntityFrameworkCore.Generator
                 var path = Path.Combine(directory, file);
 
                 _logger.LogInformation(File.Exists(path)
-                    ? $"Updating mapping class: {file}"
-                    : $"Creating mapping class: {file}");
+                    ? "Updating mapping class: {file}"
+                    : "Creating mapping class: {file}", file);
 
                 var template = new MappingClassTemplate(entity, Options);
                 template.WriteCode(path);
@@ -120,8 +120,8 @@ namespace EntityFrameworkCore.Generator
                 var path = Path.Combine(directory, file);
 
                 _logger.LogInformation(File.Exists(path)
-                    ? $"Updating entity class: {file}"
-                    : $"Creating entity class: {file}");
+                    ? "Updating entity class: {file}"
+                    : "Creating entity class: {file}", file);
 
                 var template = new EntityClassTemplate(entity, Options);
                 template.WriteCode(path);
@@ -138,8 +138,8 @@ namespace EntityFrameworkCore.Generator
             var path = Path.Combine(directory, file);
 
             _logger.LogInformation(File.Exists(path)
-                ? $"Updating data context class: {file}"
-                : $"Creating data context class: {file}");
+                ? "Updating data context class: {file}"
+                : "Creating data context class: {file}", file);
 
             var template = new DataContextTemplate(entityContext, Options);
             template.WriteCode(path);
@@ -174,8 +174,8 @@ namespace EntityFrameworkCore.Generator
                 var path = Path.Combine(directory, file);
 
                 _logger.LogInformation(File.Exists(path)
-                    ? $"Updating model class: {file}"
-                    : $"Creating model class: {file}");
+                    ? "Updating model class: {file}"
+                    : "Creating model class: {file}", file);
 
 
                 var template = new ModelClassTemplate(model, Options);
@@ -221,8 +221,8 @@ namespace EntityFrameworkCore.Generator
                 var path = Path.Combine(directory, file);
 
                 _logger.LogInformation(File.Exists(path)
-                    ? $"Updating validation class: {file}"
-                    : $"Creating validation class: {file}");
+                    ? "Updating validation class: {file}"
+                    : "Creating validation class: {file}", file);
 
                 var template = new ValidatorClassTemplate(model, Options);
                 template.WriteCode(path);
@@ -242,8 +242,8 @@ namespace EntityFrameworkCore.Generator
             var path = Path.Combine(directory, file);
 
             _logger.LogInformation(File.Exists(path)
-                ? $"Updating object mapper class: {file}"
-                : $"Creating object mapper class: {file}");
+                ? "Updating object mapper class: {file}"
+                : "Creating object mapper class: {file}", file);
 
             var template = new MapperClassTemplate(entity, Options);
             template.WriteCode(path);
@@ -389,7 +389,7 @@ namespace EntityFrameworkCore.Generator
         {
             var provider = Options.Database.Provider;
 
-            _logger.LogDebug($"Creating database model factory for: {provider}");
+            _logger.LogDebug("Creating database model factory for: {provider}", provider);
 
             // start a new service container to create the database model factory
             var services = new ServiceCollection()
