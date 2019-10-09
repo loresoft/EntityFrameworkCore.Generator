@@ -4,6 +4,7 @@ using EntityFrameworkCore.Generator.Extensions;
 using EntityFrameworkCore.Generator.Metadata.Generation;
 using EntityFrameworkCore.Generator.Options;
 using EntityFrameworkCore.Generator.Parsing;
+using EntityFrameworkCore.Generator.Scripts;
 using EntityFrameworkCore.Generator.Templates;
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.EntityFrameworkCore.Scaffolding;
@@ -62,12 +63,16 @@ namespace EntityFrameworkCore.Generator
                 GenerateQueryExtensions(entityContext);
 
             GenerateModelClasses(entityContext);
+
+            GenerateScriptTemplates(entityContext);
         }
 
         private void GenerateQueryExtensions(EntityContext entityContext)
         {
             foreach (var entity in entityContext.Entities)
             {
+                Options.Variables.Set("Entity.Name", entity.EntityClass);
+
                 var directory = Options.Data.Query.Directory;
                 var file = entity.EntityClass + "Extensions.cs";
                 var path = Path.Combine(directory, file);
@@ -80,12 +85,15 @@ namespace EntityFrameworkCore.Generator
                 template.WriteCode(path);
             }
 
+            Options.Variables.Remove("Entity.Name");
         }
 
         private void GenerateMappingClasses(EntityContext entityContext)
         {
             foreach (var entity in entityContext.Entities)
             {
+                Options.Variables.Set("Entity.Name", entity.EntityClass);
+
                 var directory = Options.Data.Mapping.Directory;
                 var file = entity.MappingClass + ".cs";
                 var path = Path.Combine(directory, file);
@@ -97,6 +105,8 @@ namespace EntityFrameworkCore.Generator
                 var template = new MappingClassTemplate(entity, Options);
                 template.WriteCode(path);
             }
+
+            Options.Variables.Remove("Entity.Name");
         }
 
         private void GenerateEntityClasses(EntityContext entityContext)
@@ -157,7 +167,7 @@ namespace EntityFrameworkCore.Generator
         {
             foreach (var model in entity.Models)
             {
-                Options.Variables.Set("Model.Name", entity.EntityClass);
+                Options.Variables.Set("Model.Name", model.ModelClass);
 
                 var directory = GetModelDirectory(model);
                 var file = model.ModelClass + ".cs";
@@ -240,6 +250,114 @@ namespace EntityFrameworkCore.Generator
         }
 
 
+        private void GenerateScriptTemplates(EntityContext entityContext)
+        {
+            GenerateContextScriptTemplates(entityContext);
+            GenerateEntityScriptTemplates(entityContext);
+            GenerateModelScriptTemplates(entityContext);
+        }
+
+        private void GenerateModelScriptTemplates(EntityContext entityContext)
+        {
+            if (Options.Script.Model.Count == 0)
+                return;
+
+            foreach (var templateOption in Options.Script.Model)
+            {
+                if (!VerifyScriptTemplate(templateOption))
+                    continue;
+
+                try
+                {
+                    var template = new ModelScriptTemplate(_loggerFactory, Options, templateOption);
+
+                    foreach (var entity in entityContext.Entities)
+                    {
+                        Options.Variables.Set("Entity.Name", entity.EntityClass);
+
+                        foreach (var model in entity.Models)
+                        {
+                            Options.Variables.Set("Model.Name", model.ModelClass);
+
+                            template.RunScript(model);
+                        }
+
+                        Options.Variables.Remove("Model.Name");
+                    }
+
+                    Options.Variables.Remove("Entity.Name");
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError(ex, "Error Running Model Template: {message}", ex.Message);
+                }
+            }
+        }
+
+        private void GenerateEntityScriptTemplates(EntityContext entityContext)
+        {
+            if (Options.Script.Entity.Count == 0)
+                return;
+
+            foreach (var templateOption in Options.Script.Entity)
+            {
+                if (!VerifyScriptTemplate(templateOption))
+                    continue;
+
+                try
+                {
+                    var template = new EntityScriptTemplate(_loggerFactory, Options, templateOption);
+
+                    foreach (var entity in entityContext.Entities)
+                    {
+                        Options.Variables.Set("Entity.Name", entity.EntityClass);
+
+                        template.RunScript(entity);
+                    }
+
+                    Options.Variables.Remove("Entity.Name");
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError(ex, "Error Running Entity Template: {message}", ex.Message);
+                }
+            }
+        }
+
+        private void GenerateContextScriptTemplates(EntityContext entityContext)
+        {
+            if (Options.Script.Context.Count == 0)
+                return;
+
+            foreach (var templateOption in Options.Script.Context)
+            {
+                if (!VerifyScriptTemplate(templateOption))
+                    continue;
+
+                try
+                {
+                    var template = new ContextScriptTemplate(_loggerFactory, Options, templateOption);
+                    template.RunScript(entityContext);
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError(ex, "Error Running Context Template: {message}", ex.Message);
+                }
+            }
+        }
+
+        private bool VerifyScriptTemplate(TemplateOptions templateOption)
+        {
+            var templatePath = templateOption.TemplatePath;
+
+            if (File.Exists(templatePath))
+                return true;
+
+            _logger.LogWarning("Template '{template}' could not be found.", templatePath);
+            return false;
+        }
+
+
         private DatabaseModel GetDatabaseModel(IDatabaseModelFactory factory)
         {
             _logger.LogInformation("Loading database model ...");
@@ -314,7 +432,7 @@ namespace EntityFrameworkCore.Generator
             var designTimeServices = new Pomelo.EntityFrameworkCore.MySql.Design.Internal.MySqlDesignTimeServices();
             designTimeServices.ConfigureDesignTimeServices(services);
         }
-        
+
         private void ConfigurePostgresServices(IServiceCollection services)
         {
             var designTimeServices = new Npgsql.EntityFrameworkCore.PostgreSQL.Design.Internal.NpgsqlDesignTimeServices();

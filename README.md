@@ -153,6 +153,11 @@ Entity Framework Core Generator supports generating [Read](https://efg.loresoft.
 
 ## Change Log
 
+### Version 2.5
+
+- Add external script template support
+- Misc bug fixes
+
 ### Version 2.0
 
 - Add support for Entity Framework Core 3.0

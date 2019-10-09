@@ -19,6 +19,7 @@ namespace EntityFrameworkCore.Generator.Options
             Database = new DatabaseOptions(Variables, null);
             Data = new DataOptions(Variables, null);
             Model = new ModelOptions(Variables, null);
+            Script = new ScriptOptions(Variables, null);
         }
 
         [YamlIgnore]
@@ -55,5 +56,13 @@ namespace EntityFrameworkCore.Generator.Options
         /// The model.
         /// </value>
         public ModelOptions Model { get; set; }
+
+        /// <summary>
+        /// Gets or sets the script template options.
+        /// </summary>
+        /// <value>
+        /// The script template options.
+        /// </value>
+        public ScriptOptions Script { get; set; }
     }
 }

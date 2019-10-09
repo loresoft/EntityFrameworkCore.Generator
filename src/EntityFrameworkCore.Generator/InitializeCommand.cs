@@ -113,6 +113,8 @@ namespace EntityFrameworkCore.Generator
             options.Model.Update.Include = null;
             options.Model.Update.Exclude = null;
 
+            options.Script = null;
+
             Logger.LogInformation($"Creating options file: {optionsFile}");
 
             return options;
