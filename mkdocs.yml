@@ -26,3 +26,4 @@ pages:
     - Validation: md/validation.md
     - Object Mapper: md/mapper.md
 
+- Script Templates: scripts.md

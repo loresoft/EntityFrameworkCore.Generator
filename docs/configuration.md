@@ -163,5 +163,36 @@ model:
     baseClass: 'AbstractValidator<{Model.Name}>'
     namespace: '{Project.Namespace}.Domain.Validation'
     directory: '{Project.Directory}\Domain\Validation'
-
+# script templates
+script:
+  # collection script template with EntityContext as a variable
+  context:  
+    - templatePath: '.\templates\context.csx'          # path to script file
+      fileName: 'ContextScript.cs'                     # filename to save script output
+      directory: '{Project.Directory}\Domain\Context'  # directory to save script output
+      namespace: '{Project.Namespace}.Domain.Context'  
+      baseClass: ContextScriptBase
+      overwrite: true                                  # overwrite existing file
+  # collection of script template with current Entity as a variable
+  entity:
+    - templatePath: '.\templates\entity.csx'           # path to script file
+      fileName: '{Entity.Name}Script.cs'               # filename to save script output
+      directory: '{Project.Directory}\Domain\Entity'   # directory to save script output
+      namespace: '{Project.Namespace}.Domain.Entity'  
+      baseClass: EntityScriptBase
+      overwrite: true                                  # overwrite existing file
+  # collection script template with current Model as a variable
+  model:
+    - templatePath: '.\templates\model.csx'            # path to script file
+      fileName: '{Model.Name}Script.cs'                # filename to save script output
+      directory: '{Project.Directory}\Domain\Models'   # directory to save script output
+      namespace: '{Project.Namespace}.Domain.Models'  
+      baseClass: ModelScriptBase
+      overwrite: true                                  # overwrite existing file
+    - templatePath: '.\templates\sample.csx'           # path to script file
+      fileName: '{Model.Name}Sample.cs'                # filename to save script output
+      directory: '{Project.Directory}\Domain\Models'   # directory to save script output
+      namespace: '{Project.Namespace}.Domain.Models'  
+      baseClass: ModelSampleBase
+      overwrite: true                                  # overwrite existing file
 ```

@@ -12,13 +12,13 @@ namespace EntityFrameworkCore.Generator.Core.Tests.Templates
     public class TypescriptScript
     {
         // simulate global script variables
-        public TemplateOptions TemplateOptions { get; }
+        public TemplateOptions TemplateOptions { get; set; }
 
-        public GeneratorOptions GeneratorOptions { get; }
+        public GeneratorOptions GeneratorOptions { get; set; }
 
-        public IndentedStringBuilder CodeBuilder { get; }
+        public IndentedStringBuilder CodeBuilder { get; set; }
 
-        public Model Model { get; }
+        public Model Model { get; set; }
 
 
 

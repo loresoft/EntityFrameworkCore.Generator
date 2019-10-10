@@ -107,9 +107,9 @@ In order to capture and preserve Entity, Property and DbContext renames, the `ge
 Entity Framework Core Generator supports the following databases.
 
 - SQL Server
-- PostgreSQL *Coming Soon*
-- MySQL *Coming Soon*
-- Sqlite *Coming Soon*
+- PostgreSQL
+- MySQL
+- Sqlite
 
 The provider can be set via command line or via the [configuration file](configuration.md).
 
