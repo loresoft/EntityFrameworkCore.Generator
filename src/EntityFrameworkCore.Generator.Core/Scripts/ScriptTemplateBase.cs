@@ -38,10 +38,7 @@ namespace EntityFrameworkCore.Generator.Scripts
                 Logger.LogWarning("Template '{template}' could not be found.", templatePath);
                 return;
             }
-
-            // get content
-            var content = ExecuteScript();
-
+            
             // save file
             var directory = TemplateOptions.Directory;
             if (!Directory.Exists(directory))
@@ -61,6 +58,9 @@ namespace EntityFrameworkCore.Generator.Scripts
             Logger.LogInformation(exists
                 ? $"Updating template script file: {fileName}"
                 : $"Creating template script file: {fileName}");
+
+            // get content
+            var content = ExecuteScript();
 
             File.WriteAllText(path, content);
         }
