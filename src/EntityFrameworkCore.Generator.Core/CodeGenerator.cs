@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using EntityFrameworkCore.Generator.Extensions;
 using EntityFrameworkCore.Generator.Metadata.Generation;
 using EntityFrameworkCore.Generator.Options;
@@ -364,7 +365,8 @@ namespace EntityFrameworkCore.Generator
 
             var database = Options.Database;
             var connectionString = ResolveConnectionString(database);
-            var options = new DatabaseModelFactoryOptions(database.Tables, database.Schemas);
+            var tables = database.Tables.Except(database.ExcludeTables);
+            var options = new DatabaseModelFactoryOptions(tables, database.Schemas);
 
             return factory.Create(connectionString, options);
         }

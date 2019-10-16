@@ -104,6 +104,7 @@ namespace EntityFrameworkCore.Generator
             // null out collection for cleaner yaml file
             options.Database.Tables = null;
             options.Database.Schemas = null;
+            options.Database.ExcludeTables = null;
             options.Model.Shared.Include = null;
             options.Model.Shared.Exclude = null;
             options.Model.Read.Include = null;

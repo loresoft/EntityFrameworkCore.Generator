@@ -39,6 +39,10 @@ database:
     - Task
     - User
 
+  # tables to exclude or empty to exclude nothing
+  excludeTables:
+    - Log
+
   # schemas to include or empty to include all
   schemas:
     - dbo

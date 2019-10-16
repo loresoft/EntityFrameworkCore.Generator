@@ -35,6 +35,7 @@ namespace EntityFrameworkCore.Generator.Core.Tests
             // null out collection for cleaner yaml file
             generatorOptions.Database.Tables = null;
             generatorOptions.Database.Schemas = null;
+            generatorOptions.Database.ExcludeTables = null;
             generatorOptions.Model.Shared.Include = null;
             generatorOptions.Model.Shared.Exclude = null;
             generatorOptions.Model.Read.Include = null;

@@ -15,6 +15,7 @@ namespace EntityFrameworkCore.Generator.Options
             TableNaming = TableNaming.Singular;
             Tables = new List<string>();
             Schemas = new List<string>();
+            ExcludeTables = new List<string>();
         }
 
         /// <summary>
@@ -103,5 +104,13 @@ namespace EntityFrameworkCore.Generator.Options
         /// The schema to include in the model, or an empty enumerable to include all.
         /// </value>
         public List<string> Schemas { get; set; }
+
+        /// <summary>
+        /// Gets or sets the tables to exclude in the model, or an empty enumerable to exclude nothing
+        /// </summary>
+        /// <value>
+        /// The tables to exclude in the model, or an empty enumerable to exclude nothing
+        /// </value>
+        public List<string> ExcludeTables { get; set; }
     }
 }
