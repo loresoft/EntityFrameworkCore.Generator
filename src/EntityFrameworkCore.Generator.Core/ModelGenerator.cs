@@ -522,7 +522,7 @@ namespace EntityFrameworkCore.Generator
             if (naming == RelationshipNaming.Suffix)
                 return name + "List";
 
-            return name.Pluralize();
+            return name.Pluralize(false);
         }
 
         private string ContextName(string name)
@@ -534,7 +534,7 @@ namespace EntityFrameworkCore.Generator
             if (naming == ContextNaming.Suffix)
                 return name + "DataSet";
 
-            return name.Pluralize();
+            return name.Pluralize(false);
         }
 
         private string EntityName(string name)
@@ -543,9 +543,9 @@ namespace EntityFrameworkCore.Generator
             var entityNaming = _options.Data.Entity.EntityNaming;
 
             if (tableNaming != TableNaming.Plural && entityNaming == EntityNaming.Plural)
-                name = name.Pluralize();
+                name = name.Pluralize(false);
             else if (tableNaming != TableNaming.Singular && entityNaming == EntityNaming.Singular)
-                name = name.Singularize();
+                name = name.Singularize(false);
 
             return name;
         }
