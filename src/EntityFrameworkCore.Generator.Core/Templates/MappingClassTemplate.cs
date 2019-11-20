@@ -218,7 +218,7 @@ namespace EntityFrameworkCore.Generator.Templates
                 CodeBuilder.Append($".HasColumnType({property.StoreType.ToLiteral()})");
             }
 
-            if ((isString || isByteArray) && property.Size > 0 && property.IsMaxLength != true)
+            if ((isString || isByteArray) && property.Size > 0)
             {
                 CodeBuilder.AppendLine();
                 CodeBuilder.Append($".HasMaxLength({property.Size.Value.ToString(CultureInfo.InvariantCulture)})");
