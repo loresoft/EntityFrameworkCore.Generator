@@ -259,7 +259,7 @@ namespace EntityFrameworkCore.Generator
 
         private void GenerateModelScriptTemplates(EntityContext entityContext)
         {
-            if (Options.Script.Model.Count == 0)
+            if (Options?.Script?.Model == null || Options.Script.Model.Count == 0)
                 return;
 
             foreach (var templateOption in Options.Script.Model)
@@ -296,7 +296,7 @@ namespace EntityFrameworkCore.Generator
 
         private void GenerateEntityScriptTemplates(EntityContext entityContext)
         {
-            if (Options.Script.Entity.Count == 0)
+            if (Options?.Script?.Entity == null || Options.Script.Entity.Count == 0)
                 return;
 
             foreach (var templateOption in Options.Script.Entity)
@@ -326,7 +326,7 @@ namespace EntityFrameworkCore.Generator
 
         private void GenerateContextScriptTemplates(EntityContext entityContext)
         {
-            if (Options.Script.Context.Count == 0)
+            if (Options?.Script?.Context == null || Options.Script.Context.Count !< 0)
                 return;
 
             foreach (var templateOption in Options.Script.Context)
