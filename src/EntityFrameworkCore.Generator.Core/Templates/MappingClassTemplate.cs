@@ -64,10 +64,40 @@ namespace EntityFrameworkCore.Generator.Templates
             using (CodeBuilder.Indent())
             {
                 GenerateConfigure();
+                GenerateConstants();
             }
 
             CodeBuilder.AppendLine("}");
 
+        }
+
+        private void GenerateConstants()
+        {
+            var entityClass = _entity.EntityClass.ToSafeName();
+            var safeName = $"{_entity.EntityNamespace}.{entityClass}";
+
+            CodeBuilder.AppendLine("#region Generated Constants");
+
+            if (Options.Data.Mapping.Document)
+                CodeBuilder.AppendLine($"/// <summary>Table Schema name constant for entity <see cref=\"{safeName}\" /></summary>");
+            
+            CodeBuilder.AppendLine($"public const string TableSchema = \"{_entity.TableSchema}\";");
+
+            if (Options.Data.Mapping.Document)
+                CodeBuilder.AppendLine($"/// <summary>Table Name constant for entity <see cref=\"{safeName}\" /></summary>");
+            
+            CodeBuilder.AppendLine($"public const string TableName = \"{_entity.TableName}\";");
+            
+            CodeBuilder.AppendLine();
+            foreach (var property in _entity.Properties)
+            {
+                if (Options.Data.Mapping.Document)
+                    CodeBuilder.AppendLine($"/// <summary>Column Name constant for property <see cref=\"{safeName}.{property.PropertyName}\" /></summary>");
+
+                CodeBuilder.AppendLine($"public const string Column{property.PropertyName} = \"{property.ColumnName}\";");
+            }
+            
+            CodeBuilder.AppendLine("#endregion");
         }
 
         private void GenerateConfigure()
@@ -296,8 +326,8 @@ namespace EntityFrameworkCore.Generator.Templates
         {
             CodeBuilder.AppendLine("// table");
 
-            var method = _entity.IsView 
-                ? nameof(RelationalEntityTypeBuilderExtensions.ToView) 
+            var method = _entity.IsView
+                ? nameof(RelationalEntityTypeBuilderExtensions.ToView)
                 : nameof(RelationalEntityTypeBuilderExtensions.ToTable);
 
             CodeBuilder.AppendLine(_entity.TableSchema.HasValue()
