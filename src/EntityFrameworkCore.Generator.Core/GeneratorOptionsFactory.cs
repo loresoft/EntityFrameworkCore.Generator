@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using EntityFrameworkCore.Generator.Options;
 using YamlDotNet.Serialization;
 
@@ -7,11 +8,13 @@ namespace EntityFrameworkCore.Generator
     public class GeneratorOptionsFactory : IObjectFactory
     {
         private readonly GeneratorOptions _generatorOptions;
+        private int _scriptCount;
 
         public GeneratorOptionsFactory()
         {
             _generatorOptions = new GeneratorOptions();
             _generatorOptions.Variables.ShouldEvaluate = false;
+            _scriptCount = 0;
         }
 
         public object Create(Type type)
@@ -28,6 +31,8 @@ namespace EntityFrameworkCore.Generator
                 return _generatorOptions.Data;
             if (type == typeof(ModelOptions))
                 return _generatorOptions.Model;
+            if (type == typeof(ScriptOptions))
+                return _generatorOptions.Script;
 
             if (type == typeof(ContextClassOptions))
                 return _generatorOptions.Data.Context;
@@ -50,6 +55,14 @@ namespace EntityFrameworkCore.Generator
                 return _generatorOptions.Model.Mapper;
             if (type == typeof(ValidatorClassOptions))
                 return _generatorOptions.Model.Validator;
+
+            if (type == typeof(TemplateOptions))
+            {
+                var index = Interlocked.Increment(ref _scriptCount);
+                var prefix = $"Script{index}";
+
+                return new TemplateOptions(_generatorOptions.Variables, prefix);
+            }
 
             return Activator.CreateInstance(type);
         }

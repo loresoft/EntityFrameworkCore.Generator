@@ -47,6 +47,14 @@ namespace EntityFrameworkCore.Generator.Templates
             }
 
             CodeBuilder.AppendLine($"public partial class {entityClass}");
+
+            if (_entity.EntityBaseClass.HasValue())
+            {
+                var entityBaseClass = _entity.EntityBaseClass.ToSafeName();
+                using (CodeBuilder.Indent())
+                    CodeBuilder.AppendLine($": {entityBaseClass}");
+            }
+
             CodeBuilder.AppendLine("{");
 
             using (CodeBuilder.Indent())
@@ -65,6 +73,7 @@ namespace EntityFrameworkCore.Generator.Templates
         {
             var relationships = _entity.Relationships
                 .Where(r => r.Cardinality == Cardinality.Many)
+                .OrderBy(r => r.PropertyName)
                 .ToList();
 
             var entityClass = _entity.EntityClass.ToSafeName();
@@ -77,10 +86,6 @@ namespace EntityFrameworkCore.Generator.Templates
             }
 
             CodeBuilder.AppendLine($"public {entityClass}()");
-            if (_entity.EntityBaseClass.HasValue())
-                using (CodeBuilder.Indent())
-                    CodeBuilder.AppendLine($": {_entity.EntityBaseClass}");
-
             CodeBuilder.AppendLine("{");
 
             using (CodeBuilder.Indent())
@@ -128,7 +133,7 @@ namespace EntityFrameworkCore.Generator.Templates
         private void GenerateRelationshipProperties()
         {
             CodeBuilder.AppendLine("#region Generated Relationships");
-            foreach (var relationship in _entity.Relationships)
+            foreach (var relationship in _entity.Relationships.OrderBy(r => r.PropertyName))
             {
                 var propertyName = relationship.PropertyName.ToSafeName();
                 var primaryName = relationship.PrimaryEntity.EntityClass.ToSafeName();

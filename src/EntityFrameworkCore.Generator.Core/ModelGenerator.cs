@@ -1,17 +1,20 @@
-﻿using EntityFrameworkCore.Generator.Extensions;
-using EntityFrameworkCore.Generator.Metadata.Generation;
-using EntityFrameworkCore.Generator.Options;
-using EntityFrameworkCore.Generator.Providers;
-using Humanizer;
-using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Scaffolding.Metadata;
-using Microsoft.EntityFrameworkCore.Scaffolding.Metadata.Internal;
-using Microsoft.Extensions.Logging;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using EntityFrameworkCore.Generator.Extensions;
+using EntityFrameworkCore.Generator.Metadata.Generation;
+using EntityFrameworkCore.Generator.Options;
+using Humanizer;
+using Microsoft.EntityFrameworkCore.Design;
+using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Scaffolding.Metadata;
+using Microsoft.EntityFrameworkCore.Scaffolding.Metadata.Internal;
+using Microsoft.EntityFrameworkCore.Storage;
+using Microsoft.Extensions.Logging;
+using PropertyCollection = EntityFrameworkCore.Generator.Metadata.Generation.PropertyCollection;
 
 namespace EntityFrameworkCore.Generator
 {
@@ -20,7 +23,7 @@ namespace EntityFrameworkCore.Generator
         private readonly UniqueNamer _namer;
         private readonly ILogger _logger;
         private GeneratorOptions _options;
-        private IProviderTypeMapping _typeMapper;
+        private IRelationalTypeMappingSource _typeMapper;
 
         public ModelGenerator(ILoggerFactory logger)
         {
@@ -28,15 +31,15 @@ namespace EntityFrameworkCore.Generator
             _namer = new UniqueNamer();
         }
 
-        public EntityContext Generate(GeneratorOptions options, DatabaseModel databaseModel)
+        public EntityContext Generate(GeneratorOptions options, DatabaseModel databaseModel, IRelationalTypeMappingSource typeMappingSource)
         {
             if (databaseModel == null)
                 throw new ArgumentNullException(nameof(databaseModel));
 
-            _logger.LogInformation($"Building code generation model from database: {databaseModel.DatabaseName}");
+            _logger.LogInformation("Building code generation model from database: {databaseName}", databaseModel.DatabaseName);
 
             _options = options ?? throw new ArgumentNullException(nameof(options));
-            _typeMapper = GetTypeMapper();
+            _typeMapper = typeMappingSource;
 
             var entityContext = new EntityContext();
             entityContext.DatabaseName = databaseModel.DatabaseName;
@@ -61,7 +64,7 @@ namespace EntityFrameworkCore.Generator
 
             foreach (var t in tables)
             {
-                _logger.LogDebug($"  Processing Table : {t.Name}");
+                _logger.LogDebug("  Processing Table : {tableName}", t.Name);
 
                 var entity = GetEntity(entityContext, t);
                 GetModels(entity);
@@ -123,6 +126,8 @@ namespace EntityFrameworkCore.Generator
 
             entity.ContextProperty = contextName;
 
+            entity.IsView = tableSchema is DatabaseView;
+
             entityContext.Entities.Add(entity);
 
             return entity;
@@ -134,6 +139,14 @@ namespace EntityFrameworkCore.Generator
             foreach (var column in columns)
             {
                 var table = column.Table;
+                
+                var mapping = _typeMapper.FindMapping(column.StoreType);
+                if (mapping == null)
+                {
+                    _logger.LogWarning("Failed to map type {storeType} for {column}.", column.StoreType, column.Name);
+                    continue;
+                }
+
                 var property = entity.Properties.ByColumn(column.Name);
 
                 if (property == null)
@@ -153,8 +166,7 @@ namespace EntityFrameworkCore.Generator
 
                 property.IsNullable = column.IsNullable;
 
-                property.IsRowVersion = column.ValueGenerated == ValueGenerated.OnAddOrUpdate
-                    && (bool?)column[ScaffoldingAnnotationNames.ConcurrencyToken] == true;
+                property.IsRowVersion = column.IsRowVersion();
 
                 property.IsPrimaryKey = table.PrimaryKey?.Columns.Contains(column) == true;
                 property.IsForeignKey = table.ForeignKeys.Any(c => c.Columns.Contains(column));
@@ -165,15 +177,14 @@ namespace EntityFrameworkCore.Generator
                 property.Default = column.DefaultValueSql;
                 property.ValueGenerated = column.ValueGenerated;
 
-                var mapping = _typeMapper.ParseType(column.StoreType);
+                if (property.ValueGenerated == null && !string.IsNullOrWhiteSpace(column.ComputedColumnSql))
+                    property.ValueGenerated = ValueGenerated.OnAddOrUpdate;
+
                 property.StoreType = mapping.StoreType;
-                property.NativeType = mapping.NativeType;
-                property.DataType = mapping.DataType;
-                property.SystemType = mapping.SystemType;
-                property.IsMaxLength = mapping.IsMaxLength;
+                property.NativeType = mapping.StoreTypeNameBase;
+                property.DataType = mapping.DbType ?? DbType.AnsiString;
+                property.SystemType = mapping.ClrType;
                 property.Size = mapping.Size;
-                property.Precision = mapping.Precision;
-                property.Scale = mapping.Scale;
 
                 property.IsProcessed = true;
             }
@@ -447,7 +458,7 @@ namespace EntityFrameworkCore.Generator
                 var property = entity.Properties.ByColumn(member.Name);
 
                 if (property == null)
-                    _logger.LogWarning("Could not find column {0} for relationship {1}.", member.Name, relationshipName);
+                    _logger.LogWarning("Could not find column {columnName} for relationship {relationshipName}.", member.Name, relationshipName);
                 else
                     keyMembers.Add(property);
             }
@@ -511,7 +522,7 @@ namespace EntityFrameworkCore.Generator
             if (naming == RelationshipNaming.Suffix)
                 return name + "List";
 
-            return name.Pluralize();
+            return name.Pluralize(false);
         }
 
         private string ContextName(string name)
@@ -523,7 +534,7 @@ namespace EntityFrameworkCore.Generator
             if (naming == ContextNaming.Suffix)
                 return name + "DataSet";
 
-            return name.Pluralize();
+            return name.Pluralize(false);
         }
 
         private string EntityName(string name)
@@ -532,9 +543,9 @@ namespace EntityFrameworkCore.Generator
             var entityNaming = _options.Data.Entity.EntityNaming;
 
             if (tableNaming != TableNaming.Plural && entityNaming == EntityNaming.Plural)
-                name = name.Pluralize();
+                name = name.Pluralize(false);
             else if (tableNaming != TableNaming.Singular && entityNaming == EntityNaming.Singular)
-                name = name.Singularize();
+                name = name.Singularize(false);
 
             return name;
         }
@@ -572,7 +583,7 @@ namespace EntityFrameworkCore.Generator
 
             // prefix with column when all characters removed
             if (legalName.IsNullOrWhiteSpace())
-                legalName =  "Number" + name;
+                legalName = "Number" + name;
 
             legalName = legalName.ToPascalCase();
 
@@ -585,8 +596,8 @@ namespace EntityFrameworkCore.Generator
         {
             var name = $"{property.Entity.EntityClass}.{property.PropertyName}";
 
-            var includeExpressions = new HashSet<string>(sharedOptions.Include.Properties);
-            var excludeExpressions = new HashSet<string>(sharedOptions.Exclude.Properties);
+            var includeExpressions = new HashSet<string>(sharedOptions?.Include?.Properties ?? Enumerable.Empty<string>());
+            var excludeExpressions = new HashSet<string>(sharedOptions?.Exclude?.Properties ?? Enumerable.Empty<string>());
 
             var includeProperties = options?.Include?.Properties ?? Enumerable.Empty<string>();
             foreach (var expression in includeProperties)
@@ -604,8 +615,8 @@ namespace EntityFrameworkCore.Generator
         {
             var name = entity.EntityClass;
 
-            var includeExpressions = new HashSet<string>(sharedOptions.Include.Entities);
-            var excludeExpressions = new HashSet<string>(sharedOptions.Exclude.Entities);
+            var includeExpressions = new HashSet<string>(sharedOptions?.Include?.Entities ?? Enumerable.Empty<string>());
+            var excludeExpressions = new HashSet<string>(sharedOptions?.Exclude?.Entities ?? Enumerable.Empty<string>());
 
             var includeEntities = options?.Include?.Entities ?? Enumerable.Empty<string>();
             foreach (var expression in includeEntities)
@@ -629,24 +640,6 @@ namespace EntityFrameworkCore.Generator
                     return true;
 
             return false;
-        }
-
-
-        private IProviderTypeMapping GetTypeMapper()
-        {
-            var provider = _options.Database.Provider;
-
-            _logger.LogTrace($"Creating database model factory for: {provider}");
-            if (provider == DatabaseProviders.SqlServer)
-                return new SqlServerTypeMapping();
-
-            //if (provider == DatabaseProviders.PostgreSQL)
-            //    return new Npgsql.EntityFrameworkCore.PostgreSQL.Scaffolding.Internal.NpgsqlDatabaseModelFactory(_diagnosticsLogger);
-
-            //if (Options.Database.Provider == DatabaseProviders.Sqlite)
-            //    return new Microsoft.EntityFrameworkCore.Sqlite.Scaffolding.Internal.SqliteDatabaseModelFactory(_diagnosticsLogger, null);
-
-            throw new NotSupportedException($"The specified provider '{provider}' is not supported.");
         }
 
     }

@@ -6,7 +6,7 @@ using System;
 
 namespace EntityFrameworkCore.Generator
 {
-    [Command("generate")]
+    [Command("generate", "gen")]
     public class GenerateCommand : OptionsCommandBase
     {
         private readonly ICodeGenerator _codeGenerator;

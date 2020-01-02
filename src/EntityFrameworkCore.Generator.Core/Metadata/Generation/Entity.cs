@@ -38,6 +38,12 @@ namespace EntityFrameworkCore.Generator.Metadata.Generation
         public string ContextProperty { get; set; }
 
 
+        /// <summary>
+        /// Gets or sets the entity namespace.
+        /// </summary>
+        /// <value>
+        /// The entity namespace.
+        /// </value>
         public string EntityNamespace { get; set; }
 
         /// <summary>
@@ -48,9 +54,21 @@ namespace EntityFrameworkCore.Generator.Metadata.Generation
         /// </value>
         public string EntityClass { get; set; }
 
+        /// <summary>
+        /// Gets or sets the entity base class.
+        /// </summary>
+        /// <value>
+        /// The entity base class.
+        /// </value>
         public string EntityBaseClass { get; set; }
 
 
+        /// <summary>
+        /// Gets or sets the mapping namespace.
+        /// </summary>
+        /// <value>
+        /// The mapping namespace.
+        /// </value>
         public string MappingNamespace { get; set; }
 
         /// <summary>
@@ -62,10 +80,28 @@ namespace EntityFrameworkCore.Generator.Metadata.Generation
         public string MappingClass { get; set; }
 
 
+        /// <summary>
+        /// Gets or sets the mapper class.
+        /// </summary>
+        /// <value>
+        /// The mapper class.
+        /// </value>
         public string MapperClass { get; set; }
 
+        /// <summary>
+        /// Gets or sets the mapper namespace.
+        /// </summary>
+        /// <value>
+        /// The mapper namespace.
+        /// </value>
         public string MapperNamespace { get; set; }
 
+        /// <summary>
+        /// Gets or sets the mapper base class.
+        /// </summary>
+        /// <value>
+        /// The mapper base class.
+        /// </value>
         public string MapperBaseClass { get; set; }
 
 
@@ -118,6 +154,14 @@ namespace EntityFrameworkCore.Generator.Metadata.Generation
         /// The models for this entity.
         /// </value>
         public ModelCollection Models { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether this instance is view.
+        /// </summary>
+        /// <value>
+        ///   <c>true</c> if this instance is view; otherwise, <c>false</c>.
+        /// </value>
+        public bool IsView { get; set; }    
 
     }
 }

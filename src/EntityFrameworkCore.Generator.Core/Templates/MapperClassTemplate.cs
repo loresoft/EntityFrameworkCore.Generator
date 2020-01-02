@@ -107,7 +107,10 @@ namespace EntityFrameworkCore.Generator.Templates
                             CodeBuilder.AppendLine($"CreateMap<{entityFullName}, {modelFullName}>();");
                             break;
                         case ModelType.Create:
+                            CodeBuilder.AppendLine($"CreateMap<{modelFullName}, {entityFullName}>();");
+                            break;
                         case ModelType.Update:
+                            CodeBuilder.AppendLine($"CreateMap<{entityFullName}, {modelFullName}>();");
                             CodeBuilder.AppendLine($"CreateMap<{modelFullName}, {entityFullName}>();");
                             break;
                     }

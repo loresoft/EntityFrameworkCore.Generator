@@ -12,7 +12,7 @@
     <Product>EntityFrameworkCore.Generator</Product>
     <Title>EntityFrameworkCore.Generator</Title>
     <Description>.NET Core command-line (CLI) tool to generate Entity Framework Core source files.</Description>
-    <Copyright>Copyright © 2018 LoreSoft</Copyright>
+    <Copyright>Copyright © 2019 LoreSoft</Copyright>
     <Authors>LoreSoft</Authors>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <PackageTags>Entity Framework Core;EF;Data;EntityFramework;EntityFrameworkCore;EFCore;Generation;Generator</PackageTags>

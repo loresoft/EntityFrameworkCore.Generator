@@ -1,5 +1,5 @@
-version: 1.0.0.{build}
-os: Visual Studio 2017
+version: 2.5.0.{build}
+os: Visual Studio 2019
 
 environment:
   ASPNETCORE_ENVIRONMENT: appveyor
@@ -10,7 +10,7 @@ init:
   - git config --global core.autocrlf input
 
 services:
-  - mssql2016
+  - mssql2017
 
 dotnet_csproj:
   patch: true
@@ -25,7 +25,7 @@ build_script:
   - dotnet pack EntityFrameworkCore.Generator.sln --configuration Release --include-symbols --include-source
 
 test_script:
-  - dotnet test test\EntityFrameworkCore.Generator.Core.Tests\EntityFrameworkCore.Generator.Core.Tests.csproj --configuration Release /p:CollectCoverage=true /p:CoverletOutputFormat=opencover
+  - dotnet test EntityFrameworkCore.Generator.sln --configuration Release /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:Exclude="[xunit*]*"
 
 artifacts:
 - path: artifacts\*.nupkg

@@ -38,12 +38,15 @@ namespace EntityFrameworkCore.Generator.Metadata.Generation
 
         public bool? IsUnique { get; set; }
 
+        [Obsolete("Value no longer used, will be deleted")]
         public bool? IsMaxLength { get; set; }
 
         public int? Size { get; set; }
 
+        [Obsolete("Value no longer used, will be deleted")]
         public int? Precision { get; set; }
 
+        [Obsolete("Value no longer used, will be deleted")]
         public int? Scale { get; set; }
 
         public string Default { get; set; }

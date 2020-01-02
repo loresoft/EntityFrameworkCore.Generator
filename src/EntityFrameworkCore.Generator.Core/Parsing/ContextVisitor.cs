@@ -1,7 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
+using EntityFrameworkCore.Generator.Extensions;
 using EntityFrameworkCore.Generator.Metadata.Parsing;
+using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
@@ -9,13 +10,12 @@ namespace EntityFrameworkCore.Generator.Parsing
 {
     public class ContextVisitor : CSharpSyntaxWalker
     {
+        private string _currentClass;
+
         public ContextVisitor()
         {
-            ContextBaseType = "DbContext";
             DataSetTypes = new HashSet<string> { "DbSet", "IDbSet" };
         }
-
-        public string ContextBaseType { get; set; }
 
         public HashSet<string> DataSetTypes { get; set; }
 
@@ -23,19 +23,13 @@ namespace EntityFrameworkCore.Generator.Parsing
 
         public override void VisitClassDeclaration(ClassDeclarationSyntax node)
         {
-            var hasBaseType = node.BaseList
+            var hasBaseType = node.BaseList != null && node.BaseList
                 .DescendantNodes()
                 .OfType<IdentifierNameSyntax>()
-                .Any(i => i.Identifier.ValueText == ContextBaseType);
+                .Any();
 
             if (hasBaseType)
-            {
-                var name = node.Identifier.Text;
-                if (ParsedContext == null)
-                    ParsedContext = new ParsedContext();
-
-                ParsedContext.ContextClass = name;
-            }
+                _currentClass = node.Identifier.Text;
 
             base.VisitClassDeclaration(node);
         }
@@ -78,11 +72,15 @@ namespace EntityFrameworkCore.Generator.Parsing
             if (string.IsNullOrEmpty(className) || string.IsNullOrEmpty(propertyName))
                 return;
 
+            if (ParsedContext == null)
+                ParsedContext = new ParsedContext { ContextClass = _currentClass };
+
             var entitySet = new ParsedEntitySet
             {
                 EntityClass = className,
                 ContextProperty = propertyName
             };
+
             ParsedContext.Properties.Add(entitySet);
         }
     }

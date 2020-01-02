@@ -46,7 +46,7 @@ namespace EntityFrameworkCore.Generator
             var factory = new GeneratorOptionsFactory();
 
             var deserializer = new DeserializerBuilder()
-                .WithNamingConvention(new CamelCaseNamingConvention())
+                .WithNamingConvention(CamelCaseNamingConvention.Instance)
                 .WithObjectFactory(factory)
                 .Build();
 
@@ -85,7 +85,7 @@ namespace EntityFrameworkCore.Generator
             var path = Path.Combine(directory, file);
 
             var serializer = new SerializerBuilder()
-                .WithNamingConvention(new CamelCaseNamingConvention())
+                .WithNamingConvention(CamelCaseNamingConvention.Instance)
                 .Build();
 
             generatorOptions.Variables.ShouldEvaluate = false;

@@ -8,8 +8,8 @@ using Serilog;
 namespace EntityFrameworkCore.Generator
 {
     [Command("efg", Description = "Entity Framework Core model generation tool")]
-    [Subcommand("initialize", typeof(InitializeCommand))]
-    [Subcommand("generate", typeof(GenerateCommand))]
+    [Subcommand(typeof(InitializeCommand))]
+    [Subcommand(typeof(GenerateCommand))]
     [VersionOptionFromMember("--version", MemberName = nameof(GetVersion))]
     public class Program : CommandBase
     {

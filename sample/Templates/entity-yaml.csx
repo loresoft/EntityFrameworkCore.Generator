@@ -1,0 +1,72 @@
+public string WriteCode()
+{
+    CodeBuilder.Clear();
+
+    CodeBuilder.Append("EntityClass: ").Append(Entity.EntityClass).AppendLine();
+    CodeBuilder.Append("EntityNamespace: '").Append(Entity.EntityNamespace).AppendLine("'");
+    CodeBuilder.Append("EntityBaseClass: ").Append(Entity.EntityBaseClass).AppendLine();
+
+    CodeBuilder.Append("ContextProperty: ").Append(Entity.ContextProperty).AppendLine();
+
+    CodeBuilder.Append("TableSchema: '").Append(Entity.TableSchema).AppendLine("'");
+    CodeBuilder.Append("TableName: '").Append(Entity.TableName).AppendLine("'");
+
+
+    CodeBuilder.Append("MappingClass: ").Append(Entity.MappingClass).AppendLine();
+    CodeBuilder.Append("MappingNamespace: '").Append(Entity.MappingNamespace).AppendLine("'");
+
+    CodeBuilder.Append("MapperClass: ").Append(Entity.MapperClass).AppendLine();
+    CodeBuilder.Append("MapperNamespace: '").Append(Entity.MapperClass).AppendLine("'");
+    CodeBuilder.Append("MapperBaseClass: ").Append(Entity.MapperBaseClass).AppendLine();
+    
+    CodeBuilder.Append("IsView: ").Append(Entity.IsView).AppendLine();
+
+    CodeBuilder.Append("Properties:").AppendLine();
+    using (CodeBuilder.Indent())
+        GenerateProperties();
+
+    return CodeBuilder.ToString();
+}
+
+private void GenerateProperties()
+{
+    foreach (var property in Entity.Properties)
+    {
+        CodeBuilder.Append("- PropertyName: ").Append(property.PropertyName).AppendLine();
+        CodeBuilder.Append("  ColumnName: '").Append(property.ColumnName).AppendLine("'");
+        CodeBuilder.Append("  StoreType: ").Append(property.StoreType).AppendLine();
+        CodeBuilder.Append("  NativeType: '").Append(property.NativeType).AppendLine("'");
+        CodeBuilder.Append("  DataType: ").Append(property.DataType).AppendLine();
+        CodeBuilder.Append("  SystemType: ").Append(property.SystemType.Name).AppendLine();
+
+        if (property.Size != null)
+            CodeBuilder.Append("  Size: ").Append(property.Size).AppendLine();
+
+        if (property.Default != null)
+            CodeBuilder.Append("  Default: '").Append(property.Default).AppendLine("'");
+
+        if (property.ValueGenerated != null)
+            CodeBuilder.Append("  ValueGenerated: ").Append(property.ValueGenerated).AppendLine();
+
+        if (property.IsNullable != null)
+            CodeBuilder.Append("  IsNullable: ").Append(property.IsNullable).AppendLine();
+
+        if (property.IsPrimaryKey != null)
+            CodeBuilder.Append("  IsPrimaryKey: ").Append(property.IsPrimaryKey).AppendLine();
+
+        if (property.IsForeignKey != null)
+            CodeBuilder.Append("  IsForeignKey: ").Append(property.IsForeignKey).AppendLine();
+
+        if (property.IsReadOnly != null)
+            CodeBuilder.Append("  IsReadOnly: ").Append(property.IsReadOnly).AppendLine();
+
+        if (property.IsRowVersion != null)
+            CodeBuilder.Append("  IsRowVersion: ").Append(property.IsRowVersion).AppendLine();
+
+        if (property.IsUnique != null)
+            CodeBuilder.Append("  IsUnique: ").Append(property.IsUnique).AppendLine();
+    }
+}
+
+// run script
+WriteCode()

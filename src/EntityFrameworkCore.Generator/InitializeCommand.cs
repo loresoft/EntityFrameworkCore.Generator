@@ -7,7 +7,7 @@ using Microsoft.Extensions.Logging;
 
 namespace EntityFrameworkCore.Generator
 {
-    [Command("initialize")]
+    [Command("initialize", "init")]
     public class InitializeCommand : OptionsCommandBase
     {
         public InitializeCommand(ILoggerFactory logger, IConsole console, IGeneratorOptionsSerializer serializer)
@@ -112,6 +112,8 @@ namespace EntityFrameworkCore.Generator
             options.Model.Create.Exclude = null;
             options.Model.Update.Include = null;
             options.Model.Update.Exclude = null;
+
+            options.Script = null;
 
             Logger.LogInformation($"Creating options file: {optionsFile}");
 

@@ -7,9 +7,9 @@ namespace EntityFrameworkCore.Generator.Parsing
 {
     public class RegionParser
     {
-        public Dictionary<string, CodeRegion> ParseRegions(string content)
+        public Dictionary<string, CodeRegion> ParseRegions(string code)
         {
-            var syntaxTree = CSharpSyntaxTree.ParseText(content);
+            var syntaxTree = CSharpSyntaxTree.ParseText(code);
             var root = (CompilationUnitSyntax)syntaxTree.GetRoot();
 
             var visitor = new RegionVisitor();
@@ -26,7 +26,7 @@ namespace EntityFrameworkCore.Generator.Parsing
                 var end = region.EndIndex;
                 var length = end - start;
 
-                region.Content = content.Substring(start, length);
+                region.Content = code.Substring(start, length);
             }
 
             return regions;
