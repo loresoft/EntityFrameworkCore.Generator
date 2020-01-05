@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 
 namespace EntityFrameworkCore.Generator.Options
@@ -21,6 +22,7 @@ namespace EntityFrameworkCore.Generator.Options
             RelationshipNaming = RelationshipNaming.Plural;
             EntityNaming = EntityNaming.Singular;
             PrefixWithSchemaName = false;
+            EnumMappings = new Dictionary<string, string>();
         }
 
         /// <summary>
@@ -58,5 +60,8 @@ namespace EntityFrameworkCore.Generator.Options
         /// </summary>
         [DefaultValue(false)]
         public bool PrefixWithSchemaName { get; set; }
+
+
+        public Dictionary<string, string> EnumMappings { get; set; }
     }
 }

@@ -457,6 +457,98 @@ create default abc0 as 0
 
         }
 
+        [Fact]
+        public void GenerateWithEnumMappings()
+        {
+
+            var generatorOptions = new GeneratorOptions();
+            generatorOptions.Data.Entity.PrefixWithSchemaName = true;
+            generatorOptions.Data.Entity.EnumMappings = new Dictionary<string, string> {
+                {"tst.TestTable.TestEnumType", "My.NameSpace.MyTestEnum" }
+            };
+            var databaseModel = new DatabaseModel
+            {
+                DatabaseName = "TestDatabase",
+                DefaultSchema = "dbo"
+            };
+            var testTableDbo = new DatabaseTable
+            {
+                Database = databaseModel,
+                Name = "TestTable",
+                Schema = "dbo"
+            };
+            var testTableTst = new DatabaseTable
+            {
+                Database = databaseModel,
+                Name = "TestTable",
+                Schema = "tst"
+            };
+            databaseModel.Tables.Add(testTableDbo);
+            databaseModel.Tables.Add(testTableTst);
+
+            var identifierColumnDbo = new DatabaseColumn
+            {
+                Table = testTableDbo,
+                Name = "Id",
+                IsNullable = false,
+                StoreType = "int"
+            };
+            var identifierColumnTst = new DatabaseColumn
+            {
+                Table = testTableTst,
+                Name = "Id",
+                IsNullable = false,
+                StoreType = "int"
+            };
+            testTableDbo.Columns.Add(identifierColumnDbo);
+            testTableTst.Columns.Add(identifierColumnTst);
+
+            var nameColumnDbo = new DatabaseColumn
+            {
+                Table = testTableDbo,
+                Name = "Name",
+                IsNullable = true,
+                StoreType = "varchar(50)"
+            };
+            var enumColumnTst = new DatabaseColumn
+            {
+                Table = testTableTst,
+                Name = "TestEnumType",
+                IsNullable = true,
+                StoreType = "int"
+            };
+            testTableDbo.Columns.Add(nameColumnDbo);
+            testTableTst.Columns.Add(enumColumnTst);
+
+            var generator = new ModelGenerator(NullLoggerFactory.Instance);
+
+            var typeMappingSource = CreateTypeMappingSource();
+
+            var result = generator.Generate(generatorOptions, databaseModel, typeMappingSource);
+
+            result.ContextClass.Should().Be("TestDatabaseContext");
+            result.ContextNamespace.Should().Be("TestDatabase.Data");
+            result.Entities.Count.Should().Be(2);
+
+            var firstEntity = result.Entities[0];
+            firstEntity.TableName.Should().Be("TestTable");
+            firstEntity.TableSchema.Should().Be("dbo");
+            firstEntity.EntityClass.Should().Be("DboTestTable");
+            firstEntity.EntityNamespace.Should().Be("TestDatabase.Data.Entities");
+            firstEntity.MappingClass.Should().Be("DboTestTableMap");
+            firstEntity.MappingNamespace.Should().Be("TestDatabase.Data.Mapping");
+
+            var secondEntity = result.Entities[1];
+            secondEntity.TableName.Should().Be("TestTable");
+            secondEntity.TableSchema.Should().Be("tst");
+            secondEntity.EntityClass.Should().Be("TstTestTable");
+            secondEntity.EntityNamespace.Should().Be("TestDatabase.Data.Entities");
+            secondEntity.MappingClass.Should().Be("TstTestTableMap");
+            secondEntity.MappingNamespace.Should().Be("TestDatabase.Data.Mapping");
+            secondEntity.Properties.First(x => x.PropertyName == "TestEnumType").EnumTypeName.Should().Be("My.NameSpace.MyTestEnum");
+
+        }
+
         private static SqlServerTypeMappingSource CreateTypeMappingSource()
         {
 #pragma warning disable EF1001 // Internal EF Core API usage.

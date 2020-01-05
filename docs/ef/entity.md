@@ -58,6 +58,8 @@ data:
     entityNaming: Singular
     relationshipNaming: Plural
     prefixWithSchemaName: false
+    enumMappings:
+        dbo.Table.Property: My.Namespace.Enum
 ```
 
 ### namespace
@@ -87,6 +89,10 @@ Configuration on how to generate relationship property names. Default: `Plural`
 ### prefixWithSchemaName
 
 Control if class names should be generated with schema name prefixed eg. dbo.MyTable = DboMyTable. Default: `false`
+
+### enumMappings
+
+Dictionary for enum mappings instead of eg. `int` to replace a property use `schema.table.property: namespace.enum`
 
 ### document
 

@@ -183,7 +183,10 @@ namespace EntityFrameworkCore.Generator
                 property.StoreType = mapping.StoreType;
                 property.NativeType = mapping.StoreTypeNameBase;
                 property.DataType = mapping.DbType ?? DbType.AnsiString;
+
                 property.SystemType = mapping.ClrType;
+                var fullName = $"{column.Table.Schema}.{column.Table.Name}.{column.Name}";
+                property.EnumTypeName = _options.Data.Entity.EnumMappings.GetValueOrDefault(fullName);
                 property.Size = mapping.Size;
 
                 property.IsProcessed = true;

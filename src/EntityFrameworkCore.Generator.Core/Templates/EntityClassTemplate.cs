@@ -111,6 +111,9 @@ namespace EntityFrameworkCore.Generator.Templates
             foreach (var property in _entity.Properties)
             {
                 var propertyType = property.SystemType.ToNullableType(property.IsNullable == true);
+                if (property.EnumTypeName != null)
+                    propertyType = property.EnumTypeName.ToNullableType(property.IsNullable == true);
+
                 var propertyName = property.PropertyName.ToSafeName();
 
                 if (Options.Data.Entity.Document)
