@@ -596,8 +596,8 @@ namespace EntityFrameworkCore.Generator
         {
             var name = $"{property.Entity.EntityClass}.{property.PropertyName}";
 
-            var includeExpressions = new HashSet<string>(sharedOptions?.Include?.Entities ?? Enumerable.Empty<string>());
-            var excludeExpressions = new HashSet<string>(sharedOptions?.Exclude?.Entities ?? Enumerable.Empty<string>());
+            var includeExpressions = new HashSet<string>(sharedOptions?.Include?.Properties ?? Enumerable.Empty<string>());
+            var excludeExpressions = new HashSet<string>(sharedOptions?.Exclude?.Properties ?? Enumerable.Empty<string>());
 
             var includeProperties = options?.Include?.Properties ?? Enumerable.Empty<string>();
             foreach (var expression in includeProperties)
