@@ -76,6 +76,8 @@ namespace EntityFrameworkCore.Generator
                 var directory = Options.Data.Query.Directory;
                 var file = entity.EntityClass + "Extensions.cs";
                 var path = Path.Combine(directory, file);
+                if (Options.Project.AddSchemaToNamespace && !string.IsNullOrEmpty(entity.TableSchema))
+                    path = Path.Combine(directory, entity.TableSchema, file);
 
                 _logger.LogInformation(File.Exists(path)
                     ? "Updating query extensions class: {file}"
@@ -97,6 +99,8 @@ namespace EntityFrameworkCore.Generator
                 var directory = Options.Data.Mapping.Directory;
                 var file = entity.MappingClass + ".cs";
                 var path = Path.Combine(directory, file);
+                if (Options.Project.AddSchemaToNamespace && !string.IsNullOrEmpty(entity.TableSchema))
+                    path = Path.Combine(directory, entity.TableSchema, file);
 
                 _logger.LogInformation(File.Exists(path)
                     ? "Updating mapping class: {file}"
@@ -118,6 +122,8 @@ namespace EntityFrameworkCore.Generator
                 var directory = Options.Data.Entity.Directory;
                 var file = entity.EntityClass + ".cs";
                 var path = Path.Combine(directory, file);
+                if (Options.Project.AddSchemaToNamespace && !string.IsNullOrEmpty(entity.TableSchema))
+                    path = Path.Combine(directory, entity.TableSchema, file);
 
                 _logger.LogInformation(File.Exists(path)
                     ? "Updating entity class: {file}"
@@ -172,6 +178,8 @@ namespace EntityFrameworkCore.Generator
                 var directory = GetModelDirectory(model);
                 var file = model.ModelClass + ".cs";
                 var path = Path.Combine(directory, file);
+                if (Options.Project.AddSchemaToNamespace && !string.IsNullOrEmpty(entity.TableSchema))
+                    path = Path.Combine(directory, entity.TableSchema, file);
 
                 _logger.LogInformation(File.Exists(path)
                     ? "Updating model class: {file}"
@@ -219,6 +227,8 @@ namespace EntityFrameworkCore.Generator
                 var directory = Options.Model.Validator.Directory;
                 var file = model.ValidatorClass + ".cs";
                 var path = Path.Combine(directory, file);
+                if (Options.Project.AddSchemaToNamespace && !string.IsNullOrEmpty(entity.TableSchema))
+                    path = Path.Combine(directory, entity.TableSchema, file);
 
                 _logger.LogInformation(File.Exists(path)
                     ? "Updating validation class: {file}"
@@ -240,6 +250,8 @@ namespace EntityFrameworkCore.Generator
             var directory = Options.Model.Mapper.Directory;
             var file = entity.MapperClass + ".cs";
             var path = Path.Combine(directory, file);
+            if (Options.Project.AddSchemaToNamespace && !string.IsNullOrEmpty(entity.TableSchema))
+                path = Path.Combine(directory, entity.TableSchema, file);
 
             _logger.LogInformation(File.Exists(path)
                 ? "Updating object mapper class: {file}"

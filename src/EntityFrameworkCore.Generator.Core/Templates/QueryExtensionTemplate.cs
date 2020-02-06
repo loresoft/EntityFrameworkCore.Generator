@@ -26,6 +26,8 @@ namespace EntityFrameworkCore.Generator.Templates
             CodeBuilder.AppendLine();
 
             var extensionNamespace = Options.Data.Query.Namespace;
+            if (Options.Project.AddSchemaToNamespace)
+                extensionNamespace = $"{extensionNamespace}.{_entity.TableSchema}";
 
             CodeBuilder.AppendLine($"namespace {extensionNamespace}");
             CodeBuilder.AppendLine("{");

@@ -55,6 +55,15 @@ namespace EntityFrameworkCore.Generator.Metadata.Generation
         public string EntityClass { get; set; }
 
         /// <summary>
+        /// Gets the fully qualified name of the type, including its namespace but not its assembly.
+        /// https://docs.microsoft.com/en-us/dotnet/api/system.type.fullname
+        /// </summary>
+        public string EntityFullName
+        {
+            get { return $"{EntityNamespace}.{EntityClass}"; }
+        }
+
+        /// <summary>
         /// Gets or sets the entity base class.
         /// </summary>
         /// <value>

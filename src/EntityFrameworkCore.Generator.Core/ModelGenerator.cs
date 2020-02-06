@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Numerics;
 using System.Text;
 using System.Text.RegularExpressions;
 using EntityFrameworkCore.Generator.Extensions;
@@ -51,7 +52,7 @@ namespace EntityFrameworkCore.Generator
             _options.Project.Namespace = projectNamespace;
 
             string contextClass = _options.Data.Context.Name;
-            contextClass = _namer.UniqueClassName(contextClass);
+            contextClass = _namer.UniqueModelName(projectNamespace,contextClass);
 
             string contextNamespace = _options.Data.Context.Namespace;
             string contextBaseClass = _options.Data.Context.BaseClass;
@@ -101,17 +102,23 @@ namespace EntityFrameworkCore.Generator
                 TableSchema = tableSchema.Schema
             };
 
-            string entityClass = ToClassName(tableSchema.Name, tableSchema.Schema);
-            entityClass = _namer.UniqueClassName(entityClass);
-
             string entityNamespace = _options.Data.Entity.Namespace;
+            if (_options.Project.AddSchemaToNamespace)
+                entityNamespace = $"{entityNamespace}.{tableSchema.Schema}";
+
+            string entityClass = ToClassName(tableSchema.Name, tableSchema.Schema);
+            entityClass = _namer.UniqueModelName(entityNamespace, entityClass);
+
+
             string entiyBaseClass = _options.Data.Entity.BaseClass;
-
-
-            string mappingName = entityClass + "Map";
-            mappingName = _namer.UniqueClassName(mappingName);
-
+            
             string mappingNamespace = _options.Data.Mapping.Namespace;
+            if (_options.Project.AddSchemaToNamespace)
+                mappingNamespace = $"{mappingNamespace}.{tableSchema.Schema}";
+            
+            string mappingName = entityClass + "Map";
+            mappingName = _namer.UniqueModelName(mappingNamespace ,mappingName);
+
 
             string contextName = ContextName(entityClass);
             contextName = ToPropertyName(entityContext.ContextClass, contextName);
@@ -159,8 +166,8 @@ namespace EntityFrameworkCore.Generator
                     entity.Properties.Add(property);
                 }
 
-                string propertyName = ToPropertyName(entity.EntityClass, column.Name);
-                propertyName = _namer.UniqueName(entity.EntityClass, propertyName);
+                string propertyName = ToPropertyName(entity.EntityFullName, column.Name);
+                propertyName = _namer.UniqueName(entity.EntityFullName, propertyName);
 
                 property.PropertyName = propertyName;
 
@@ -246,8 +253,8 @@ namespace EntityFrameworkCore.Generator
 
             string prefix = GetMemberPrefix(foreignRelationship, primaryName, foreignName);
 
-            string foreignPropertyName = ToPropertyName(foreignEntity.EntityClass, prefix + primaryName);
-            foreignPropertyName = _namer.UniqueName(foreignEntity.EntityClass, foreignPropertyName);
+            string foreignPropertyName = ToPropertyName(foreignEntity.EntityFullName, prefix + primaryName);
+            foreignPropertyName = _namer.UniqueName(foreignEntity.EntityFullName, foreignPropertyName);
             foreignRelationship.PropertyName = foreignPropertyName;
 
             // add reverse
@@ -279,9 +286,9 @@ namespace EntityFrameworkCore.Generator
             if (!isOneToOne)
                 primaryPropertyName = RelationshipName(primaryPropertyName);
 
-            primaryPropertyName = ToPropertyName(primaryEntity.EntityClass, primaryPropertyName);
-            primaryPropertyName = _namer.UniqueName(primaryEntity.EntityClass, primaryPropertyName);
-
+            primaryPropertyName = ToPropertyName(primaryEntity.EntityFullName, primaryPropertyName);
+            primaryPropertyName = _namer.UniqueName(primaryEntity.EntityFullName, primaryPropertyName);
+            
             primaryRelationship.PropertyName = primaryPropertyName;
 
             foreignRelationship.PrimaryPropertyName = primaryRelationship.PropertyName;
@@ -389,6 +396,8 @@ namespace EntityFrameworkCore.Generator
             if (entity.Models.Count > 0)
             {
                 var mapperNamespace = _options.Model.Mapper.Namespace;
+                if (_options.Project.AddSchemaToNamespace)
+                    mapperNamespace = $"{mapperNamespace}.{entity.TableSchema}";
 
                 var mapperClass = ToLegalName(_options.Model.Mapper.Name);
                 mapperClass = _namer.UniqueModelName(mapperNamespace, mapperClass);
@@ -412,6 +421,8 @@ namespace EntityFrameworkCore.Generator
             var modelNamespace = options.Namespace.HasValue()
                 ? options.Namespace
                 : _options.Model.Shared.Namespace;
+            if (_options.Project.AddSchemaToNamespace)
+                modelNamespace = $"{modelNamespace}.{entity.TableSchema}";
 
             var modelClass = ToLegalName(options.Name);
             modelClass = _namer.UniqueModelName(modelNamespace, modelClass);
@@ -436,6 +447,9 @@ namespace EntityFrameworkCore.Generator
             _options.Variables.Set("Model.Name", model.ModelClass);
 
             var validatorNamespace = _options.Model.Validator.Namespace;
+            if (_options.Project.AddSchemaToNamespace)
+                validatorNamespace = $"{validatorNamespace}.{entity.TableSchema}";
+
             var validatorClass = ToLegalName(_options.Model.Validator.Name);
             validatorClass = _namer.UniqueModelName(validatorNamespace, validatorClass);
 

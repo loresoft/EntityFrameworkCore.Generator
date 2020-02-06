@@ -1,4 +1,6 @@
-﻿namespace EntityFrameworkCore.Generator.Options
+﻿using System.ComponentModel;
+
+namespace EntityFrameworkCore.Generator.Options
 {
     /// <summary>
     /// Project options
@@ -39,6 +41,11 @@
             get => GetProperty();
             set => SetProperty(value);
         }
-
+        
+        /// <summary>
+        /// If true add the schema to the namespace prevent naming conflicts
+        /// </summary>
+        [DefaultValue(false)]
+        public bool AddSchemaToNamespace { get; set; }
     }
 }
