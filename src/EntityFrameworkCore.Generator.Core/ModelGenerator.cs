@@ -120,7 +120,7 @@ namespace EntityFrameworkCore.Generator
             mappingName = _namer.UniqueModelName(mappingNamespace ,mappingName);
 
 
-            string contextName = ContextName(entityClass);
+            string contextName = ContextName(entityClass, tableSchema.Schema);
             contextName = ToPropertyName(entityContext.ContextClass, contextName);
             contextName = _namer.UniqueContextName(contextName);
 
@@ -539,9 +539,13 @@ namespace EntityFrameworkCore.Generator
             return name.Pluralize(false);
         }
 
-        private string ContextName(string name)
+        private string ContextName(string name, string tableSchema)
         {
             var naming = _options.Data.Context.PropertyNaming;
+
+            if (_options.Project.AddSchemaToNamespace)
+                name = $"{tableSchema}{name}";
+
             if (naming == ContextNaming.Preserve)
                 return name;
 
