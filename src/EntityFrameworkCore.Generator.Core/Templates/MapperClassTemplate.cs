@@ -104,14 +104,14 @@ namespace EntityFrameworkCore.Generator.Templates
                     switch (model.ModelType)
                     {
                         case ModelType.Read:
-                            CodeBuilder.AppendLine($"CreateMap<{entityFullName}, {modelFullName}>();");
+                            CodeBuilder.AppendLine($"CreateMap<{entityFullName}, {modelFullName}>();").AppendLine();
                             break;
                         case ModelType.Create:
-                            CodeBuilder.AppendLine($"CreateMap<{modelFullName}, {entityFullName}>();");
+                            CodeBuilder.AppendLine($"CreateMap<{modelFullName}, {entityFullName}>();").AppendLine();
                             break;
                         case ModelType.Update:
-                            CodeBuilder.AppendLine($"CreateMap<{entityFullName}, {modelFullName}>();");
-                            CodeBuilder.AppendLine($"CreateMap<{modelFullName}, {entityFullName}>();");
+                            CodeBuilder.AppendLine($"CreateMap<{entityFullName}, {modelFullName}>();").AppendLine();
+                            CodeBuilder.AppendLine($"CreateMap<{modelFullName}, {entityFullName}>();").AppendLine();
                             break;
                     }
                 }

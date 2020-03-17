@@ -27,7 +27,6 @@ namespace EntityFrameworkCore.Generator
         [Option("--name <ConnectionName>", Description = "The user secret configuration name")]
         public string ConnectionName { get; set; }
 
-
         protected override int OnExecute(CommandLineApplication application)
         {
             var workingDirectory = WorkingDirectory ?? Environment.CurrentDirectory;
@@ -58,10 +57,13 @@ namespace EntityFrameworkCore.Generator
                 options.Database.Provider = Provider.Value;
 
             if (ConnectionString.HasValue())
-                options = CreateUserSecret(options);
-
-
-
+            {
+                if (UserSecretsId.HasValue())
+                    options = CreateUserSecret(options);
+                else
+                    options.Database.ConnectionString = ConnectionString;
+            }
+            
             Serializer.Save(options, workingDirectory, optionsFile);
 
             return 0;

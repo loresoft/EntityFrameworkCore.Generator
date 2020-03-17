@@ -85,6 +85,7 @@ namespace EntityFrameworkCore.Generator
             var path = Path.Combine(directory, file);
 
             var serializer = new SerializerBuilder()
+                .ConfigureDefaultValuesHandling(DefaultValuesHandling.OmitNull)
                 .WithNamingConvention(CamelCaseNamingConvention.Instance)
                 .Build();
 
