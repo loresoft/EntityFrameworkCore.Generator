@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using EntityFrameworkCore.Generator.Extensions;
 using EntityFrameworkCore.Generator.Options;
 using EntityFrameworkCore.Generator.Templates;
 using Microsoft.CodeAnalysis;
@@ -61,6 +62,12 @@ namespace EntityFrameworkCore.Generator.Scripts
 
             // get content
             var content = ExecuteScript();
+
+            if (content.IsNullOrWhiteSpace())
+            {
+                Logger.LogDebug("Skipping template '{template}' because it didn't return any text.", templatePath);
+                return;
+            }
 
             File.WriteAllText(path, content);
         }
