@@ -161,7 +161,8 @@ namespace EntityFrameworkCore.Generator.Core.Tests
             var databaseTable = new DatabaseTable
             {
                 Database = databaseModel,
-                Name = "Test+Error"
+                Name = "Test+Error",
+                Schema = "dbo"
             };
             databaseModel.Tables.Add(databaseTable);
 
@@ -198,7 +199,8 @@ namespace EntityFrameworkCore.Generator.Core.Tests
             var testTable = new DatabaseTable
             {
                 Database = databaseModel,
-                Name = "TestTable"
+                Name = "TestTable",
+                Schema = "dbo"
             };
             databaseModel.Tables.Add(testTable);
 
