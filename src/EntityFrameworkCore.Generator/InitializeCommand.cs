@@ -91,10 +91,6 @@ namespace EntityFrameworkCore.Generator
         {
             var options = new GeneratorOptions();
 
-            // set user secret values
-            options.Database.UserSecretsId = Guid.NewGuid().ToString();
-            options.Database.ConnectionName = "ConnectionStrings:Generator";
-
             // default all to generate
             options.Data.Query.Generate = true;
             options.Model.Read.Generate = true;
@@ -106,6 +102,7 @@ namespace EntityFrameworkCore.Generator
             // null out collection for cleaner yaml file
             options.Database.Tables = null;
             options.Database.Schemas = null;
+            options.Database.Exclude = null;
             options.Model.Shared.Include = null;
             options.Model.Shared.Exclude = null;
             options.Model.Read.Include = null;
