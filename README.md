@@ -153,6 +153,13 @@ Entity Framework Core Generator supports generating [Read](https://efg.loresoft.
 
 ## Change Log
 
+### Version 3.0
+
+- Add `Table.Name` and `Table.Schema` variable support in yaml configuration.
+- Add entity name option to control the name of the entity.  Leave blank to use previous generate logic. Set under the entity -> name yaml settings.
+- Add exclude table support.  Set under the database -> exclude yaml settings.
+- Include and Exclude expression can now be `exact` or `regex`.  When exact, will be direct string match.  When regex, will use regular expression to match. Default is regex for legacy support.
+
 ### Version 2.5
 
 - Add external script template support

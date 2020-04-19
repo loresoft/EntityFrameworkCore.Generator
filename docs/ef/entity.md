@@ -60,6 +60,10 @@ data:
     prefixWithSchemaName: false
 ```
 
+### name
+
+The class name of the entity.  Will be generated if null or empty.  _Variables Supported_
+
 ### namespace
 
 The namespace for the class. _Variables Supported_
@@ -85,6 +89,8 @@ Configuration on how to generate relationship property names. Default: `Plural`
 - **Suffix** - Add 'List' to the end of the entity name
 
 ### prefixWithSchemaName
+
+**Obsolete** Use the name option for more flexibility.
 
 Control if class names should be generated with schema name prefixed eg. dbo.MyTable = DboMyTable. Default: `false`
 
