@@ -47,6 +47,15 @@ namespace EntityFrameworkCore.Generator
         }
 
         /// <summary>
+        /// Sets the specified option variable.
+        /// </summary>
+        /// <param name="optionVariable">The option variable.</param>
+        public void Set(IOptionVariable optionVariable)
+        {
+            optionVariable.Set(this);
+        }
+
+        /// <summary>
         /// Gets the value of a variable, or returns <c>null</c> if the variable is not defined. If the variable contains an expression, it will be evaluated first.
         /// </summary>
         /// <param name="name">The name of the variable.</param>
@@ -75,7 +84,15 @@ namespace EntityFrameworkCore.Generator
                 _variables.Remove(name);
         }
 
-
+        /// <summary>
+        /// Removes the specified option variable.
+        /// </summary>
+        /// <param name="optionVariable">The option variable.</param>
+        public void Remove(IOptionVariable optionVariable)
+        {
+            optionVariable.Remove(this);
+        }
+        
         /// <summary>
         /// Evaluates the specified variable or text.
         /// </summary>

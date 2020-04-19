@@ -457,6 +457,111 @@ create default abc0 as 0
 
         }
 
+        [Fact]
+        public void GenerateIgnoreTable()
+        {
+            var generatorOptions = new GeneratorOptions();
+            generatorOptions.Database.Exclude.Add(new MatchOptions{ Expression = @"dbo\.ExpressionTable$" });
+            generatorOptions.Database.Exclude.Add(new MatchOptions { Exact = @"dbo.DirectTable" });
+            generatorOptions.Model.Read.Generate = true;
+            generatorOptions.Model.Create.Generate = true;
+            generatorOptions.Model.Update.Generate = true;
+            generatorOptions.Model.Validator.Generate = true;
+            generatorOptions.Model.Mapper.Generate = true;
+
+            var databaseModel = new DatabaseModel
+            {
+                DatabaseName = "TestDatabase",
+                DefaultSchema = "dbo"
+            };
+            var testTable = new DatabaseTable
+            {
+                Database = databaseModel,
+                Name = "TestTable",
+                Schema = "dbo"
+            };
+            databaseModel.Tables.Add(testTable);
+
+            var identifierColumn = new DatabaseColumn
+            {
+                Table = testTable,
+                Name = "Id",
+                IsNullable = false,
+                StoreType = "int"
+            };
+            testTable.Columns.Add(identifierColumn);
+
+            var nameColumn = new DatabaseColumn
+            {
+                Table = testTable,
+                Name = "Name",
+                IsNullable = true,
+                StoreType = "varchar(50)"
+            };
+            testTable.Columns.Add(nameColumn);
+
+            var expressionTable = new DatabaseTable
+            {
+                Database = databaseModel,
+                Name = "ExpressionTable",
+                Schema = "dbo"
+            };
+            expressionTable.Columns.Add(new DatabaseColumn
+            {
+                Table = testTable,
+                Name = "Id",
+                IsNullable = false,
+                StoreType = "int"
+            });
+            databaseModel.Tables.Add(expressionTable);
+
+            var directTable = new DatabaseTable
+            {
+                Database = databaseModel,
+                Name = "DirectTable",
+                Schema = "dbo"
+            };
+            directTable.Columns.Add(new DatabaseColumn
+            {
+                Table = testTable,
+                Name = "Id",
+                IsNullable = false,
+                StoreType = "int"
+            });
+            databaseModel.Tables.Add(directTable);
+
+            var generator = new ModelGenerator(NullLoggerFactory.Instance);
+
+            var typeMappingSource = CreateTypeMappingSource();
+
+            var result = generator.Generate(generatorOptions, databaseModel, typeMappingSource);
+            result.ContextClass.Should().Be("TestDatabaseContext");
+            result.ContextNamespace.Should().Be("TestDatabase.Data");
+            result.Entities.Count.Should().Be(1);
+
+            var firstEntity = result.Entities[0];
+            firstEntity.TableName.Should().Be("TestTable");
+            firstEntity.TableSchema.Should().Be("dbo");
+            firstEntity.EntityClass.Should().Be("TestTable");
+            firstEntity.EntityNamespace.Should().Be("TestDatabase.Data.Entities");
+            firstEntity.MappingClass.Should().Be("TestTableMap");
+            firstEntity.MappingNamespace.Should().Be("TestDatabase.Data.Mapping");
+            firstEntity.MapperClass.Should().Be("TestTableProfile");
+            firstEntity.MapperNamespace.Should().Be("TestDatabase.Domain.Mapping");
+
+            firstEntity.Properties.Count.Should().Be(2);
+            firstEntity.Models.Count.Should().Be(3);
+
+            var firstModel = firstEntity.Models[0];
+            firstModel.ModelClass.Should().StartWith("TestTable");
+            firstModel.ModelClass.Should().EndWith("Model");
+            firstModel.ModelNamespace.Should().Be("TestDatabase.Domain.Models");
+            firstModel.ValidatorClass.Should().StartWith("TestTable");
+            firstModel.ValidatorClass.Should().EndWith("Validator");
+            firstModel.ValidatorNamespace.Should().Be("TestDatabase.Domain.Validation");
+
+        }
+
         private static SqlServerTypeMappingSource CreateTypeMappingSource()
         {
 #pragma warning disable EF1001 // Internal EF Core API usage.

@@ -71,7 +71,7 @@ namespace EntityFrameworkCore.Generator
         {
             foreach (var entity in entityContext.Entities)
             {
-                Options.Variables.Set("Entity.Name", entity.EntityClass);
+                Options.Variables.Set(entity);
 
                 var directory = Options.Data.Query.Directory;
                 var file = entity.EntityClass + "Extensions.cs";
@@ -83,16 +83,16 @@ namespace EntityFrameworkCore.Generator
 
                 var template = new QueryExtensionTemplate(entity, Options);
                 template.WriteCode(path);
-            }
 
-            Options.Variables.Remove("Entity.Name");
+                Options.Variables.Remove(entity);
+            }
         }
 
         private void GenerateMappingClasses(EntityContext entityContext)
         {
             foreach (var entity in entityContext.Entities)
             {
-                Options.Variables.Set("Entity.Name", entity.EntityClass);
+                Options.Variables.Set(entity);
 
                 var directory = Options.Data.Mapping.Directory;
                 var file = entity.MappingClass + ".cs";
@@ -104,16 +104,16 @@ namespace EntityFrameworkCore.Generator
 
                 var template = new MappingClassTemplate(entity, Options);
                 template.WriteCode(path);
-            }
 
-            Options.Variables.Remove("Entity.Name");
+                Options.Variables.Remove(entity);
+            }
         }
 
         private void GenerateEntityClasses(EntityContext entityContext)
         {
             foreach (var entity in entityContext.Entities)
             {
-                Options.Variables.Set("Entity.Name", entity.EntityClass);
+                Options.Variables.Set(entity);
 
                 var directory = Options.Data.Entity.Directory;
                 var file = entity.EntityClass + ".cs";
@@ -125,9 +125,9 @@ namespace EntityFrameworkCore.Generator
 
                 var template = new EntityClassTemplate(entity, Options);
                 template.WriteCode(path);
-            }
 
-            Options.Variables.Remove("Entity.Name");
+                Options.Variables.Remove(entity);
+            }
         }
 
         private void GenerateDataContext(EntityContext entityContext)
@@ -150,16 +150,17 @@ namespace EntityFrameworkCore.Generator
         {
             foreach (var entity in entityContext.Entities)
             {
-                Options.Variables.Set("Entity.Name", entity.EntityClass);
                 if (entity.Models.Count <= 0)
                     continue;
+
+                Options.Variables.Set(entity);
 
                 GenerateModelClasses(entity);
                 GenerateValidatorClasses(entity);
                 GenerateMapperClass(entity);
-            }
 
-            Options.Variables.Remove("Entity.Name");
+                Options.Variables.Remove(entity);
+            }
         }
 
 
@@ -167,7 +168,7 @@ namespace EntityFrameworkCore.Generator
         {
             foreach (var model in entity.Models)
             {
-                Options.Variables.Set("Model.Name", model.ModelClass);
+                Options.Variables.Set(model);
 
                 var directory = GetModelDirectory(model);
                 var file = model.ModelClass + ".cs";
@@ -180,9 +181,10 @@ namespace EntityFrameworkCore.Generator
 
                 var template = new ModelClassTemplate(model, Options);
                 template.WriteCode(path);
+
+                Options.Variables.Remove(model);
             }
 
-            Options.Variables.Remove("Model.Name");
         }
 
         private string GetModelDirectory(Model model)
@@ -210,7 +212,7 @@ namespace EntityFrameworkCore.Generator
 
             foreach (var model in entity.Models)
             {
-                Options.Variables.Set("Model.Name", entity.EntityClass);
+                Options.Variables.Set(model);
 
                 // don't validate read models
                 if (model.ModelType == ModelType.Read)
@@ -226,9 +228,9 @@ namespace EntityFrameworkCore.Generator
 
                 var template = new ValidatorClassTemplate(model, Options);
                 template.WriteCode(path);
-            }
 
-            Options.Variables.Remove("Model.Name");
+                Options.Variables.Remove(model);
+            }
         }
 
 
@@ -273,19 +275,19 @@ namespace EntityFrameworkCore.Generator
 
                     foreach (var entity in entityContext.Entities)
                     {
-                        Options.Variables.Set("Entity.Name", entity.EntityClass);
+                        Options.Variables.Set(entity);
 
                         foreach (var model in entity.Models)
                         {
-                            Options.Variables.Set("Model.Name", model.ModelClass);
+                            Options.Variables.Set(model);
 
                             template.RunScript(model);
+
+                            Options.Variables.Remove(model);
                         }
 
-                        Options.Variables.Remove("Model.Name");
+                        Options.Variables.Remove(entity);
                     }
-
-                    Options.Variables.Remove("Entity.Name");
                 }
                 catch (Exception ex)
                 {
@@ -310,12 +312,12 @@ namespace EntityFrameworkCore.Generator
 
                     foreach (var entity in entityContext.Entities)
                     {
-                        Options.Variables.Set("Entity.Name", entity.EntityClass);
+                        Options.Variables.Set(entity);
 
                         template.RunScript(entity);
-                    }
 
-                    Options.Variables.Remove("Entity.Name");
+                        Options.Variables.Remove(entity);
+                    }
                 }
                 catch (Exception ex)
                 {

@@ -2,7 +2,7 @@
 
 namespace EntityFrameworkCore.Generator.Metadata.Generation
 {
-    public class Model : ModelBase
+    public class Model : ModelBase, IOptionVariable
     {
         public Model()
         {
@@ -28,5 +28,16 @@ namespace EntityFrameworkCore.Generator.Metadata.Generation
 
 
         public PropertyCollection Properties { get; set; }
+
+
+        void IOptionVariable.Set(VariableDictionary variableDictionary)
+        {
+            variableDictionary.Set(VariableConstants.ModelName, ModelClass);
+        }
+
+        void IOptionVariable.Remove(VariableDictionary variableDictionary)
+        {
+            variableDictionary.Remove(VariableConstants.ModelName);
+        }
     }
 }

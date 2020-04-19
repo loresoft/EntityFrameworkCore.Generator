@@ -8,7 +8,7 @@ namespace EntityFrameworkCore.Generator.Metadata.Generation
     /// </summary>
     /// <seealso cref="ModelBase" />
     [DebuggerDisplay("Class: {EntityClass}, Table: {TableName}, Context: {ContextProperty}")]
-    public class Entity : ModelBase
+    public class Entity : ModelBase, IOptionVariable
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="Entity"/> class.
@@ -161,7 +161,20 @@ namespace EntityFrameworkCore.Generator.Metadata.Generation
         /// <value>
         ///   <c>true</c> if this instance is view; otherwise, <c>false</c>.
         /// </value>
-        public bool IsView { get; set; }    
+        public bool IsView { get; set; }
 
+        void IOptionVariable.Set(VariableDictionary variableDictionary)
+        {
+            variableDictionary.Set(VariableConstants.TableSchema, TableSchema);
+            variableDictionary.Set(VariableConstants.TableName, TableName);
+            variableDictionary.Set(VariableConstants.EntityName, EntityClass);
+        }
+
+        void IOptionVariable.Remove(VariableDictionary variableDictionary)
+        {
+            variableDictionary.Remove(VariableConstants.TableSchema);
+            variableDictionary.Remove(VariableConstants.TableName);
+            variableDictionary.Remove(VariableConstants.EntityName);
+        }
     }
 }

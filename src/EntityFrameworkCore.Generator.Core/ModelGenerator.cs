@@ -62,13 +62,25 @@ namespace EntityFrameworkCore.Generator
 
             var tables = databaseModel.Tables;
 
-            foreach (var t in tables)
+            foreach (var table in tables)
             {
-                _logger.LogDebug("  Processing Table : {tableName}", t.Name);
+                if (IsIgnored(table, _options.Database.Exclude))
+                {
+                    _logger.LogDebug("  Skipping Table : {schema}.{name}", table.Schema, table.Name);
+                    continue;
+                }
 
-                var entity = GetEntity(entityContext, t);
+                _logger.LogDebug("  Processing Table : {schema}.{name}", table.Schema, table.Name);
+
+                _options.Variables.Set(VariableConstants.TableSchema, ToLegalName(table.Schema));
+                _options.Variables.Set(VariableConstants.TableName, ToLegalName(table.Name));
+
+                var entity = GetEntity(entityContext, table);
                 GetModels(entity);
             }
+
+            _options.Variables.Remove(VariableConstants.TableName);
+            _options.Variables.Remove(VariableConstants.TableSchema);
 
             return entityContext;
         }
@@ -101,7 +113,10 @@ namespace EntityFrameworkCore.Generator
                 TableSchema = tableSchema.Schema
             };
 
-            string entityClass = ToClassName(tableSchema.Name, tableSchema.Schema);
+            string entityClass = _options.Data.Entity.Name;
+            if (entityClass.IsNullOrEmpty())
+                entityClass = ToClassName(tableSchema.Name, tableSchema.Schema);
+
             entityClass = _namer.UniqueClassName(entityClass);
 
             string entityNamespace = _options.Data.Entity.Namespace;
@@ -139,7 +154,7 @@ namespace EntityFrameworkCore.Generator
             foreach (var column in columns)
             {
                 var table = column.Table;
-                
+
                 var mapping = _typeMapper.FindMapping(column.StoreType);
                 if (mapping == null)
                 {
@@ -197,6 +212,13 @@ namespace EntityFrameworkCore.Generator
         {
             foreach (var foreignKey in tableSchema.ForeignKeys)
             {
+                // skip relationship if principal table is ignored
+                if (IsIgnored(foreignKey.PrincipalTable, _options.Database.Exclude))
+                {
+                    _logger.LogDebug("  Skipping Relationship : {name}", foreignKey.Name);
+                    continue;
+                }
+
                 CreateRelationship(entityContext, entity, foreignKey);
             }
 
@@ -377,7 +399,7 @@ namespace EntityFrameworkCore.Generator
             if (entity == null || entity.Models.IsProcessed)
                 return;
 
-            _options.Variables.Set("Entity.Name", entity.EntityClass);
+            _options.Variables.Set(entity);
 
             if (_options.Model.Read.Generate)
                 CreateModel(entity, _options.Model.Read, ModelType.Read);
@@ -398,7 +420,7 @@ namespace EntityFrameworkCore.Generator
                 entity.MapperBaseClass = _options.Model.Mapper.BaseClass;
             }
 
-            _options.Variables.Remove("Entity.Name");
+            _options.Variables.Remove(entity);
 
             entity.Models.IsProcessed = true;
         }
@@ -433,7 +455,7 @@ namespace EntityFrameworkCore.Generator
                 model.Properties.Add(property);
             }
 
-            _options.Variables.Set("Model.Name", model.ModelClass);
+            _options.Variables.Set(model);
 
             var validatorNamespace = _options.Model.Validator.Namespace;
             var validatorClass = ToLegalName(_options.Model.Validator.Name);
@@ -445,7 +467,7 @@ namespace EntityFrameworkCore.Generator
 
             entity.Models.Add(model);
 
-            _options.Variables.Remove("Model.Name");
+            _options.Variables.Remove(model);
         }
 
 
@@ -591,19 +613,28 @@ namespace EntityFrameworkCore.Generator
         }
 
 
+        private static bool IsIgnored(DatabaseTable table, IEnumerable<MatchOptions> exclude)
+        {
+            var name = $"{table.Schema}.{table.Name}";
+            var includeExpressions = Enumerable.Empty<MatchOptions>();
+            var excludeExpressions = exclude ?? Enumerable.Empty<MatchOptions>();
+
+            return IsIgnored(name, excludeExpressions, includeExpressions);
+        }
+
         private static bool IsIgnored<TOption>(Property property, TOption options, SharedModelOptions sharedOptions)
             where TOption : ModelOptionsBase
         {
             var name = $"{property.Entity.EntityClass}.{property.PropertyName}";
 
-            var includeExpressions = new HashSet<string>(sharedOptions?.Include?.Properties ?? Enumerable.Empty<string>());
-            var excludeExpressions = new HashSet<string>(sharedOptions?.Exclude?.Properties ?? Enumerable.Empty<string>());
+            var includeExpressions = new HashSet<MatchOptions>(sharedOptions?.Include?.Properties ?? Enumerable.Empty<MatchOptions>());
+            var excludeExpressions = new HashSet<MatchOptions>(sharedOptions?.Exclude?.Properties ?? Enumerable.Empty<MatchOptions>());
 
-            var includeProperties = options?.Include?.Properties ?? Enumerable.Empty<string>();
+            var includeProperties = options?.Include?.Properties ?? Enumerable.Empty<MatchOptions>();
             foreach (var expression in includeProperties)
                 includeExpressions.Add(expression);
 
-            var excludeProperties = options?.Exclude?.Properties ?? Enumerable.Empty<string>();
+            var excludeProperties = options?.Exclude?.Properties ?? Enumerable.Empty<MatchOptions>();
             foreach (var expression in excludeProperties)
                 excludeExpressions.Add(expression);
 
@@ -615,28 +646,28 @@ namespace EntityFrameworkCore.Generator
         {
             var name = entity.EntityClass;
 
-            var includeExpressions = new HashSet<string>(sharedOptions?.Include?.Entities ?? Enumerable.Empty<string>());
-            var excludeExpressions = new HashSet<string>(sharedOptions?.Exclude?.Entities ?? Enumerable.Empty<string>());
+            var includeExpressions = new HashSet<MatchOptions>(sharedOptions?.Include?.Entities ?? Enumerable.Empty<MatchOptions>());
+            var excludeExpressions = new HashSet<MatchOptions>(sharedOptions?.Exclude?.Entities ?? Enumerable.Empty<MatchOptions>());
 
-            var includeEntities = options?.Include?.Entities ?? Enumerable.Empty<string>();
+            var includeEntities = options?.Include?.Entities ?? Enumerable.Empty<MatchOptions>();
             foreach (var expression in includeEntities)
                 includeExpressions.Add(expression);
 
-            var excludeEntities = options?.Exclude?.Entities ?? Enumerable.Empty<string>();
+            var excludeEntities = options?.Exclude?.Entities ?? Enumerable.Empty<MatchOptions>();
             foreach (var expression in excludeEntities)
                 excludeExpressions.Add(expression);
 
             return IsIgnored(name, excludeExpressions, includeExpressions);
         }
 
-        private static bool IsIgnored(string name, IEnumerable<string> excludeExpressions, IEnumerable<string> includeExpressions)
+        private static bool IsIgnored(string name, IEnumerable<MatchOptions> excludeExpressions, IEnumerable<MatchOptions> includeExpressions)
         {
             foreach (var expression in includeExpressions)
-                if (Regex.IsMatch(name, expression))
+                if (expression.IsMatch(name))
                     return false;
 
             foreach (var expression in excludeExpressions)
-                if (Regex.IsMatch(name, expression))
+                if (expression.IsMatch(name))
                     return true;
 
             return false;

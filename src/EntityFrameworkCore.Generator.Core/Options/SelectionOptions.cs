@@ -13,8 +13,8 @@ namespace EntityFrameworkCore.Generator.Options
         /// </summary>
         public SelectionOptions()
         {
-            Entities = new List<string>();
-            Properties = new List<string>();
+            Entities = new List<MatchOptions>();
+            Properties = new List<MatchOptions>();
         }
 
         /// <summary>
@@ -23,16 +23,14 @@ namespace EntityFrameworkCore.Generator.Options
         /// <value>
         /// The list of regular expression of entities to select.
         /// </value>
-        public List<string> Entities { get; set; }
-
-
+        public List<MatchOptions> Entities { get; set; }
+        
         /// <summary>
         /// Gets or sets a list of regular expression of properties to select.
         /// </summary>
         /// <value>
         /// The list of regular expression of properties to select.
         /// </value>
-        public List<string> Properties { get; set; }
-
+        public List<MatchOptions> Properties { get; set; }
     }
 }

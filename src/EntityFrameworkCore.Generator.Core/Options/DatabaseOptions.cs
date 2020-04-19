@@ -8,6 +8,11 @@ namespace EntityFrameworkCore.Generator.Options
     /// </summary>
     public class DatabaseOptions : OptionsBase
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DatabaseOptions"/> class.
+        /// </summary>
+        /// <param name="variables">The shared variables dictionary.</param>
+        /// <param name="prefix">The variable key prefix.</param>
         public DatabaseOptions(VariableDictionary variables, string prefix)
             : base(variables, AppendPrefix(prefix, "Database"))
         {
@@ -15,6 +20,7 @@ namespace EntityFrameworkCore.Generator.Options
             TableNaming = TableNaming.Singular;
             Tables = new List<string>();
             Schemas = new List<string>();
+            Exclude = new List<MatchOptions>();
         }
 
         /// <summary>
@@ -103,5 +109,14 @@ namespace EntityFrameworkCore.Generator.Options
         /// The schema to include in the model, or an empty enumerable to include all.
         /// </value>
         public List<string> Schemas { get; set; }
+
+        /// <summary>
+        /// Gets or sets the exclude table options.
+        /// </summary>
+        /// <value>
+        /// The exclude table options.
+        /// </value>
+        public List<MatchOptions> Exclude { get; set; }
+
     }
 }

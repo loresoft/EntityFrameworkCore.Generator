@@ -42,6 +42,11 @@ database:
   # schemas to include or empty to include all
   schemas:
     - dbo
+  
+  # list of expressions for tables to exclude, source is Schema.TableName
+  exclude:
+    - exact: dbo.SchemaVersions
+    - regex: dbo\.SchemaVersions$
 
   # table naming hint for how existing tables are named.  Default: Singular
   tableNaming: Mixed|Plural|Singular
