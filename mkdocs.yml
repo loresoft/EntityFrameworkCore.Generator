@@ -10,7 +10,7 @@ pages:
 - Database Providers: providers.md
 - Regeneration: regeneration.md
 - Generation Configuration: configuration.md
-- Variables: variables.md
+- Configuration Variables: variables.md
 - Command Line Reference: commands.md
 
 - EntityFramework Templates:

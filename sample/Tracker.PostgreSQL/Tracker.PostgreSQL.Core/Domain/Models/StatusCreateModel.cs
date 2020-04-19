@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Tracker.Domain.Models
+namespace Tracker.PostgreSQL.Core.Domain.Models
 {
     public partial class StatusCreateModel
     {

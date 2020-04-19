@@ -2,12 +2,12 @@ using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 
-namespace Tracker.Data.Mapping
+namespace Tracker.PostgreSQL.Core.Data.Mapping
 {
     public partial class PriorityMap
-        : IEntityTypeConfiguration<Tracker.Data.Entities.Priority>
+        : IEntityTypeConfiguration<Tracker.PostgreSQL.Core.Data.Entities.Priority>
     {
-        public void Configure(Microsoft.EntityFrameworkCore.Metadata.Builders.EntityTypeBuilder<Tracker.Data.Entities.Priority> builder)
+        public void Configure(Microsoft.EntityFrameworkCore.Metadata.Builders.EntityTypeBuilder<Tracker.PostgreSQL.Core.Data.Entities.Priority> builder)
         {
             #region Generated Configure
             // table
@@ -74,5 +74,20 @@ namespace Tracker.Data.Mapping
             #endregion
         }
 
+        #region Generated Constants
+        public const string TableSchema = "public";
+        public const string TableName = "Priority";
+
+        public const string ColumnId = "Id";
+        public const string ColumnName = "Name";
+        public const string ColumnDescription = "Description";
+        public const string ColumnDisplayOrder = "DisplayOrder";
+        public const string ColumnIsActive = "IsActive";
+        public const string ColumnCreated = "Created";
+        public const string ColumnCreatedBy = "CreatedBy";
+        public const string ColumnUpdated = "Updated";
+        public const string ColumnUpdatedBy = "UpdatedBy";
+        public const string ColumnRowVersion = "RowVersion";
+        #endregion
     }
 }

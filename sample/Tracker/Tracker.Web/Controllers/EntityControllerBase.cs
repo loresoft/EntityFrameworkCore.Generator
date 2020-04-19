@@ -12,6 +12,7 @@ namespace Tracker.Web.Controllers
 {
     [ApiController]
     [Produces("application/json")]
+    [Route("api/[controller]")]
     public abstract class EntityControllerBase<TEntity, TReadModel, TCreateModel, TUpdateModel> : QueryControllerBase<TEntity, TReadModel>
         where TEntity : class, IHaveIdentifier
         where TReadModel : EntityReadModel
@@ -24,11 +25,38 @@ namespace Tracker.Web.Controllers
             CreateValidator = createValidator;
             UpdateValidator = updateValidator;
         }
-
-
+        
         protected IValidator<TCreateModel> CreateValidator { get; }
 
         protected IValidator<TUpdateModel> UpdateValidator { get; }
+
+        [HttpPost("")]
+        public virtual async Task<ActionResult<TReadModel>> Create(CancellationToken cancellationToken, TCreateModel createModel)
+        {
+            var readModel = await CreateModel(createModel, cancellationToken);
+
+            return readModel;
+        }
+
+        [HttpPut("{id}")]
+        public virtual async Task<ActionResult<TReadModel>> Update(CancellationToken cancellationToken, Guid id, TUpdateModel updateModel)
+        {
+            var readModel = await UpdateModel(id, updateModel, cancellationToken);
+            if (readModel == null)
+                return NotFound();
+
+            return readModel;
+        }
+
+        [HttpDelete("{id}")]
+        public virtual async Task<ActionResult<TReadModel>> Delete(CancellationToken cancellationToken, Guid id)
+        {
+            var readModel = await DeleteModel(id, cancellationToken);
+            if (readModel == null)
+                return NotFound();
+
+            return readModel;
+        }
 
 
         protected virtual async Task<TReadModel> CreateModel(TCreateModel createModel, CancellationToken cancellationToken = default(CancellationToken))

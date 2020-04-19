@@ -75,6 +75,14 @@ namespace Tracker.Core.Domain.Models
         /// </value>
         public Guid? AssignedId { get; set; }
 
+        /// <summary>
+        /// Gets or sets the property value for 'TenantId'.
+        /// </summary>
+        /// <value>
+        /// The property value for 'TenantId'.
+        /// </value>
+        public Guid TenantId { get; set; }
+
         #endregion
 
         public string StatusName { get; set; }

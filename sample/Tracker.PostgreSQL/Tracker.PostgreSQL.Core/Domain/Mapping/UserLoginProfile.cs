@@ -1,19 +1,23 @@
 using System;
 using AutoMapper;
-using Tracker.Data.Entities;
-using Tracker.Domain.Models;
+using Tracker.PostgreSQL.Core.Data.Entities;
+using Tracker.PostgreSQL.Core.Domain.Models;
 
-namespace Tracker.Domain.Mapping
+namespace Tracker.PostgreSQL.Core.Domain.Mapping
 {
     public partial class UserLoginProfile
         : AutoMapper.Profile
     {
         public UserLoginProfile()
         {
-            CreateMap<Tracker.Data.Entities.UserLogin, Tracker.Domain.Models.UserLoginReadModel>();
-            CreateMap<Tracker.Domain.Models.UserLoginCreateModel, Tracker.Data.Entities.UserLogin>();
-            CreateMap<Tracker.Data.Entities.UserLogin, Tracker.Domain.Models.UserLoginUpdateModel>();
-            CreateMap<Tracker.Domain.Models.UserLoginUpdateModel, Tracker.Data.Entities.UserLogin>();
+            CreateMap<Tracker.PostgreSQL.Core.Data.Entities.UserLogin, Tracker.PostgreSQL.Core.Domain.Models.UserLoginReadModel>();
+
+            CreateMap<Tracker.PostgreSQL.Core.Domain.Models.UserLoginCreateModel, Tracker.PostgreSQL.Core.Data.Entities.UserLogin>();
+
+            CreateMap<Tracker.PostgreSQL.Core.Data.Entities.UserLogin, Tracker.PostgreSQL.Core.Domain.Models.UserLoginUpdateModel>();
+
+            CreateMap<Tracker.PostgreSQL.Core.Domain.Models.UserLoginUpdateModel, Tracker.PostgreSQL.Core.Data.Entities.UserLogin>();
+
         }
 
     }

@@ -2,12 +2,12 @@ using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 
-namespace Tracker.Data.Mapping
+namespace Tracker.PostgreSQL.Core.Data.Mapping
 {
     public partial class UserMap
-        : IEntityTypeConfiguration<Tracker.Data.Entities.User>
+        : IEntityTypeConfiguration<Tracker.PostgreSQL.Core.Data.Entities.User>
     {
-        public void Configure(Microsoft.EntityFrameworkCore.Metadata.Builders.EntityTypeBuilder<Tracker.Data.Entities.User> builder)
+        public void Configure(Microsoft.EntityFrameworkCore.Metadata.Builders.EntityTypeBuilder<Tracker.PostgreSQL.Core.Data.Entities.User> builder)
         {
             #region Generated Configure
             // table
@@ -104,5 +104,27 @@ namespace Tracker.Data.Mapping
             #endregion
         }
 
+        #region Generated Constants
+        public const string TableSchema = "public";
+        public const string TableName = "User";
+
+        public const string ColumnId = "Id";
+        public const string ColumnEmailAddress = "EmailAddress";
+        public const string ColumnIsEmailAddressConfirmed = "IsEmailAddressConfirmed";
+        public const string ColumnDisplayName = "DisplayName";
+        public const string ColumnPasswordHash = "PasswordHash";
+        public const string ColumnResetHash = "ResetHash";
+        public const string ColumnInviteHash = "InviteHash";
+        public const string ColumnAccessFailedCount = "AccessFailedCount";
+        public const string ColumnLockoutEnabled = "LockoutEnabled";
+        public const string ColumnLockoutEnd = "LockoutEnd";
+        public const string ColumnLastLogin = "LastLogin";
+        public const string ColumnIsDeleted = "IsDeleted";
+        public const string ColumnCreated = "Created";
+        public const string ColumnCreatedBy = "CreatedBy";
+        public const string ColumnUpdated = "Updated";
+        public const string ColumnUpdatedBy = "UpdatedBy";
+        public const string ColumnRowVersion = "RowVersion";
+        #endregion
     }
 }

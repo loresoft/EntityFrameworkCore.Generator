@@ -79,11 +79,39 @@ namespace Tracker.Core.Data.Mapping
                 .IsRowVersion()
                 .HasColumnName("RowVersion")
                 .HasColumnType("rowversion")
+                .HasMaxLength(8)
                 .ValueGeneratedOnAddOrUpdate();
 
             // relationships
             #endregion
         }
 
+        #region Generated Constants
+        /// <summary>Table Schema name constant for entity <see cref="Tracker.Core.Data.Entities.Priority" /></summary>
+        public const string TableSchema = "dbo";
+        /// <summary>Table Name constant for entity <see cref="Tracker.Core.Data.Entities.Priority" /></summary>
+        public const string TableName = "Priority";
+
+        /// <summary>Column Name constant for property <see cref="Tracker.Core.Data.Entities.Priority.Id" /></summary>
+        public const string ColumnId = "Id";
+        /// <summary>Column Name constant for property <see cref="Tracker.Core.Data.Entities.Priority.Name" /></summary>
+        public const string ColumnName = "Name";
+        /// <summary>Column Name constant for property <see cref="Tracker.Core.Data.Entities.Priority.Description" /></summary>
+        public const string ColumnDescription = "Description";
+        /// <summary>Column Name constant for property <see cref="Tracker.Core.Data.Entities.Priority.DisplayOrder" /></summary>
+        public const string ColumnDisplayOrder = "DisplayOrder";
+        /// <summary>Column Name constant for property <see cref="Tracker.Core.Data.Entities.Priority.IsActive" /></summary>
+        public const string ColumnIsActive = "IsActive";
+        /// <summary>Column Name constant for property <see cref="Tracker.Core.Data.Entities.Priority.Created" /></summary>
+        public const string ColumnCreated = "Created";
+        /// <summary>Column Name constant for property <see cref="Tracker.Core.Data.Entities.Priority.CreatedBy" /></summary>
+        public const string ColumnCreatedBy = "CreatedBy";
+        /// <summary>Column Name constant for property <see cref="Tracker.Core.Data.Entities.Priority.Updated" /></summary>
+        public const string ColumnUpdated = "Updated";
+        /// <summary>Column Name constant for property <see cref="Tracker.Core.Data.Entities.Priority.UpdatedBy" /></summary>
+        public const string ColumnUpdatedBy = "UpdatedBy";
+        /// <summary>Column Name constant for property <see cref="Tracker.Core.Data.Entities.Priority.RowVersion" /></summary>
+        public const string ColumnRowVersion = "RowVersion";
+        #endregion
     }
 }

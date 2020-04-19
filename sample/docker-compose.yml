@@ -10,8 +10,6 @@ services:
       POSTGRES_PASSWORD: "!p@ssword"
     ports:
       - "5432:5432"
-    networks: 
-      - dev
   
   mysql:
     image: mysql:latest
@@ -20,9 +18,4 @@ services:
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: "!p@ssword"
-    networks: 
-      - dev
 
-networks: 
-  dev:
-    driver: bridge

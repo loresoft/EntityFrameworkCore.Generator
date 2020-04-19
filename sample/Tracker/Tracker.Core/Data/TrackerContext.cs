@@ -52,6 +52,14 @@ namespace Tracker.Core.Data
         public virtual DbSet<Tracker.Core.Data.Entities.Status> Statuses { get; set; }
 
         /// <summary>
+        /// Gets or sets the <see cref="T:Microsoft.EntityFrameworkCore.DbSet`1" /> that can be used to query and save instances of <see cref="Tracker.Core.Data.Entities.TaskExtended"/>.
+        /// </summary>
+        /// <value>
+        /// The <see cref="T:Microsoft.EntityFrameworkCore.DbSet`1" /> that can be used to query and save instances of <see cref="Tracker.Core.Data.Entities.TaskExtended"/>.
+        /// </value>
+        public virtual DbSet<Tracker.Core.Data.Entities.TaskExtended> TaskExtended { get; set; }
+
+        /// <summary>
         /// Gets or sets the <see cref="T:Microsoft.EntityFrameworkCore.DbSet`1" /> that can be used to query and save instances of <see cref="Tracker.Core.Data.Entities.Task"/>.
         /// </summary>
         /// <value>
@@ -60,20 +68,12 @@ namespace Tracker.Core.Data
         public virtual DbSet<Tracker.Core.Data.Entities.Task> Tasks { get; set; }
 
         /// <summary>
-        /// Gets or sets the <see cref="T:Microsoft.EntityFrameworkCore.DbSet`1" /> that can be used to query and save instances of <see cref="Tracker.Core.Data.Entities.User"/>.
+        /// Gets or sets the <see cref="T:Microsoft.EntityFrameworkCore.DbSet`1" /> that can be used to query and save instances of <see cref="Tracker.Core.Data.Entities.Tenant"/>.
         /// </summary>
         /// <value>
-        /// The <see cref="T:Microsoft.EntityFrameworkCore.DbSet`1" /> that can be used to query and save instances of <see cref="Tracker.Core.Data.Entities.User"/>.
+        /// The <see cref="T:Microsoft.EntityFrameworkCore.DbSet`1" /> that can be used to query and save instances of <see cref="Tracker.Core.Data.Entities.Tenant"/>.
         /// </value>
-        public virtual DbSet<Tracker.Core.Data.Entities.User> Users { get; set; }
-
-        /// <summary>
-        /// Gets or sets the <see cref="T:Microsoft.EntityFrameworkCore.DbSet`1" /> that can be used to query and save instances of <see cref="Tracker.Core.Data.Entities.TaskExtended"/>.
-        /// </summary>
-        /// <value>
-        /// The <see cref="T:Microsoft.EntityFrameworkCore.DbSet`1" /> that can be used to query and save instances of <see cref="Tracker.Core.Data.Entities.TaskExtended"/>.
-        /// </value>
-        public virtual DbSet<Tracker.Core.Data.Entities.TaskExtended> TaskExtended { get; set; }
+        public virtual DbSet<Tracker.Core.Data.Entities.Tenant> Tenants { get; set; }
 
         /// <summary>
         /// Gets or sets the <see cref="T:Microsoft.EntityFrameworkCore.DbSet`1" /> that can be used to query and save instances of <see cref="Tracker.Core.Data.Entities.UserLogin"/>.
@@ -91,6 +91,14 @@ namespace Tracker.Core.Data
         /// </value>
         public virtual DbSet<Tracker.Core.Data.Entities.UserRole> UserRoles { get; set; }
 
+        /// <summary>
+        /// Gets or sets the <see cref="T:Microsoft.EntityFrameworkCore.DbSet`1" /> that can be used to query and save instances of <see cref="Tracker.Core.Data.Entities.User"/>.
+        /// </summary>
+        /// <value>
+        /// The <see cref="T:Microsoft.EntityFrameworkCore.DbSet`1" /> that can be used to query and save instances of <see cref="Tracker.Core.Data.Entities.User"/>.
+        /// </value>
+        public virtual DbSet<Tracker.Core.Data.Entities.User> Users { get; set; }
+
         #endregion
 
         /// <summary>
@@ -104,10 +112,11 @@ namespace Tracker.Core.Data
             modelBuilder.ApplyConfiguration(new Tracker.Core.Data.Mapping.PriorityMap());
             modelBuilder.ApplyConfiguration(new Tracker.Core.Data.Mapping.RoleMap());
             modelBuilder.ApplyConfiguration(new Tracker.Core.Data.Mapping.StatusMap());
-            modelBuilder.ApplyConfiguration(new Tracker.Core.Data.Mapping.TaskMap());
-            modelBuilder.ApplyConfiguration(new Tracker.Core.Data.Mapping.UserMap());
             modelBuilder.ApplyConfiguration(new Tracker.Core.Data.Mapping.TaskExtendedMap());
+            modelBuilder.ApplyConfiguration(new Tracker.Core.Data.Mapping.TaskMap());
+            modelBuilder.ApplyConfiguration(new Tracker.Core.Data.Mapping.TenantMap());
             modelBuilder.ApplyConfiguration(new Tracker.Core.Data.Mapping.UserLoginMap());
+            modelBuilder.ApplyConfiguration(new Tracker.Core.Data.Mapping.UserMap());
             modelBuilder.ApplyConfiguration(new Tracker.Core.Data.Mapping.UserRoleMap());
             #endregion
         }

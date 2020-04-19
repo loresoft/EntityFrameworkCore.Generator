@@ -2,11 +2,11 @@
 using FluentValidation;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Swashbuckle.AspNetCore.Swagger;
+using Microsoft.Extensions.Hosting;
+using Microsoft.OpenApi.Models;
 using Tracker.Core.Data;
 
 namespace Tracker.Web
@@ -28,7 +28,7 @@ namespace Tracker.Web
             services.AddDbContext<TrackerContext>(options => options.UseSqlServer(connectionString));
 
             // register AutoMapper profiles
-            services.AddAutoMapper();
+            services.AddAutoMapper(typeof(TrackerContext));
 
             // register validation
             services.Scan(x =>
@@ -37,17 +37,17 @@ namespace Tracker.Web
                     .AsImplementedInterfaces()
             );
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.AddControllers();
 
             // Register the Swagger generator
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new Info { Title = "Tracker API", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Tracker API", Version = "v1" });
             });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
             {
@@ -68,7 +68,13 @@ namespace Tracker.Web
             });
 
             app.UseHttpsRedirection();
-            app.UseMvc();
+
+            app.UseRouting();
+
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers();
+            });
         }
     }
 }

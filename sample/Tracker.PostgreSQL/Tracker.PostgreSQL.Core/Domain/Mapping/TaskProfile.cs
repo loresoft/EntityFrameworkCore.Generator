@@ -1,19 +1,23 @@
 using System;
 using AutoMapper;
-using Tracker.Data.Entities;
-using Tracker.Domain.Models;
+using Tracker.PostgreSQL.Core.Data.Entities;
+using Tracker.PostgreSQL.Core.Domain.Models;
 
-namespace Tracker.Domain.Mapping
+namespace Tracker.PostgreSQL.Core.Domain.Mapping
 {
     public partial class TaskProfile
         : AutoMapper.Profile
     {
         public TaskProfile()
         {
-            CreateMap<Tracker.Data.Entities.Task, Tracker.Domain.Models.TaskReadModel>();
-            CreateMap<Tracker.Domain.Models.TaskCreateModel, Tracker.Data.Entities.Task>();
-            CreateMap<Tracker.Data.Entities.Task, Tracker.Domain.Models.TaskUpdateModel>();
-            CreateMap<Tracker.Domain.Models.TaskUpdateModel, Tracker.Data.Entities.Task>();
+            CreateMap<Tracker.PostgreSQL.Core.Data.Entities.Task, Tracker.PostgreSQL.Core.Domain.Models.TaskReadModel>();
+
+            CreateMap<Tracker.PostgreSQL.Core.Domain.Models.TaskCreateModel, Tracker.PostgreSQL.Core.Data.Entities.Task>();
+
+            CreateMap<Tracker.PostgreSQL.Core.Data.Entities.Task, Tracker.PostgreSQL.Core.Domain.Models.TaskUpdateModel>();
+
+            CreateMap<Tracker.PostgreSQL.Core.Domain.Models.TaskUpdateModel, Tracker.PostgreSQL.Core.Data.Entities.Task>();
+
         }
 
     }

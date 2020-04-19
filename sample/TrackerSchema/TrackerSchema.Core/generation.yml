@@ -1,0 +1,62 @@
+project:
+  namespace: 'TrackerSchema.Core'
+  directory: .\
+database:
+  provider: SqlServer
+  connectionString: Data Source=(local);Initial Catalog=TrackerSchema;Integrated Security=True
+  exclude:
+    - exact: 'dbo.SchemaVersions'
+data:
+  context:
+    name: '{Database.Name}Context'
+    baseClass: DbContext
+    propertyNaming: Plural
+    namespace: '{Project.Namespace}.Data'
+    directory: '{Project.Directory}\Data'
+    document: true
+  entity:
+    name: '{Table.Schema}{Table.Name}'
+    namespace: '{Project.Namespace}.Data.{Table.Schema}.Entities'
+    directory: '{Project.Directory}\Data\{Table.Schema}\Entities'
+    document: true
+  mapping:
+    namespace: '{Project.Namespace}.Data.{Table.Schema}.Mapping'
+    directory: '{Project.Directory}\Data\{Table.Schema}\Mapping'
+    document: true
+  query:
+    generate: true
+    indexPrefix: By
+    uniquePrefix: GetBy
+    namespace: '{Project.Namespace}.Data.{Table.Schema}.Queries'
+    directory: '{Project.Directory}\Data\{Table.Schema}\Queries'
+    document: true
+model:
+  shared:
+    namespace: '{Project.Namespace}.Domain.{Table.Schema}.Models'
+    directory: '{Project.Directory}\Domain\{Table.Schema}\Models'
+  read:
+    generate: true
+    name: '{Entity.Name}ReadModel'
+    document: true
+  create:
+    generate: true
+    name: '{Entity.Name}CreateModel'
+    document: true
+  update:
+    generate: true
+    name: '{Entity.Name}UpdateModel'
+    document: true
+  mapper:
+    generate: true
+    name: '{Entity.Name}Profile'
+    baseClass: AutoMapper.Profile
+    namespace: '{Project.Namespace}.Domain.{Table.Schema}.Mapping'
+    directory: '{Project.Directory}\Domain\{Table.Schema}\Mapping'
+    document: true
+  validator:
+    generate: true
+    name: '{Model.Name}Validator'
+    baseClass: AbstractValidator<{Model.Name}>
+    namespace: '{Project.Namespace}.Domain.{Table.Schema}.Validation'
+    directory: '{Project.Directory}\Domain\{Table.Schema}\Validation'
+    document: true

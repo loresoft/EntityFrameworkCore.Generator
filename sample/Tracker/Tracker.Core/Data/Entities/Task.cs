@@ -92,6 +92,14 @@ namespace Tracker.Core.Data.Entities
         public Guid? AssignedId { get; set; }
 
         /// <summary>
+        /// Gets or sets the property value representing column 'TenantId'.
+        /// </summary>
+        /// <value>
+        /// The property value representing column 'TenantId'.
+        /// </value>
+        public Guid TenantId { get; set; }
+
+        /// <summary>
         /// Gets or sets the property value representing column 'Created'.
         /// </summary>
         /// <value>
@@ -135,6 +143,15 @@ namespace Tracker.Core.Data.Entities
 
         #region Generated Relationships
         /// <summary>
+        /// Gets or sets the navigation property for entity <see cref="User" />.
+        /// </summary>
+        /// <value>
+        /// The the navigation property for entity <see cref="User" />.
+        /// </value>
+        /// <seealso cref="AssignedId" />
+        public virtual User AssignedUser { get; set; }
+
+        /// <summary>
         /// Gets or sets the navigation property for entity <see cref="Priority" />.
         /// </summary>
         /// <value>
@@ -153,15 +170,6 @@ namespace Tracker.Core.Data.Entities
         public virtual Status Status { get; set; }
 
         /// <summary>
-        /// Gets or sets the navigation property for entity <see cref="User" />.
-        /// </summary>
-        /// <value>
-        /// The the navigation property for entity <see cref="User" />.
-        /// </value>
-        /// <seealso cref="AssignedId" />
-        public virtual User AssignedUser { get; set; }
-
-        /// <summary>
         /// Gets or sets the navigation property for entity <see cref="TaskExtended" />.
         /// </summary>
         /// <value>
@@ -169,6 +177,15 @@ namespace Tracker.Core.Data.Entities
         /// </value>
         /// <seealso cref="Id" />
         public virtual TaskExtended TaskExtended { get; set; }
+
+        /// <summary>
+        /// Gets or sets the navigation property for entity <see cref="Tenant" />.
+        /// </summary>
+        /// <value>
+        /// The the navigation property for entity <see cref="Tenant" />.
+        /// </value>
+        /// <seealso cref="TenantId" />
+        public virtual Tenant Tenant { get; set; }
 
         #endregion
 

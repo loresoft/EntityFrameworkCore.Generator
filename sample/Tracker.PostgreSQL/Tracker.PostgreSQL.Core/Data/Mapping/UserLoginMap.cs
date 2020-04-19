@@ -2,12 +2,12 @@ using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 
-namespace Tracker.Data.Mapping
+namespace Tracker.PostgreSQL.Core.Data.Mapping
 {
     public partial class UserLoginMap
-        : IEntityTypeConfiguration<Tracker.Data.Entities.UserLogin>
+        : IEntityTypeConfiguration<Tracker.PostgreSQL.Core.Data.Entities.UserLogin>
     {
-        public void Configure(Microsoft.EntityFrameworkCore.Metadata.Builders.EntityTypeBuilder<Tracker.Data.Entities.UserLogin> builder)
+        public void Configure(Microsoft.EntityFrameworkCore.Metadata.Builders.EntityTypeBuilder<Tracker.PostgreSQL.Core.Data.Entities.UserLogin> builder)
         {
             #region Generated Configure
             // table
@@ -111,5 +111,27 @@ namespace Tracker.Data.Mapping
             #endregion
         }
 
+        #region Generated Constants
+        public const string TableSchema = "public";
+        public const string TableName = "UserLogin";
+
+        public const string ColumnId = "Id";
+        public const string ColumnEmailAddress = "EmailAddress";
+        public const string ColumnUserId = "UserId";
+        public const string ColumnUserAgent = "UserAgent";
+        public const string ColumnBrowser = "Browser";
+        public const string ColumnOperatingSystem = "OperatingSystem";
+        public const string ColumnDeviceFamily = "DeviceFamily";
+        public const string ColumnDeviceBrand = "DeviceBrand";
+        public const string ColumnDeviceModel = "DeviceModel";
+        public const string ColumnIpAddress = "IpAddress";
+        public const string ColumnIsSuccessful = "IsSuccessful";
+        public const string ColumnFailureMessage = "FailureMessage";
+        public const string ColumnCreated = "Created";
+        public const string ColumnCreatedBy = "CreatedBy";
+        public const string ColumnUpdated = "Updated";
+        public const string ColumnUpdatedBy = "UpdatedBy";
+        public const string ColumnRowVersion = "RowVersion";
+        #endregion
     }
 }

@@ -2,12 +2,12 @@ using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 
-namespace Tracker.Data.Mapping
+namespace Tracker.PostgreSQL.Core.Data.Mapping
 {
     public partial class RoleMap
-        : IEntityTypeConfiguration<Tracker.Data.Entities.Role>
+        : IEntityTypeConfiguration<Tracker.PostgreSQL.Core.Data.Entities.Role>
     {
-        public void Configure(Microsoft.EntityFrameworkCore.Metadata.Builders.EntityTypeBuilder<Tracker.Data.Entities.Role> builder)
+        public void Configure(Microsoft.EntityFrameworkCore.Metadata.Builders.EntityTypeBuilder<Tracker.PostgreSQL.Core.Data.Entities.Role> builder)
         {
             #region Generated Configure
             // table
@@ -62,5 +62,18 @@ namespace Tracker.Data.Mapping
             #endregion
         }
 
+        #region Generated Constants
+        public const string TableSchema = "public";
+        public const string TableName = "Role";
+
+        public const string ColumnId = "Id";
+        public const string ColumnName = "Name";
+        public const string ColumnDescription = "Description";
+        public const string ColumnCreated = "Created";
+        public const string ColumnCreatedBy = "CreatedBy";
+        public const string ColumnUpdated = "Updated";
+        public const string ColumnUpdatedBy = "UpdatedBy";
+        public const string ColumnRowVersion = "RowVersion";
+        #endregion
     }
 }

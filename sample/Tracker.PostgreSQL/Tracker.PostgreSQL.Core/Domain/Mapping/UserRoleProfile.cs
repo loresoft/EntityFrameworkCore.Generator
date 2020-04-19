@@ -1,19 +1,23 @@
 using System;
 using AutoMapper;
-using Tracker.Data.Entities;
-using Tracker.Domain.Models;
+using Tracker.PostgreSQL.Core.Data.Entities;
+using Tracker.PostgreSQL.Core.Domain.Models;
 
-namespace Tracker.Domain.Mapping
+namespace Tracker.PostgreSQL.Core.Domain.Mapping
 {
     public partial class UserRoleProfile
         : AutoMapper.Profile
     {
         public UserRoleProfile()
         {
-            CreateMap<Tracker.Data.Entities.UserRole, Tracker.Domain.Models.UserRoleReadModel>();
-            CreateMap<Tracker.Domain.Models.UserRoleCreateModel, Tracker.Data.Entities.UserRole>();
-            CreateMap<Tracker.Data.Entities.UserRole, Tracker.Domain.Models.UserRoleUpdateModel>();
-            CreateMap<Tracker.Domain.Models.UserRoleUpdateModel, Tracker.Data.Entities.UserRole>();
+            CreateMap<Tracker.PostgreSQL.Core.Data.Entities.UserRole, Tracker.PostgreSQL.Core.Domain.Models.UserRoleReadModel>();
+
+            CreateMap<Tracker.PostgreSQL.Core.Domain.Models.UserRoleCreateModel, Tracker.PostgreSQL.Core.Data.Entities.UserRole>();
+
+            CreateMap<Tracker.PostgreSQL.Core.Data.Entities.UserRole, Tracker.PostgreSQL.Core.Domain.Models.UserRoleUpdateModel>();
+
+            CreateMap<Tracker.PostgreSQL.Core.Domain.Models.UserRoleUpdateModel, Tracker.PostgreSQL.Core.Data.Entities.UserRole>();
+
         }
 
     }

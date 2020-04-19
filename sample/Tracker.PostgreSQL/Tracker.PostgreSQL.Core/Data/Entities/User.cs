@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Tracker.Data.Entities
+namespace Tracker.PostgreSQL.Core.Data.Entities
 {
     public partial class User
     {

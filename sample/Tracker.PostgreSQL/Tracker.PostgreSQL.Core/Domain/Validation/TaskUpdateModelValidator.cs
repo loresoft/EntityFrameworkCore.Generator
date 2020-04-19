@@ -1,8 +1,8 @@
 using System;
 using FluentValidation;
-using Tracker.Domain.Models;
+using Tracker.PostgreSQL.Core.Domain.Models;
 
-namespace Tracker.Domain.Validation
+namespace Tracker.PostgreSQL.Core.Domain.Validation
 {
     public partial class TaskUpdateModelValidator
         : AbstractValidator<TaskUpdateModel>

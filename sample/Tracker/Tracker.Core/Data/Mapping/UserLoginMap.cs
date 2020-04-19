@@ -111,6 +111,7 @@ namespace Tracker.Core.Data.Mapping
                 .IsRowVersion()
                 .HasColumnName("RowVersion")
                 .HasColumnType("rowversion")
+                .HasMaxLength(8)
                 .ValueGeneratedOnAddOrUpdate();
 
             // relationships
@@ -122,5 +123,46 @@ namespace Tracker.Core.Data.Mapping
             #endregion
         }
 
+        #region Generated Constants
+        /// <summary>Table Schema name constant for entity <see cref="Tracker.Core.Data.Entities.UserLogin" /></summary>
+        public const string TableSchema = "dbo";
+        /// <summary>Table Name constant for entity <see cref="Tracker.Core.Data.Entities.UserLogin" /></summary>
+        public const string TableName = "UserLogin";
+
+        /// <summary>Column Name constant for property <see cref="Tracker.Core.Data.Entities.UserLogin.Id" /></summary>
+        public const string ColumnId = "Id";
+        /// <summary>Column Name constant for property <see cref="Tracker.Core.Data.Entities.UserLogin.EmailAddress" /></summary>
+        public const string ColumnEmailAddress = "EmailAddress";
+        /// <summary>Column Name constant for property <see cref="Tracker.Core.Data.Entities.UserLogin.UserId" /></summary>
+        public const string ColumnUserId = "UserId";
+        /// <summary>Column Name constant for property <see cref="Tracker.Core.Data.Entities.UserLogin.UserAgent" /></summary>
+        public const string ColumnUserAgent = "UserAgent";
+        /// <summary>Column Name constant for property <see cref="Tracker.Core.Data.Entities.UserLogin.Browser" /></summary>
+        public const string ColumnBrowser = "Browser";
+        /// <summary>Column Name constant for property <see cref="Tracker.Core.Data.Entities.UserLogin.OperatingSystem" /></summary>
+        public const string ColumnOperatingSystem = "OperatingSystem";
+        /// <summary>Column Name constant for property <see cref="Tracker.Core.Data.Entities.UserLogin.DeviceFamily" /></summary>
+        public const string ColumnDeviceFamily = "DeviceFamily";
+        /// <summary>Column Name constant for property <see cref="Tracker.Core.Data.Entities.UserLogin.DeviceBrand" /></summary>
+        public const string ColumnDeviceBrand = "DeviceBrand";
+        /// <summary>Column Name constant for property <see cref="Tracker.Core.Data.Entities.UserLogin.DeviceModel" /></summary>
+        public const string ColumnDeviceModel = "DeviceModel";
+        /// <summary>Column Name constant for property <see cref="Tracker.Core.Data.Entities.UserLogin.IpAddress" /></summary>
+        public const string ColumnIpAddress = "IpAddress";
+        /// <summary>Column Name constant for property <see cref="Tracker.Core.Data.Entities.UserLogin.IsSuccessful" /></summary>
+        public const string ColumnIsSuccessful = "IsSuccessful";
+        /// <summary>Column Name constant for property <see cref="Tracker.Core.Data.Entities.UserLogin.FailureMessage" /></summary>
+        public const string ColumnFailureMessage = "FailureMessage";
+        /// <summary>Column Name constant for property <see cref="Tracker.Core.Data.Entities.UserLogin.Created" /></summary>
+        public const string ColumnCreated = "Created";
+        /// <summary>Column Name constant for property <see cref="Tracker.Core.Data.Entities.UserLogin.CreatedBy" /></summary>
+        public const string ColumnCreatedBy = "CreatedBy";
+        /// <summary>Column Name constant for property <see cref="Tracker.Core.Data.Entities.UserLogin.Updated" /></summary>
+        public const string ColumnUpdated = "Updated";
+        /// <summary>Column Name constant for property <see cref="Tracker.Core.Data.Entities.UserLogin.UpdatedBy" /></summary>
+        public const string ColumnUpdatedBy = "UpdatedBy";
+        /// <summary>Column Name constant for property <see cref="Tracker.Core.Data.Entities.UserLogin.RowVersion" /></summary>
+        public const string ColumnRowVersion = "RowVersion";
+        #endregion
     }
 }

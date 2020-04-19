@@ -2,12 +2,12 @@ using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 
-namespace Tracker.Data.Mapping
+namespace Tracker.PostgreSQL.Core.Data.Mapping
 {
     public partial class AuditMap
-        : IEntityTypeConfiguration<Tracker.Data.Entities.Audit>
+        : IEntityTypeConfiguration<Tracker.PostgreSQL.Core.Data.Entities.Audit>
     {
-        public void Configure(Microsoft.EntityFrameworkCore.Metadata.Builders.EntityTypeBuilder<Tracker.Data.Entities.Audit> builder)
+        public void Configure(Microsoft.EntityFrameworkCore.Metadata.Builders.EntityTypeBuilder<Tracker.PostgreSQL.Core.Data.Entities.Audit> builder)
         {
             #region Generated Configure
             // table
@@ -76,5 +76,21 @@ namespace Tracker.Data.Mapping
             #endregion
         }
 
+        #region Generated Constants
+        public const string TableSchema = "public";
+        public const string TableName = "Audit";
+
+        public const string ColumnId = "Id";
+        public const string ColumnDate = "Date";
+        public const string ColumnUserId = "UserId";
+        public const string ColumnTaskId = "TaskId";
+        public const string ColumnContent = "Content";
+        public const string ColumnUsername = "Username";
+        public const string ColumnCreated = "Created";
+        public const string ColumnCreatedBy = "CreatedBy";
+        public const string ColumnUpdated = "Updated";
+        public const string ColumnUpdatedBy = "UpdatedBy";
+        public const string ColumnRowVersion = "RowVersion";
+        #endregion
     }
 }

@@ -1,19 +1,23 @@
 using System;
 using AutoMapper;
-using Tracker.Data.Entities;
-using Tracker.Domain.Models;
+using Tracker.PostgreSQL.Core.Data.Entities;
+using Tracker.PostgreSQL.Core.Domain.Models;
 
-namespace Tracker.Domain.Mapping
+namespace Tracker.PostgreSQL.Core.Domain.Mapping
 {
     public partial class StatusProfile
         : AutoMapper.Profile
     {
         public StatusProfile()
         {
-            CreateMap<Tracker.Data.Entities.Status, Tracker.Domain.Models.StatusReadModel>();
-            CreateMap<Tracker.Domain.Models.StatusCreateModel, Tracker.Data.Entities.Status>();
-            CreateMap<Tracker.Data.Entities.Status, Tracker.Domain.Models.StatusUpdateModel>();
-            CreateMap<Tracker.Domain.Models.StatusUpdateModel, Tracker.Data.Entities.Status>();
+            CreateMap<Tracker.PostgreSQL.Core.Data.Entities.Status, Tracker.PostgreSQL.Core.Domain.Models.StatusReadModel>();
+
+            CreateMap<Tracker.PostgreSQL.Core.Domain.Models.StatusCreateModel, Tracker.PostgreSQL.Core.Data.Entities.Status>();
+
+            CreateMap<Tracker.PostgreSQL.Core.Data.Entities.Status, Tracker.PostgreSQL.Core.Domain.Models.StatusUpdateModel>();
+
+            CreateMap<Tracker.PostgreSQL.Core.Domain.Models.StatusUpdateModel, Tracker.PostgreSQL.Core.Data.Entities.Status>();
+
         }
 
     }

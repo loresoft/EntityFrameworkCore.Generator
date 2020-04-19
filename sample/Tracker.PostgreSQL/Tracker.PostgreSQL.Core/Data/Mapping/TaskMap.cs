@@ -2,12 +2,12 @@ using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 
-namespace Tracker.Data.Mapping
+namespace Tracker.PostgreSQL.Core.Data.Mapping
 {
     public partial class TaskMap
-        : IEntityTypeConfiguration<Tracker.Data.Entities.Task>
+        : IEntityTypeConfiguration<Tracker.PostgreSQL.Core.Data.Entities.Task>
     {
-        public void Configure(Microsoft.EntityFrameworkCore.Metadata.Builders.EntityTypeBuilder<Tracker.Data.Entities.Task> builder)
+        public void Configure(Microsoft.EntityFrameworkCore.Metadata.Builders.EntityTypeBuilder<Tracker.PostgreSQL.Core.Data.Entities.Task> builder)
         {
             #region Generated Configure
             // table
@@ -102,5 +102,24 @@ namespace Tracker.Data.Mapping
             #endregion
         }
 
+        #region Generated Constants
+        public const string TableSchema = "public";
+        public const string TableName = "Task";
+
+        public const string ColumnId = "Id";
+        public const string ColumnStatusId = "StatusId";
+        public const string ColumnPriorityId = "PriorityId";
+        public const string ColumnTitle = "Title";
+        public const string ColumnDescription = "Description";
+        public const string ColumnStartDate = "StartDate";
+        public const string ColumnDueDate = "DueDate";
+        public const string ColumnCompleteDate = "CompleteDate";
+        public const string ColumnAssignedId = "AssignedId";
+        public const string ColumnCreated = "Created";
+        public const string ColumnCreatedBy = "CreatedBy";
+        public const string ColumnUpdated = "Updated";
+        public const string ColumnUpdatedBy = "UpdatedBy";
+        public const string ColumnRowVersion = "RowVersion";
+        #endregion
     }
 }

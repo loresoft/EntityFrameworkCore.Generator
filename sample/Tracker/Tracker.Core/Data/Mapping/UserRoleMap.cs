@@ -48,5 +48,16 @@ namespace Tracker.Core.Data.Mapping
             #endregion
         }
 
+        #region Generated Constants
+        /// <summary>Table Schema name constant for entity <see cref="Tracker.Core.Data.Entities.UserRole" /></summary>
+        public const string TableSchema = "dbo";
+        /// <summary>Table Name constant for entity <see cref="Tracker.Core.Data.Entities.UserRole" /></summary>
+        public const string TableName = "UserRole";
+
+        /// <summary>Column Name constant for property <see cref="Tracker.Core.Data.Entities.UserRole.UserId" /></summary>
+        public const string ColumnUserId = "UserId";
+        /// <summary>Column Name constant for property <see cref="Tracker.Core.Data.Entities.UserRole.RoleId" /></summary>
+        public const string ColumnRoleId = "RoleId";
+        #endregion
     }
 }

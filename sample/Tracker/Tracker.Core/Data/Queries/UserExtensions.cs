@@ -13,34 +13,6 @@ namespace Tracker.Core.Data.Queries
     {
         #region Generated Extensions
         /// <summary>
-        /// Gets an instance by the primary key.
-        /// </summary>
-        /// <param name="queryable">An <see cref="T:System.Linq.IQueryable`1" /> to filter.</param>
-        /// <param name="id">The value to filter by.</param>
-        /// <returns>An instance of <see cref="T:Tracker.Core.Data.Entities.User"/> or null if not found.</returns>
-        public static Tracker.Core.Data.Entities.User GetByKey(this IQueryable<Tracker.Core.Data.Entities.User> queryable, Guid id)
-        {
-            if (queryable is DbSet<Tracker.Core.Data.Entities.User> dbSet)
-                return dbSet.Find(id);
-
-            return queryable.FirstOrDefault(q => q.Id == id);
-        }
-
-        /// <summary>
-        /// Gets an instance by the primary key.
-        /// </summary>
-        /// <param name="queryable">An <see cref="T:System.Linq.IQueryable`1" /> to filter.</param>
-        /// <param name="id">The value to filter by.</param>
-        /// <returns>An instance of <see cref="T:Tracker.Core.Data.Entities.User"/> or null if not found.</returns>
-        public static Task<Tracker.Core.Data.Entities.User> GetByKeyAsync(this IQueryable<Tracker.Core.Data.Entities.User> queryable, Guid id)
-        {
-            if (queryable is DbSet<Tracker.Core.Data.Entities.User> dbSet)
-                return dbSet.FindAsync(id);
-
-            return queryable.FirstOrDefaultAsync(q => q.Id == id);
-        }
-
-        /// <summary>
         /// Gets an instance of <see cref="T:Tracker.Core.Data.Entities.User"/> by using a unique index.
         /// </summary>
         /// <param name="queryable">An <see cref="T:System.Linq.IQueryable`1" /> to filter.</param>
@@ -60,6 +32,35 @@ namespace Tracker.Core.Data.Queries
         public static Task<Tracker.Core.Data.Entities.User> GetByEmailAddressAsync(this IQueryable<Tracker.Core.Data.Entities.User> queryable, string emailAddress)
         {
             return queryable.FirstOrDefaultAsync(q => q.EmailAddress == emailAddress);
+        }
+
+        /// <summary>
+        /// Gets an instance by the primary key.
+        /// </summary>
+        /// <param name="queryable">An <see cref="T:System.Linq.IQueryable`1" /> to filter.</param>
+        /// <param name="id">The value to filter by.</param>
+        /// <returns>An instance of <see cref="T:Tracker.Core.Data.Entities.User"/> or null if not found.</returns>
+        public static Tracker.Core.Data.Entities.User GetByKey(this IQueryable<Tracker.Core.Data.Entities.User> queryable, Guid id)
+        {
+            if (queryable is DbSet<Tracker.Core.Data.Entities.User> dbSet)
+                return dbSet.Find(id);
+
+            return queryable.FirstOrDefault(q => q.Id == id);
+        }
+
+        /// <summary>
+        /// Gets an instance by the primary key.
+        /// </summary>
+        /// <param name="queryable">An <see cref="T:System.Linq.IQueryable`1" /> to filter.</param>
+        /// <param name="id">The value to filter by.</param>
+        /// <returns>An instance of <see cref="T:Tracker.Core.Data.Entities.User"/> or null if not found.</returns>
+        public static ValueTask<Tracker.Core.Data.Entities.User> GetByKeyAsync(this IQueryable<Tracker.Core.Data.Entities.User> queryable, Guid id)
+        {
+            if (queryable is DbSet<Tracker.Core.Data.Entities.User> dbSet)
+                return dbSet.FindAsync(id);
+
+            var task = queryable.FirstOrDefaultAsync(q => q.Id == id);
+            return new ValueTask<Tracker.Core.Data.Entities.User>(task);
         }
 
         #endregion

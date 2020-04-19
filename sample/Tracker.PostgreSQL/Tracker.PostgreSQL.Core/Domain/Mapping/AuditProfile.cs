@@ -1,19 +1,23 @@
 using System;
 using AutoMapper;
-using Tracker.Data.Entities;
-using Tracker.Domain.Models;
+using Tracker.PostgreSQL.Core.Data.Entities;
+using Tracker.PostgreSQL.Core.Domain.Models;
 
-namespace Tracker.Domain.Mapping
+namespace Tracker.PostgreSQL.Core.Domain.Mapping
 {
     public partial class AuditProfile
         : AutoMapper.Profile
     {
         public AuditProfile()
         {
-            CreateMap<Tracker.Data.Entities.Audit, Tracker.Domain.Models.AuditReadModel>();
-            CreateMap<Tracker.Domain.Models.AuditCreateModel, Tracker.Data.Entities.Audit>();
-            CreateMap<Tracker.Data.Entities.Audit, Tracker.Domain.Models.AuditUpdateModel>();
-            CreateMap<Tracker.Domain.Models.AuditUpdateModel, Tracker.Data.Entities.Audit>();
+            CreateMap<Tracker.PostgreSQL.Core.Data.Entities.Audit, Tracker.PostgreSQL.Core.Domain.Models.AuditReadModel>();
+
+            CreateMap<Tracker.PostgreSQL.Core.Domain.Models.AuditCreateModel, Tracker.PostgreSQL.Core.Data.Entities.Audit>();
+
+            CreateMap<Tracker.PostgreSQL.Core.Data.Entities.Audit, Tracker.PostgreSQL.Core.Domain.Models.AuditUpdateModel>();
+
+            CreateMap<Tracker.PostgreSQL.Core.Domain.Models.AuditUpdateModel, Tracker.PostgreSQL.Core.Data.Entities.Audit>();
+
         }
 
     }

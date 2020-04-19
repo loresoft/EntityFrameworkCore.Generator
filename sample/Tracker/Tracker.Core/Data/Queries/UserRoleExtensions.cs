@@ -13,6 +13,28 @@ namespace Tracker.Core.Data.Queries
     {
         #region Generated Extensions
         /// <summary>
+        /// Filters a sequence of values based on a predicate.
+        /// </summary>
+        /// <param name="queryable">An <see cref="T:System.Linq.IQueryable`1" /> to filter.</param>
+        /// <param name="roleId">The value to filter by.</param>
+        /// <returns>An <see cref="T: System.Linq.IQueryable`1" /> that contains elements from the input sequence that satisfy the condition specified.</returns>
+        public static IQueryable<Tracker.Core.Data.Entities.UserRole> ByRoleId(this IQueryable<Tracker.Core.Data.Entities.UserRole> queryable, Guid roleId)
+        {
+            return queryable.Where(q => q.RoleId == roleId);
+        }
+
+        /// <summary>
+        /// Filters a sequence of values based on a predicate.
+        /// </summary>
+        /// <param name="queryable">An <see cref="T:System.Linq.IQueryable`1" /> to filter.</param>
+        /// <param name="userId">The value to filter by.</param>
+        /// <returns>An <see cref="T: System.Linq.IQueryable`1" /> that contains elements from the input sequence that satisfy the condition specified.</returns>
+        public static IQueryable<Tracker.Core.Data.Entities.UserRole> ByUserId(this IQueryable<Tracker.Core.Data.Entities.UserRole> queryable, Guid userId)
+        {
+            return queryable.Where(q => q.UserId == userId);
+        }
+
+        /// <summary>
         /// Gets an instance by the primary key.
         /// </summary>
         /// <param name="queryable">An <see cref="T:System.Linq.IQueryable`1" /> to filter.</param>
@@ -35,35 +57,14 @@ namespace Tracker.Core.Data.Queries
         /// <param name="userId">The value to filter by.</param>
         /// <param name="roleId">The value to filter by.</param>
         /// <returns>An instance of <see cref="T:Tracker.Core.Data.Entities.UserRole"/> or null if not found.</returns>
-        public static Task<Tracker.Core.Data.Entities.UserRole> GetByKeyAsync(this IQueryable<Tracker.Core.Data.Entities.UserRole> queryable, Guid userId, Guid roleId)
+        public static ValueTask<Tracker.Core.Data.Entities.UserRole> GetByKeyAsync(this IQueryable<Tracker.Core.Data.Entities.UserRole> queryable, Guid userId, Guid roleId)
         {
             if (queryable is DbSet<Tracker.Core.Data.Entities.UserRole> dbSet)
                 return dbSet.FindAsync(userId, roleId);
 
-            return queryable.FirstOrDefaultAsync(q => q.UserId == userId
+            var task = queryable.FirstOrDefaultAsync(q => q.UserId == userId
                 && q.RoleId == roleId);
-        }
-
-        /// <summary>
-        /// Filters a sequence of values based on a predicate.
-        /// </summary>
-        /// <param name="queryable">An <see cref="T:System.Linq.IQueryable`1" /> to filter.</param>
-        /// <param name="roleId">The value to filter by.</param>
-        /// <returns>An <see cref="T: System.Linq.IQueryable`1" /> that contains elements from the input sequence that satisfy the condition specified.</returns>
-        public static IQueryable<Tracker.Core.Data.Entities.UserRole> ByRoleId(this IQueryable<Tracker.Core.Data.Entities.UserRole> queryable, Guid roleId)
-        {
-            return queryable.Where(q => q.RoleId == roleId);
-        }
-
-        /// <summary>
-        /// Filters a sequence of values based on a predicate.
-        /// </summary>
-        /// <param name="queryable">An <see cref="T:System.Linq.IQueryable`1" /> to filter.</param>
-        /// <param name="userId">The value to filter by.</param>
-        /// <returns>An <see cref="T: System.Linq.IQueryable`1" /> that contains elements from the input sequence that satisfy the condition specified.</returns>
-        public static IQueryable<Tracker.Core.Data.Entities.UserRole> ByUserId(this IQueryable<Tracker.Core.Data.Entities.UserRole> queryable, Guid userId)
-        {
-            return queryable.Where(q => q.UserId == userId);
+            return new ValueTask<Tracker.Core.Data.Entities.UserRole>(task);
         }
 
         #endregion

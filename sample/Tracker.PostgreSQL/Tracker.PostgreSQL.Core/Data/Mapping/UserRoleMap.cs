@@ -2,12 +2,12 @@ using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 
-namespace Tracker.Data.Mapping
+namespace Tracker.PostgreSQL.Core.Data.Mapping
 {
     public partial class UserRoleMap
-        : IEntityTypeConfiguration<Tracker.Data.Entities.UserRole>
+        : IEntityTypeConfiguration<Tracker.PostgreSQL.Core.Data.Entities.UserRole>
     {
-        public void Configure(Microsoft.EntityFrameworkCore.Metadata.Builders.EntityTypeBuilder<Tracker.Data.Entities.UserRole> builder)
+        public void Configure(Microsoft.EntityFrameworkCore.Metadata.Builders.EntityTypeBuilder<Tracker.PostgreSQL.Core.Data.Entities.UserRole> builder)
         {
             #region Generated Configure
             // table
@@ -41,5 +41,12 @@ namespace Tracker.Data.Mapping
             #endregion
         }
 
+        #region Generated Constants
+        public const string TableSchema = "public";
+        public const string TableName = "UserRole";
+
+        public const string ColumnUserId = "UserId";
+        public const string ColumnRoleId = "RoleId";
+        #endregion
     }
 }

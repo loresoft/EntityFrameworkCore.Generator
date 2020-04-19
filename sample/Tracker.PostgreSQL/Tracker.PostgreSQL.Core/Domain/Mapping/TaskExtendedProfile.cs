@@ -1,19 +1,23 @@
 using System;
 using AutoMapper;
-using Tracker.Data.Entities;
-using Tracker.Domain.Models;
+using Tracker.PostgreSQL.Core.Data.Entities;
+using Tracker.PostgreSQL.Core.Domain.Models;
 
-namespace Tracker.Domain.Mapping
+namespace Tracker.PostgreSQL.Core.Domain.Mapping
 {
     public partial class TaskExtendedProfile
         : AutoMapper.Profile
     {
         public TaskExtendedProfile()
         {
-            CreateMap<Tracker.Data.Entities.TaskExtended, Tracker.Domain.Models.TaskExtendedReadModel>();
-            CreateMap<Tracker.Domain.Models.TaskExtendedCreateModel, Tracker.Data.Entities.TaskExtended>();
-            CreateMap<Tracker.Data.Entities.TaskExtended, Tracker.Domain.Models.TaskExtendedUpdateModel>();
-            CreateMap<Tracker.Domain.Models.TaskExtendedUpdateModel, Tracker.Data.Entities.TaskExtended>();
+            CreateMap<Tracker.PostgreSQL.Core.Data.Entities.TaskExtended, Tracker.PostgreSQL.Core.Domain.Models.TaskExtendedReadModel>();
+
+            CreateMap<Tracker.PostgreSQL.Core.Domain.Models.TaskExtendedCreateModel, Tracker.PostgreSQL.Core.Data.Entities.TaskExtended>();
+
+            CreateMap<Tracker.PostgreSQL.Core.Data.Entities.TaskExtended, Tracker.PostgreSQL.Core.Domain.Models.TaskExtendedUpdateModel>();
+
+            CreateMap<Tracker.PostgreSQL.Core.Domain.Models.TaskExtendedUpdateModel, Tracker.PostgreSQL.Core.Data.Entities.TaskExtended>();
+
         }
 
     }

@@ -13,6 +13,17 @@ namespace Tracker.Core.Data.Queries
     {
         #region Generated Extensions
         /// <summary>
+        /// Filters a sequence of values based on a predicate.
+        /// </summary>
+        /// <param name="queryable">An <see cref="T:System.Linq.IQueryable`1" /> to filter.</param>
+        /// <param name="assignedId">The value to filter by.</param>
+        /// <returns>An <see cref="T: System.Linq.IQueryable`1" /> that contains elements from the input sequence that satisfy the condition specified.</returns>
+        public static IQueryable<Tracker.Core.Data.Entities.Task> ByAssignedId(this IQueryable<Tracker.Core.Data.Entities.Task> queryable, Guid? assignedId)
+        {
+            return queryable.Where(q => (q.AssignedId == assignedId || (assignedId == null && q.AssignedId == null)));
+        }
+
+        /// <summary>
         /// Gets an instance by the primary key.
         /// </summary>
         /// <param name="queryable">An <see cref="T:System.Linq.IQueryable`1" /> to filter.</param>
@@ -32,23 +43,13 @@ namespace Tracker.Core.Data.Queries
         /// <param name="queryable">An <see cref="T:System.Linq.IQueryable`1" /> to filter.</param>
         /// <param name="id">The value to filter by.</param>
         /// <returns>An instance of <see cref="T:Tracker.Core.Data.Entities.Task"/> or null if not found.</returns>
-        public static Task<Tracker.Core.Data.Entities.Task> GetByKeyAsync(this IQueryable<Tracker.Core.Data.Entities.Task> queryable, Guid id)
+        public static ValueTask<Tracker.Core.Data.Entities.Task> GetByKeyAsync(this IQueryable<Tracker.Core.Data.Entities.Task> queryable, Guid id)
         {
             if (queryable is DbSet<Tracker.Core.Data.Entities.Task> dbSet)
                 return dbSet.FindAsync(id);
 
-            return queryable.FirstOrDefaultAsync(q => q.Id == id);
-        }
-
-        /// <summary>
-        /// Filters a sequence of values based on a predicate.
-        /// </summary>
-        /// <param name="queryable">An <see cref="T:System.Linq.IQueryable`1" /> to filter.</param>
-        /// <param name="assignedId">The value to filter by.</param>
-        /// <returns>An <see cref="T: System.Linq.IQueryable`1" /> that contains elements from the input sequence that satisfy the condition specified.</returns>
-        public static IQueryable<Tracker.Core.Data.Entities.Task> ByAssignedId(this IQueryable<Tracker.Core.Data.Entities.Task> queryable, Guid? assignedId)
-        {
-            return queryable.Where(q => (q.AssignedId == assignedId || (assignedId == null && q.AssignedId == null)));
+            var task = queryable.FirstOrDefaultAsync(q => q.Id == id);
+            return new ValueTask<Tracker.Core.Data.Entities.Task>(task);
         }
 
         /// <summary>
@@ -71,6 +72,17 @@ namespace Tracker.Core.Data.Queries
         public static IQueryable<Tracker.Core.Data.Entities.Task> ByStatusId(this IQueryable<Tracker.Core.Data.Entities.Task> queryable, Guid statusId)
         {
             return queryable.Where(q => q.StatusId == statusId);
+        }
+
+        /// <summary>
+        /// Filters a sequence of values based on a predicate.
+        /// </summary>
+        /// <param name="queryable">An <see cref="T:System.Linq.IQueryable`1" /> to filter.</param>
+        /// <param name="tenantId">The value to filter by.</param>
+        /// <returns>An <see cref="T: System.Linq.IQueryable`1" /> that contains elements from the input sequence that satisfy the condition specified.</returns>
+        public static IQueryable<Tracker.Core.Data.Entities.Task> ByTenantId(this IQueryable<Tracker.Core.Data.Entities.Task> queryable, Guid tenantId)
+        {
+            return queryable.Where(q => q.TenantId == tenantId);
         }
 
         #endregion

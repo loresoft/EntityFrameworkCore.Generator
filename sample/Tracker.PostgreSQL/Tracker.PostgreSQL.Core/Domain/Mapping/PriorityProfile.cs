@@ -1,19 +1,23 @@
 using System;
 using AutoMapper;
-using Tracker.Data.Entities;
-using Tracker.Domain.Models;
+using Tracker.PostgreSQL.Core.Data.Entities;
+using Tracker.PostgreSQL.Core.Domain.Models;
 
-namespace Tracker.Domain.Mapping
+namespace Tracker.PostgreSQL.Core.Domain.Mapping
 {
     public partial class PriorityProfile
         : AutoMapper.Profile
     {
         public PriorityProfile()
         {
-            CreateMap<Tracker.Data.Entities.Priority, Tracker.Domain.Models.PriorityReadModel>();
-            CreateMap<Tracker.Domain.Models.PriorityCreateModel, Tracker.Data.Entities.Priority>();
-            CreateMap<Tracker.Data.Entities.Priority, Tracker.Domain.Models.PriorityUpdateModel>();
-            CreateMap<Tracker.Domain.Models.PriorityUpdateModel, Tracker.Data.Entities.Priority>();
+            CreateMap<Tracker.PostgreSQL.Core.Data.Entities.Priority, Tracker.PostgreSQL.Core.Domain.Models.PriorityReadModel>();
+
+            CreateMap<Tracker.PostgreSQL.Core.Domain.Models.PriorityCreateModel, Tracker.PostgreSQL.Core.Data.Entities.Priority>();
+
+            CreateMap<Tracker.PostgreSQL.Core.Data.Entities.Priority, Tracker.PostgreSQL.Core.Domain.Models.PriorityUpdateModel>();
+
+            CreateMap<Tracker.PostgreSQL.Core.Domain.Models.PriorityUpdateModel, Tracker.PostgreSQL.Core.Data.Entities.Priority>();
+
         }
 
     }

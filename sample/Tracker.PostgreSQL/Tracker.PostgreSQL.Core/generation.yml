@@ -4,6 +4,8 @@ project:
 database:
   provider: PostgreSQL
   connectionString: 'Server=ares;Port=5432;Database=Tracker;User Id=postgres;Password=!p@ssword;'
+  exclude:
+    - 'schemaversions'
 data:
   context:
     name: '{Database.Name}Context'

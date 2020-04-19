@@ -2,8 +2,10 @@ project:
   namespace: '{Database.Name}.Core'
   directory: .\
 database:
-  connectionName: ConnectionStrings:Tracker
-  userSecretsId: 984ef0cf-2b22-4fd1-876d-e01499da4c1f
+  provider: SqlServer
+  connectionString: Data Source=(local);Initial Catalog=Tracker;Integrated Security=True
+  exclude:
+    - exact: 'dbo.SchemaVersions'
 data:
   context:
     name: '{Database.Name}Context'
@@ -53,7 +55,6 @@ model:
     document: true
     exclude:
       entities:
-        - 'EmailDelivery'
         - 'UserLogin'
   update:
     generate: true
@@ -62,7 +63,6 @@ model:
     document: true
     exclude:
       entities:
-        - 'EmailDelivery'
         - 'UserLogin'
   mapper:
     generate: true

@@ -32,12 +32,13 @@ namespace Tracker.Core.Data.Queries
         /// <param name="queryable">An <see cref="T:System.Linq.IQueryable`1" /> to filter.</param>
         /// <param name="id">The value to filter by.</param>
         /// <returns>An instance of <see cref="T:Tracker.Core.Data.Entities.Status"/> or null if not found.</returns>
-        public static Task<Tracker.Core.Data.Entities.Status> GetByKeyAsync(this IQueryable<Tracker.Core.Data.Entities.Status> queryable, Guid id)
+        public static ValueTask<Tracker.Core.Data.Entities.Status> GetByKeyAsync(this IQueryable<Tracker.Core.Data.Entities.Status> queryable, Guid id)
         {
             if (queryable is DbSet<Tracker.Core.Data.Entities.Status> dbSet)
                 return dbSet.FindAsync(id);
 
-            return queryable.FirstOrDefaultAsync(q => q.Id == id);
+            var task = queryable.FirstOrDefaultAsync(q => q.Id == id);
+            return new ValueTask<Tracker.Core.Data.Entities.Status>(task);
         }
 
         #endregion

@@ -2,12 +2,12 @@ using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 
-namespace Tracker.Data.Mapping
+namespace Tracker.PostgreSQL.Core.Data.Mapping
 {
     public partial class TaskExtendedMap
-        : IEntityTypeConfiguration<Tracker.Data.Entities.TaskExtended>
+        : IEntityTypeConfiguration<Tracker.PostgreSQL.Core.Data.Entities.TaskExtended>
     {
-        public void Configure(Microsoft.EntityFrameworkCore.Metadata.Builders.EntityTypeBuilder<Tracker.Data.Entities.TaskExtended> builder)
+        public void Configure(Microsoft.EntityFrameworkCore.Metadata.Builders.EntityTypeBuilder<Tracker.PostgreSQL.Core.Data.Entities.TaskExtended> builder)
         {
             #region Generated Configure
             // table
@@ -65,11 +65,25 @@ namespace Tracker.Data.Mapping
             // relationships
             builder.HasOne(t => t.Task)
                 .WithOne(t => t.TaskExtended)
-                .HasForeignKey<Tracker.Data.Entities.TaskExtended>(d => d.TaskId)
+                .HasForeignKey<Tracker.PostgreSQL.Core.Data.Entities.TaskExtended>(d => d.TaskId)
                 .HasConstraintName("FK_TaskExtended_Task_TaskId");
 
             #endregion
         }
 
+        #region Generated Constants
+        public const string TableSchema = "public";
+        public const string TableName = "TaskExtended";
+
+        public const string ColumnTaskId = "TaskId";
+        public const string ColumnUserAgent = "UserAgent";
+        public const string ColumnBrowser = "Browser";
+        public const string ColumnOperatingSystem = "OperatingSystem";
+        public const string ColumnCreated = "Created";
+        public const string ColumnCreatedBy = "CreatedBy";
+        public const string ColumnUpdated = "Updated";
+        public const string ColumnUpdatedBy = "UpdatedBy";
+        public const string ColumnRowVersion = "RowVersion";
+        #endregion
     }
 }
