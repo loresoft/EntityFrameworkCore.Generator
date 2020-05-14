@@ -153,6 +153,14 @@ Entity Framework Core Generator supports generating [Read](https://efg.loresoft.
 
 ## Change Log
 
+### Version 3.1
+
+- Breaking change to generated mapping constants
+  - `TableName` is now `Table.Name`
+  - `TableSchema` is now `Table.Schema`
+  - `Column{Name}` is now `Columns.{Name}`
+- add additional automapper for read model to update model
+
 ### Version 3.0
 
 - Add `Table.Name` and `Table.Schema` variable support in yaml configuration.

@@ -78,25 +78,41 @@ namespace EntityFrameworkCore.Generator.Templates
 
             CodeBuilder.AppendLine("#region Generated Constants");
 
-            if (Options.Data.Mapping.Document)
-                CodeBuilder.AppendLine($"/// <summary>Table Schema name constant for entity <see cref=\"{safeName}\" /></summary>");
-            
-            CodeBuilder.AppendLine($"public const string TableSchema = \"{_entity.TableSchema}\";");
+            CodeBuilder.AppendLine("public struct Table");
+            CodeBuilder.AppendLine("{");
 
-            if (Options.Data.Mapping.Document)
-                CodeBuilder.AppendLine($"/// <summary>Table Name constant for entity <see cref=\"{safeName}\" /></summary>");
-            
-            CodeBuilder.AppendLine($"public const string TableName = \"{_entity.TableName}\";");
-            
-            CodeBuilder.AppendLine();
-            foreach (var property in _entity.Properties)
+            using (CodeBuilder.Indent())
             {
-                if (Options.Data.Mapping.Document)
-                    CodeBuilder.AppendLine($"/// <summary>Column Name constant for property <see cref=\"{safeName}.{property.PropertyName}\" /></summary>");
 
-                CodeBuilder.AppendLine($"public const string Column{property.PropertyName} = \"{property.ColumnName}\";");
+                if (Options.Data.Mapping.Document)
+                    CodeBuilder.AppendLine($"/// <summary>Table Schema name constant for entity <see cref=\"{safeName}\" /></summary>");
+
+                CodeBuilder.AppendLine($"public const string Schema = \"{_entity.TableSchema}\";");
+
+                if (Options.Data.Mapping.Document)
+                    CodeBuilder.AppendLine($"/// <summary>Table Name constant for entity <see cref=\"{safeName}\" /></summary>");
+
+                CodeBuilder.AppendLine($"public const string Name = \"{_entity.TableName}\";");
             }
             
+            CodeBuilder.AppendLine("}");
+
+            CodeBuilder.AppendLine();
+            CodeBuilder.AppendLine("public struct Columns");
+            CodeBuilder.AppendLine("{");
+
+            using (CodeBuilder.Indent())
+            {
+                foreach (var property in _entity.Properties)
+                {
+                    if (Options.Data.Mapping.Document)
+                        CodeBuilder.AppendLine($"/// <summary>Column Name constant for property <see cref=\"{safeName}.{property.PropertyName}\" /></summary>");
+
+                    CodeBuilder.AppendLine($"public const string {property.PropertyName.ToSafeName()} = {property.ColumnName.ToLiteral()};");
+                }
+            }
+
+            CodeBuilder.AppendLine("}");
             CodeBuilder.AppendLine("#endregion");
         }
 

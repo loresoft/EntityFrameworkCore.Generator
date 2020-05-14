@@ -133,7 +133,7 @@ namespace EntityFrameworkCore.Generator.Extensions
                 return type;
 
             return language == CodeLanguage.VisualBasic
-                ? string.Format("Nullable(Of {0})", type)
+                ? $"Nullable(Of {type})"
                 : type + "?";
         }
 

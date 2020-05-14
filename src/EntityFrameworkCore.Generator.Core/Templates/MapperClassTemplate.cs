@@ -94,6 +94,9 @@ namespace EntityFrameworkCore.Generator.Templates
             CodeBuilder.AppendLine($"public {mapperClass}()");
             CodeBuilder.AppendLine("{");
 
+            string readFullName = null;
+            string updateFullName = null;
+
             using (CodeBuilder.Indent())
             {
                 foreach (var model in _entity.Models)
@@ -104,17 +107,24 @@ namespace EntityFrameworkCore.Generator.Templates
                     switch (model.ModelType)
                     {
                         case ModelType.Read:
+                            readFullName = modelFullName;
                             CodeBuilder.AppendLine($"CreateMap<{entityFullName}, {modelFullName}>();").AppendLine();
                             break;
                         case ModelType.Create:
                             CodeBuilder.AppendLine($"CreateMap<{modelFullName}, {entityFullName}>();").AppendLine();
                             break;
                         case ModelType.Update:
+                            updateFullName = modelFullName;
                             CodeBuilder.AppendLine($"CreateMap<{entityFullName}, {modelFullName}>();").AppendLine();
                             CodeBuilder.AppendLine($"CreateMap<{modelFullName}, {entityFullName}>();").AppendLine();
                             break;
                     }
                 }
+
+                // include support for coping read model to update model
+                if (readFullName.HasValue() && updateFullName.HasValue())
+                    CodeBuilder.AppendLine($"CreateMap<{readFullName}, {updateFullName}>();").AppendLine();
+
             }
 
             CodeBuilder.AppendLine("}");
