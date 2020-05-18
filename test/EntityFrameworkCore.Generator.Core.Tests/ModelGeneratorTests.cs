@@ -76,7 +76,7 @@ namespace EntityFrameworkCore.Generator.Core.Tests
             nameProperty.Should().NotBeNull();
             nameProperty.PropertyName.Should().Be("Name");
         }
-        
+
         [Fact]
         public void GenerateModelsCheckNames()
         {
@@ -463,7 +463,7 @@ create default abc0 as 0
         public void GenerateIgnoreTable()
         {
             var generatorOptions = new GeneratorOptions();
-            generatorOptions.Database.Exclude.Add(new MatchOptions{ Expression = @"dbo\.ExpressionTable$" });
+            generatorOptions.Database.Exclude.Add(new MatchOptions { Expression = @"dbo\.ExpressionTable$" });
             generatorOptions.Database.Exclude.Add(new MatchOptions { Exact = @"dbo.DirectTable" });
             generatorOptions.Model.Read.Generate = true;
             generatorOptions.Model.Create.Generate = true;
@@ -562,6 +562,81 @@ create default abc0 as 0
             firstModel.ValidatorClass.Should().EndWith("Validator");
             firstModel.ValidatorNamespace.Should().Be("TestDatabase.Domain.Validation");
 
+        }
+
+        [Theory]
+        [InlineData(1, true)]
+        [InlineData(0, false)]
+        public void GenerateRelationships(int expectedRelationships, bool processRelationships)
+        {
+            var generatorOptions = new GeneratorOptions();
+            generatorOptions.Database.ProcessRelationships = processRelationships;
+
+            var databaseModel = new DatabaseModel
+            {
+                DatabaseName = "TestDatabase",
+                DefaultSchema = "dbo"
+            };
+
+            var principalTable = new DatabaseTable
+            {
+                Database = databaseModel,
+                Name = "PrincipalTable",
+                Schema = "dbo",
+            };
+
+            var idPrincipalTable = new DatabaseColumn
+            {
+                Table = principalTable,
+                Name = "Id",
+                IsNullable = false,
+                StoreType = "int"
+            };
+
+            principalTable.Columns.Add(idPrincipalTable);
+
+            var table = new DatabaseTable
+            {
+                Database = databaseModel,
+                Name = "RelatedTable",
+                Schema = "dbo",
+            };
+
+            var idTable = new DatabaseColumn
+            {
+                Table = table,
+                Name = "Id",
+                IsNullable = false,
+                StoreType = "int"
+            };
+
+            
+            table.Columns.Add(idTable);
+
+            var fk = new DatabaseForeignKey
+            {
+                PrincipalTable = principalTable,
+                Table = table
+            };
+
+
+            fk.PrincipalColumns.Add(idPrincipalTable);
+            fk.Columns.Add(idTable);
+            table.ForeignKeys.Add(fk);
+
+            databaseModel.Tables.Add(principalTable);
+            databaseModel.Tables.Add(table);
+
+            var generator = new ModelGenerator(NullLoggerFactory.Instance);
+
+            var typeMappingSource = CreateTypeMappingSource();
+            var entityContext = generator.Generate(generatorOptions, databaseModel, typeMappingSource);
+
+            var principalEntity = entityContext.Entities[0];
+            var entity = entityContext.Entities[1];
+
+            principalEntity.Relationships.Count.Should().Be(expectedRelationships);
+            entity.Relationships.Count.Should().Be(expectedRelationships);
         }
 
         private static SqlServerTypeMappingSource CreateTypeMappingSource()
