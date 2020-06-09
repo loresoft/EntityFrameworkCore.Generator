@@ -227,7 +227,13 @@ namespace EntityFrameworkCore.Generator
 
         private void CreateRelationship(EntityContext entityContext, Entity foreignEntity, DatabaseForeignKey tableKeySchema)
         {
+            _options.Variables.Set(VariableConstants.TableSchema, ToLegalName(tableKeySchema.PrincipalTable.Schema));
+            _options.Variables.Set(VariableConstants.TableName, ToLegalName(tableKeySchema.PrincipalTable.Name));
+
             Entity primaryEntity = GetEntity(entityContext, tableKeySchema.PrincipalTable, false, false);
+
+            _options.Variables.Set(VariableConstants.TableSchema, ToLegalName(tableKeySchema.Table.Schema));
+            _options.Variables.Set(VariableConstants.TableName, ToLegalName(tableKeySchema.Table.Name));
 
             string primaryName = primaryEntity.EntityClass;
             string foreignName = foreignEntity.EntityClass;
