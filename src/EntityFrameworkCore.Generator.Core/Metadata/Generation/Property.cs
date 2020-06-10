@@ -21,6 +21,7 @@ namespace EntityFrameworkCore.Generator.Metadata.Generation
         public DbType DataType { get; set; }
 
         public Type SystemType { get; set; }
+        public string EnumTypeName { get; set; }
 
         public bool? IsNullable { get; set; }
 
