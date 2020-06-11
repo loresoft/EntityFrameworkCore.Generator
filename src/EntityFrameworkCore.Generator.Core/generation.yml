@@ -1,0 +1,122 @@
+---
+#---------------------------------#
+# https://efg.loresoft.com/en/latest/
+# project section -  Used for shared variables through out the configuration file
+#---------------------------------#
+project:
+  # the root namespace for the project
+  namespace: 'api'
+  # the root directory for the project
+  directory: ./
+
+#---------------------------------#
+# data section -  Used for configuring database connections
+#---------------------------------#
+database:
+  # the connection string to the database
+  connectionString: 'Server=hulk;Initial Catalog=SISTEMAS;Integrated Security=True;MultipleActiveResultSets=True'
+  # the database provider name.  Default: SqlServer
+  provider: SqlServer
+
+  # config name to read the connection string from the user secrets file
+  connectionName: 'ConnectionStrings:Generator'
+  # the user secret identifier, can be shared with .net core project
+  userSecretsId: '984ef0cf-2b22-4fd1-876d-e01489da4c1f'
+
+  # tables to include or empty to include all
+  tables:
+    - dbo.usuario
+    - dbo.accion
+    - dbo.peticion
+    - dbo.accion_peticion
+    - dbo.accion_usuario
+    - dbo.rol_usuario_aplicacion
+    - dbo.rol
+    - dbo.aplicacion
+  # schemas to include or empty to include all
+  schemas:
+  # table naming hint for how existing tables are named.  Default: Singular
+  tableNaming: Singular
+
+#---------------------------------#
+# data section - controls the generated files for Entity Framework
+#---------------------------------#
+data:
+  # data context file configuration
+  context:
+    name: 'ContextoDb' # the data context class name
+    baseClass: DbContext # the data context base class name
+    namespace: '{Project.Namespace}.Data' # the data context namespace
+    directory: '{Project.Directory}/Data' # the data context output directory
+
+    # how to generate names for the DbSet properties on the data context.  Default: Plural
+    propertyNaming: Suffix
+    #include XML documentation
+    document: false
+
+  # entity class file configuration
+  entity:
+    namespace: '{Project.Namespace}.Data.Entities' # the entity class namespace
+    directory: '{Project.Directory}/Data/Entities' # the entity class output directory
+
+    # how to generate entity class names from the table name.  Default: Singular
+    entityNaming: Preserve
+    relationshipNaming: Suffix
+    name: '{Table.Schema}{Table.Name}Entity'
+    #baseClass: BaseEntity
+
+    # how to generate relationship collections names for the entity.  Default: Plural
+    #relationshipNaming: Suffix
+    #include XML documentation
+    document: false
+
+    # Generate class names with prefixed schema name eg. dbo.MyTable = DboMyTable
+    # prefixWithSchemaName: true
+    enumMappings:
+      dbo.usuario.activo: api.Data.CustomEnums.YesNoEnum
+  mapping:
+    namespace: '{Project.Namespace}.Data.Mapping' # the mapping class namespace
+    directory: '{Project.Directory}/Data/Mapping' # the mapping class output directory
+    #include XML documentation
+    document: false
+#---------------------------------#
+# model section - controls the optional view model generation
+#---------------------------------#
+model:
+  # shared options between read, create and update models
+  shared:
+    namespace: '{Project.Namespace}.Data.Models' # the model class namespace
+    directory: '{Project.Directory}/Data/Models' # the mapping class output directory
+    # regular expression of entities and properties to exclude in all models
+    exclude:
+      # list of regular expressions of entity names
+      entities:
+
+      # list of regular expressions of property names, source is Entity.Property
+      properties:
+  # update view model class configuration
+  update:
+    generate: true # generate update model class files
+    name: '{Table.Schema}_{Table.Name}Model' # the update model class name
+    #baseClass: EntityUpdateModel        # the update model base class
+    namespace: '{Project.Namespace}.Data.Models'
+    directory: '{Project.Directory}/Data/Models'
+    exclude:
+      entities: []
+      properties: []
+
+  # AutoMapper class configuration
+  mapper:
+    generate: true
+    name: '{Table.Schema}_{Table.Name}Profile'
+    baseClass: Profile
+    namespace: '{Project.Namespace}.Data.AutoMapper'
+    directory: '{Project.Directory}/Data/AutoMapper'
+
+  # FluentValidation class configuration
+  validator:
+    generate: true
+    name: '{Model.Name}Validator'
+    baseClass: 'AbstractValidator<{Model.Name}>'
+    namespace: '{Project.Namespace}.Data.ModelValidation'
+    directory: '{Project.Directory}/Data/ModelValidation'

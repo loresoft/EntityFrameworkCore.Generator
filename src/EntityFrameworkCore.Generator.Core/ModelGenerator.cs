@@ -239,7 +239,7 @@ namespace EntityFrameworkCore.Generator
             _options.Variables.Set(VariableConstants.TableName, ToLegalName(tableKeySchema.Table.Name));
 
             string primaryName = primaryEntity.EntityClass;
-            string foreignName = foreignEntity.EntityClass;
+            string foreignName = tableKeySchema.Name.ToLower();
 
             string relationshipName = tableKeySchema.Name;
             relationshipName = _namer.UniqueRelationshipName(relationshipName);
@@ -275,9 +275,9 @@ namespace EntityFrameworkCore.Generator
             foreignRelationship.Entity = foreignEntity;
             foreignRelationship.Properties = new PropertyCollection(foreignMembers);
 
-            string prefix = GetMemberPrefix(foreignRelationship, primaryName, foreignName);
+            //string prefix = GetMemberPrefix(foreignRelationship, primaryName, foreignName);
 
-            string foreignPropertyName = ToPropertyName(foreignEntity.EntityClass, prefix + primaryName);
+            string foreignPropertyName = ToPropertyName(foreignEntity.EntityClass, /*prefix +*/ foreignName);
             foreignPropertyName = _namer.UniqueName(foreignEntity.EntityClass, foreignPropertyName);
             foreignRelationship.PropertyName = foreignPropertyName;
 
@@ -306,7 +306,7 @@ namespace EntityFrameworkCore.Generator
             else
                 primaryRelationship.Cardinality = Cardinality.Many;
 
-            string primaryPropertyName = prefix + foreignName;
+            string primaryPropertyName = /*prefix +*/ foreignName;
             if (!isOneToOne)
                 primaryPropertyName = RelationshipName(primaryPropertyName);
 
