@@ -1,6 +1,6 @@
 <Project>
   <PropertyGroup>
-    <DebugType>Full</DebugType>
+    <DebugType>portable</DebugType>
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
     <IncludeSymbols>true</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
