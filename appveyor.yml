@@ -28,7 +28,7 @@ test_script:
   - dotnet test EntityFrameworkCore.Generator.sln --configuration Release /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:Exclude="[xunit*]*"
 
 artifacts:
-- path: artifacts\*.nupkg
+- path: artifacts\*.*nupkg
   name: Packages
 
 deploy:
