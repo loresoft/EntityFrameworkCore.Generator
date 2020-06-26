@@ -74,7 +74,7 @@ namespace EntityFrameworkCore.Generator.Templates
             {
                 var propertyType = property.SystemType.ToNullableType(property.IsNullable == true);
                 if (property.EnumTypeName != null)
-                    propertyType = property.EnumTypeName.ToNullableType(property.IsNullable == true);
+                    propertyType = property.EnumTypeName.ToNullableType(property.IsNullable == true) + (propertyType.Contains("?") ? "?" : "");
 
                 var propertyName = property.PropertyName.ToSafeName();
 
