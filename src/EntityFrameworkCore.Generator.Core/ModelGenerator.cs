@@ -597,6 +597,9 @@ namespace EntityFrameworkCore.Generator
 
         private string ToLegalName(string name)
         {
+            if (string.IsNullOrWhiteSpace(name))
+                return string.Empty;
+
             string legalName = name;
 
             // remove invalid leading identifiers
