@@ -161,8 +161,18 @@ namespace EntityFrameworkCore.Generator
 
                 string propertyName = ToPropertyName(entity.EntityClass, column.Name);
                 propertyName = _namer.UniqueName(entity.EntityClass, propertyName);
-
                 property.PropertyName = propertyName;
+                var toReplace = new[] { "Created", "Changed", "CreatedBy", "ChangedBy" };
+                var useRuleOnTables = new[] { "LegalEntityAddress", "LegalEntity", "LegalEntityType", "ExternalTransfer", "LegalEntityTimeline", "ZynergyEvent", "CustomerAddress", "CustomerCommunciation" };
+   
+                var replace = toReplace.FirstOrDefault(a => propertyName.EndsWith(a) && a.Length < propertyName.Length);
+                if (replace != null && table.Name != "ContractBillingPointView")
+                {
+                    var name = propertyName.Replace(replace, "");
+                    var shouldWeReplaceIt = table.Name.StartsWith(name) || useRuleOnTables.Any(a => a == table.Name);
+                    if (shouldWeReplaceIt)
+                        property.PropertyName = replace;
+                }
 
                 property.IsNullable = column.IsNullable;
 

@@ -124,12 +124,12 @@ namespace EntityFrameworkCore.Generator.Parsing
                     var property = entity.Properties.ByColumn(parsedProperty.ColumnName);
                     if (property == null)
                         continue;
-
-                    RenameProperty(
-                        generatedContext,
-                        entity.EntityClass,
-                        property.PropertyName,
-                        parsedProperty.PropertyName);
+                    //LEO Leo Todo
+                    //RenameProperty(
+                    //    generatedContext,
+                    //    entity.EntityClass,
+                    //    property.PropertyName,
+                    //    parsedProperty.PropertyName);
                 }
             }
         }

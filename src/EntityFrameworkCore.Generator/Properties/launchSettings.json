@@ -2,7 +2,8 @@
   "profiles": {
     "EntityFrameworkCore.Generator": {
       "commandName": "Project",
-      "commandLineArgs": "initialize"
+      "commandLineArgs": "generate",
+      "workingDirectory": "C:\\code\\git\\nav\\nav.models\\Entities\\nav"
     }
   }
 }
