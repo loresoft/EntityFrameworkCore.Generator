@@ -1,8 +1,6 @@
-﻿using System;
-using EntityFrameworkCore.Generator.Extensions;
-using EntityFrameworkCore.Generator.Metadata.Generation;
+﻿using EntityFrameworkCore.Generator.Metadata.Generation;
 using EntityFrameworkCore.Generator.Options;
-using Microsoft.EntityFrameworkCore.Internal;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 
 namespace EntityFrameworkCore.Generator.Core.Tests.Templates
 {
@@ -24,7 +22,7 @@ namespace EntityFrameworkCore.Generator.Core.Tests.Templates
             CodeBuilder.Clear();
 
             CodeBuilder.Append("ModelClass: ").Append(Model.ModelClass).AppendLine();
-            CodeBuilder.Append("ModelType: ").Append(Model.ModelType).AppendLine();
+            CodeBuilder.Append("ModelType: ").Append(Model.ModelType.ToString()).AppendLine();
             CodeBuilder.Append("ModelNamespace: '").Append(Model.ModelNamespace).AppendLine("'");
             CodeBuilder.Append("ModelBaseClass: ").Append(Model.ModelBaseClass).AppendLine();
             CodeBuilder.Append("ValidatorNamespace: '").Append(Model.ValidatorNamespace).AppendLine("'");
@@ -45,35 +43,35 @@ namespace EntityFrameworkCore.Generator.Core.Tests.Templates
                 CodeBuilder.Append("  ColumnName: '").Append(property.ColumnName).AppendLine("'");
                 CodeBuilder.Append("  StoreType: ").Append(property.StoreType).AppendLine();
                 CodeBuilder.Append("  NativeType: '").Append(property.NativeType).AppendLine("'");
-                CodeBuilder.Append("  DataType: ").Append(property.DataType).AppendLine();
+                CodeBuilder.Append("  DataType: ").Append(property.DataType.ToString()).AppendLine();
                 CodeBuilder.Append("  SystemType: ").Append(property.SystemType.Name).AppendLine();
 
                 if (property.Size != null)
-                    CodeBuilder.Append("  Size: ").Append(property.Size).AppendLine();
+                    CodeBuilder.Append("  Size: ").Append(property.Size?.ToString()).AppendLine();
 
                 if (property.Default != null)
                     CodeBuilder.Append("  Default: '").Append(property.Default).AppendLine("'");
 
                 if (property.ValueGenerated != null)
-                    CodeBuilder.Append("  ValueGenerated: ").Append(property.ValueGenerated).AppendLine();
+                    CodeBuilder.Append("  ValueGenerated: ").Append(property.ValueGenerated?.ToString()).AppendLine();
 
                 if (property.IsNullable != null)
-                    CodeBuilder.Append("  IsNullable: ").Append(property.IsNullable).AppendLine();
+                    CodeBuilder.Append("  IsNullable: ").Append(property.IsNullable?.ToString()).AppendLine();
 
                 if (property.IsPrimaryKey != null)
-                    CodeBuilder.Append("  IsPrimaryKey: ").Append(property.IsPrimaryKey).AppendLine();
+                    CodeBuilder.Append("  IsPrimaryKey: ").Append(property.IsPrimaryKey?.ToString()).AppendLine();
 
                 if (property.IsForeignKey != null)
-                    CodeBuilder.Append("  IsForeignKey: ").Append(property.IsForeignKey).AppendLine();
+                    CodeBuilder.Append("  IsForeignKey: ").Append(property.IsForeignKey?.ToString()).AppendLine();
 
                 if (property.IsReadOnly != null)
-                    CodeBuilder.Append("  IsReadOnly: ").Append(property.IsReadOnly).AppendLine();
+                    CodeBuilder.Append("  IsReadOnly: ").Append(property.IsReadOnly?.ToString()).AppendLine();
 
                 if (property.IsRowVersion != null)
-                    CodeBuilder.Append("  IsRowVersion: ").Append(property.IsRowVersion).AppendLine();
+                    CodeBuilder.Append("  IsRowVersion: ").Append(property.IsRowVersion?.ToString()).AppendLine();
 
                 if (property.IsUnique != null)
-                    CodeBuilder.Append("  IsUnique: ").Append(property.IsUnique).AppendLine();
+                    CodeBuilder.Append("  IsUnique: ").Append(property.IsUnique?.ToString()).AppendLine();
             }
         }
 

@@ -1,5 +1,5 @@
 ﻿using EntityFrameworkCore.Generator.Options;
-using Microsoft.EntityFrameworkCore.Internal;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 
 namespace EntityFrameworkCore.Generator.Scripts
 {
