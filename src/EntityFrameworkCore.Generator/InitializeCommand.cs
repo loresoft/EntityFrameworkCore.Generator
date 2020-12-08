@@ -91,6 +91,9 @@ namespace EntityFrameworkCore.Generator
         {
             var options = new GeneratorOptions();
 
+            // Options file meta data
+            options.Options.SetFullPath(optionsFile);
+
             // default all to generate
             options.Data.Query.Generate = true;
             options.Model.Read.Generate = true;

@@ -3,6 +3,7 @@ using EntityFrameworkCore.Generator.Options;
 using McMaster.Extensions.CommandLineUtils;
 using Microsoft.Extensions.Logging;
 using System;
+using System.IO;
 
 namespace EntityFrameworkCore.Generator
 {
@@ -47,6 +48,9 @@ namespace EntityFrameworkCore.Generator
             {
                 Logger.LogInformation("Using default options");
                 options = new GeneratorOptions();
+
+                // Options file meta data
+                options.Options.SetFullPath(Path.Combine(workingDirectory, optionsFile));
             }
 
             // override options

@@ -55,6 +55,7 @@ namespace EntityFrameworkCore.Generator
             using (var streamReader = File.OpenText(path))
                 generatorOptions = deserializer.Deserialize<GeneratorOptions>(streamReader);
 
+            generatorOptions.Options.SetFullPath(path);
             generatorOptions.Variables.ShouldEvaluate = true;
             return generatorOptions;
         }

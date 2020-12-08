@@ -15,6 +15,8 @@ namespace EntityFrameworkCore.Generator.Options
         {
             Variables = new VariableDictionary();
 
+            Options = new OptionsOptions(Variables, null);
+
             Project = new ProjectOptions(Variables, null);
             Database = new DatabaseOptions(Variables, null);
             Data = new DataOptions(Variables, null);
@@ -24,6 +26,14 @@ namespace EntityFrameworkCore.Generator.Options
 
         [YamlIgnore]
         public VariableDictionary Variables { get; }
+
+        /// <summary>
+        /// Gets the options file meta data.
+        /// </summary>
+        /// <value>
+        /// The optiosn file meta data.
+        /// </value>
+        public OptionsOptions Options { get; }
 
         /// <summary>
         /// Gets or sets the project options.
