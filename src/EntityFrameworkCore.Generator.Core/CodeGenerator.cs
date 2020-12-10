@@ -22,12 +22,16 @@ namespace EntityFrameworkCore.Generator
         private readonly ModelGenerator _modelGenerator;
         private readonly SourceSynchronizer _synchronizer;
 
-        public CodeGenerator(ILoggerFactory loggerFactory)
+        private readonly IModelCacheBuilder _mcb;
+
+        public CodeGenerator(ILoggerFactory loggerFactory, IModelCacheBuilder mcb)
         {
             _loggerFactory = loggerFactory;
             _logger = loggerFactory.CreateLogger<CodeGenerator>();
             _modelGenerator = new ModelGenerator(loggerFactory);
             _synchronizer = new SourceSynchronizer(loggerFactory);
+
+            _mcb = mcb;
         }
 
         public GeneratorOptions Options { get; set; }
@@ -51,6 +55,34 @@ namespace EntityFrameworkCore.Generator
             GenerateFiles(context);
 
             return true;
+        }
+
+        public bool Generate(GeneratorOptions options, bool fromCache, bool updateFromSource)
+        {
+            Options = options ?? throw new ArgumentNullException(nameof(options));
+
+            var databaseProviders = GetDatabaseProviders();
+            var databaseModel = fromCache
+                ? _mcb.LoadFromCache(options)
+                : GetDatabaseModel(databaseProviders.factory);
+
+            if (databaseModel == null)
+                throw new InvalidOperationException("Failed to restore database model");
+
+            _logger.LogInformation("Loaded database model for: {databaseName}", databaseModel.DatabaseName);
+
+            var context = _modelGenerator.Generate(Options, databaseModel, databaseProviders.mapping);
+
+            if (updateFromSource)
+            {
+                _logger.LogInformation("Updating entity context from existing source");
+                _synchronizer.UpdateFromSource(context, options);
+            }
+
+            GenerateFiles(context);
+
+            return true;
+
         }
 
         private void GenerateFiles(EntityContext entityContext)
