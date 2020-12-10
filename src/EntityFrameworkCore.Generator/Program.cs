@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Reflection;
+using EntityFrameworkCore.Generator.Core;
 using McMaster.Extensions.CommandLineUtils;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -9,6 +10,7 @@ namespace EntityFrameworkCore.Generator
 {
     [Command("efg", Description = "Entity Framework Core model generation tool")]
     [Subcommand(typeof(InitializeCommand))]
+    [Subcommand(typeof(RefreshCommand))]
     [Subcommand(typeof(GenerateCommand))]
     [VersionOptionFromMember("--version", MemberName = nameof(GetVersion))]
     public class Program : CommandBase
@@ -43,6 +45,7 @@ namespace EntityFrameworkCore.Generator
                     .AddSingleton(PhysicalConsole.Singleton)
                     .AddTransient<IGeneratorOptionsSerializer, GeneratorOptionsSerializer>()
                     .AddTransient<ICodeGenerator, CodeGenerator>()
+                    .AddTransient<IModelCacheBuilder, ModelCacheBuilder>()
                     .BuildServiceProvider();
 
                 var app = new CommandLineApplication<Program>();
