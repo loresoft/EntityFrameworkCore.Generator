@@ -12,7 +12,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 
-namespace EntityFrameworkCore.Generator.Core
+namespace EntityFrameworkCore.Generator
 {
     public class ModelCacheBuilder : IModelCacheBuilder
     {

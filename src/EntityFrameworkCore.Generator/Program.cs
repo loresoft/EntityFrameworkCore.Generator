@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Reflection;
-using EntityFrameworkCore.Generator.Core;
 using McMaster.Extensions.CommandLineUtils;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
