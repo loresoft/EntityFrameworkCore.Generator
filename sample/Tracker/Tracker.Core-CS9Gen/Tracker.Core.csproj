@@ -4,6 +4,7 @@
     <TargetFramework>netstandard2.1</TargetFramework>
     <!-- This is only required if using a pre-release version of .NET 5.0 SDK -->
     <LangVersion>preview</LangVersion>
+    <EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
   </PropertyGroup>
 
   <ItemGroup>
