@@ -36,26 +36,7 @@ namespace EntityFrameworkCore.Generator
 
         public GeneratorOptions Options { get; set; }
 
-        public bool Generate(GeneratorOptions options)
-        {
-            Options = options ?? throw new ArgumentNullException(nameof(options));
-
-            var databaseProviders = GetDatabaseProviders();
-            var databaseModel = GetDatabaseModel(databaseProviders.factory);
-
-            if (databaseModel == null)
-                throw new InvalidOperationException("Failed to create database model");
-
-            _logger.LogInformation("Loaded database model for: {databaseName}", databaseModel.DatabaseName);
-
-            var context = _modelGenerator.Generate(Options, databaseModel, databaseProviders.mapping);
-
-            _synchronizer.UpdateFromSource(context, options);
-
-            GenerateFiles(context);
-
-            return true;
-        }
+        public bool Generate(GeneratorOptions options) => Generate(options, false, true);
 
         public bool Generate(GeneratorOptions options, bool fromCache, bool updateFromSource)
         {
