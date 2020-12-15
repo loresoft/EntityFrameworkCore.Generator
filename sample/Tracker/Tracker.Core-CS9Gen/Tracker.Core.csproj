@@ -14,7 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <AdditionalFiles Include="generation.efg.yml" />
+    <AdditionalFiles Include="*.efg.yml" />
   </ItemGroup>
 
   <ItemGroup>
