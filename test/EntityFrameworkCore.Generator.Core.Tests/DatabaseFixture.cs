@@ -58,6 +58,7 @@ namespace FluentCommand.SqlServer.Tests
             var builder = new ConfigurationBuilder()
                 .AddJsonFile("appsettings.json")
                 .AddJsonFile($"appsettings.{environmentName}.json", true)
+                .AddJsonFile("appsettings.local.json", true)
                 .AddEnvironmentVariables();
 
             var configuration = builder.Build();

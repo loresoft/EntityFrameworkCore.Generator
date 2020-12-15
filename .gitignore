@@ -243,3 +243,4 @@ _Pvt_Extensions
 *.GhostDoc.xml
 *.csv
 coverage.xml
+test/EntityFrameworkCore.Generator.Core.Tests/appsettings.local.json
