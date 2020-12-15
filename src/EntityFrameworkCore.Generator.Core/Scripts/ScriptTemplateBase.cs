@@ -22,7 +22,11 @@ namespace EntityFrameworkCore.Generator.Scripts
 
             TemplateOptions = templateOptions;
             GeneratorOptions = generatorOptions;
+
+            CodeWriter = generatorOptions.CodeWriter;
         }
+
+        public CodeTemplateWriter CodeWriter { get; set; }
 
         protected ILogger Logger { get; }
 
@@ -42,13 +46,10 @@ namespace EntityFrameworkCore.Generator.Scripts
             
             // save file
             var directory = TemplateOptions.Directory;
-            if (!Directory.Exists(directory))
-                Directory.CreateDirectory(directory);
-
             var fileName = TemplateOptions.FileName;
-            var path = Path.Combine(directory, fileName);
+            var fullPath = Path.Combine(directory, fileName);
 
-            var exists = File.Exists(path);
+            var exists = File.Exists(fullPath);
 
             if (exists && !TemplateOptions.Overwrite)
             {
@@ -56,10 +57,6 @@ namespace EntityFrameworkCore.Generator.Scripts
                 return;
             }
             
-            Logger.LogInformation(exists
-                ? $"Updating template script file: {fileName}"
-                : $"Creating template script file: {fileName}");
-
             // get content
             var content = ExecuteScript();
 
@@ -69,7 +66,24 @@ namespace EntityFrameworkCore.Generator.Scripts
                 return;
             }
 
-            File.WriteAllText(path, content);
+            var cw = CodeWriter ?? DefaultCodeWriter;
+        }
+
+        protected void DefaultCodeWriter(string fullPath, string content)
+        {
+            var directory = Path.GetDirectoryName(fullPath);
+            var fileName = Path.GetFileName(fullPath);
+
+            if (!Directory.Exists(directory))
+                Directory.CreateDirectory(directory);
+
+            var exists = File.Exists(fullPath);
+            Logger.LogInformation(exists
+                ? $"Updating template script file: {fileName}"
+                : $"Creating template script file: {fileName}");
+
+            File.WriteAllText(fullPath, content);
+            
         }
 
         protected virtual string ExecuteScript()

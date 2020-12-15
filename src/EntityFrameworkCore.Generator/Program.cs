@@ -9,6 +9,7 @@ namespace EntityFrameworkCore.Generator
 {
     [Command("efg", Description = "Entity Framework Core model generation tool")]
     [Subcommand(typeof(InitializeCommand))]
+    [Subcommand(typeof(RefreshCommand))]
     [Subcommand(typeof(GenerateCommand))]
     [VersionOptionFromMember("--version", MemberName = nameof(GetVersion))]
     public class Program : CommandBase
@@ -43,6 +44,7 @@ namespace EntityFrameworkCore.Generator
                     .AddSingleton(PhysicalConsole.Singleton)
                     .AddTransient<IGeneratorOptionsSerializer, GeneratorOptionsSerializer>()
                     .AddTransient<ICodeGenerator, CodeGenerator>()
+                    .AddTransient<IModelCacheBuilder, ModelCacheBuilder>()
                     .BuildServiceProvider();
 
                 var app = new CommandLineApplication<Program>();

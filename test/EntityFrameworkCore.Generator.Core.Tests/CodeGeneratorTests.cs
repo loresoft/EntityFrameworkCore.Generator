@@ -19,7 +19,7 @@ namespace EntityFrameworkCore.Generator.Core.Tests
             var generatorOptions = new GeneratorOptions();
             generatorOptions.Database.ConnectionString = Database.ConnectionString;
 
-            var generator = new CodeGenerator(NullLoggerFactory.Instance);
+            var generator = new CodeGenerator(NullLoggerFactory.Instance, null);
             var result = generator.Generate(generatorOptions);
 
 

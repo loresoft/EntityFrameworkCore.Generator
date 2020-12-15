@@ -1,0 +1,82 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+<PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <IsPackable>false</IsPackable>
+    <LangVersion>preview</LangVersion>
+    <!-- <GeneratePackageOnBuild>true</GeneratePackageOnBuild> -->
+</PropertyGroup>
+
+<ItemGroup>
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="3.8.0" PrivateAssets="all" />
+    <PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="3.3.2" PrivateAssets="all" />
+</ItemGroup>
+
+<ItemGroup>
+    <!-- Generator dependencies -->
+    <GeneratorPackageReference TF="netstandard2.1" Include="Microsoft.Extensions.DependencyInjection" Version="5.0.1" />
+    <GeneratorPackageReference TF="netstandard2.0" Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="5.0.0" />
+    <GeneratorPackageReference TF="netstandard2.1" Include="Microsoft.Extensions.Logging" Version="5.0.0" />
+    <GeneratorPackageReference TF="netstandard2.0" Include="Microsoft.Extensions.Logging.Abstractions" Version="5.0.0" />
+    <GeneratorPackageReference TF="netstandard2.0" Include="Microsoft.Extensions.Options" Version="5.0.0" />
+    <GeneratorPackageReference TF="netstandard2.0" Include="Microsoft.Extensions.Primitives" Version="5.0.0" />
+    <GeneratorPackageReference TF="netstandard2.0" Include="Newtonsoft.Json" Version="12.0.3" />
+    <GeneratorPackageReference TF="netstandard2.1" Include="Microsoft.EntityFrameworkCore" Version="5.0.0.0" />
+    <GeneratorPackageReference TF="netstandard2.1" Include="Microsoft.EntityFrameworkCore.Abstractions" Version="5.0.0.0" />
+    <GeneratorPackageReference TF="netstandard2.1" Include="Microsoft.EntityFrameworkCore.Relational" Version="5.0.0.0" />
+    <GeneratorPackageReference TF="netstandard2.1" Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.0.0" />
+    <GeneratorPackageReference TF="netstandard2.1" Include="Microsoft.EntityFrameworkCore.SqlServer" Version="5.0.0.0" />
+    <GeneratorPackageReference TF="netstandard2.1" Include="YamlDotNet" Version="9.1.0" />
+    <GeneratorPackageReference TF="netstandard2.0" Include="Humanizer.Core" Version="2.8.26" />
+    
+    <!-- Convert all Generatoer Package References to normal pkg refs -->
+    <PackageReference Include="@(GeneratorPackageReference)" PrivateAssets="all" GeneratePathProperty="true" Version="%(version)" />
+
+</ItemGroup>
+
+<ItemGroup>
+    <!-- Local project dependency -->
+    <ProjectReference Include="..\EntityFrameworkCore.Generator.Core\EntityFrameworkCore.Generator.Core.csproj" />
+</ItemGroup>
+
+<PropertyGroup>
+    <GetTargetPathDependsOn>$(GetTargetPathDependsOn);GetDependencyTargetPaths</GetTargetPathDependsOn>
+</PropertyGroup>
+
+<Target Name="GetDependencyTargetPaths">
+    <ItemGroup>
+    <GenPkgRefUnders Include="@(GeneratorPackageReference -&gt; Replace('.', '_'))">
+        <TF>%(TF)</TF>
+    </GenPkgRefUnders>
+    <GenPkgRefLookup Include="@(GenPkgRefUnders -> 'Pkg%(filename)')">
+        <TF>%(TF)</TF>
+    </GenPkgRefLookup>
+    <GenPkgRefNuPath Include="@(GenPkgRefLookup)">
+        <Path>$(%(GenPkgRefLookup.filename))\lib\%(TF)\*.dll</Path>
+    </GenPkgRefNuPath>
+    </ItemGroup>
+    <Message Importance="High" Text="Packaging Up: @(GenPkgRefNuPath -> '%(Path)')" />
+    <CreateItem Include="@(GenPkgRefNuPath -> '%(Path)')">
+        <Output TaskParameter="Include" ItemName="GenPkgRefFullPath" />
+    </CreateItem>
+
+    <!-- DEBUG -->
+    <PropertyGroup>
+        <AllGenPkgRefFullPaths>@(GenPkgRefFullPath)</AllGenPkgRefFullPaths>
+    </PropertyGroup>
+    <Message Importance="High" Text="***************************************************************************" />
+    <Message Importance="High" Text="Resolved Gen Pkg Ref Paths: %0A$(AllGenPkgRefFullPaths.Replace(';', '%0A'))" />
+    <Message Importance="High" Text="***************************************************************************" />
+
+    <ItemGroup>
+        <!-- Enumerate the full path of all dependencies to be packaged up -->
+        <TargetPathWithTargetPlatformMoniker IncludeRuntimeDependency="false" Include="@(GenPkgRefFullPath)" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <!-- Include the local project dependency -->
+        <TargetPathWithTargetPlatformMoniker IncludeRuntimeDependency="false" Include="$(MSBuildProjectDirectory)\..\EntityFrameworkCore.Generator.Core\bin\$(Configuration)\netstandard2.1\EntityFrameworkCore.Generator.Core.dll" />
+    </ItemGroup>
+</Target>
+
+</Project>

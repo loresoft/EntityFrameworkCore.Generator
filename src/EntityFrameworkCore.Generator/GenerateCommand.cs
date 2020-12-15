@@ -3,6 +3,7 @@ using EntityFrameworkCore.Generator.Options;
 using McMaster.Extensions.CommandLineUtils;
 using Microsoft.Extensions.Logging;
 using System;
+using System.IO;
 
 namespace EntityFrameworkCore.Generator
 {
@@ -36,6 +37,9 @@ namespace EntityFrameworkCore.Generator
         [Option("--validator", Description = "Include model validation in generation")]
         public bool? Validator { get; set; }
 
+        [Option("--from-cache", Description = "Generate source from cached DB Model")]
+        public bool? FromCache { get; set; }
+
 
         protected override int OnExecute(CommandLineApplication application)
         {
@@ -47,6 +51,9 @@ namespace EntityFrameworkCore.Generator
             {
                 Logger.LogInformation("Using default options");
                 options = new GeneratorOptions();
+
+                // Options file meta data
+                options.Options.SetFullPath(Path.Combine(workingDirectory, optionsFile));
             }
 
             // override options
@@ -73,7 +80,9 @@ namespace EntityFrameworkCore.Generator
             if (Validator.HasValue)
                 options.Model.Validator.Generate = Validator.Value;
 
-            var result = _codeGenerator.Generate(options);
+            var result = FromCache.HasValue
+                ? _codeGenerator.Generate(options, true, false)
+                : _codeGenerator.Generate(options);
 
             return result ? 0 : 1;
         }
