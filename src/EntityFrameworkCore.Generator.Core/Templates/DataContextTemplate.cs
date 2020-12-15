@@ -128,6 +128,7 @@ namespace EntityFrameworkCore.Generator.Templates
             using (CodeBuilder.Indent())
             {
                 CodeBuilder.AppendLine("#region Generated Configuration");
+                CodeBuilder.AppendLine("base.OnModelCreating(modelBuilder);");
                 foreach (var entityType in _entityContext.Entities.OrderBy(e => e.MappingClass))
                 {
                     var mappingClass = entityType.MappingClass.ToSafeName();

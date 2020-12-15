@@ -10,7 +10,8 @@ database:
 data:
   context:
     name: '{Database.Name}Context'
-    baseClass: DbContext
+    #baseClass: DbContext
+    baseClass: TrackerContextBase
     namespace: '{Project.Namespace}.Data'
     directory: '{Project.Directory}\Data'
     document: true
