@@ -1,0 +1,2569 @@
+{
+  "$id": "1",
+  "$type": "Microsoft.EntityFrameworkCore.Scaffolding.Metadata.DatabaseModel, Microsoft.EntityFrameworkCore.Relational",
+  "DatabaseName": "EFG_TrackerTest",
+  "DefaultSchema": "dbo",
+  "Collation": "SQL_Latin1_General_CP1_CI_AS",
+  "Tables": {
+    "$type": "System.Collections.Generic.List`1[[Microsoft.EntityFrameworkCore.Scaffolding.Metadata.DatabaseTable, Microsoft.EntityFrameworkCore.Relational]], System.Private.CoreLib",
+    "$values": [
+      {
+        "$id": "2",
+        "$type": "Microsoft.EntityFrameworkCore.Scaffolding.Metadata.DatabaseTable, Microsoft.EntityFrameworkCore.Relational",
+        "Database": {
+          "$ref": "1"
+        },
+        "Name": "Audit",
+        "Schema": "dbo",
+        "Comment": null,
+        "PrimaryKey": {
+          "$id": "3",
+          "$type": "Microsoft.EntityFrameworkCore.Scaffolding.Metadata.DatabasePrimaryKey, Microsoft.EntityFrameworkCore.Relational",
+          "Table": {
+            "$ref": "2"
+          },
+          "Name": "PK_Audit",
+          "Columns": {
+            "$type": "System.Collections.Generic.List`1[[Microsoft.EntityFrameworkCore.Scaffolding.Metadata.DatabaseColumn, Microsoft.EntityFrameworkCore.Relational]], System.Private.CoreLib",
+            "$values": [
+              {
+                "$id": "4",
+                "$type": "Microsoft.EntityFrameworkCore.Scaffolding.Metadata.DatabaseColumn, Microsoft.EntityFrameworkCore.Relational",
+                "Table": {
+                  "$ref": "2"
+                },
+                "Name": "Id",
+                "IsNullable": false,
+                "StoreType": "int",
+                "DefaultValueSql": null,
+                "ComputedColumnSql": null,
+                "IsStored": false,
+                "Comment": null,
+                "Collation": null,
+                "ValueGenerated": 1,
+                "$annotations": null
+              }
+            ]
+          },
+          "$annotations": null
+        },
+        "Columns": {
+          "$type": "System.Collections.Generic.List`1[[Microsoft.EntityFrameworkCore.Scaffolding.Metadata.DatabaseColumn, Microsoft.EntityFrameworkCore.Relational]], System.Private.CoreLib",
+          "$values": [
+            {
+              "$ref": "4"
+            },
+            {
+              "$id": "5",
+              "$type": "Microsoft.EntityFrameworkCore.Scaffolding.Metadata.DatabaseColumn, Microsoft.EntityFrameworkCore.Relational",
+              "Table": {
+                "$ref": "2"
+              },
+              "Name": "Date",
+              "IsNullable": false,
+              "StoreType": "datetime",
+              "DefaultValueSql": null,
+              "ComputedColumnSql": null,
+              "IsStored": false,
+              "Comment": null,
+              "Collation": null,
+              "ValueGenerated": null,
+              "$annotations": null
+            },
+            {
+              "$id": "6",
+              "$type": "Microsoft.EntityFrameworkCore.Scaffolding.Metadata.DatabaseColumn, Microsoft.EntityFrameworkCore.Relational",
+              "Table": {
+                "$ref": "2"
+              },
+              "Name": "UserId",
+              "IsNullable": true,
+              "StoreType": "int",
+              "DefaultValueSql": null,
+              "ComputedColumnSql": null,
+              "IsStored": false,
+              "Comment": null,
+              "Collation": null,
+              "ValueGenerated": null,
+              "$annotations": null
+            },
+            {
+              "$id": "7",
+              "$type": "Microsoft.EntityFrameworkCore.Scaffolding.Metadata.DatabaseColumn, Microsoft.EntityFrameworkCore.Relational",
+              "Table": {
+                "$ref": "2"
+              },
+              "Name": "TaskId",
+              "IsNullable": true,
+              "StoreType": "int",
+              "DefaultValueSql": null,
+              "ComputedColumnSql": null,
+              "IsStored": false,
+              "Comment": null,
+              "Collation": null,
+              "ValueGenerated": null,
+              "$annotations": null
+            },
+            {
+              "$id": "8",
+              "$type": "Microsoft.EntityFrameworkCore.Scaffolding.Metadata.DatabaseColumn, Microsoft.EntityFrameworkCore.Relational",
+              "Table": {
+                "$ref": "2"
+              },
+              "Name": "Content",
+              "IsNullable": false,
+              "StoreType": "nvarchar(max)",
+              "DefaultValueSql": null,
+              "ComputedColumnSql": null,
+              "IsStored": false,
+              "Comment": null,
+              "Collation": null,
+              "ValueGenerated": null,
+              "$annotations": null
+            },
+            {
+              "$id": "9",
+              "$type": "Microsoft.EntityFrameworkCore.Scaffolding.Metadata.DatabaseColumn, Microsoft.EntityFrameworkCore.Relational",
+              "Table": {
+                "$ref": "2"
+              },
+              "Name": "Username",
+              "IsNullable": false,
+              "StoreType": "nvarchar(50)",
+              "DefaultValueSql": null,
+              "ComputedColumnSql": null,
+              "IsStored": false,
+              "Comment": null,
+              "Collation": null,
+              "ValueGenerated": null,
+              "$annotations": null
+            },
+            {
+              "$id": "10",
+              "$type": "Microsoft.EntityFrameworkCore.Scaffolding.Metadata.DatabaseColumn, Microsoft.EntityFrameworkCore.Relational",
+              "Table": {
+                "$ref": "2"
+              },
+              "Name": "Created",
+              "IsNullable": false,
+              "StoreType": "datetimeoffset",
+              "DefaultValueSql": "(sysutcdatetime())",
+              "ComputedColumnSql": null,
+              "IsStored": false,
+              "Comment": null,
+              "Collation": null,
+              "ValueGenerated": null,
+              "$annotations": null
+            },
+            {
+              "$id": "11",
+              "$type": "Microsoft.EntityFrameworkCore.Scaffolding.Metadata.DatabaseColumn, Microsoft.EntityFrameworkCore.Relational",
+              "Table": {
+                "$ref": "2"
+              },
+              "Name": "CreatedBy",
+              "IsNullable": true,
+              "StoreType": "nvarchar(100)",
+              "DefaultValueSql": null,
+              "ComputedColumnSql": null,
+              "IsStored": false,
+              "Comment": null,
+              "Collation": null,
+              "ValueGenerated": null,
+              "$annotations": null
+            },
+            {
+              "$id": "12",
+              "$type": "Microsoft.EntityFrameworkCore.Scaffolding.Metadata.DatabaseColumn, Microsoft.EntityFrameworkCore.Relational",
+              "Table": {
+                "$ref": "2"
+              },
+              "Name": "Updated",
+              "IsNullable": false,
+              "StoreType": "datetimeoffset",
+              "DefaultValueSql": "(sysutcdatetime())",
+              "ComputedColumnSql": null,
+              "IsStored": false,
+              "Comment": null,
+              "Collation": null,
+              "ValueGenerated": null,
+              "$annotations": null
+            },
+            {
+              "$id": "13",
+              "$type": "Microsoft.EntityFrameworkCore.Scaffolding.Metadata.DatabaseColumn, Microsoft.EntityFrameworkCore.Relational",
+              "Table": {
+                "$ref": "2"
+              },
+              "Name": "UpdatedBy",
+              "IsNullable": true,
+              "StoreType": "nvarchar(100)",
+              "DefaultValueSql": null,
+              "ComputedColumnSql": null,
+              "IsStored": false,
+              "Comment": null,
+              "Collation": null,
+              "ValueGenerated": null,
+              "$annotations": null
+            },
+            {
+              "$id": "14",
+              "$type": "Microsoft.EntityFrameworkCore.Scaffolding.Metadata.DatabaseColumn, Microsoft.EntityFrameworkCore.Relational",
+              "Table": {
+                "$ref": "2"
+              },
+              "Name": "RowVersion",
+              "IsNullable": false,
+              "StoreType": "rowversion",
+              "DefaultValueSql": null,
+              "ComputedColumnSql": null,
+              "IsStored": false,
+              "Comment": null,
+              "Collation": null,
+              "ValueGenerated": 3,
+              "$annotations": {
+                "ConcurrencyToken": true
+              }
+            }
+          ]
+        },
+        "UniqueConstraints": {
+          "$type": "System.Collections.Generic.List`1[[Microsoft.EntityFrameworkCore.Scaffolding.Metadata.DatabaseUniqueConstraint, Microsoft.EntityFrameworkCore.Relational]], System.Private.CoreLib",
+          "$values": []
+        },
+        "Indexes": {
+          "$type": "System.Collections.Generic.List`1[[Microsoft.EntityFrameworkCore.Scaffolding.Metadata.DatabaseIndex, Microsoft.EntityFrameworkCore.Relational]], System.Private.CoreLib",
+          "$values": []
+        },
+        "ForeignKeys": {
+          "$type": "System.Collections.Generic.List`1[[Microsoft.EntityFrameworkCore.Scaffolding.Metadata.DatabaseForeignKey, Microsoft.EntityFrameworkCore.Relational]], System.Private.CoreLib",
+          "$values": []
+        },
+        "$annotations": null
+      },
+      {
+        "$id": "15",
+        "$type": "Microsoft.EntityFrameworkCore.Scaffolding.Metadata.DatabaseTable, Microsoft.EntityFrameworkCore.Relational",
+        "Database": {
+          "$ref": "1"
+        },
+        "Name": "Priority",
+        "Schema": "dbo",
+        "Comment": null,
+        "PrimaryKey": {
+          "$id": "16",
+          "$type": "Microsoft.EntityFrameworkCore.Scaffolding.Metadata.DatabasePrimaryKey, Microsoft.EntityFrameworkCore.Relational",
+          "Table": {
+            "$ref": "15"
+          },
+          "Name": "PK_Priority",
+          "Columns": {
+            "$type": "System.Collections.Generic.List`1[[Microsoft.EntityFrameworkCore.Scaffolding.Metadata.DatabaseColumn, Microsoft.EntityFrameworkCore.Relational]], System.Private.CoreLib",
+            "$values": [
+              {
+                "$id": "17",
+                "$type": "Microsoft.EntityFrameworkCore.Scaffolding.Metadata.DatabaseColumn, Microsoft.EntityFrameworkCore.Relational",
+                "Table": {
+                  "$ref": "15"
+                },
+                "Name": "Id",
+                "IsNullable": false,
+                "StoreType": "int",
+                "DefaultValueSql": null,
+                "ComputedColumnSql": null,
+                "IsStored": false,
+                "Comment": null,
+                "Collation": null,
+                "ValueGenerated": null,
+                "$annotations": null
+              }
+            ]
+          },
+          "$annotations": null
+        },
+        "Columns": {
+          "$type": "System.Collections.Generic.List`1[[Microsoft.EntityFrameworkCore.Scaffolding.Metadata.DatabaseColumn, Microsoft.EntityFrameworkCore.Relational]], System.Private.CoreLib",
+          "$values": [
+            {
+              "$ref": "17"
+            },
+            {
+              "$id": "18",
+              "$type": "Microsoft.EntityFrameworkCore.Scaffolding.Metadata.DatabaseColumn, Microsoft.EntityFrameworkCore.Relational",
+              "Table": {
+                "$ref": "15"
+              },
+              "Name": "Name",
+              "IsNullable": false,
+              "StoreType": "nvarchar(100)",
+              "DefaultValueSql": null,
+              "ComputedColumnSql": null,
+              "IsStored": false,
+              "Comment": null,
+              "Collation": null,
+              "ValueGenerated": null,
+              "$annotations": null
+            },
+            {
+              "$id": "19",
+              "$type": "Microsoft.EntityFrameworkCore.Scaffolding.Metadata.DatabaseColumn, Microsoft.EntityFrameworkCore.Relational",
+              "Table": {
+                "$ref": "15"
+              },
+              "Name": "Description",
+              "IsNullable": true,
+              "StoreType": "nvarchar(255)",
+              "DefaultValueSql": null,
+              "ComputedColumnSql": null,
+              "IsStored": false,
+              "Comment": null,
+              "Collation": null,
+              "ValueGenerated": null,
+              "$annotations": null
+            },
+            {
+              "$id": "20",
+              "$type": "Microsoft.EntityFrameworkCore.Scaffolding.Metadata.DatabaseColumn, Microsoft.EntityFrameworkCore.Relational",
+              "Table": {
+                "$ref": "15"
+              },
+              "Name": "DisplayOrder",
+              "IsNullable": false,
+              "StoreType": "int",
+              "DefaultValueSql": null,
+              "ComputedColumnSql": null,
+              "IsStored": false,
+              "Comment": null,
+              "Collation": null,
+              "ValueGenerated": null,
+              "$annotations": null
+            },
+            {
+              "$id": "21",
+              "$type": "Microsoft.EntityFrameworkCore.Scaffolding.Metadata.DatabaseColumn, Microsoft.EntityFrameworkCore.Relational",
+              "Table": {
+                "$ref": "15"
+              },
+              "Name": "IsActive",
+              "IsNullable": false,
+              "StoreType": "bit",
+              "DefaultValueSql": "((1))",
+              "ComputedColumnSql": null,
+              "IsStored": false,
+              "Comment": null,
+              "Collation": null,
+              "ValueGenerated": null,
+              "$annotations": null
+            },
+            {
+              "$id": "22",
+              "$type": "Microsoft.EntityFrameworkCore.Scaffolding.Metadata.DatabaseColumn, Microsoft.EntityFrameworkCore.Relational",
+              "Table": {
+                "$ref": "15"
+              },
+              "Name": "Created",
+              "IsNullable": false,
+              "StoreType": "datetimeoffset",
+              "DefaultValueSql": "(sysutcdatetime())",
+              "ComputedColumnSql": null,
+              "IsStored": false,
+              "Comment": null,
+              "Collation": null,
+              "ValueGenerated": null,
+              "$annotations": null
+            },
+            {
+              "$id": "23",
+              "$type": "Microsoft.EntityFrameworkCore.Scaffolding.Metadata.DatabaseColumn, Microsoft.EntityFrameworkCore.Relational",
+              "Table": {
+                "$ref": "15"
+              },
+              "Name": "CreatedBy",
+              "IsNullable": true,
+              "StoreType": "nvarchar(100)",
+              "DefaultValueSql": null,
+              "ComputedColumnSql": null,
+              "IsStored": false,
+              "Comment": null,
+              "Collation": null,
+              "ValueGenerated": null,
+              "$annotations": null
+            },
+            {
+              "$id": "24",
+              "$type": "Microsoft.EntityFrameworkCore.Scaffolding.Metadata.DatabaseColumn, Microsoft.EntityFrameworkCore.Relational",
+              "Table": {
+                "$ref": "15"
+              },
+              "Name": "Updated",
+              "IsNullable": false,
+              "StoreType": "datetimeoffset",
+              "DefaultValueSql": "(sysutcdatetime())",
+              "ComputedColumnSql": null,
+              "IsStored": false,
+              "Comment": null,
+              "Collation": null,
+              "ValueGenerated": null,
+              "$annotations": null
+            },
+            {
+              "$id": "25",
+              "$type": "Microsoft.EntityFrameworkCore.Scaffolding.Metadata.DatabaseColumn, Microsoft.EntityFrameworkCore.Relational",
+              "Table": {
+                "$ref": "15"
+              },
+              "Name": "UpdatedBy",
+              "IsNullable": true,
+              "StoreType": "nvarchar(100)",
+              "DefaultValueSql": null,
+              "ComputedColumnSql": null,
+              "IsStored": false,
+              "Comment": null,
+              "Collation": null,
+              "ValueGenerated": null,
+              "$annotations": null
+            },
+            {
+              "$id": "26",
+              "$type": "Microsoft.EntityFrameworkCore.Scaffolding.Metadata.DatabaseColumn, Microsoft.EntityFrameworkCore.Relational",
+              "Table": {
+                "$ref": "15"
+              },
+              "Name": "RowVersion",
+              "IsNullable": false,
+              "StoreType": "rowversion",
+              "DefaultValueSql": null,
+              "ComputedColumnSql": null,
+              "IsStored": false,
+              "Comment": null,
+              "Collation": null,
+              "ValueGenerated": 3,
+              "$annotations": {
+                "ConcurrencyToken": true
+              }
+            }
+          ]
+        },
+        "UniqueConstraints": {
+          "$type": "System.Collections.Generic.List`1[[Microsoft.EntityFrameworkCore.Scaffolding.Metadata.DatabaseUniqueConstraint, Microsoft.EntityFrameworkCore.Relational]], System.Private.CoreLib",
+          "$values": []
+        },
+        "Indexes": {
+          "$type": "System.Collections.Generic.List`1[[Microsoft.EntityFrameworkCore.Scaffolding.Metadata.DatabaseIndex, Microsoft.EntityFrameworkCore.Relational]], System.Private.CoreLib",
+          "$values": []
+        },
+        "ForeignKeys": {
+          "$type": "System.Collections.Generic.List`1[[Microsoft.EntityFrameworkCore.Scaffolding.Metadata.DatabaseForeignKey, Microsoft.EntityFrameworkCore.Relational]], System.Private.CoreLib",
+          "$values": []
+        },
+        "$annotations": null
+      },
+      {
+        "$id": "27",
+        "$type": "Microsoft.EntityFrameworkCore.Scaffolding.Metadata.DatabaseTable, Microsoft.EntityFrameworkCore.Relational",
+        "Database": {
+          "$ref": "1"
+        },
+        "Name": "Role",
+        "Schema": "dbo",
+        "Comment": null,
+        "PrimaryKey": {
+          "$id": "28",
+          "$type": "Microsoft.EntityFrameworkCore.Scaffolding.Metadata.DatabasePrimaryKey, Microsoft.EntityFrameworkCore.Relational",
+          "Table": {
+            "$ref": "27"
+          },
+          "Name": "PK_Role",
+          "Columns": {
+            "$type": "System.Collections.Generic.List`1[[Microsoft.EntityFrameworkCore.Scaffolding.Metadata.DatabaseColumn, Microsoft.EntityFrameworkCore.Relational]], System.Private.CoreLib",
+            "$values": [
+              {
+                "$id": "29",
+                "$type": "Microsoft.EntityFrameworkCore.Scaffolding.Metadata.DatabaseColumn, Microsoft.EntityFrameworkCore.Relational",
+                "Table": {
+                  "$ref": "27"
+                },
+                "Name": "Id",
+                "IsNullable": false,
+                "StoreType": "uniqueidentifier",
+                "DefaultValueSql": null,
+                "ComputedColumnSql": null,
+                "IsStored": false,
+                "Comment": null,
+                "Collation": null,
+                "ValueGenerated": null,
+                "$annotations": null
+              }
+            ]
+          },
+          "$annotations": null
+        },
+        "Columns": {
+          "$type": "System.Collections.Generic.List`1[[Microsoft.EntityFrameworkCore.Scaffolding.Metadata.DatabaseColumn, Microsoft.EntityFrameworkCore.Relational]], System.Private.CoreLib",
+          "$values": [
+            {
+              "$ref": "29"
+            },
+            {
+              "$id": "30",
+              "$type": "Microsoft.EntityFrameworkCore.Scaffolding.Metadata.DatabaseColumn, Microsoft.EntityFrameworkCore.Relational",
+              "Table": {
+                "$ref": "27"
+              },
+              "Name": "Name",
+              "IsNullable": false,
+              "StoreType": "nvarchar(256)",
+              "DefaultValueSql": null,
+              "ComputedColumnSql": null,
+              "IsStored": false,
+              "Comment": null,
+              "Collation": null,
+              "ValueGenerated": null,
+              "$annotations": null
+            },
+            {
+              "$id": "31",
+              "$type": "Microsoft.EntityFrameworkCore.Scaffolding.Metadata.DatabaseColumn, Microsoft.EntityFrameworkCore.Relational",
+              "Table": {
+                "$ref": "27"
+              },
+              "Name": "Description",
+              "IsNullable": true,
+              "StoreType": "nvarchar(max)",
+              "DefaultValueSql": null,
+              "ComputedColumnSql": null,
+              "IsStored": false,
+              "Comment": null,
+              "Collation": null,
+              "ValueGenerated": null,
+              "$annotations": null
+            },
+            {
+              "$id": "32",
+              "$type": "Microsoft.EntityFrameworkCore.Scaffolding.Metadata.DatabaseColumn, Microsoft.EntityFrameworkCore.Relational",
+              "Table": {
+                "$ref": "27"
+              },
+              "Name": "Created",
+              "IsNullable": false,
+              "StoreType": "datetimeoffset",
+              "DefaultValueSql": "(sysutcdatetime())",
+              "ComputedColumnSql": null,
+              "IsStored": false,
+              "Comment": null,
+              "Collation": null,
+              "ValueGenerated": null,
+              "$annotations": null
+            },
+            {
+              "$id": "33",
+              "$type": "Microsoft.EntityFrameworkCore.Scaffolding.Metadata.DatabaseColumn, Microsoft.EntityFrameworkCore.Relational",
+              "Table": {
+                "$ref": "27"
+              },
+              "Name": "CreatedBy",
+              "IsNullable": true,
+              "StoreType": "nvarchar(100)",
+              "DefaultValueSql": null,
+              "ComputedColumnSql": null,
+              "IsStored": false,
+              "Comment": null,
+              "Collation": null,
+              "ValueGenerated": null,
+              "$annotations": null
+            },
+            {
+              "$id": "34",
+              "$type": "Microsoft.EntityFrameworkCore.Scaffolding.Metadata.DatabaseColumn, Microsoft.EntityFrameworkCore.Relational",
+              "Table": {
+                "$ref": "27"
+              },
+              "Name": "Updated",
+              "IsNullable": false,
+              "StoreType": "datetimeoffset",
+              "DefaultValueSql": "(sysutcdatetime())",
+              "ComputedColumnSql": null,
+              "IsStored": false,
+              "Comment": null,
+              "Collation": null,
+              "ValueGenerated": null,
+              "$annotations": null
+            },
+            {
+              "$id": "35",
+              "$type": "Microsoft.EntityFrameworkCore.Scaffolding.Metadata.DatabaseColumn, Microsoft.EntityFrameworkCore.Relational",
+              "Table": {
+                "$ref": "27"
+              },
+              "Name": "UpdatedBy",
+              "IsNullable": true,
+              "StoreType": "nvarchar(100)",
+              "DefaultValueSql": null,
+              "ComputedColumnSql": null,
+              "IsStored": false,
+              "Comment": null,
+              "Collation": null,
+              "ValueGenerated": null,
+              "$annotations": null
+            },
+            {
+              "$id": "36",
+              "$type": "Microsoft.EntityFrameworkCore.Scaffolding.Metadata.DatabaseColumn, Microsoft.EntityFrameworkCore.Relational",
+              "Table": {
+                "$ref": "27"
+              },
+              "Name": "RowVersion",
+              "IsNullable": false,
+              "StoreType": "rowversion",
+              "DefaultValueSql": null,
+              "ComputedColumnSql": null,
+              "IsStored": false,
+              "Comment": null,
+              "Collation": null,
+              "ValueGenerated": 3,
+              "$annotations": {
+                "ConcurrencyToken": true
+              }
+            }
+          ]
+        },
+        "UniqueConstraints": {
+          "$type": "System.Collections.Generic.List`1[[Microsoft.EntityFrameworkCore.Scaffolding.Metadata.DatabaseUniqueConstraint, Microsoft.EntityFrameworkCore.Relational]], System.Private.CoreLib",
+          "$values": []
+        },
+        "Indexes": {
+          "$type": "System.Collections.Generic.List`1[[Microsoft.EntityFrameworkCore.Scaffolding.Metadata.DatabaseIndex, Microsoft.EntityFrameworkCore.Relational]], System.Private.CoreLib",
+          "$values": [
+            {
+              "$id": "37",
+              "$type": "Microsoft.EntityFrameworkCore.Scaffolding.Metadata.DatabaseIndex, Microsoft.EntityFrameworkCore.Relational",
+              "Table": {
+                "$ref": "27"
+              },
+              "Name": "UX_Role_Name",
+              "Columns": {
+                "$type": "System.Collections.Generic.List`1[[Microsoft.EntityFrameworkCore.Scaffolding.Metadata.DatabaseColumn, Microsoft.EntityFrameworkCore.Relational]], System.Private.CoreLib",
+                "$values": [
+                  {
+                    "$ref": "30"
+                  }
+                ]
+              },
+              "IsUnique": true,
+              "Filter": null,
+              "$annotations": null
+            }
+          ]
+        },
+        "ForeignKeys": {
+          "$type": "System.Collections.Generic.List`1[[Microsoft.EntityFrameworkCore.Scaffolding.Metadata.DatabaseForeignKey, Microsoft.EntityFrameworkCore.Relational]], System.Private.CoreLib",
+          "$values": []
+        },
+        "$annotations": null
+      },
+      {
+        "$id": "38",
+        "$type": "Microsoft.EntityFrameworkCore.Scaffolding.Metadata.DatabaseTable, Microsoft.EntityFrameworkCore.Relational",
+        "Database": {
+          "$ref": "1"
+        },
+        "Name": "SchemaVersions",
+        "Schema": "dbo",
+        "Comment": null,
+        "PrimaryKey": {
+          "$id": "39",
+          "$type": "Microsoft.EntityFrameworkCore.Scaffolding.Metadata.DatabasePrimaryKey, Microsoft.EntityFrameworkCore.Relational",
+          "Table": {
+            "$ref": "38"
+          },
+          "Name": "PK_SchemaVersions_Id",
+          "Columns": {
+            "$type": "System.Collections.Generic.List`1[[Microsoft.EntityFrameworkCore.Scaffolding.Metadata.DatabaseColumn, Microsoft.EntityFrameworkCore.Relational]], System.Private.CoreLib",
+            "$values": [
+              {
+                "$id": "40",
+                "$type": "Microsoft.EntityFrameworkCore.Scaffolding.Metadata.DatabaseColumn, Microsoft.EntityFrameworkCore.Relational",
+                "Table": {
+                  "$ref": "38"
+                },
+                "Name": "Id",
+                "IsNullable": false,
+                "StoreType": "int",
+                "DefaultValueSql": null,
+                "ComputedColumnSql": null,
+                "IsStored": false,
+                "Comment": null,
+                "Collation": null,
+                "ValueGenerated": 1,
+                "$annotations": null
+              }
+            ]
+          },
+          "$annotations": null
+        },
+        "Columns": {
+          "$type": "System.Collections.Generic.List`1[[Microsoft.EntityFrameworkCore.Scaffolding.Metadata.DatabaseColumn, Microsoft.EntityFrameworkCore.Relational]], System.Private.CoreLib",
+          "$values": [
+            {
+              "$ref": "40"
+            },
+            {
+              "$id": "41",
+              "$type": "Microsoft.EntityFrameworkCore.Scaffolding.Metadata.DatabaseColumn, Microsoft.EntityFrameworkCore.Relational",
+              "Table": {
+                "$ref": "38"
+              },
+              "Name": "ScriptName",
+              "IsNullable": false,
+              "StoreType": "nvarchar(255)",
+              "DefaultValueSql": null,
+              "ComputedColumnSql": null,
+              "IsStored": false,
+              "Comment": null,
+              "Collation": null,
+              "ValueGenerated": null,
+              "$annotations": null
+            },
+            {
+              "$id": "42",
+              "$type": "Microsoft.EntityFrameworkCore.Scaffolding.Metadata.DatabaseColumn, Microsoft.EntityFrameworkCore.Relational",
+              "Table": {
+                "$ref": "38"
+              },
+              "Name": "Applied",
+              "IsNullable": false,
+              "StoreType": "datetime",
+              "DefaultValueSql": null,
+              "ComputedColumnSql": null,
+              "IsStored": false,
+              "Comment": null,
+              "Collation": null,
+              "ValueGenerated": null,
+              "$annotations": null
+            }
+          ]
+        },
+        "UniqueConstraints": {
+          "$type": "System.Collections.Generic.List`1[[Microsoft.EntityFrameworkCore.Scaffolding.Metadata.DatabaseUniqueConstraint, Microsoft.EntityFrameworkCore.Relational]], System.Private.CoreLib",
+          "$values": []
+        },
+        "Indexes": {
+          "$type": "System.Collections.Generic.List`1[[Microsoft.EntityFrameworkCore.Scaffolding.Metadata.DatabaseIndex, Microsoft.EntityFrameworkCore.Relational]], System.Private.CoreLib",
+          "$values": []
+        },
+        "ForeignKeys": {
+          "$type": "System.Collections.Generic.List`1[[Microsoft.EntityFrameworkCore.Scaffolding.Metadata.DatabaseForeignKey, Microsoft.EntityFrameworkCore.Relational]], System.Private.CoreLib",
+          "$values": []
+        },
+        "$annotations": null
+      },
+      {
+        "$id": "43",
+        "$type": "Microsoft.EntityFrameworkCore.Scaffolding.Metadata.DatabaseTable, Microsoft.EntityFrameworkCore.Relational",
+        "Database": {
+          "$ref": "1"
+        },
+        "Name": "Status",
+        "Schema": "dbo",
+        "Comment": null,
+        "PrimaryKey": {
+          "$id": "44",
+          "$type": "Microsoft.EntityFrameworkCore.Scaffolding.Metadata.DatabasePrimaryKey, Microsoft.EntityFrameworkCore.Relational",
+          "Table": {
+            "$ref": "43"
+          },
+          "Name": "PK_Status",
+          "Columns": {
+            "$type": "System.Collections.Generic.List`1[[Microsoft.EntityFrameworkCore.Scaffolding.Metadata.DatabaseColumn, Microsoft.EntityFrameworkCore.Relational]], System.Private.CoreLib",
+            "$values": [
+              {
+                "$id": "45",
+                "$type": "Microsoft.EntityFrameworkCore.Scaffolding.Metadata.DatabaseColumn, Microsoft.EntityFrameworkCore.Relational",
+                "Table": {
+                  "$ref": "43"
+                },
+                "Name": "Id",
+                "IsNullable": false,
+                "StoreType": "int",
+                "DefaultValueSql": null,
+                "ComputedColumnSql": null,
+                "IsStored": false,
+                "Comment": null,
+                "Collation": null,
+                "ValueGenerated": null,
+                "$annotations": null
+              }
+            ]
+          },
+          "$annotations": null
+        },
+        "Columns": {
+          "$type": "System.Collections.Generic.List`1[[Microsoft.EntityFrameworkCore.Scaffolding.Metadata.DatabaseColumn, Microsoft.EntityFrameworkCore.Relational]], System.Private.CoreLib",
+          "$values": [
+            {
+              "$ref": "45"
+            },
+            {
+              "$id": "46",
+              "$type": "Microsoft.EntityFrameworkCore.Scaffolding.Metadata.DatabaseColumn, Microsoft.EntityFrameworkCore.Relational",
+              "Table": {
+                "$ref": "43"
+              },
+              "Name": "Name",
+              "IsNullable": false,
+              "StoreType": "nvarchar(100)",
+              "DefaultValueSql": null,
+              "ComputedColumnSql": null,
+              "IsStored": false,
+              "Comment": null,
+              "Collation": null,
+              "ValueGenerated": null,
+              "$annotations": null
+            },
+            {
+              "$id": "47",
+              "$type": "Microsoft.EntityFrameworkCore.Scaffolding.Metadata.DatabaseColumn, Microsoft.EntityFrameworkCore.Relational",
+              "Table": {
+                "$ref": "43"
+              },
+              "Name": "Description",
+              "IsNullable": true,
+              "StoreType": "nvarchar(255)",
+              "DefaultValueSql": null,
+              "ComputedColumnSql": null,
+              "IsStored": false,
+              "Comment": null,
+              "Collation": null,
+              "ValueGenerated": null,
+              "$annotations": null
+            },
+            {
+              "$id": "48",
+              "$type": "Microsoft.EntityFrameworkCore.Scaffolding.Metadata.DatabaseColumn, Microsoft.EntityFrameworkCore.Relational",
+              "Table": {
+                "$ref": "43"
+              },
+              "Name": "DisplayOrder",
+              "IsNullable": false,
+              "StoreType": "int",
+              "DefaultValueSql": null,
+              "ComputedColumnSql": null,
+              "IsStored": false,
+              "Comment": null,
+              "Collation": null,
+              "ValueGenerated": null,
+              "$annotations": null
+            },
+            {
+              "$id": "49",
+              "$type": "Microsoft.EntityFrameworkCore.Scaffolding.Metadata.DatabaseColumn, Microsoft.EntityFrameworkCore.Relational",
+              "Table": {
+                "$ref": "43"
+              },
+              "Name": "IsActive",
+              "IsNullable": false,
+              "StoreType": "bit",
+              "DefaultValueSql": "((1))",
+              "ComputedColumnSql": null,
+              "IsStored": false,
+              "Comment": null,
+              "Collation": null,
+              "ValueGenerated": null,
+              "$annotations": null
+            },
+            {
+              "$id": "50",
+              "$type": "Microsoft.EntityFrameworkCore.Scaffolding.Metadata.DatabaseColumn, Microsoft.EntityFrameworkCore.Relational",
+              "Table": {
+                "$ref": "43"
+              },
+              "Name": "Created",
+              "IsNullable": false,
+              "StoreType": "datetimeoffset",
+              "DefaultValueSql": "(sysutcdatetime())",
+              "ComputedColumnSql": null,
+              "IsStored": false,
+              "Comment": null,
+              "Collation": null,
+              "ValueGenerated": null,
+              "$annotations": null
+            },
+            {
+              "$id": "51",
+              "$type": "Microsoft.EntityFrameworkCore.Scaffolding.Metadata.DatabaseColumn, Microsoft.EntityFrameworkCore.Relational",
+              "Table": {
+                "$ref": "43"
+              },
+              "Name": "CreatedBy",
+              "IsNullable": true,
+              "StoreType": "nvarchar(100)",
+              "DefaultValueSql": null,
+              "ComputedColumnSql": null,
+              "IsStored": false,
+              "Comment": null,
+              "Collation": null,
+              "ValueGenerated": null,
+              "$annotations": null
+            },
+            {
+              "$id": "52",
+              "$type": "Microsoft.EntityFrameworkCore.Scaffolding.Metadata.DatabaseColumn, Microsoft.EntityFrameworkCore.Relational",
+              "Table": {
+                "$ref": "43"
+              },
+              "Name": "Updated",
+              "IsNullable": false,
+              "StoreType": "datetimeoffset",
+              "DefaultValueSql": "(sysutcdatetime())",
+              "ComputedColumnSql": null,
+              "IsStored": false,
+              "Comment": null,
+              "Collation": null,
+              "ValueGenerated": null,
+              "$annotations": null
+            },
+            {
+              "$id": "53",
+              "$type": "Microsoft.EntityFrameworkCore.Scaffolding.Metadata.DatabaseColumn, Microsoft.EntityFrameworkCore.Relational",
+              "Table": {
+                "$ref": "43"
+              },
+              "Name": "UpdatedBy",
+              "IsNullable": true,
+              "StoreType": "nvarchar(100)",
+              "DefaultValueSql": null,
+              "ComputedColumnSql": null,
+              "IsStored": false,
+              "Comment": null,
+              "Collation": null,
+              "ValueGenerated": null,
+              "$annotations": null
+            },
+            {
+              "$id": "54",
+              "$type": "Microsoft.EntityFrameworkCore.Scaffolding.Metadata.DatabaseColumn, Microsoft.EntityFrameworkCore.Relational",
+              "Table": {
+                "$ref": "43"
+              },
+              "Name": "RowVersion",
+              "IsNullable": false,
+              "StoreType": "rowversion",
+              "DefaultValueSql": null,
+              "ComputedColumnSql": null,
+              "IsStored": false,
+              "Comment": null,
+              "Collation": null,
+              "ValueGenerated": 3,
+              "$annotations": {
+                "ConcurrencyToken": true
+              }
+            }
+          ]
+        },
+        "UniqueConstraints": {
+          "$type": "System.Collections.Generic.List`1[[Microsoft.EntityFrameworkCore.Scaffolding.Metadata.DatabaseUniqueConstraint, Microsoft.EntityFrameworkCore.Relational]], System.Private.CoreLib",
+          "$values": []
+        },
+        "Indexes": {
+          "$type": "System.Collections.Generic.List`1[[Microsoft.EntityFrameworkCore.Scaffolding.Metadata.DatabaseIndex, Microsoft.EntityFrameworkCore.Relational]], System.Private.CoreLib",
+          "$values": []
+        },
+        "ForeignKeys": {
+          "$type": "System.Collections.Generic.List`1[[Microsoft.EntityFrameworkCore.Scaffolding.Metadata.DatabaseForeignKey, Microsoft.EntityFrameworkCore.Relational]], System.Private.CoreLib",
+          "$values": []
+        },
+        "$annotations": null
+      },
+      {
+        "$id": "55",
+        "$type": "Microsoft.EntityFrameworkCore.Scaffolding.Metadata.DatabaseTable, Microsoft.EntityFrameworkCore.Relational",
+        "Database": {
+          "$ref": "1"
+        },
+        "Name": "Task",
+        "Schema": "dbo",
+        "Comment": null,
+        "PrimaryKey": {
+          "$id": "56",
+          "$type": "Microsoft.EntityFrameworkCore.Scaffolding.Metadata.DatabasePrimaryKey, Microsoft.EntityFrameworkCore.Relational",
+          "Table": {
+            "$ref": "55"
+          },
+          "Name": "PK_Task",
+          "Columns": {
+            "$type": "System.Collections.Generic.List`1[[Microsoft.EntityFrameworkCore.Scaffolding.Metadata.DatabaseColumn, Microsoft.EntityFrameworkCore.Relational]], System.Private.CoreLib",
+            "$values": [
+              {
+                "$id": "57",
+                "$type": "Microsoft.EntityFrameworkCore.Scaffolding.Metadata.DatabaseColumn, Microsoft.EntityFrameworkCore.Relational",
+                "Table": {
+                  "$ref": "55"
+                },
+                "Name": "Id",
+                "IsNullable": false,
+                "StoreType": "uniqueidentifier",
+                "DefaultValueSql": null,
+                "ComputedColumnSql": null,
+                "IsStored": false,
+                "Comment": null,
+                "Collation": null,
+                "ValueGenerated": null,
+                "$annotations": null
+              }
+            ]
+          },
+          "$annotations": null
+        },
+        "Columns": {
+          "$type": "System.Collections.Generic.List`1[[Microsoft.EntityFrameworkCore.Scaffolding.Metadata.DatabaseColumn, Microsoft.EntityFrameworkCore.Relational]], System.Private.CoreLib",
+          "$values": [
+            {
+              "$ref": "57"
+            },
+            {
+              "$id": "58",
+              "$type": "Microsoft.EntityFrameworkCore.Scaffolding.Metadata.DatabaseColumn, Microsoft.EntityFrameworkCore.Relational",
+              "Table": {
+                "$ref": "55"
+              },
+              "Name": "StatusId",
+              "IsNullable": false,
+              "StoreType": "int",
+              "DefaultValueSql": null,
+              "ComputedColumnSql": null,
+              "IsStored": false,
+              "Comment": null,
+              "Collation": null,
+              "ValueGenerated": null,
+              "$annotations": null
+            },
+            {
+              "$id": "59",
+              "$type": "Microsoft.EntityFrameworkCore.Scaffolding.Metadata.DatabaseColumn, Microsoft.EntityFrameworkCore.Relational",
+              "Table": {
+                "$ref": "55"
+              },
+              "Name": "PriorityId",
+              "IsNullable": true,
+              "StoreType": "int",
+              "DefaultValueSql": null,
+              "ComputedColumnSql": null,
+              "IsStored": false,
+              "Comment": null,
+              "Collation": null,
+              "ValueGenerated": null,
+              "$annotations": null
+            },
+            {
+              "$id": "60",
+              "$type": "Microsoft.EntityFrameworkCore.Scaffolding.Metadata.DatabaseColumn, Microsoft.EntityFrameworkCore.Relational",
+              "Table": {
+                "$ref": "55"
+              },
+              "Name": "Title",
+              "IsNullable": false,
+              "StoreType": "nvarchar(255)",
+              "DefaultValueSql": null,
+              "ComputedColumnSql": null,
+              "IsStored": false,
+              "Comment": null,
+              "Collation": null,
+              "ValueGenerated": null,
+              "$annotations": null
+            },
+            {
+              "$id": "61",
+              "$type": "Microsoft.EntityFrameworkCore.Scaffolding.Metadata.DatabaseColumn, Microsoft.EntityFrameworkCore.Relational",
+              "Table": {
+                "$ref": "55"
+              },
+              "Name": "Description",
+              "IsNullable": true,
+              "StoreType": "nvarchar(max)",
+              "DefaultValueSql": null,
+              "ComputedColumnSql": null,
+              "IsStored": false,
+              "Comment": null,
+              "Collation": null,
+              "ValueGenerated": null,
+              "$annotations": null
+            },
+            {
+              "$id": "62",
+              "$type": "Microsoft.EntityFrameworkCore.Scaffolding.Metadata.DatabaseColumn, Microsoft.EntityFrameworkCore.Relational",
+              "Table": {
+                "$ref": "55"
+              },
+              "Name": "StartDate",
+              "IsNullable": true,
+              "StoreType": "datetimeoffset",
+              "DefaultValueSql": null,
+              "ComputedColumnSql": null,
+              "IsStored": false,
+              "Comment": null,
+              "Collation": null,
+              "ValueGenerated": null,
+              "$annotations": null
+            },
+            {
+              "$id": "63",
+              "$type": "Microsoft.EntityFrameworkCore.Scaffolding.Metadata.DatabaseColumn, Microsoft.EntityFrameworkCore.Relational",
+              "Table": {
+                "$ref": "55"
+              },
+              "Name": "DueDate",
+              "IsNullable": true,
+              "StoreType": "datetimeoffset",
+              "DefaultValueSql": null,
+              "ComputedColumnSql": null,
+              "IsStored": false,
+              "Comment": null,
+              "Collation": null,
+              "ValueGenerated": null,
+              "$annotations": null
+            },
+            {
+              "$id": "64",
+              "$type": "Microsoft.EntityFrameworkCore.Scaffolding.Metadata.DatabaseColumn, Microsoft.EntityFrameworkCore.Relational",
+              "Table": {
+                "$ref": "55"
+              },
+              "Name": "CompleteDate",
+              "IsNullable": true,
+              "StoreType": "datetimeoffset",
+              "DefaultValueSql": null,
+              "ComputedColumnSql": null,
+              "IsStored": false,
+              "Comment": null,
+              "Collation": null,
+              "ValueGenerated": null,
+              "$annotations": null
+            },
+            {
+              "$id": "65",
+              "$type": "Microsoft.EntityFrameworkCore.Scaffolding.Metadata.DatabaseColumn, Microsoft.EntityFrameworkCore.Relational",
+              "Table": {
+                "$ref": "55"
+              },
+              "Name": "AssignedId",
+              "IsNullable": true,
+              "StoreType": "uniqueidentifier",
+              "DefaultValueSql": null,
+              "ComputedColumnSql": null,
+              "IsStored": false,
+              "Comment": null,
+              "Collation": null,
+              "ValueGenerated": null,
+              "$annotations": null
+            },
+            {
+              "$id": "66",
+              "$type": "Microsoft.EntityFrameworkCore.Scaffolding.Metadata.DatabaseColumn, Microsoft.EntityFrameworkCore.Relational",
+              "Table": {
+                "$ref": "55"
+              },
+              "Name": "Created",
+              "IsNullable": false,
+              "StoreType": "datetimeoffset",
+              "DefaultValueSql": "(sysutcdatetime())",
+              "ComputedColumnSql": null,
+              "IsStored": false,
+              "Comment": null,
+              "Collation": null,
+              "ValueGenerated": null,
+              "$annotations": null
+            },
+            {
+              "$id": "67",
+              "$type": "Microsoft.EntityFrameworkCore.Scaffolding.Metadata.DatabaseColumn, Microsoft.EntityFrameworkCore.Relational",
+              "Table": {
+                "$ref": "55"
+              },
+              "Name": "CreatedBy",
+              "IsNullable": true,
+              "StoreType": "nvarchar(100)",
+              "DefaultValueSql": null,
+              "ComputedColumnSql": null,
+              "IsStored": false,
+              "Comment": null,
+              "Collation": null,
+              "ValueGenerated": null,
+              "$annotations": null
+            },
+            {
+              "$id": "68",
+              "$type": "Microsoft.EntityFrameworkCore.Scaffolding.Metadata.DatabaseColumn, Microsoft.EntityFrameworkCore.Relational",
+              "Table": {
+                "$ref": "55"
+              },
+              "Name": "Updated",
+              "IsNullable": false,
+              "StoreType": "datetimeoffset",
+              "DefaultValueSql": "(sysutcdatetime())",
+              "ComputedColumnSql": null,
+              "IsStored": false,
+              "Comment": null,
+              "Collation": null,
+              "ValueGenerated": null,
+              "$annotations": null
+            },
+            {
+              "$id": "69",
+              "$type": "Microsoft.EntityFrameworkCore.Scaffolding.Metadata.DatabaseColumn, Microsoft.EntityFrameworkCore.Relational",
+              "Table": {
+                "$ref": "55"
+              },
+              "Name": "UpdatedBy",
+              "IsNullable": true,
+              "StoreType": "nvarchar(100)",
+              "DefaultValueSql": null,
+              "ComputedColumnSql": null,
+              "IsStored": false,
+              "Comment": null,
+              "Collation": null,
+              "ValueGenerated": null,
+              "$annotations": null
+            },
+            {
+              "$id": "70",
+              "$type": "Microsoft.EntityFrameworkCore.Scaffolding.Metadata.DatabaseColumn, Microsoft.EntityFrameworkCore.Relational",
+              "Table": {
+                "$ref": "55"
+              },
+              "Name": "RowVersion",
+              "IsNullable": false,
+              "StoreType": "rowversion",
+              "DefaultValueSql": null,
+              "ComputedColumnSql": null,
+              "IsStored": false,
+              "Comment": null,
+              "Collation": null,
+              "ValueGenerated": 3,
+              "$annotations": {
+                "ConcurrencyToken": true
+              }
+            }
+          ]
+        },
+        "UniqueConstraints": {
+          "$type": "System.Collections.Generic.List`1[[Microsoft.EntityFrameworkCore.Scaffolding.Metadata.DatabaseUniqueConstraint, Microsoft.EntityFrameworkCore.Relational]], System.Private.CoreLib",
+          "$values": []
+        },
+        "Indexes": {
+          "$type": "System.Collections.Generic.List`1[[Microsoft.EntityFrameworkCore.Scaffolding.Metadata.DatabaseIndex, Microsoft.EntityFrameworkCore.Relational]], System.Private.CoreLib",
+          "$values": [
+            {
+              "$id": "71",
+              "$type": "Microsoft.EntityFrameworkCore.Scaffolding.Metadata.DatabaseIndex, Microsoft.EntityFrameworkCore.Relational",
+              "Table": {
+                "$ref": "55"
+              },
+              "Name": "IX_Task_AssignedId",
+              "Columns": {
+                "$type": "System.Collections.Generic.List`1[[Microsoft.EntityFrameworkCore.Scaffolding.Metadata.DatabaseColumn, Microsoft.EntityFrameworkCore.Relational]], System.Private.CoreLib",
+                "$values": [
+                  {
+                    "$ref": "65"
+                  }
+                ]
+              },
+              "IsUnique": false,
+              "Filter": null,
+              "$annotations": null
+            },
+            {
+              "$id": "72",
+              "$type": "Microsoft.EntityFrameworkCore.Scaffolding.Metadata.DatabaseIndex, Microsoft.EntityFrameworkCore.Relational",
+              "Table": {
+                "$ref": "55"
+              },
+              "Name": "IX_Task_PriorityId",
+              "Columns": {
+                "$type": "System.Collections.Generic.List`1[[Microsoft.EntityFrameworkCore.Scaffolding.Metadata.DatabaseColumn, Microsoft.EntityFrameworkCore.Relational]], System.Private.CoreLib",
+                "$values": [
+                  {
+                    "$ref": "59"
+                  }
+                ]
+              },
+              "IsUnique": false,
+              "Filter": null,
+              "$annotations": null
+            },
+            {
+              "$id": "73",
+              "$type": "Microsoft.EntityFrameworkCore.Scaffolding.Metadata.DatabaseIndex, Microsoft.EntityFrameworkCore.Relational",
+              "Table": {
+                "$ref": "55"
+              },
+              "Name": "IX_Task_StatusId",
+              "Columns": {
+                "$type": "System.Collections.Generic.List`1[[Microsoft.EntityFrameworkCore.Scaffolding.Metadata.DatabaseColumn, Microsoft.EntityFrameworkCore.Relational]], System.Private.CoreLib",
+                "$values": [
+                  {
+                    "$ref": "58"
+                  }
+                ]
+              },
+              "IsUnique": false,
+              "Filter": null,
+              "$annotations": null
+            }
+          ]
+        },
+        "ForeignKeys": {
+          "$type": "System.Collections.Generic.List`1[[Microsoft.EntityFrameworkCore.Scaffolding.Metadata.DatabaseForeignKey, Microsoft.EntityFrameworkCore.Relational]], System.Private.CoreLib",
+          "$values": [
+            {
+              "$id": "74",
+              "$type": "Microsoft.EntityFrameworkCore.Scaffolding.Metadata.DatabaseForeignKey, Microsoft.EntityFrameworkCore.Relational",
+              "Table": {
+                "$ref": "55"
+              },
+              "PrincipalTable": {
+                "$ref": "15"
+              },
+              "Columns": {
+                "$type": "System.Collections.Generic.List`1[[Microsoft.EntityFrameworkCore.Scaffolding.Metadata.DatabaseColumn, Microsoft.EntityFrameworkCore.Relational]], System.Private.CoreLib",
+                "$values": [
+                  {
+                    "$ref": "59"
+                  }
+                ]
+              },
+              "PrincipalColumns": {
+                "$type": "System.Collections.Generic.List`1[[Microsoft.EntityFrameworkCore.Scaffolding.Metadata.DatabaseColumn, Microsoft.EntityFrameworkCore.Relational]], System.Private.CoreLib",
+                "$values": [
+                  {
+                    "$ref": "17"
+                  }
+                ]
+              },
+              "Name": "FK_Task_Priority_PriorityId",
+              "OnDelete": 0,
+              "$annotations": null
+            },
+            {
+              "$id": "75",
+              "$type": "Microsoft.EntityFrameworkCore.Scaffolding.Metadata.DatabaseForeignKey, Microsoft.EntityFrameworkCore.Relational",
+              "Table": {
+                "$ref": "55"
+              },
+              "PrincipalTable": {
+                "$ref": "43"
+              },
+              "Columns": {
+                "$type": "System.Collections.Generic.List`1[[Microsoft.EntityFrameworkCore.Scaffolding.Metadata.DatabaseColumn, Microsoft.EntityFrameworkCore.Relational]], System.Private.CoreLib",
+                "$values": [
+                  {
+                    "$ref": "58"
+                  }
+                ]
+              },
+              "PrincipalColumns": {
+                "$type": "System.Collections.Generic.List`1[[Microsoft.EntityFrameworkCore.Scaffolding.Metadata.DatabaseColumn, Microsoft.EntityFrameworkCore.Relational]], System.Private.CoreLib",
+                "$values": [
+                  {
+                    "$ref": "45"
+                  }
+                ]
+              },
+              "Name": "FK_Task_Status_StatusId",
+              "OnDelete": 0,
+              "$annotations": null
+            },
+            {
+              "$id": "76",
+              "$type": "Microsoft.EntityFrameworkCore.Scaffolding.Metadata.DatabaseForeignKey, Microsoft.EntityFrameworkCore.Relational",
+              "Table": {
+                "$ref": "55"
+              },
+              "PrincipalTable": {
+                "$id": "77",
+                "$type": "Microsoft.EntityFrameworkCore.Scaffolding.Metadata.DatabaseTable, Microsoft.EntityFrameworkCore.Relational",
+                "Database": {
+                  "$ref": "1"
+                },
+                "Name": "User",
+                "Schema": "dbo",
+                "Comment": null,
+                "PrimaryKey": {
+                  "$id": "78",
+                  "$type": "Microsoft.EntityFrameworkCore.Scaffolding.Metadata.DatabasePrimaryKey, Microsoft.EntityFrameworkCore.Relational",
+                  "Table": {
+                    "$ref": "77"
+                  },
+                  "Name": "PK_User",
+                  "Columns": {
+                    "$type": "System.Collections.Generic.List`1[[Microsoft.EntityFrameworkCore.Scaffolding.Metadata.DatabaseColumn, Microsoft.EntityFrameworkCore.Relational]], System.Private.CoreLib",
+                    "$values": [
+                      {
+                        "$id": "79",
+                        "$type": "Microsoft.EntityFrameworkCore.Scaffolding.Metadata.DatabaseColumn, Microsoft.EntityFrameworkCore.Relational",
+                        "Table": {
+                          "$ref": "77"
+                        },
+                        "Name": "Id",
+                        "IsNullable": false,
+                        "StoreType": "uniqueidentifier",
+                        "DefaultValueSql": null,
+                        "ComputedColumnSql": null,
+                        "IsStored": false,
+                        "Comment": null,
+                        "Collation": null,
+                        "ValueGenerated": null,
+                        "$annotations": null
+                      }
+                    ]
+                  },
+                  "$annotations": null
+                },
+                "Columns": {
+                  "$type": "System.Collections.Generic.List`1[[Microsoft.EntityFrameworkCore.Scaffolding.Metadata.DatabaseColumn, Microsoft.EntityFrameworkCore.Relational]], System.Private.CoreLib",
+                  "$values": [
+                    {
+                      "$ref": "79"
+                    },
+                    {
+                      "$id": "80",
+                      "$type": "Microsoft.EntityFrameworkCore.Scaffolding.Metadata.DatabaseColumn, Microsoft.EntityFrameworkCore.Relational",
+                      "Table": {
+                        "$ref": "77"
+                      },
+                      "Name": "EmailAddress",
+                      "IsNullable": false,
+                      "StoreType": "nvarchar(256)",
+                      "DefaultValueSql": null,
+                      "ComputedColumnSql": null,
+                      "IsStored": false,
+                      "Comment": null,
+                      "Collation": null,
+                      "ValueGenerated": null,
+                      "$annotations": null
+                    },
+                    {
+                      "$id": "81",
+                      "$type": "Microsoft.EntityFrameworkCore.Scaffolding.Metadata.DatabaseColumn, Microsoft.EntityFrameworkCore.Relational",
+                      "Table": {
+                        "$ref": "77"
+                      },
+                      "Name": "IsEmailAddressConfirmed",
+                      "IsNullable": false,
+                      "StoreType": "bit",
+                      "DefaultValueSql": null,
+                      "ComputedColumnSql": null,
+                      "IsStored": false,
+                      "Comment": null,
+                      "Collation": null,
+                      "ValueGenerated": null,
+                      "$annotations": null
+                    },
+                    {
+                      "$id": "82",
+                      "$type": "Microsoft.EntityFrameworkCore.Scaffolding.Metadata.DatabaseColumn, Microsoft.EntityFrameworkCore.Relational",
+                      "Table": {
+                        "$ref": "77"
+                      },
+                      "Name": "DisplayName",
+                      "IsNullable": false,
+                      "StoreType": "nvarchar(256)",
+                      "DefaultValueSql": null,
+                      "ComputedColumnSql": null,
+                      "IsStored": false,
+                      "Comment": null,
+                      "Collation": null,
+                      "ValueGenerated": null,
+                      "$annotations": null
+                    },
+                    {
+                      "$id": "83",
+                      "$type": "Microsoft.EntityFrameworkCore.Scaffolding.Metadata.DatabaseColumn, Microsoft.EntityFrameworkCore.Relational",
+                      "Table": {
+                        "$ref": "77"
+                      },
+                      "Name": "PasswordHash",
+                      "IsNullable": true,
+                      "StoreType": "nvarchar(max)",
+                      "DefaultValueSql": null,
+                      "ComputedColumnSql": null,
+                      "IsStored": false,
+                      "Comment": null,
+                      "Collation": null,
+                      "ValueGenerated": null,
+                      "$annotations": null
+                    },
+                    {
+                      "$id": "84",
+                      "$type": "Microsoft.EntityFrameworkCore.Scaffolding.Metadata.DatabaseColumn, Microsoft.EntityFrameworkCore.Relational",
+                      "Table": {
+                        "$ref": "77"
+                      },
+                      "Name": "ResetHash",
+                      "IsNullable": true,
+                      "StoreType": "nvarchar(max)",
+                      "DefaultValueSql": null,
+                      "ComputedColumnSql": null,
+                      "IsStored": false,
+                      "Comment": null,
+                      "Collation": null,
+                      "ValueGenerated": null,
+                      "$annotations": null
+                    },
+                    {
+                      "$id": "85",
+                      "$type": "Microsoft.EntityFrameworkCore.Scaffolding.Metadata.DatabaseColumn, Microsoft.EntityFrameworkCore.Relational",
+                      "Table": {
+                        "$ref": "77"
+                      },
+                      "Name": "InviteHash",
+                      "IsNullable": true,
+                      "StoreType": "nvarchar(max)",
+                      "DefaultValueSql": null,
+                      "ComputedColumnSql": null,
+                      "IsStored": false,
+                      "Comment": null,
+                      "Collation": null,
+                      "ValueGenerated": null,
+                      "$annotations": null
+                    },
+                    {
+                      "$id": "86",
+                      "$type": "Microsoft.EntityFrameworkCore.Scaffolding.Metadata.DatabaseColumn, Microsoft.EntityFrameworkCore.Relational",
+                      "Table": {
+                        "$ref": "77"
+                      },
+                      "Name": "AccessFailedCount",
+                      "IsNullable": false,
+                      "StoreType": "int",
+                      "DefaultValueSql": null,
+                      "ComputedColumnSql": null,
+                      "IsStored": false,
+                      "Comment": null,
+                      "Collation": null,
+                      "ValueGenerated": null,
+                      "$annotations": null
+                    },
+                    {
+                      "$id": "87",
+                      "$type": "Microsoft.EntityFrameworkCore.Scaffolding.Metadata.DatabaseColumn, Microsoft.EntityFrameworkCore.Relational",
+                      "Table": {
+                        "$ref": "77"
+                      },
+                      "Name": "LockoutEnabled",
+                      "IsNullable": false,
+                      "StoreType": "bit",
+                      "DefaultValueSql": null,
+                      "ComputedColumnSql": null,
+                      "IsStored": false,
+                      "Comment": null,
+                      "Collation": null,
+                      "ValueGenerated": null,
+                      "$annotations": null
+                    },
+                    {
+                      "$id": "88",
+                      "$type": "Microsoft.EntityFrameworkCore.Scaffolding.Metadata.DatabaseColumn, Microsoft.EntityFrameworkCore.Relational",
+                      "Table": {
+                        "$ref": "77"
+                      },
+                      "Name": "LockoutEnd",
+                      "IsNullable": true,
+                      "StoreType": "datetimeoffset",
+                      "DefaultValueSql": null,
+                      "ComputedColumnSql": null,
+                      "IsStored": false,
+                      "Comment": null,
+                      "Collation": null,
+                      "ValueGenerated": null,
+                      "$annotations": null
+                    },
+                    {
+                      "$id": "89",
+                      "$type": "Microsoft.EntityFrameworkCore.Scaffolding.Metadata.DatabaseColumn, Microsoft.EntityFrameworkCore.Relational",
+                      "Table": {
+                        "$ref": "77"
+                      },
+                      "Name": "LastLogin",
+                      "IsNullable": true,
+                      "StoreType": "datetimeoffset",
+                      "DefaultValueSql": null,
+                      "ComputedColumnSql": null,
+                      "IsStored": false,
+                      "Comment": null,
+                      "Collation": null,
+                      "ValueGenerated": null,
+                      "$annotations": null
+                    },
+                    {
+                      "$id": "90",
+                      "$type": "Microsoft.EntityFrameworkCore.Scaffolding.Metadata.DatabaseColumn, Microsoft.EntityFrameworkCore.Relational",
+                      "Table": {
+                        "$ref": "77"
+                      },
+                      "Name": "IsDeleted",
+                      "IsNullable": false,
+                      "StoreType": "bit",
+                      "DefaultValueSql": null,
+                      "ComputedColumnSql": null,
+                      "IsStored": false,
+                      "Comment": null,
+                      "Collation": null,
+                      "ValueGenerated": null,
+                      "$annotations": null
+                    },
+                    {
+                      "$id": "91",
+                      "$type": "Microsoft.EntityFrameworkCore.Scaffolding.Metadata.DatabaseColumn, Microsoft.EntityFrameworkCore.Relational",
+                      "Table": {
+                        "$ref": "77"
+                      },
+                      "Name": "Created",
+                      "IsNullable": false,
+                      "StoreType": "datetimeoffset",
+                      "DefaultValueSql": "(sysutcdatetime())",
+                      "ComputedColumnSql": null,
+                      "IsStored": false,
+                      "Comment": null,
+                      "Collation": null,
+                      "ValueGenerated": null,
+                      "$annotations": null
+                    },
+                    {
+                      "$id": "92",
+                      "$type": "Microsoft.EntityFrameworkCore.Scaffolding.Metadata.DatabaseColumn, Microsoft.EntityFrameworkCore.Relational",
+                      "Table": {
+                        "$ref": "77"
+                      },
+                      "Name": "CreatedBy",
+                      "IsNullable": true,
+                      "StoreType": "nvarchar(100)",
+                      "DefaultValueSql": null,
+                      "ComputedColumnSql": null,
+                      "IsStored": false,
+                      "Comment": null,
+                      "Collation": null,
+                      "ValueGenerated": null,
+                      "$annotations": null
+                    },
+                    {
+                      "$id": "93",
+                      "$type": "Microsoft.EntityFrameworkCore.Scaffolding.Metadata.DatabaseColumn, Microsoft.EntityFrameworkCore.Relational",
+                      "Table": {
+                        "$ref": "77"
+                      },
+                      "Name": "Updated",
+                      "IsNullable": false,
+                      "StoreType": "datetimeoffset",
+                      "DefaultValueSql": "(sysutcdatetime())",
+                      "ComputedColumnSql": null,
+                      "IsStored": false,
+                      "Comment": null,
+                      "Collation": null,
+                      "ValueGenerated": null,
+                      "$annotations": null
+                    },
+                    {
+                      "$id": "94",
+                      "$type": "Microsoft.EntityFrameworkCore.Scaffolding.Metadata.DatabaseColumn, Microsoft.EntityFrameworkCore.Relational",
+                      "Table": {
+                        "$ref": "77"
+                      },
+                      "Name": "UpdatedBy",
+                      "IsNullable": true,
+                      "StoreType": "nvarchar(100)",
+                      "DefaultValueSql": null,
+                      "ComputedColumnSql": null,
+                      "IsStored": false,
+                      "Comment": null,
+                      "Collation": null,
+                      "ValueGenerated": null,
+                      "$annotations": null
+                    },
+                    {
+                      "$id": "95",
+                      "$type": "Microsoft.EntityFrameworkCore.Scaffolding.Metadata.DatabaseColumn, Microsoft.EntityFrameworkCore.Relational",
+                      "Table": {
+                        "$ref": "77"
+                      },
+                      "Name": "RowVersion",
+                      "IsNullable": false,
+                      "StoreType": "rowversion",
+                      "DefaultValueSql": null,
+                      "ComputedColumnSql": null,
+                      "IsStored": false,
+                      "Comment": null,
+                      "Collation": null,
+                      "ValueGenerated": 3,
+                      "$annotations": {
+                        "ConcurrencyToken": true
+                      }
+                    }
+                  ]
+                },
+                "UniqueConstraints": {
+                  "$type": "System.Collections.Generic.List`1[[Microsoft.EntityFrameworkCore.Scaffolding.Metadata.DatabaseUniqueConstraint, Microsoft.EntityFrameworkCore.Relational]], System.Private.CoreLib",
+                  "$values": []
+                },
+                "Indexes": {
+                  "$type": "System.Collections.Generic.List`1[[Microsoft.EntityFrameworkCore.Scaffolding.Metadata.DatabaseIndex, Microsoft.EntityFrameworkCore.Relational]], System.Private.CoreLib",
+                  "$values": [
+                    {
+                      "$id": "96",
+                      "$type": "Microsoft.EntityFrameworkCore.Scaffolding.Metadata.DatabaseIndex, Microsoft.EntityFrameworkCore.Relational",
+                      "Table": {
+                        "$ref": "77"
+                      },
+                      "Name": "UX_User_EmailAddress",
+                      "Columns": {
+                        "$type": "System.Collections.Generic.List`1[[Microsoft.EntityFrameworkCore.Scaffolding.Metadata.DatabaseColumn, Microsoft.EntityFrameworkCore.Relational]], System.Private.CoreLib",
+                        "$values": [
+                          {
+                            "$ref": "80"
+                          }
+                        ]
+                      },
+                      "IsUnique": true,
+                      "Filter": null,
+                      "$annotations": null
+                    }
+                  ]
+                },
+                "ForeignKeys": {
+                  "$type": "System.Collections.Generic.List`1[[Microsoft.EntityFrameworkCore.Scaffolding.Metadata.DatabaseForeignKey, Microsoft.EntityFrameworkCore.Relational]], System.Private.CoreLib",
+                  "$values": []
+                },
+                "$annotations": null
+              },
+              "Columns": {
+                "$type": "System.Collections.Generic.List`1[[Microsoft.EntityFrameworkCore.Scaffolding.Metadata.DatabaseColumn, Microsoft.EntityFrameworkCore.Relational]], System.Private.CoreLib",
+                "$values": [
+                  {
+                    "$ref": "65"
+                  }
+                ]
+              },
+              "PrincipalColumns": {
+                "$type": "System.Collections.Generic.List`1[[Microsoft.EntityFrameworkCore.Scaffolding.Metadata.DatabaseColumn, Microsoft.EntityFrameworkCore.Relational]], System.Private.CoreLib",
+                "$values": [
+                  {
+                    "$ref": "79"
+                  }
+                ]
+              },
+              "Name": "FK_Task_User_AssignedId",
+              "OnDelete": 0,
+              "$annotations": null
+            }
+          ]
+        },
+        "$annotations": null
+      },
+      {
+        "$id": "97",
+        "$type": "Microsoft.EntityFrameworkCore.Scaffolding.Metadata.DatabaseTable, Microsoft.EntityFrameworkCore.Relational",
+        "Database": {
+          "$ref": "1"
+        },
+        "Name": "TaskExtended",
+        "Schema": "dbo",
+        "Comment": null,
+        "PrimaryKey": {
+          "$id": "98",
+          "$type": "Microsoft.EntityFrameworkCore.Scaffolding.Metadata.DatabasePrimaryKey, Microsoft.EntityFrameworkCore.Relational",
+          "Table": {
+            "$ref": "97"
+          },
+          "Name": "PK_TaskExtended",
+          "Columns": {
+            "$type": "System.Collections.Generic.List`1[[Microsoft.EntityFrameworkCore.Scaffolding.Metadata.DatabaseColumn, Microsoft.EntityFrameworkCore.Relational]], System.Private.CoreLib",
+            "$values": [
+              {
+                "$id": "99",
+                "$type": "Microsoft.EntityFrameworkCore.Scaffolding.Metadata.DatabaseColumn, Microsoft.EntityFrameworkCore.Relational",
+                "Table": {
+                  "$ref": "97"
+                },
+                "Name": "TaskId",
+                "IsNullable": false,
+                "StoreType": "uniqueidentifier",
+                "DefaultValueSql": null,
+                "ComputedColumnSql": null,
+                "IsStored": false,
+                "Comment": null,
+                "Collation": null,
+                "ValueGenerated": null,
+                "$annotations": null
+              }
+            ]
+          },
+          "$annotations": null
+        },
+        "Columns": {
+          "$type": "System.Collections.Generic.List`1[[Microsoft.EntityFrameworkCore.Scaffolding.Metadata.DatabaseColumn, Microsoft.EntityFrameworkCore.Relational]], System.Private.CoreLib",
+          "$values": [
+            {
+              "$ref": "99"
+            },
+            {
+              "$id": "100",
+              "$type": "Microsoft.EntityFrameworkCore.Scaffolding.Metadata.DatabaseColumn, Microsoft.EntityFrameworkCore.Relational",
+              "Table": {
+                "$ref": "97"
+              },
+              "Name": "UserAgent",
+              "IsNullable": true,
+              "StoreType": "nvarchar(max)",
+              "DefaultValueSql": null,
+              "ComputedColumnSql": null,
+              "IsStored": false,
+              "Comment": null,
+              "Collation": null,
+              "ValueGenerated": null,
+              "$annotations": null
+            },
+            {
+              "$id": "101",
+              "$type": "Microsoft.EntityFrameworkCore.Scaffolding.Metadata.DatabaseColumn, Microsoft.EntityFrameworkCore.Relational",
+              "Table": {
+                "$ref": "97"
+              },
+              "Name": "Browser",
+              "IsNullable": true,
+              "StoreType": "nvarchar(256)",
+              "DefaultValueSql": null,
+              "ComputedColumnSql": null,
+              "IsStored": false,
+              "Comment": null,
+              "Collation": null,
+              "ValueGenerated": null,
+              "$annotations": null
+            },
+            {
+              "$id": "102",
+              "$type": "Microsoft.EntityFrameworkCore.Scaffolding.Metadata.DatabaseColumn, Microsoft.EntityFrameworkCore.Relational",
+              "Table": {
+                "$ref": "97"
+              },
+              "Name": "OperatingSystem",
+              "IsNullable": true,
+              "StoreType": "nvarchar(256)",
+              "DefaultValueSql": null,
+              "ComputedColumnSql": null,
+              "IsStored": false,
+              "Comment": null,
+              "Collation": null,
+              "ValueGenerated": null,
+              "$annotations": null
+            },
+            {
+              "$id": "103",
+              "$type": "Microsoft.EntityFrameworkCore.Scaffolding.Metadata.DatabaseColumn, Microsoft.EntityFrameworkCore.Relational",
+              "Table": {
+                "$ref": "97"
+              },
+              "Name": "Created",
+              "IsNullable": false,
+              "StoreType": "datetimeoffset",
+              "DefaultValueSql": "(sysutcdatetime())",
+              "ComputedColumnSql": null,
+              "IsStored": false,
+              "Comment": null,
+              "Collation": null,
+              "ValueGenerated": null,
+              "$annotations": null
+            },
+            {
+              "$id": "104",
+              "$type": "Microsoft.EntityFrameworkCore.Scaffolding.Metadata.DatabaseColumn, Microsoft.EntityFrameworkCore.Relational",
+              "Table": {
+                "$ref": "97"
+              },
+              "Name": "CreatedBy",
+              "IsNullable": true,
+              "StoreType": "nvarchar(100)",
+              "DefaultValueSql": null,
+              "ComputedColumnSql": null,
+              "IsStored": false,
+              "Comment": null,
+              "Collation": null,
+              "ValueGenerated": null,
+              "$annotations": null
+            },
+            {
+              "$id": "105",
+              "$type": "Microsoft.EntityFrameworkCore.Scaffolding.Metadata.DatabaseColumn, Microsoft.EntityFrameworkCore.Relational",
+              "Table": {
+                "$ref": "97"
+              },
+              "Name": "Updated",
+              "IsNullable": false,
+              "StoreType": "datetimeoffset",
+              "DefaultValueSql": "(sysutcdatetime())",
+              "ComputedColumnSql": null,
+              "IsStored": false,
+              "Comment": null,
+              "Collation": null,
+              "ValueGenerated": null,
+              "$annotations": null
+            },
+            {
+              "$id": "106",
+              "$type": "Microsoft.EntityFrameworkCore.Scaffolding.Metadata.DatabaseColumn, Microsoft.EntityFrameworkCore.Relational",
+              "Table": {
+                "$ref": "97"
+              },
+              "Name": "UpdatedBy",
+              "IsNullable": true,
+              "StoreType": "nvarchar(100)",
+              "DefaultValueSql": null,
+              "ComputedColumnSql": null,
+              "IsStored": false,
+              "Comment": null,
+              "Collation": null,
+              "ValueGenerated": null,
+              "$annotations": null
+            },
+            {
+              "$id": "107",
+              "$type": "Microsoft.EntityFrameworkCore.Scaffolding.Metadata.DatabaseColumn, Microsoft.EntityFrameworkCore.Relational",
+              "Table": {
+                "$ref": "97"
+              },
+              "Name": "RowVersion",
+              "IsNullable": false,
+              "StoreType": "rowversion",
+              "DefaultValueSql": null,
+              "ComputedColumnSql": null,
+              "IsStored": false,
+              "Comment": null,
+              "Collation": null,
+              "ValueGenerated": 3,
+              "$annotations": {
+                "ConcurrencyToken": true
+              }
+            }
+          ]
+        },
+        "UniqueConstraints": {
+          "$type": "System.Collections.Generic.List`1[[Microsoft.EntityFrameworkCore.Scaffolding.Metadata.DatabaseUniqueConstraint, Microsoft.EntityFrameworkCore.Relational]], System.Private.CoreLib",
+          "$values": []
+        },
+        "Indexes": {
+          "$type": "System.Collections.Generic.List`1[[Microsoft.EntityFrameworkCore.Scaffolding.Metadata.DatabaseIndex, Microsoft.EntityFrameworkCore.Relational]], System.Private.CoreLib",
+          "$values": []
+        },
+        "ForeignKeys": {
+          "$type": "System.Collections.Generic.List`1[[Microsoft.EntityFrameworkCore.Scaffolding.Metadata.DatabaseForeignKey, Microsoft.EntityFrameworkCore.Relational]], System.Private.CoreLib",
+          "$values": [
+            {
+              "$id": "108",
+              "$type": "Microsoft.EntityFrameworkCore.Scaffolding.Metadata.DatabaseForeignKey, Microsoft.EntityFrameworkCore.Relational",
+              "Table": {
+                "$ref": "97"
+              },
+              "PrincipalTable": {
+                "$ref": "55"
+              },
+              "Columns": {
+                "$type": "System.Collections.Generic.List`1[[Microsoft.EntityFrameworkCore.Scaffolding.Metadata.DatabaseColumn, Microsoft.EntityFrameworkCore.Relational]], System.Private.CoreLib",
+                "$values": [
+                  {
+                    "$ref": "99"
+                  }
+                ]
+              },
+              "PrincipalColumns": {
+                "$type": "System.Collections.Generic.List`1[[Microsoft.EntityFrameworkCore.Scaffolding.Metadata.DatabaseColumn, Microsoft.EntityFrameworkCore.Relational]], System.Private.CoreLib",
+                "$values": [
+                  {
+                    "$ref": "57"
+                  }
+                ]
+              },
+              "Name": "FK_TaskExtended_Task_TaskId",
+              "OnDelete": 0,
+              "$annotations": null
+            }
+          ]
+        },
+        "$annotations": null
+      },
+      {
+        "$ref": "77"
+      },
+      {
+        "$id": "109",
+        "$type": "Microsoft.EntityFrameworkCore.Scaffolding.Metadata.DatabaseTable, Microsoft.EntityFrameworkCore.Relational",
+        "Database": {
+          "$ref": "1"
+        },
+        "Name": "UserLogin",
+        "Schema": "dbo",
+        "Comment": null,
+        "PrimaryKey": {
+          "$id": "110",
+          "$type": "Microsoft.EntityFrameworkCore.Scaffolding.Metadata.DatabasePrimaryKey, Microsoft.EntityFrameworkCore.Relational",
+          "Table": {
+            "$ref": "109"
+          },
+          "Name": "PK_UserLogin",
+          "Columns": {
+            "$type": "System.Collections.Generic.List`1[[Microsoft.EntityFrameworkCore.Scaffolding.Metadata.DatabaseColumn, Microsoft.EntityFrameworkCore.Relational]], System.Private.CoreLib",
+            "$values": [
+              {
+                "$id": "111",
+                "$type": "Microsoft.EntityFrameworkCore.Scaffolding.Metadata.DatabaseColumn, Microsoft.EntityFrameworkCore.Relational",
+                "Table": {
+                  "$ref": "109"
+                },
+                "Name": "Id",
+                "IsNullable": false,
+                "StoreType": "uniqueidentifier",
+                "DefaultValueSql": null,
+                "ComputedColumnSql": null,
+                "IsStored": false,
+                "Comment": null,
+                "Collation": null,
+                "ValueGenerated": null,
+                "$annotations": null
+              }
+            ]
+          },
+          "$annotations": null
+        },
+        "Columns": {
+          "$type": "System.Collections.Generic.List`1[[Microsoft.EntityFrameworkCore.Scaffolding.Metadata.DatabaseColumn, Microsoft.EntityFrameworkCore.Relational]], System.Private.CoreLib",
+          "$values": [
+            {
+              "$ref": "111"
+            },
+            {
+              "$id": "112",
+              "$type": "Microsoft.EntityFrameworkCore.Scaffolding.Metadata.DatabaseColumn, Microsoft.EntityFrameworkCore.Relational",
+              "Table": {
+                "$ref": "109"
+              },
+              "Name": "EmailAddress",
+              "IsNullable": false,
+              "StoreType": "nvarchar(256)",
+              "DefaultValueSql": null,
+              "ComputedColumnSql": null,
+              "IsStored": false,
+              "Comment": null,
+              "Collation": null,
+              "ValueGenerated": null,
+              "$annotations": null
+            },
+            {
+              "$id": "113",
+              "$type": "Microsoft.EntityFrameworkCore.Scaffolding.Metadata.DatabaseColumn, Microsoft.EntityFrameworkCore.Relational",
+              "Table": {
+                "$ref": "109"
+              },
+              "Name": "UserId",
+              "IsNullable": true,
+              "StoreType": "uniqueidentifier",
+              "DefaultValueSql": null,
+              "ComputedColumnSql": null,
+              "IsStored": false,
+              "Comment": null,
+              "Collation": null,
+              "ValueGenerated": null,
+              "$annotations": null
+            },
+            {
+              "$id": "114",
+              "$type": "Microsoft.EntityFrameworkCore.Scaffolding.Metadata.DatabaseColumn, Microsoft.EntityFrameworkCore.Relational",
+              "Table": {
+                "$ref": "109"
+              },
+              "Name": "UserAgent",
+              "IsNullable": true,
+              "StoreType": "nvarchar(max)",
+              "DefaultValueSql": null,
+              "ComputedColumnSql": null,
+              "IsStored": false,
+              "Comment": null,
+              "Collation": null,
+              "ValueGenerated": null,
+              "$annotations": null
+            },
+            {
+              "$id": "115",
+              "$type": "Microsoft.EntityFrameworkCore.Scaffolding.Metadata.DatabaseColumn, Microsoft.EntityFrameworkCore.Relational",
+              "Table": {
+                "$ref": "109"
+              },
+              "Name": "Browser",
+              "IsNullable": true,
+              "StoreType": "nvarchar(256)",
+              "DefaultValueSql": null,
+              "ComputedColumnSql": null,
+              "IsStored": false,
+              "Comment": null,
+              "Collation": null,
+              "ValueGenerated": null,
+              "$annotations": null
+            },
+            {
+              "$id": "116",
+              "$type": "Microsoft.EntityFrameworkCore.Scaffolding.Metadata.DatabaseColumn, Microsoft.EntityFrameworkCore.Relational",
+              "Table": {
+                "$ref": "109"
+              },
+              "Name": "OperatingSystem",
+              "IsNullable": true,
+              "StoreType": "nvarchar(256)",
+              "DefaultValueSql": null,
+              "ComputedColumnSql": null,
+              "IsStored": false,
+              "Comment": null,
+              "Collation": null,
+              "ValueGenerated": null,
+              "$annotations": null
+            },
+            {
+              "$id": "117",
+              "$type": "Microsoft.EntityFrameworkCore.Scaffolding.Metadata.DatabaseColumn, Microsoft.EntityFrameworkCore.Relational",
+              "Table": {
+                "$ref": "109"
+              },
+              "Name": "DeviceFamily",
+              "IsNullable": true,
+              "StoreType": "nvarchar(256)",
+              "DefaultValueSql": null,
+              "ComputedColumnSql": null,
+              "IsStored": false,
+              "Comment": null,
+              "Collation": null,
+              "ValueGenerated": null,
+              "$annotations": null
+            },
+            {
+              "$id": "118",
+              "$type": "Microsoft.EntityFrameworkCore.Scaffolding.Metadata.DatabaseColumn, Microsoft.EntityFrameworkCore.Relational",
+              "Table": {
+                "$ref": "109"
+              },
+              "Name": "DeviceBrand",
+              "IsNullable": true,
+              "StoreType": "nvarchar(256)",
+              "DefaultValueSql": null,
+              "ComputedColumnSql": null,
+              "IsStored": false,
+              "Comment": null,
+              "Collation": null,
+              "ValueGenerated": null,
+              "$annotations": null
+            },
+            {
+              "$id": "119",
+              "$type": "Microsoft.EntityFrameworkCore.Scaffolding.Metadata.DatabaseColumn, Microsoft.EntityFrameworkCore.Relational",
+              "Table": {
+                "$ref": "109"
+              },
+              "Name": "DeviceModel",
+              "IsNullable": true,
+              "StoreType": "nvarchar(256)",
+              "DefaultValueSql": null,
+              "ComputedColumnSql": null,
+              "IsStored": false,
+              "Comment": null,
+              "Collation": null,
+              "ValueGenerated": null,
+              "$annotations": null
+            },
+            {
+              "$id": "120",
+              "$type": "Microsoft.EntityFrameworkCore.Scaffolding.Metadata.DatabaseColumn, Microsoft.EntityFrameworkCore.Relational",
+              "Table": {
+                "$ref": "109"
+              },
+              "Name": "IpAddress",
+              "IsNullable": true,
+              "StoreType": "nvarchar(50)",
+              "DefaultValueSql": null,
+              "ComputedColumnSql": null,
+              "IsStored": false,
+              "Comment": null,
+              "Collation": null,
+              "ValueGenerated": null,
+              "$annotations": null
+            },
+            {
+              "$id": "121",
+              "$type": "Microsoft.EntityFrameworkCore.Scaffolding.Metadata.DatabaseColumn, Microsoft.EntityFrameworkCore.Relational",
+              "Table": {
+                "$ref": "109"
+              },
+              "Name": "IsSuccessful",
+              "IsNullable": false,
+              "StoreType": "bit",
+              "DefaultValueSql": null,
+              "ComputedColumnSql": null,
+              "IsStored": false,
+              "Comment": null,
+              "Collation": null,
+              "ValueGenerated": null,
+              "$annotations": null
+            },
+            {
+              "$id": "122",
+              "$type": "Microsoft.EntityFrameworkCore.Scaffolding.Metadata.DatabaseColumn, Microsoft.EntityFrameworkCore.Relational",
+              "Table": {
+                "$ref": "109"
+              },
+              "Name": "FailureMessage",
+              "IsNullable": true,
+              "StoreType": "nvarchar(256)",
+              "DefaultValueSql": null,
+              "ComputedColumnSql": null,
+              "IsStored": false,
+              "Comment": null,
+              "Collation": null,
+              "ValueGenerated": null,
+              "$annotations": null
+            },
+            {
+              "$id": "123",
+              "$type": "Microsoft.EntityFrameworkCore.Scaffolding.Metadata.DatabaseColumn, Microsoft.EntityFrameworkCore.Relational",
+              "Table": {
+                "$ref": "109"
+              },
+              "Name": "Created",
+              "IsNullable": false,
+              "StoreType": "datetimeoffset",
+              "DefaultValueSql": "(sysutcdatetime())",
+              "ComputedColumnSql": null,
+              "IsStored": false,
+              "Comment": null,
+              "Collation": null,
+              "ValueGenerated": null,
+              "$annotations": null
+            },
+            {
+              "$id": "124",
+              "$type": "Microsoft.EntityFrameworkCore.Scaffolding.Metadata.DatabaseColumn, Microsoft.EntityFrameworkCore.Relational",
+              "Table": {
+                "$ref": "109"
+              },
+              "Name": "CreatedBy",
+              "IsNullable": true,
+              "StoreType": "nvarchar(100)",
+              "DefaultValueSql": null,
+              "ComputedColumnSql": null,
+              "IsStored": false,
+              "Comment": null,
+              "Collation": null,
+              "ValueGenerated": null,
+              "$annotations": null
+            },
+            {
+              "$id": "125",
+              "$type": "Microsoft.EntityFrameworkCore.Scaffolding.Metadata.DatabaseColumn, Microsoft.EntityFrameworkCore.Relational",
+              "Table": {
+                "$ref": "109"
+              },
+              "Name": "Updated",
+              "IsNullable": false,
+              "StoreType": "datetimeoffset",
+              "DefaultValueSql": "(sysutcdatetime())",
+              "ComputedColumnSql": null,
+              "IsStored": false,
+              "Comment": null,
+              "Collation": null,
+              "ValueGenerated": null,
+              "$annotations": null
+            },
+            {
+              "$id": "126",
+              "$type": "Microsoft.EntityFrameworkCore.Scaffolding.Metadata.DatabaseColumn, Microsoft.EntityFrameworkCore.Relational",
+              "Table": {
+                "$ref": "109"
+              },
+              "Name": "UpdatedBy",
+              "IsNullable": true,
+              "StoreType": "nvarchar(100)",
+              "DefaultValueSql": null,
+              "ComputedColumnSql": null,
+              "IsStored": false,
+              "Comment": null,
+              "Collation": null,
+              "ValueGenerated": null,
+              "$annotations": null
+            },
+            {
+              "$id": "127",
+              "$type": "Microsoft.EntityFrameworkCore.Scaffolding.Metadata.DatabaseColumn, Microsoft.EntityFrameworkCore.Relational",
+              "Table": {
+                "$ref": "109"
+              },
+              "Name": "RowVersion",
+              "IsNullable": false,
+              "StoreType": "rowversion",
+              "DefaultValueSql": null,
+              "ComputedColumnSql": null,
+              "IsStored": false,
+              "Comment": null,
+              "Collation": null,
+              "ValueGenerated": 3,
+              "$annotations": {
+                "ConcurrencyToken": true
+              }
+            }
+          ]
+        },
+        "UniqueConstraints": {
+          "$type": "System.Collections.Generic.List`1[[Microsoft.EntityFrameworkCore.Scaffolding.Metadata.DatabaseUniqueConstraint, Microsoft.EntityFrameworkCore.Relational]], System.Private.CoreLib",
+          "$values": []
+        },
+        "Indexes": {
+          "$type": "System.Collections.Generic.List`1[[Microsoft.EntityFrameworkCore.Scaffolding.Metadata.DatabaseIndex, Microsoft.EntityFrameworkCore.Relational]], System.Private.CoreLib",
+          "$values": [
+            {
+              "$id": "128",
+              "$type": "Microsoft.EntityFrameworkCore.Scaffolding.Metadata.DatabaseIndex, Microsoft.EntityFrameworkCore.Relational",
+              "Table": {
+                "$ref": "109"
+              },
+              "Name": "IX_UserLogin_EmailAddress",
+              "Columns": {
+                "$type": "System.Collections.Generic.List`1[[Microsoft.EntityFrameworkCore.Scaffolding.Metadata.DatabaseColumn, Microsoft.EntityFrameworkCore.Relational]], System.Private.CoreLib",
+                "$values": [
+                  {
+                    "$ref": "112"
+                  }
+                ]
+              },
+              "IsUnique": false,
+              "Filter": null,
+              "$annotations": null
+            },
+            {
+              "$id": "129",
+              "$type": "Microsoft.EntityFrameworkCore.Scaffolding.Metadata.DatabaseIndex, Microsoft.EntityFrameworkCore.Relational",
+              "Table": {
+                "$ref": "109"
+              },
+              "Name": "IX_UserLogin_UserId",
+              "Columns": {
+                "$type": "System.Collections.Generic.List`1[[Microsoft.EntityFrameworkCore.Scaffolding.Metadata.DatabaseColumn, Microsoft.EntityFrameworkCore.Relational]], System.Private.CoreLib",
+                "$values": [
+                  {
+                    "$ref": "113"
+                  }
+                ]
+              },
+              "IsUnique": false,
+              "Filter": null,
+              "$annotations": null
+            }
+          ]
+        },
+        "ForeignKeys": {
+          "$type": "System.Collections.Generic.List`1[[Microsoft.EntityFrameworkCore.Scaffolding.Metadata.DatabaseForeignKey, Microsoft.EntityFrameworkCore.Relational]], System.Private.CoreLib",
+          "$values": [
+            {
+              "$id": "130",
+              "$type": "Microsoft.EntityFrameworkCore.Scaffolding.Metadata.DatabaseForeignKey, Microsoft.EntityFrameworkCore.Relational",
+              "Table": {
+                "$ref": "109"
+              },
+              "PrincipalTable": {
+                "$ref": "77"
+              },
+              "Columns": {
+                "$type": "System.Collections.Generic.List`1[[Microsoft.EntityFrameworkCore.Scaffolding.Metadata.DatabaseColumn, Microsoft.EntityFrameworkCore.Relational]], System.Private.CoreLib",
+                "$values": [
+                  {
+                    "$ref": "113"
+                  }
+                ]
+              },
+              "PrincipalColumns": {
+                "$type": "System.Collections.Generic.List`1[[Microsoft.EntityFrameworkCore.Scaffolding.Metadata.DatabaseColumn, Microsoft.EntityFrameworkCore.Relational]], System.Private.CoreLib",
+                "$values": [
+                  {
+                    "$ref": "79"
+                  }
+                ]
+              },
+              "Name": "FK_UserLogin_User_UserId",
+              "OnDelete": 0,
+              "$annotations": null
+            }
+          ]
+        },
+        "$annotations": null
+      },
+      {
+        "$id": "131",
+        "$type": "Microsoft.EntityFrameworkCore.Scaffolding.Metadata.DatabaseTable, Microsoft.EntityFrameworkCore.Relational",
+        "Database": {
+          "$ref": "1"
+        },
+        "Name": "UserRole",
+        "Schema": "dbo",
+        "Comment": null,
+        "PrimaryKey": {
+          "$id": "132",
+          "$type": "Microsoft.EntityFrameworkCore.Scaffolding.Metadata.DatabasePrimaryKey, Microsoft.EntityFrameworkCore.Relational",
+          "Table": {
+            "$ref": "131"
+          },
+          "Name": "PK_UserRole",
+          "Columns": {
+            "$type": "System.Collections.Generic.List`1[[Microsoft.EntityFrameworkCore.Scaffolding.Metadata.DatabaseColumn, Microsoft.EntityFrameworkCore.Relational]], System.Private.CoreLib",
+            "$values": [
+              {
+                "$id": "133",
+                "$type": "Microsoft.EntityFrameworkCore.Scaffolding.Metadata.DatabaseColumn, Microsoft.EntityFrameworkCore.Relational",
+                "Table": {
+                  "$ref": "131"
+                },
+                "Name": "UserId",
+                "IsNullable": false,
+                "StoreType": "uniqueidentifier",
+                "DefaultValueSql": null,
+                "ComputedColumnSql": null,
+                "IsStored": false,
+                "Comment": null,
+                "Collation": null,
+                "ValueGenerated": null,
+                "$annotations": null
+              },
+              {
+                "$id": "134",
+                "$type": "Microsoft.EntityFrameworkCore.Scaffolding.Metadata.DatabaseColumn, Microsoft.EntityFrameworkCore.Relational",
+                "Table": {
+                  "$ref": "131"
+                },
+                "Name": "RoleId",
+                "IsNullable": false,
+                "StoreType": "uniqueidentifier",
+                "DefaultValueSql": null,
+                "ComputedColumnSql": null,
+                "IsStored": false,
+                "Comment": null,
+                "Collation": null,
+                "ValueGenerated": null,
+                "$annotations": null
+              }
+            ]
+          },
+          "$annotations": null
+        },
+        "Columns": {
+          "$type": "System.Collections.Generic.List`1[[Microsoft.EntityFrameworkCore.Scaffolding.Metadata.DatabaseColumn, Microsoft.EntityFrameworkCore.Relational]], System.Private.CoreLib",
+          "$values": [
+            {
+              "$ref": "133"
+            },
+            {
+              "$ref": "134"
+            }
+          ]
+        },
+        "UniqueConstraints": {
+          "$type": "System.Collections.Generic.List`1[[Microsoft.EntityFrameworkCore.Scaffolding.Metadata.DatabaseUniqueConstraint, Microsoft.EntityFrameworkCore.Relational]], System.Private.CoreLib",
+          "$values": []
+        },
+        "Indexes": {
+          "$type": "System.Collections.Generic.List`1[[Microsoft.EntityFrameworkCore.Scaffolding.Metadata.DatabaseIndex, Microsoft.EntityFrameworkCore.Relational]], System.Private.CoreLib",
+          "$values": []
+        },
+        "ForeignKeys": {
+          "$type": "System.Collections.Generic.List`1[[Microsoft.EntityFrameworkCore.Scaffolding.Metadata.DatabaseForeignKey, Microsoft.EntityFrameworkCore.Relational]], System.Private.CoreLib",
+          "$values": [
+            {
+              "$id": "135",
+              "$type": "Microsoft.EntityFrameworkCore.Scaffolding.Metadata.DatabaseForeignKey, Microsoft.EntityFrameworkCore.Relational",
+              "Table": {
+                "$ref": "131"
+              },
+              "PrincipalTable": {
+                "$ref": "27"
+              },
+              "Columns": {
+                "$type": "System.Collections.Generic.List`1[[Microsoft.EntityFrameworkCore.Scaffolding.Metadata.DatabaseColumn, Microsoft.EntityFrameworkCore.Relational]], System.Private.CoreLib",
+                "$values": [
+                  {
+                    "$ref": "134"
+                  }
+                ]
+              },
+              "PrincipalColumns": {
+                "$type": "System.Collections.Generic.List`1[[Microsoft.EntityFrameworkCore.Scaffolding.Metadata.DatabaseColumn, Microsoft.EntityFrameworkCore.Relational]], System.Private.CoreLib",
+                "$values": [
+                  {
+                    "$ref": "29"
+                  }
+                ]
+              },
+              "Name": "FK_UserRole_Role_RoleId",
+              "OnDelete": 0,
+              "$annotations": null
+            },
+            {
+              "$id": "136",
+              "$type": "Microsoft.EntityFrameworkCore.Scaffolding.Metadata.DatabaseForeignKey, Microsoft.EntityFrameworkCore.Relational",
+              "Table": {
+                "$ref": "131"
+              },
+              "PrincipalTable": {
+                "$ref": "77"
+              },
+              "Columns": {
+                "$type": "System.Collections.Generic.List`1[[Microsoft.EntityFrameworkCore.Scaffolding.Metadata.DatabaseColumn, Microsoft.EntityFrameworkCore.Relational]], System.Private.CoreLib",
+                "$values": [
+                  {
+                    "$ref": "133"
+                  }
+                ]
+              },
+              "PrincipalColumns": {
+                "$type": "System.Collections.Generic.List`1[[Microsoft.EntityFrameworkCore.Scaffolding.Metadata.DatabaseColumn, Microsoft.EntityFrameworkCore.Relational]], System.Private.CoreLib",
+                "$values": [
+                  {
+                    "$ref": "79"
+                  }
+                ]
+              },
+              "Name": "FK_UserRole_User_UserId",
+              "OnDelete": 0,
+              "$annotations": null
+            }
+          ]
+        },
+        "$annotations": null
+      }
+    ]
+  },
+  "Sequences": {
+    "$type": "System.Collections.Generic.List`1[[Microsoft.EntityFrameworkCore.Scaffolding.Metadata.DatabaseSequence, Microsoft.EntityFrameworkCore.Relational]], System.Private.CoreLib",
+    "$values": []
+  },
+  "$annotations": {
+    "EFG:Args": {
+      "$id": "137",
+      "$type": "System.Collections.Generic.List`1[[System.String, System.Private.CoreLib]], System.Private.CoreLib",
+      "$values": [
+        "C:\\REDACTED\\EntityFrameworkCore.Generator\\src\\EntityFrameworkCore.Generator\\bin\\Debug\\netcoreapp3.1\\EntityFrameworkCore.Generator.dll",
+        "refresh",
+        "-f",
+        ".\\generation.efg.yml"
+      ]
+    },
+    "EFG:CLI": "C:\\REDACTED\\EntityFrameworkCore.Generator\\src\\EntityFrameworkCore.Generator\\bin\\Debug\\netcoreapp3.1\\EntityFrameworkCore.Generator.dll refresh -f .\\generation.efg.yml",
+    "EFG:CLRVersion": "3.1.8",
+    "EFG:CreatedTime": "2020-12-14T21:21:18.3449412-05:00",
+    "EFG:OS": {
+      "$id": "138",
+      "$type": "System.OperatingSystem, System.Private.CoreLib",
+      "Platform": 2,
+      "ServicePack": "",
+      "Version": "6.2.9200.0",
+      "VersionString": "Microsoft Windows NT 6.2.9200.0"
+    }
+  }
+}
