@@ -1,0 +1,81 @@
+project:
+  #namespace: '{Database.Name}.Core'
+  namespace: 'Tracker.Core'
+  directory: '{Options.Directory}\_efg\{Options.FileNameWithoutExtension}\'
+database:
+  provider: SqlServer
+  connectionString: Data Source=(local)\SQLEXPRESS;Initial Catalog=EFG_TrackerTest;Integrated Security=True
+  exclude:
+    - exact: 'dbo.SchemaVersions'
+data:
+  context:
+    name: '{Database.Name}Context'
+    baseClass: DbContext
+    namespace: '{Project.Namespace}.Data'
+    directory: '{Project.Directory}\Data'
+    document: true
+  entity:
+    namespace: '{Project.Namespace}.Data.Entities'
+    directory: '{Project.Directory}\Data\Entities'
+    document: true
+  mapping:
+    namespace: '{Project.Namespace}.Data.Mapping'
+    directory: '{Project.Directory}\Data\Mapping'
+    document: true
+  query:
+    generate: true
+    indexPrefix: By
+    uniquePrefix: GetBy
+    namespace: '{Project.Namespace}.Data.Queries'
+    directory: '{Project.Directory}\Data\Queries'
+    document: true
+model:
+  shared:
+    namespace: '{Project.Namespace}.Domain.Models'
+    directory: '{Project.Directory}\Domain\{Entity.Name}\Models'
+    exclude:
+      properties:
+        - '\.Id$'
+        - '\.Created$'
+        - '\.CreatedBy$'
+        - '\.Updated$'
+        - '\.UpdatedBy$'
+        - '\.RowVersion$'
+        - 'User\.PasswordHash$'
+        - 'User\.ResetHash$'
+        - 'User\.InviteHash$'
+  read:
+    generate: true
+    name: '{Entity.Name}ReadModel'
+    baseClass: EntityReadModel
+    document: true
+  create:
+    generate: true
+    name: '{Entity.Name}CreateModel'
+    baseClass: EntityCreateModel
+    document: true
+    exclude:
+      entities:
+        - 'UserLogin'
+  update:
+    generate: true
+    name: '{Entity.Name}UpdateModel'
+    baseClass: EntityUpdateModel
+    document: true
+    exclude:
+      entities:
+        - 'UserLogin'
+  mapper:
+    generate: true
+    name: '{Entity.Name}Profile'
+    baseClass: Profile
+    namespace: '{Project.Namespace}.Domain.Mapping'
+    directory: '{Project.Directory}\Domain\{Entity.Name}\Mapping'
+    document: true
+  validator:
+    generate: true
+    name: '{Model.Name}Validator'
+    baseClass: 'AbstractValidator<{Model.Name}>'
+    namespace: '{Project.Namespace}.Domain.Validation'
+    directory: '{Project.Directory}\Domain\{Entity.Name}\Validation'
+    document: true
