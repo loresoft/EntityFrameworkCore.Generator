@@ -1,10 +1,10 @@
 project:
-  #namespace: '{Database.Name}.Core'
+  namespace: '{Database.Name}.Core'
   namespace: 'Tracker.Core'
   directory: '{Options.Directory}\_efg\{Options.FileNameWithoutExtension}\'
 database:
   provider: SqlServer
-  connectionString: Data Source=(local)\SQLEXPRESS;Initial Catalog=EFG_TrackerTest;Integrated Security=True
+  connectionString: Data Source=(local)\SQLEXPRESS;Initial Catalog=Tracker;Integrated Security=True
   exclude:
     - exact: 'dbo.SchemaVersions'
 data:
