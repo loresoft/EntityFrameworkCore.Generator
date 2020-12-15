@@ -48,6 +48,16 @@ namespace EFG.Generated
 }}");
 
                     var options = gos.Load(directory, fileName);
+                    var root = Path.GetFullPath(options.Project.Directory);
+
+                    options.CodeWriter = (fullPath, content) =>
+                    {
+                        var relPath = Path.GetFullPath(fullPath).Replace(root, "");
+                        var nameHint = relPath.Replace("\\", "__").Replace("/", "__");
+                        //File.WriteAllText(fullPath, $"// This is a test [{fullPath}]\r\n// Rel: [{rel}]\r\n");
+                        context.AddSource(nameHint, content);
+                    };
+
                     cg.Generate(options, fromCache: true, updateFromSource: false);
                 }
             }

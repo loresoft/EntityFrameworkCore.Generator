@@ -27,6 +27,9 @@ namespace EntityFrameworkCore.Generator.Options
         [YamlIgnore]
         public VariableDictionary Variables { get; }
 
+        [YamlIgnore]
+        public Templates.CodeTemplateWriter CodeWriter { get; set; }
+
         /// <summary>
         /// Gets the options file meta data.
         /// </summary>
