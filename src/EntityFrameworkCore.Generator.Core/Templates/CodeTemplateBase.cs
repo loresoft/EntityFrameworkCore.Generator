@@ -6,15 +6,20 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 
 namespace EntityFrameworkCore.Generator.Templates
 {
+    public delegate void CodeTemplateWriter(string fullPath, string content);
+
     public abstract class CodeTemplateBase
     {
-
         protected CodeTemplateBase(GeneratorOptions options)
         {
             Options = options;
             CodeBuilder = new IndentedStringBuilder();
             RegionParser = new RegionParser();
+
+            CodeWriter = options.CodeWriter;
         }
+
+        public CodeTemplateWriter CodeWriter { get; set; }
 
         public GeneratorOptions Options { get; }
 
@@ -25,20 +30,26 @@ namespace EntityFrameworkCore.Generator.Templates
         public virtual void WriteCode(string path)
         {
             var fullPath = Path.GetFullPath(path);
+            var output = WriteCode();
+
+            var cw = CodeWriter ?? DefaultCodeWriter;
+            cw(fullPath, output);
+        }
+
+        public abstract string WriteCode();
+
+        protected void DefaultCodeWriter(string fullPath, string content)
+        {
             var directory = Path.GetDirectoryName(fullPath);
 
             if (!Directory.Exists(directory))
                 Directory.CreateDirectory(directory);
 
-            var output = WriteCode();
-
             if (File.Exists(fullPath))
-                MergeOutput(fullPath, output);
+                MergeOutput(fullPath, content);
             else
-                File.WriteAllText(fullPath, output);
+                File.WriteAllText(fullPath, content);
         }
-
-        public abstract string WriteCode();
 
         protected virtual void MergeOutput(string fullPath, string outputContent)
         {
