@@ -412,6 +412,9 @@ namespace EntityFrameworkCore.Generator
                 case DatabaseProviders.Sqlite:
                     ConfigureSqliteServices(services);
                     break;
+                case DatabaseProviders.Oracle:
+                    ConfigureOracleServices(services);
+                    break;
                 default:
                     throw new NotSupportedException($"The specified provider '{provider}' is not supported.");
             }
@@ -450,6 +453,12 @@ namespace EntityFrameworkCore.Generator
         private void ConfigureSqliteServices(IServiceCollection services)
         {
             var designTimeServices = new Microsoft.EntityFrameworkCore.Sqlite.Design.Internal.SqliteDesignTimeServices();
+            designTimeServices.ConfigureDesignTimeServices(services);
+        }
+
+        private void ConfigureOracleServices(IServiceCollection services)
+        {
+            var designTimeServices = new Oracle.EntityFrameworkCore.Design.Internal.OracleDesignTimeServices();
             designTimeServices.ConfigureDesignTimeServices(services);
         }
     }
