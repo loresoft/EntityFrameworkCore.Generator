@@ -27,6 +27,7 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="5.0.4" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="5.0.4" />
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="5.0.2" />
+	<PackageReference Include="Oracle.EntityFrameworkCore" Version="5.21.1" />
     <PackageReference Include="YamlDotNet" Version="9.1.4" />
   </ItemGroup>
 

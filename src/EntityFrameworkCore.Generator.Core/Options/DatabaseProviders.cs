@@ -25,6 +25,11 @@ namespace EntityFrameworkCore.Generator.Options
         /// <summary>
         /// The sqlite provider
         /// </summary>
-        Sqlite
+        Sqlite,
+
+        /// <summary>
+        /// The Oracle provider
+        /// </summary>
+        Oracle
     }
 }
