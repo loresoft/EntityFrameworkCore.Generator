@@ -40,5 +40,10 @@
             set => SetProperty(value);
         }
 
+        public string EFCoreVersion
+        {
+            get => GetProperty();
+            set => SetProperty(value);
+        }
     }
 }

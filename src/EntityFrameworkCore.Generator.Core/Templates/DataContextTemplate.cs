@@ -92,17 +92,36 @@ namespace EntityFrameworkCore.Generator.Templates
                 var propertyName = entityType.ContextProperty.ToSafeName();
                 var fullName = $"{entityType.EntityNamespace}.{entityClass}";
 
+                var TypeStr = "DbSet";
+
+                if (entityType.IsView)
+                {
+                    if (!string.IsNullOrEmpty(Options.Project.EFCoreVersion))
+                    {
+                        if (!double.TryParse(Options.Project.EFCoreVersion, out double Version))
+                        {
+                            if (Version < 3)
+                            {
+                                TypeStr = "DbQuery";
+                            }
+                        }
+                    }
+                }
+
+
+
                 if (Options.Data.Context.Document)
                 {
                     CodeBuilder.AppendLine("/// <summary>");
-                    CodeBuilder.AppendLine($"/// Gets or sets the <see cref=\"T:Microsoft.EntityFrameworkCore.DbSet`1\" /> that can be used to query and save instances of <see cref=\"{fullName}\"/>.");
+                    CodeBuilder.AppendLine($"/// Gets or sets the <see cref=\"T:Microsoft.EntityFrameworkCore.{TypeStr}`1\" /> that can be used to query and save instances of <see cref=\"{fullName}\"/>.");
                     CodeBuilder.AppendLine("/// </summary>");
                     CodeBuilder.AppendLine("/// <value>");
-                    CodeBuilder.AppendLine($"/// The <see cref=\"T:Microsoft.EntityFrameworkCore.DbSet`1\" /> that can be used to query and save instances of <see cref=\"{fullName}\"/>.");
+                    CodeBuilder.AppendLine($"/// The <see cref=\"T:Microsoft.EntityFrameworkCore.{TypeStr}`1\" /> that can be used to query and save instances of <see cref=\"{fullName}\"/>.");
                     CodeBuilder.AppendLine("/// </value>");
                 }
 
-                CodeBuilder.AppendLine($"public virtual DbSet<{fullName}> {propertyName} {{ get; set; }}");
+
+                CodeBuilder.AppendLine($"public virtual {TypeStr}<{fullName}> {propertyName} {{ get; set; }}");
                 CodeBuilder.AppendLine();
             }
 
