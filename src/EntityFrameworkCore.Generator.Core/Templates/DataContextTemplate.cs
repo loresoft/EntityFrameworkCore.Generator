@@ -98,7 +98,7 @@ namespace EntityFrameworkCore.Generator.Templates
                 {
                     if (!string.IsNullOrEmpty(Options.Project.EFCoreVersion))
                     {
-                        if (!double.TryParse(Options.Project.EFCoreVersion, out double Version))
+                        if (double.TryParse(Options.Project.EFCoreVersion, out double Version))
                         {
                             if (Version < 3)
                             {
