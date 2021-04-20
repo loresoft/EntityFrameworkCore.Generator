@@ -57,7 +57,13 @@ namespace EntityFrameworkCore.Generator.Templates
             CodeBuilder.AppendLine($"public partial class {mappingClass}");
 
             using (CodeBuilder.Indent())
-                CodeBuilder.AppendLine($": IEntityTypeConfiguration<{safeName}>");
+            {
+                if (IsViewByEFCore2())
+                    CodeBuilder.AppendLine($": IQueryTypeConfiguration<{safeName}>");
+                else
+                    CodeBuilder.AppendLine($": IEntityTypeConfiguration<{safeName}>");
+            }
+
 
             CodeBuilder.AppendLine("{");
 
@@ -94,7 +100,7 @@ namespace EntityFrameworkCore.Generator.Templates
 
                 CodeBuilder.AppendLine($"public const string Name = \"{_entity.TableName}\";");
             }
-            
+
             CodeBuilder.AppendLine("}");
 
             CodeBuilder.AppendLine();
@@ -129,7 +135,12 @@ namespace EntityFrameworkCore.Generator.Templates
                 CodeBuilder.AppendLine("/// <param name=\"builder\">The builder to be used to configure the entity type.</param>");
             }
 
-            CodeBuilder.AppendLine($"public void Configure(Microsoft.EntityFrameworkCore.Metadata.Builders.EntityTypeBuilder<{entityFullName}> builder)");
+            if (IsViewByEFCore2())
+                CodeBuilder.AppendLine($"public void Configure(Microsoft.EntityFrameworkCore.Metadata.Builders.QueryTypeBuilder<{entityFullName}> builder)");
+            else
+                CodeBuilder.AppendLine($"public void Configure(Microsoft.EntityFrameworkCore.Metadata.Builders.EntityTypeBuilder<{entityFullName}> builder)");
+
+
             CodeBuilder.AppendLine("{");
 
             using (CodeBuilder.Indent())
@@ -299,6 +310,8 @@ namespace EntityFrameworkCore.Generator.Templates
 
         private void GenerateKeyMapping()
         {
+            if (IsViewByEFCore2())
+                return;
             CodeBuilder.AppendLine("// key");
 
             var keys = _entity.Properties.Where(p => p.IsPrimaryKey == true).ToList();
@@ -351,6 +364,19 @@ namespace EntityFrameworkCore.Generator.Templates
                 : $"builder.{method}(\"{_entity.TableName}\");");
 
             CodeBuilder.AppendLine();
+        }
+
+        private bool IsViewByEFCore2()
+        {
+            if (!_entity.IsView)
+                return false;
+            if (string.IsNullOrEmpty(Options.Project.EFCoreVersion))
+                return false;
+            if (!double.TryParse(Options.Project.EFCoreVersion, out double Version))
+                return false;
+            if (Version >= 3)
+                return false;
+            return true;
         }
     }
 }
