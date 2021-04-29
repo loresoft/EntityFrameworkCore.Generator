@@ -1,0 +1,63 @@
+version: 2
+updates:
+- package-ecosystem: nuget
+  directory: "/"
+  schedule:
+    interval: daily
+    time: "11:00"
+  open-pull-requests-limit: 10
+  ignore:
+  - dependency-name: Pomelo.EntityFrameworkCore.MySql
+    versions:
+    - 3.2.5
+  - dependency-name: Npgsql.EntityFrameworkCore.PostgreSQL
+    versions:
+    - 5.0.2
+    - 5.0.5
+  - dependency-name: YamlDotNet
+    versions:
+    - 10.0.0
+    - 11.0.1
+    - 11.1.0
+    - 9.1.4
+  - dependency-name: Microsoft.EntityFrameworkCore.SqlServer
+    versions:
+    - 5.0.2
+    - 5.0.3
+    - 5.0.4
+  - dependency-name: Microsoft.EntityFrameworkCore.Relational
+    versions:
+    - 5.0.2
+    - 5.0.3
+    - 5.0.4
+  - dependency-name: Microsoft.EntityFrameworkCore.Sqlite
+    versions:
+    - 5.0.2
+    - 5.0.3
+    - 5.0.4
+  - dependency-name: Microsoft.EntityFrameworkCore.Design
+    versions:
+    - 5.0.2
+    - 5.0.3
+    - 5.0.4
+  - dependency-name: Microsoft.CodeAnalysis.CSharp
+    versions:
+    - 3.9.0
+  - dependency-name: Serilog.Extensions.Hosting
+    versions:
+    - 4.1.0
+    - 4.1.2
+  - dependency-name: Microsoft.CodeAnalysis.CSharp.Scripting
+    versions:
+    - 3.9.0
+  - dependency-name: Microsoft.NET.Test.Sdk
+    versions:
+    - 16.8.3
+    - 16.9.1
+  - dependency-name: coverlet.msbuild
+    versions:
+    - 3.0.2
+    - 3.0.3
+  - dependency-name: McMaster.Extensions.CommandLineUtils
+    versions:
+    - 3.1.0
