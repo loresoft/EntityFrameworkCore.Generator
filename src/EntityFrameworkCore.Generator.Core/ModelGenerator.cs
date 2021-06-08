@@ -75,7 +75,7 @@ namespace EntityFrameworkCore.Generator
                 _options.Variables.Set(VariableConstants.TableSchema, ToLegalName(table.Schema));
                 _options.Variables.Set(VariableConstants.TableName, ToLegalName(table.Name));
 
-                var entity = GetEntity(entityContext, table);
+                var entity = GetEntity(entityContext, table, _options.Database.ProcessRelationships);
                 GetModels(entity);
             }
 
