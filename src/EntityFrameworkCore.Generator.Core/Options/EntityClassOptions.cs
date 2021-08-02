@@ -70,5 +70,11 @@ namespace EntityFrameworkCore.Generator.Options
         /// </summary>
         [DefaultValue(false)]
         public bool PrefixWithSchemaName { get; set; }
+
+        /// <summary>
+        /// If true, by default generated properties will be virtual.
+        /// </summary>
+        [DefaultValue(false)]
+        public bool VirtualProperties { get; set; }
     }
 }

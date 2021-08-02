@@ -128,7 +128,13 @@ namespace EntityFrameworkCore.Generator.Templates
                     CodeBuilder.AppendLine("/// </value>");
                 }
 
-                CodeBuilder.AppendLine($"public {propertyType} {propertyName} {{ get; set; }}");
+                var virtualKeyword = "";
+                if (Options.Data.Entity.VirtualProperties)
+                {
+                    virtualKeyword = "virtual ";
+                }
+
+                CodeBuilder.AppendLine($"public {virtualKeyword} {propertyType} {propertyName} {{ get; set; }}");
                 CodeBuilder.AppendLine();
             }
             CodeBuilder.AppendLine("#endregion");
