@@ -2,6 +2,7 @@
 using FluentAssertions;
 using FluentCommand.SqlServer.Tests;
 using Microsoft.Extensions.Logging.Abstractions;
+using System.IO;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -24,6 +25,40 @@ namespace EntityFrameworkCore.Generator.Core.Tests
 
 
             result.Should().BeTrue();
+        }
+
+        [Fact]
+        public void GenerateSpatial()
+        {
+            var generatorOptions = new GeneratorOptions();
+            generatorOptions.Database.ConnectionString = Database.ConnectionString;
+
+            var generator = new CodeGenerator(NullLoggerFactory.Instance);
+            var result = generator.Generate(generatorOptions);
+
+            result.Should().BeTrue();
+
+            const string spatialTableName = "CitiesSpatial";
+
+            var citiesSpatialEntityFile  = Path.Combine(generatorOptions.Data.Entity.Directory, spatialTableName + ".cs");
+            var citiesSpatialMappingFile = Path.Combine(generatorOptions.Data.Mapping.Directory, spatialTableName + "Map.cs");
+
+            var citiesSpatialEntityContent  = File.ReadAllText(citiesSpatialEntityFile);
+            var citiesSpatialMappingContent = File.ReadAllText(citiesSpatialMappingFile);
+
+            citiesSpatialEntityContent.Contains("public NetTopologySuite.Geometries.Geometry GeometryField { get; set; }").Should().BeTrue();
+            citiesSpatialEntityContent.Contains("public NetTopologySuite.Geometries.Geometry GeographyField { get; set; }").Should().BeTrue();
+
+            citiesSpatialMappingContent.Contains("builder.Property(t => t.GeometryField)" + System.Environment.NewLine +
+"                .IsRequired()" + System.Environment.NewLine +
+"                .HasColumnName(\"GeometryField\")" + System.Environment.NewLine +
+"                .HasColumnType(\"geometry\");").Should().BeTrue();
+
+            citiesSpatialMappingContent.Contains("builder.Property(t => t.GeographyField)" + System.Environment.NewLine +
+"                .IsRequired()" + System.Environment.NewLine +
+"                .HasColumnName(\"GeographyField\")" + System.Environment.NewLine +
+"                .HasColumnType(\"geography\");").Should().BeTrue();
+
         }
 
     }
