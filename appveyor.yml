@@ -1,5 +1,5 @@
-version: 3.1.0.{build}
-os: Visual Studio 2019
+version: 4.0.0.{build}
+os: Visual Studio 2022
 
 environment:
   ASPNETCORE_ENVIRONMENT: appveyor
@@ -8,9 +8,7 @@ environment:
 
 init:
   - git config --global core.autocrlf input
-
-services:
-  - mssql2017
+  - net start MSSQL$SQL2019
 
 dotnet_csproj:
   patch: true
