@@ -49,15 +49,21 @@ namespace Tracker.Core.Data.Mapping
         }
 
         #region Generated Constants
-        /// <summary>Table Schema name constant for entity <see cref="Tracker.Core.Data.Entities.UserRole" /></summary>
-        public const string TableSchema = "dbo";
-        /// <summary>Table Name constant for entity <see cref="Tracker.Core.Data.Entities.UserRole" /></summary>
-        public const string TableName = "UserRole";
+        public struct Table
+        {
+            /// <summary>Table Schema name constant for entity <see cref="Tracker.Core.Data.Entities.UserRole" /></summary>
+            public const string Schema = "dbo";
+            /// <summary>Table Name constant for entity <see cref="Tracker.Core.Data.Entities.UserRole" /></summary>
+            public const string Name = "UserRole";
+        }
 
-        /// <summary>Column Name constant for property <see cref="Tracker.Core.Data.Entities.UserRole.UserId" /></summary>
-        public const string ColumnUserId = "UserId";
-        /// <summary>Column Name constant for property <see cref="Tracker.Core.Data.Entities.UserRole.RoleId" /></summary>
-        public const string ColumnRoleId = "RoleId";
+        public struct Columns
+        {
+            /// <summary>Column Name constant for property <see cref="Tracker.Core.Data.Entities.UserRole.UserId" /></summary>
+            public const string UserId = "UserId";
+            /// <summary>Column Name constant for property <see cref="Tracker.Core.Data.Entities.UserRole.RoleId" /></summary>
+            public const string RoleId = "RoleId";
+        }
         #endregion
     }
 }

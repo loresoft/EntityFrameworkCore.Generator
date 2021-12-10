@@ -83,29 +83,35 @@ namespace Tracker.Core.Data.Mapping
         }
 
         #region Generated Constants
-        /// <summary>Table Schema name constant for entity <see cref="Tracker.Core.Data.Entities.TaskExtended" /></summary>
-        public const string TableSchema = "dbo";
-        /// <summary>Table Name constant for entity <see cref="Tracker.Core.Data.Entities.TaskExtended" /></summary>
-        public const string TableName = "TaskExtended";
+        public struct Table
+        {
+            /// <summary>Table Schema name constant for entity <see cref="Tracker.Core.Data.Entities.TaskExtended" /></summary>
+            public const string Schema = "dbo";
+            /// <summary>Table Name constant for entity <see cref="Tracker.Core.Data.Entities.TaskExtended" /></summary>
+            public const string Name = "TaskExtended";
+        }
 
-        /// <summary>Column Name constant for property <see cref="Tracker.Core.Data.Entities.TaskExtended.TaskId" /></summary>
-        public const string ColumnTaskId = "TaskId";
-        /// <summary>Column Name constant for property <see cref="Tracker.Core.Data.Entities.TaskExtended.UserAgent" /></summary>
-        public const string ColumnUserAgent = "UserAgent";
-        /// <summary>Column Name constant for property <see cref="Tracker.Core.Data.Entities.TaskExtended.Browser" /></summary>
-        public const string ColumnBrowser = "Browser";
-        /// <summary>Column Name constant for property <see cref="Tracker.Core.Data.Entities.TaskExtended.OperatingSystem" /></summary>
-        public const string ColumnOperatingSystem = "OperatingSystem";
-        /// <summary>Column Name constant for property <see cref="Tracker.Core.Data.Entities.TaskExtended.Created" /></summary>
-        public const string ColumnCreated = "Created";
-        /// <summary>Column Name constant for property <see cref="Tracker.Core.Data.Entities.TaskExtended.CreatedBy" /></summary>
-        public const string ColumnCreatedBy = "CreatedBy";
-        /// <summary>Column Name constant for property <see cref="Tracker.Core.Data.Entities.TaskExtended.Updated" /></summary>
-        public const string ColumnUpdated = "Updated";
-        /// <summary>Column Name constant for property <see cref="Tracker.Core.Data.Entities.TaskExtended.UpdatedBy" /></summary>
-        public const string ColumnUpdatedBy = "UpdatedBy";
-        /// <summary>Column Name constant for property <see cref="Tracker.Core.Data.Entities.TaskExtended.RowVersion" /></summary>
-        public const string ColumnRowVersion = "RowVersion";
+        public struct Columns
+        {
+            /// <summary>Column Name constant for property <see cref="Tracker.Core.Data.Entities.TaskExtended.TaskId" /></summary>
+            public const string TaskId = "TaskId";
+            /// <summary>Column Name constant for property <see cref="Tracker.Core.Data.Entities.TaskExtended.UserAgent" /></summary>
+            public const string UserAgent = "UserAgent";
+            /// <summary>Column Name constant for property <see cref="Tracker.Core.Data.Entities.TaskExtended.Browser" /></summary>
+            public const string Browser = "Browser";
+            /// <summary>Column Name constant for property <see cref="Tracker.Core.Data.Entities.TaskExtended.OperatingSystem" /></summary>
+            public const string OperatingSystem = "OperatingSystem";
+            /// <summary>Column Name constant for property <see cref="Tracker.Core.Data.Entities.TaskExtended.Created" /></summary>
+            public const string Created = "Created";
+            /// <summary>Column Name constant for property <see cref="Tracker.Core.Data.Entities.TaskExtended.CreatedBy" /></summary>
+            public const string CreatedBy = "CreatedBy";
+            /// <summary>Column Name constant for property <see cref="Tracker.Core.Data.Entities.TaskExtended.Updated" /></summary>
+            public const string Updated = "Updated";
+            /// <summary>Column Name constant for property <see cref="Tracker.Core.Data.Entities.TaskExtended.UpdatedBy" /></summary>
+            public const string UpdatedBy = "UpdatedBy";
+            /// <summary>Column Name constant for property <see cref="Tracker.Core.Data.Entities.TaskExtended.RowVersion" /></summary>
+            public const string RowVersion = "RowVersion";
+        }
         #endregion
     }
 }

@@ -89,33 +89,39 @@ namespace Tracker.Core.Data.Mapping
         }
 
         #region Generated Constants
-        /// <summary>Table Schema name constant for entity <see cref="Tracker.Core.Data.Entities.Audit" /></summary>
-        public const string TableSchema = "dbo";
-        /// <summary>Table Name constant for entity <see cref="Tracker.Core.Data.Entities.Audit" /></summary>
-        public const string TableName = "Audit";
+        public struct Table
+        {
+            /// <summary>Table Schema name constant for entity <see cref="Tracker.Core.Data.Entities.Audit" /></summary>
+            public const string Schema = "dbo";
+            /// <summary>Table Name constant for entity <see cref="Tracker.Core.Data.Entities.Audit" /></summary>
+            public const string Name = "Audit";
+        }
 
-        /// <summary>Column Name constant for property <see cref="Tracker.Core.Data.Entities.Audit.Id" /></summary>
-        public const string ColumnId = "Id";
-        /// <summary>Column Name constant for property <see cref="Tracker.Core.Data.Entities.Audit.Date" /></summary>
-        public const string ColumnDate = "Date";
-        /// <summary>Column Name constant for property <see cref="Tracker.Core.Data.Entities.Audit.UserId" /></summary>
-        public const string ColumnUserId = "UserId";
-        /// <summary>Column Name constant for property <see cref="Tracker.Core.Data.Entities.Audit.TaskId" /></summary>
-        public const string ColumnTaskId = "TaskId";
-        /// <summary>Column Name constant for property <see cref="Tracker.Core.Data.Entities.Audit.Content" /></summary>
-        public const string ColumnContent = "Content";
-        /// <summary>Column Name constant for property <see cref="Tracker.Core.Data.Entities.Audit.Username" /></summary>
-        public const string ColumnUsername = "Username";
-        /// <summary>Column Name constant for property <see cref="Tracker.Core.Data.Entities.Audit.Created" /></summary>
-        public const string ColumnCreated = "Created";
-        /// <summary>Column Name constant for property <see cref="Tracker.Core.Data.Entities.Audit.CreatedBy" /></summary>
-        public const string ColumnCreatedBy = "CreatedBy";
-        /// <summary>Column Name constant for property <see cref="Tracker.Core.Data.Entities.Audit.Updated" /></summary>
-        public const string ColumnUpdated = "Updated";
-        /// <summary>Column Name constant for property <see cref="Tracker.Core.Data.Entities.Audit.UpdatedBy" /></summary>
-        public const string ColumnUpdatedBy = "UpdatedBy";
-        /// <summary>Column Name constant for property <see cref="Tracker.Core.Data.Entities.Audit.RowVersion" /></summary>
-        public const string ColumnRowVersion = "RowVersion";
+        public struct Columns
+        {
+            /// <summary>Column Name constant for property <see cref="Tracker.Core.Data.Entities.Audit.Id" /></summary>
+            public const string Id = "Id";
+            /// <summary>Column Name constant for property <see cref="Tracker.Core.Data.Entities.Audit.Date" /></summary>
+            public const string Date = "Date";
+            /// <summary>Column Name constant for property <see cref="Tracker.Core.Data.Entities.Audit.UserId" /></summary>
+            public const string UserId = "UserId";
+            /// <summary>Column Name constant for property <see cref="Tracker.Core.Data.Entities.Audit.TaskId" /></summary>
+            public const string TaskId = "TaskId";
+            /// <summary>Column Name constant for property <see cref="Tracker.Core.Data.Entities.Audit.Content" /></summary>
+            public const string Content = "Content";
+            /// <summary>Column Name constant for property <see cref="Tracker.Core.Data.Entities.Audit.Username" /></summary>
+            public const string Username = "Username";
+            /// <summary>Column Name constant for property <see cref="Tracker.Core.Data.Entities.Audit.Created" /></summary>
+            public const string Created = "Created";
+            /// <summary>Column Name constant for property <see cref="Tracker.Core.Data.Entities.Audit.CreatedBy" /></summary>
+            public const string CreatedBy = "CreatedBy";
+            /// <summary>Column Name constant for property <see cref="Tracker.Core.Data.Entities.Audit.Updated" /></summary>
+            public const string Updated = "Updated";
+            /// <summary>Column Name constant for property <see cref="Tracker.Core.Data.Entities.Audit.UpdatedBy" /></summary>
+            public const string UpdatedBy = "UpdatedBy";
+            /// <summary>Column Name constant for property <see cref="Tracker.Core.Data.Entities.Audit.RowVersion" /></summary>
+            public const string RowVersion = "RowVersion";
+        }
         #endregion
     }
 }
