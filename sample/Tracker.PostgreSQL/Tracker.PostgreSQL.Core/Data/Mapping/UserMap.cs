@@ -78,7 +78,7 @@ namespace Tracker.PostgreSQL.Core.Data.Mapping
                 .IsRequired()
                 .HasColumnName("Created")
                 .HasColumnType("timestamp with time zone")
-                .HasDefaultValueSql("timezone('utc'::text, now())");
+                .HasDefaultValueSql("(now() AT TIME ZONE 'utc'::text)");
 
             builder.Property(t => t.CreatedBy)
                 .HasColumnName("CreatedBy")
@@ -89,7 +89,7 @@ namespace Tracker.PostgreSQL.Core.Data.Mapping
                 .IsRequired()
                 .HasColumnName("Updated")
                 .HasColumnType("timestamp with time zone")
-                .HasDefaultValueSql("timezone('utc'::text, now())");
+                .HasDefaultValueSql("(now() AT TIME ZONE 'utc'::text)");
 
             builder.Property(t => t.UpdatedBy)
                 .HasColumnName("UpdatedBy")
@@ -105,26 +105,32 @@ namespace Tracker.PostgreSQL.Core.Data.Mapping
         }
 
         #region Generated Constants
-        public const string TableSchema = "public";
-        public const string TableName = "User";
+        public struct Table
+        {
+            public const string Schema = "public";
+            public const string Name = "User";
+        }
 
-        public const string ColumnId = "Id";
-        public const string ColumnEmailAddress = "EmailAddress";
-        public const string ColumnIsEmailAddressConfirmed = "IsEmailAddressConfirmed";
-        public const string ColumnDisplayName = "DisplayName";
-        public const string ColumnPasswordHash = "PasswordHash";
-        public const string ColumnResetHash = "ResetHash";
-        public const string ColumnInviteHash = "InviteHash";
-        public const string ColumnAccessFailedCount = "AccessFailedCount";
-        public const string ColumnLockoutEnabled = "LockoutEnabled";
-        public const string ColumnLockoutEnd = "LockoutEnd";
-        public const string ColumnLastLogin = "LastLogin";
-        public const string ColumnIsDeleted = "IsDeleted";
-        public const string ColumnCreated = "Created";
-        public const string ColumnCreatedBy = "CreatedBy";
-        public const string ColumnUpdated = "Updated";
-        public const string ColumnUpdatedBy = "UpdatedBy";
-        public const string ColumnRowVersion = "RowVersion";
+        public struct Columns
+        {
+            public const string Id = "Id";
+            public const string EmailAddress = "EmailAddress";
+            public const string IsEmailAddressConfirmed = "IsEmailAddressConfirmed";
+            public const string DisplayName = "DisplayName";
+            public const string PasswordHash = "PasswordHash";
+            public const string ResetHash = "ResetHash";
+            public const string InviteHash = "InviteHash";
+            public const string AccessFailedCount = "AccessFailedCount";
+            public const string LockoutEnabled = "LockoutEnabled";
+            public const string LockoutEnd = "LockoutEnd";
+            public const string LastLogin = "LastLogin";
+            public const string IsDeleted = "IsDeleted";
+            public const string Created = "Created";
+            public const string CreatedBy = "CreatedBy";
+            public const string Updated = "Updated";
+            public const string UpdatedBy = "UpdatedBy";
+            public const string RowVersion = "RowVersion";
+        }
         #endregion
     }
 }

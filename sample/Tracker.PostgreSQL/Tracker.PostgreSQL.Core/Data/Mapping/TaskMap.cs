@@ -61,7 +61,7 @@ namespace Tracker.PostgreSQL.Core.Data.Mapping
                 .IsRequired()
                 .HasColumnName("Created")
                 .HasColumnType("timestamp with time zone")
-                .HasDefaultValueSql("timezone('utc'::text, now())");
+                .HasDefaultValueSql("(now() AT TIME ZONE 'utc'::text)");
 
             builder.Property(t => t.CreatedBy)
                 .HasColumnName("CreatedBy")
@@ -72,7 +72,7 @@ namespace Tracker.PostgreSQL.Core.Data.Mapping
                 .IsRequired()
                 .HasColumnName("Updated")
                 .HasColumnType("timestamp with time zone")
-                .HasDefaultValueSql("timezone('utc'::text, now())");
+                .HasDefaultValueSql("(now() AT TIME ZONE 'utc'::text)");
 
             builder.Property(t => t.UpdatedBy)
                 .HasColumnName("UpdatedBy")
@@ -103,23 +103,29 @@ namespace Tracker.PostgreSQL.Core.Data.Mapping
         }
 
         #region Generated Constants
-        public const string TableSchema = "public";
-        public const string TableName = "Task";
+        public struct Table
+        {
+            public const string Schema = "public";
+            public const string Name = "Task";
+        }
 
-        public const string ColumnId = "Id";
-        public const string ColumnStatusId = "StatusId";
-        public const string ColumnPriorityId = "PriorityId";
-        public const string ColumnTitle = "Title";
-        public const string ColumnDescription = "Description";
-        public const string ColumnStartDate = "StartDate";
-        public const string ColumnDueDate = "DueDate";
-        public const string ColumnCompleteDate = "CompleteDate";
-        public const string ColumnAssignedId = "AssignedId";
-        public const string ColumnCreated = "Created";
-        public const string ColumnCreatedBy = "CreatedBy";
-        public const string ColumnUpdated = "Updated";
-        public const string ColumnUpdatedBy = "UpdatedBy";
-        public const string ColumnRowVersion = "RowVersion";
+        public struct Columns
+        {
+            public const string Id = "Id";
+            public const string StatusId = "StatusId";
+            public const string PriorityId = "PriorityId";
+            public const string Title = "Title";
+            public const string Description = "Description";
+            public const string StartDate = "StartDate";
+            public const string DueDate = "DueDate";
+            public const string CompleteDate = "CompleteDate";
+            public const string AssignedId = "AssignedId";
+            public const string Created = "Created";
+            public const string CreatedBy = "CreatedBy";
+            public const string Updated = "Updated";
+            public const string UpdatedBy = "UpdatedBy";
+            public const string RowVersion = "RowVersion";
+        }
         #endregion
     }
 }

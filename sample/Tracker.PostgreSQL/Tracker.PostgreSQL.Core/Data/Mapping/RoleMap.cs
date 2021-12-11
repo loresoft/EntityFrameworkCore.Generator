@@ -36,7 +36,7 @@ namespace Tracker.PostgreSQL.Core.Data.Mapping
                 .IsRequired()
                 .HasColumnName("Created")
                 .HasColumnType("timestamp with time zone")
-                .HasDefaultValueSql("timezone('utc'::text, now())");
+                .HasDefaultValueSql("(now() AT TIME ZONE 'utc'::text)");
 
             builder.Property(t => t.CreatedBy)
                 .HasColumnName("CreatedBy")
@@ -47,7 +47,7 @@ namespace Tracker.PostgreSQL.Core.Data.Mapping
                 .IsRequired()
                 .HasColumnName("Updated")
                 .HasColumnType("timestamp with time zone")
-                .HasDefaultValueSql("timezone('utc'::text, now())");
+                .HasDefaultValueSql("(now() AT TIME ZONE 'utc'::text)");
 
             builder.Property(t => t.UpdatedBy)
                 .HasColumnName("UpdatedBy")
@@ -63,17 +63,23 @@ namespace Tracker.PostgreSQL.Core.Data.Mapping
         }
 
         #region Generated Constants
-        public const string TableSchema = "public";
-        public const string TableName = "Role";
+        public struct Table
+        {
+            public const string Schema = "public";
+            public const string Name = "Role";
+        }
 
-        public const string ColumnId = "Id";
-        public const string ColumnName = "Name";
-        public const string ColumnDescription = "Description";
-        public const string ColumnCreated = "Created";
-        public const string ColumnCreatedBy = "CreatedBy";
-        public const string ColumnUpdated = "Updated";
-        public const string ColumnUpdatedBy = "UpdatedBy";
-        public const string ColumnRowVersion = "RowVersion";
+        public struct Columns
+        {
+            public const string Id = "Id";
+            public const string Name = "Name";
+            public const string Description = "Description";
+            public const string Created = "Created";
+            public const string CreatedBy = "CreatedBy";
+            public const string Updated = "Updated";
+            public const string UpdatedBy = "UpdatedBy";
+            public const string RowVersion = "RowVersion";
+        }
         #endregion
     }
 }

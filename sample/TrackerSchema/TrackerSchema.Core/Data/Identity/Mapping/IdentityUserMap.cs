@@ -117,45 +117,51 @@ namespace TrackerSchema.Core.Data.Identity.Mapping
         }
 
         #region Generated Constants
-        /// <summary>Table Schema name constant for entity <see cref="TrackerSchema.Core.Data.Identity.Entities.IdentityUser" /></summary>
-        public const string TableSchema = "Identity";
-        /// <summary>Table Name constant for entity <see cref="TrackerSchema.Core.Data.Identity.Entities.IdentityUser" /></summary>
-        public const string TableName = "User";
+        public struct Table
+        {
+            /// <summary>Table Schema name constant for entity <see cref="TrackerSchema.Core.Data.Identity.Entities.IdentityUser" /></summary>
+            public const string Schema = "Identity";
+            /// <summary>Table Name constant for entity <see cref="TrackerSchema.Core.Data.Identity.Entities.IdentityUser" /></summary>
+            public const string Name = "User";
+        }
 
-        /// <summary>Column Name constant for property <see cref="TrackerSchema.Core.Data.Identity.Entities.IdentityUser.Id" /></summary>
-        public const string ColumnId = "Id";
-        /// <summary>Column Name constant for property <see cref="TrackerSchema.Core.Data.Identity.Entities.IdentityUser.EmailAddress" /></summary>
-        public const string ColumnEmailAddress = "EmailAddress";
-        /// <summary>Column Name constant for property <see cref="TrackerSchema.Core.Data.Identity.Entities.IdentityUser.IsEmailAddressConfirmed" /></summary>
-        public const string ColumnIsEmailAddressConfirmed = "IsEmailAddressConfirmed";
-        /// <summary>Column Name constant for property <see cref="TrackerSchema.Core.Data.Identity.Entities.IdentityUser.DisplayName" /></summary>
-        public const string ColumnDisplayName = "DisplayName";
-        /// <summary>Column Name constant for property <see cref="TrackerSchema.Core.Data.Identity.Entities.IdentityUser.PasswordHash" /></summary>
-        public const string ColumnPasswordHash = "PasswordHash";
-        /// <summary>Column Name constant for property <see cref="TrackerSchema.Core.Data.Identity.Entities.IdentityUser.ResetHash" /></summary>
-        public const string ColumnResetHash = "ResetHash";
-        /// <summary>Column Name constant for property <see cref="TrackerSchema.Core.Data.Identity.Entities.IdentityUser.InviteHash" /></summary>
-        public const string ColumnInviteHash = "InviteHash";
-        /// <summary>Column Name constant for property <see cref="TrackerSchema.Core.Data.Identity.Entities.IdentityUser.AccessFailedCount" /></summary>
-        public const string ColumnAccessFailedCount = "AccessFailedCount";
-        /// <summary>Column Name constant for property <see cref="TrackerSchema.Core.Data.Identity.Entities.IdentityUser.LockoutEnabled" /></summary>
-        public const string ColumnLockoutEnabled = "LockoutEnabled";
-        /// <summary>Column Name constant for property <see cref="TrackerSchema.Core.Data.Identity.Entities.IdentityUser.LockoutEnd" /></summary>
-        public const string ColumnLockoutEnd = "LockoutEnd";
-        /// <summary>Column Name constant for property <see cref="TrackerSchema.Core.Data.Identity.Entities.IdentityUser.LastLogin" /></summary>
-        public const string ColumnLastLogin = "LastLogin";
-        /// <summary>Column Name constant for property <see cref="TrackerSchema.Core.Data.Identity.Entities.IdentityUser.IsDeleted" /></summary>
-        public const string ColumnIsDeleted = "IsDeleted";
-        /// <summary>Column Name constant for property <see cref="TrackerSchema.Core.Data.Identity.Entities.IdentityUser.Created" /></summary>
-        public const string ColumnCreated = "Created";
-        /// <summary>Column Name constant for property <see cref="TrackerSchema.Core.Data.Identity.Entities.IdentityUser.CreatedBy" /></summary>
-        public const string ColumnCreatedBy = "CreatedBy";
-        /// <summary>Column Name constant for property <see cref="TrackerSchema.Core.Data.Identity.Entities.IdentityUser.Updated" /></summary>
-        public const string ColumnUpdated = "Updated";
-        /// <summary>Column Name constant for property <see cref="TrackerSchema.Core.Data.Identity.Entities.IdentityUser.UpdatedBy" /></summary>
-        public const string ColumnUpdatedBy = "UpdatedBy";
-        /// <summary>Column Name constant for property <see cref="TrackerSchema.Core.Data.Identity.Entities.IdentityUser.RowVersion" /></summary>
-        public const string ColumnRowVersion = "RowVersion";
+        public struct Columns
+        {
+            /// <summary>Column Name constant for property <see cref="TrackerSchema.Core.Data.Identity.Entities.IdentityUser.Id" /></summary>
+            public const string Id = "Id";
+            /// <summary>Column Name constant for property <see cref="TrackerSchema.Core.Data.Identity.Entities.IdentityUser.EmailAddress" /></summary>
+            public const string EmailAddress = "EmailAddress";
+            /// <summary>Column Name constant for property <see cref="TrackerSchema.Core.Data.Identity.Entities.IdentityUser.IsEmailAddressConfirmed" /></summary>
+            public const string IsEmailAddressConfirmed = "IsEmailAddressConfirmed";
+            /// <summary>Column Name constant for property <see cref="TrackerSchema.Core.Data.Identity.Entities.IdentityUser.DisplayName" /></summary>
+            public const string DisplayName = "DisplayName";
+            /// <summary>Column Name constant for property <see cref="TrackerSchema.Core.Data.Identity.Entities.IdentityUser.PasswordHash" /></summary>
+            public const string PasswordHash = "PasswordHash";
+            /// <summary>Column Name constant for property <see cref="TrackerSchema.Core.Data.Identity.Entities.IdentityUser.ResetHash" /></summary>
+            public const string ResetHash = "ResetHash";
+            /// <summary>Column Name constant for property <see cref="TrackerSchema.Core.Data.Identity.Entities.IdentityUser.InviteHash" /></summary>
+            public const string InviteHash = "InviteHash";
+            /// <summary>Column Name constant for property <see cref="TrackerSchema.Core.Data.Identity.Entities.IdentityUser.AccessFailedCount" /></summary>
+            public const string AccessFailedCount = "AccessFailedCount";
+            /// <summary>Column Name constant for property <see cref="TrackerSchema.Core.Data.Identity.Entities.IdentityUser.LockoutEnabled" /></summary>
+            public const string LockoutEnabled = "LockoutEnabled";
+            /// <summary>Column Name constant for property <see cref="TrackerSchema.Core.Data.Identity.Entities.IdentityUser.LockoutEnd" /></summary>
+            public const string LockoutEnd = "LockoutEnd";
+            /// <summary>Column Name constant for property <see cref="TrackerSchema.Core.Data.Identity.Entities.IdentityUser.LastLogin" /></summary>
+            public const string LastLogin = "LastLogin";
+            /// <summary>Column Name constant for property <see cref="TrackerSchema.Core.Data.Identity.Entities.IdentityUser.IsDeleted" /></summary>
+            public const string IsDeleted = "IsDeleted";
+            /// <summary>Column Name constant for property <see cref="TrackerSchema.Core.Data.Identity.Entities.IdentityUser.Created" /></summary>
+            public const string Created = "Created";
+            /// <summary>Column Name constant for property <see cref="TrackerSchema.Core.Data.Identity.Entities.IdentityUser.CreatedBy" /></summary>
+            public const string CreatedBy = "CreatedBy";
+            /// <summary>Column Name constant for property <see cref="TrackerSchema.Core.Data.Identity.Entities.IdentityUser.Updated" /></summary>
+            public const string Updated = "Updated";
+            /// <summary>Column Name constant for property <see cref="TrackerSchema.Core.Data.Identity.Entities.IdentityUser.UpdatedBy" /></summary>
+            public const string UpdatedBy = "UpdatedBy";
+            /// <summary>Column Name constant for property <see cref="TrackerSchema.Core.Data.Identity.Entities.IdentityUser.RowVersion" /></summary>
+            public const string RowVersion = "RowVersion";
+        }
         #endregion
     }
 }

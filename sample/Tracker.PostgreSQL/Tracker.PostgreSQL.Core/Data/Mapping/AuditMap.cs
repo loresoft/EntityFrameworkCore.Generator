@@ -50,7 +50,7 @@ namespace Tracker.PostgreSQL.Core.Data.Mapping
                 .IsRequired()
                 .HasColumnName("Created")
                 .HasColumnType("timestamp with time zone")
-                .HasDefaultValueSql("timezone('utc'::text, now())");
+                .HasDefaultValueSql("(now() AT TIME ZONE 'utc'::text)");
 
             builder.Property(t => t.CreatedBy)
                 .HasColumnName("CreatedBy")
@@ -61,7 +61,7 @@ namespace Tracker.PostgreSQL.Core.Data.Mapping
                 .IsRequired()
                 .HasColumnName("Updated")
                 .HasColumnType("timestamp with time zone")
-                .HasDefaultValueSql("timezone('utc'::text, now())");
+                .HasDefaultValueSql("(now() AT TIME ZONE 'utc'::text)");
 
             builder.Property(t => t.UpdatedBy)
                 .HasColumnName("UpdatedBy")
@@ -77,20 +77,26 @@ namespace Tracker.PostgreSQL.Core.Data.Mapping
         }
 
         #region Generated Constants
-        public const string TableSchema = "public";
-        public const string TableName = "Audit";
+        public struct Table
+        {
+            public const string Schema = "public";
+            public const string Name = "Audit";
+        }
 
-        public const string ColumnId = "Id";
-        public const string ColumnDate = "Date";
-        public const string ColumnUserId = "UserId";
-        public const string ColumnTaskId = "TaskId";
-        public const string ColumnContent = "Content";
-        public const string ColumnUsername = "Username";
-        public const string ColumnCreated = "Created";
-        public const string ColumnCreatedBy = "CreatedBy";
-        public const string ColumnUpdated = "Updated";
-        public const string ColumnUpdatedBy = "UpdatedBy";
-        public const string ColumnRowVersion = "RowVersion";
+        public struct Columns
+        {
+            public const string Id = "Id";
+            public const string Date = "Date";
+            public const string UserId = "UserId";
+            public const string TaskId = "TaskId";
+            public const string Content = "Content";
+            public const string Username = "Username";
+            public const string Created = "Created";
+            public const string CreatedBy = "CreatedBy";
+            public const string Updated = "Updated";
+            public const string UpdatedBy = "UpdatedBy";
+            public const string RowVersion = "RowVersion";
+        }
         #endregion
     }
 }

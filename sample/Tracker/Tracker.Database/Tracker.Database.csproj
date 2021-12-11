@@ -10,8 +10,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="dbup-postgresql" Version="4.5.0" />
-    <PackageReference Include="Npgsql" Version="6.0.1" />
+    <None Remove="Scripts\Script002.Tracker.Data.sql" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="dbup-sqlserver" Version="4.5.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="6.0.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="6.0.0" />
   </ItemGroup>

@@ -80,7 +80,7 @@ namespace Tracker.PostgreSQL.Core.Data.Mapping
                 .IsRequired()
                 .HasColumnName("Created")
                 .HasColumnType("timestamp with time zone")
-                .HasDefaultValueSql("timezone('utc'::text, now())");
+                .HasDefaultValueSql("(now() AT TIME ZONE 'utc'::text)");
 
             builder.Property(t => t.CreatedBy)
                 .HasColumnName("CreatedBy")
@@ -91,7 +91,7 @@ namespace Tracker.PostgreSQL.Core.Data.Mapping
                 .IsRequired()
                 .HasColumnName("Updated")
                 .HasColumnType("timestamp with time zone")
-                .HasDefaultValueSql("timezone('utc'::text, now())");
+                .HasDefaultValueSql("(now() AT TIME ZONE 'utc'::text)");
 
             builder.Property(t => t.UpdatedBy)
                 .HasColumnName("UpdatedBy")
@@ -112,26 +112,32 @@ namespace Tracker.PostgreSQL.Core.Data.Mapping
         }
 
         #region Generated Constants
-        public const string TableSchema = "public";
-        public const string TableName = "UserLogin";
+        public struct Table
+        {
+            public const string Schema = "public";
+            public const string Name = "UserLogin";
+        }
 
-        public const string ColumnId = "Id";
-        public const string ColumnEmailAddress = "EmailAddress";
-        public const string ColumnUserId = "UserId";
-        public const string ColumnUserAgent = "UserAgent";
-        public const string ColumnBrowser = "Browser";
-        public const string ColumnOperatingSystem = "OperatingSystem";
-        public const string ColumnDeviceFamily = "DeviceFamily";
-        public const string ColumnDeviceBrand = "DeviceBrand";
-        public const string ColumnDeviceModel = "DeviceModel";
-        public const string ColumnIpAddress = "IpAddress";
-        public const string ColumnIsSuccessful = "IsSuccessful";
-        public const string ColumnFailureMessage = "FailureMessage";
-        public const string ColumnCreated = "Created";
-        public const string ColumnCreatedBy = "CreatedBy";
-        public const string ColumnUpdated = "Updated";
-        public const string ColumnUpdatedBy = "UpdatedBy";
-        public const string ColumnRowVersion = "RowVersion";
+        public struct Columns
+        {
+            public const string Id = "Id";
+            public const string EmailAddress = "EmailAddress";
+            public const string UserId = "UserId";
+            public const string UserAgent = "UserAgent";
+            public const string Browser = "Browser";
+            public const string OperatingSystem = "OperatingSystem";
+            public const string DeviceFamily = "DeviceFamily";
+            public const string DeviceBrand = "DeviceBrand";
+            public const string DeviceModel = "DeviceModel";
+            public const string IpAddress = "IpAddress";
+            public const string IsSuccessful = "IsSuccessful";
+            public const string FailureMessage = "FailureMessage";
+            public const string Created = "Created";
+            public const string CreatedBy = "CreatedBy";
+            public const string Updated = "Updated";
+            public const string UpdatedBy = "UpdatedBy";
+            public const string RowVersion = "RowVersion";
+        }
         #endregion
     }
 }

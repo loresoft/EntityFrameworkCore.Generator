@@ -87,31 +87,37 @@ namespace TrackerSchema.Core.Data.Tracker.Mapping
         }
 
         #region Generated Constants
-        /// <summary>Table Schema name constant for entity <see cref="TrackerSchema.Core.Data.Tracker.Entities.TrackerPriority" /></summary>
-        public const string TableSchema = "Tracker";
-        /// <summary>Table Name constant for entity <see cref="TrackerSchema.Core.Data.Tracker.Entities.TrackerPriority" /></summary>
-        public const string TableName = "Priority";
+        public struct Table
+        {
+            /// <summary>Table Schema name constant for entity <see cref="TrackerSchema.Core.Data.Tracker.Entities.TrackerPriority" /></summary>
+            public const string Schema = "Tracker";
+            /// <summary>Table Name constant for entity <see cref="TrackerSchema.Core.Data.Tracker.Entities.TrackerPriority" /></summary>
+            public const string Name = "Priority";
+        }
 
-        /// <summary>Column Name constant for property <see cref="TrackerSchema.Core.Data.Tracker.Entities.TrackerPriority.Id" /></summary>
-        public const string ColumnId = "Id";
-        /// <summary>Column Name constant for property <see cref="TrackerSchema.Core.Data.Tracker.Entities.TrackerPriority.Name" /></summary>
-        public const string ColumnName = "Name";
-        /// <summary>Column Name constant for property <see cref="TrackerSchema.Core.Data.Tracker.Entities.TrackerPriority.Description" /></summary>
-        public const string ColumnDescription = "Description";
-        /// <summary>Column Name constant for property <see cref="TrackerSchema.Core.Data.Tracker.Entities.TrackerPriority.DisplayOrder" /></summary>
-        public const string ColumnDisplayOrder = "DisplayOrder";
-        /// <summary>Column Name constant for property <see cref="TrackerSchema.Core.Data.Tracker.Entities.TrackerPriority.IsActive" /></summary>
-        public const string ColumnIsActive = "IsActive";
-        /// <summary>Column Name constant for property <see cref="TrackerSchema.Core.Data.Tracker.Entities.TrackerPriority.Created" /></summary>
-        public const string ColumnCreated = "Created";
-        /// <summary>Column Name constant for property <see cref="TrackerSchema.Core.Data.Tracker.Entities.TrackerPriority.CreatedBy" /></summary>
-        public const string ColumnCreatedBy = "CreatedBy";
-        /// <summary>Column Name constant for property <see cref="TrackerSchema.Core.Data.Tracker.Entities.TrackerPriority.Updated" /></summary>
-        public const string ColumnUpdated = "Updated";
-        /// <summary>Column Name constant for property <see cref="TrackerSchema.Core.Data.Tracker.Entities.TrackerPriority.UpdatedBy" /></summary>
-        public const string ColumnUpdatedBy = "UpdatedBy";
-        /// <summary>Column Name constant for property <see cref="TrackerSchema.Core.Data.Tracker.Entities.TrackerPriority.RowVersion" /></summary>
-        public const string ColumnRowVersion = "RowVersion";
+        public struct Columns
+        {
+            /// <summary>Column Name constant for property <see cref="TrackerSchema.Core.Data.Tracker.Entities.TrackerPriority.Id" /></summary>
+            public const string Id = "Id";
+            /// <summary>Column Name constant for property <see cref="TrackerSchema.Core.Data.Tracker.Entities.TrackerPriority.Name" /></summary>
+            public const string Name = "Name";
+            /// <summary>Column Name constant for property <see cref="TrackerSchema.Core.Data.Tracker.Entities.TrackerPriority.Description" /></summary>
+            public const string Description = "Description";
+            /// <summary>Column Name constant for property <see cref="TrackerSchema.Core.Data.Tracker.Entities.TrackerPriority.DisplayOrder" /></summary>
+            public const string DisplayOrder = "DisplayOrder";
+            /// <summary>Column Name constant for property <see cref="TrackerSchema.Core.Data.Tracker.Entities.TrackerPriority.IsActive" /></summary>
+            public const string IsActive = "IsActive";
+            /// <summary>Column Name constant for property <see cref="TrackerSchema.Core.Data.Tracker.Entities.TrackerPriority.Created" /></summary>
+            public const string Created = "Created";
+            /// <summary>Column Name constant for property <see cref="TrackerSchema.Core.Data.Tracker.Entities.TrackerPriority.CreatedBy" /></summary>
+            public const string CreatedBy = "CreatedBy";
+            /// <summary>Column Name constant for property <see cref="TrackerSchema.Core.Data.Tracker.Entities.TrackerPriority.Updated" /></summary>
+            public const string Updated = "Updated";
+            /// <summary>Column Name constant for property <see cref="TrackerSchema.Core.Data.Tracker.Entities.TrackerPriority.UpdatedBy" /></summary>
+            public const string UpdatedBy = "UpdatedBy";
+            /// <summary>Column Name constant for property <see cref="TrackerSchema.Core.Data.Tracker.Entities.TrackerPriority.RowVersion" /></summary>
+            public const string RowVersion = "RowVersion";
+        }
         #endregion
     }
 }

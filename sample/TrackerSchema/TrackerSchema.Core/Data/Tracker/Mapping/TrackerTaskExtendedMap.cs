@@ -83,29 +83,35 @@ namespace TrackerSchema.Core.Data.Tracker.Mapping
         }
 
         #region Generated Constants
-        /// <summary>Table Schema name constant for entity <see cref="TrackerSchema.Core.Data.Tracker.Entities.TrackerTaskExtended" /></summary>
-        public const string TableSchema = "Tracker";
-        /// <summary>Table Name constant for entity <see cref="TrackerSchema.Core.Data.Tracker.Entities.TrackerTaskExtended" /></summary>
-        public const string TableName = "TaskExtended";
+        public struct Table
+        {
+            /// <summary>Table Schema name constant for entity <see cref="TrackerSchema.Core.Data.Tracker.Entities.TrackerTaskExtended" /></summary>
+            public const string Schema = "Tracker";
+            /// <summary>Table Name constant for entity <see cref="TrackerSchema.Core.Data.Tracker.Entities.TrackerTaskExtended" /></summary>
+            public const string Name = "TaskExtended";
+        }
 
-        /// <summary>Column Name constant for property <see cref="TrackerSchema.Core.Data.Tracker.Entities.TrackerTaskExtended.TaskId" /></summary>
-        public const string ColumnTaskId = "TaskId";
-        /// <summary>Column Name constant for property <see cref="TrackerSchema.Core.Data.Tracker.Entities.TrackerTaskExtended.UserAgent" /></summary>
-        public const string ColumnUserAgent = "UserAgent";
-        /// <summary>Column Name constant for property <see cref="TrackerSchema.Core.Data.Tracker.Entities.TrackerTaskExtended.Browser" /></summary>
-        public const string ColumnBrowser = "Browser";
-        /// <summary>Column Name constant for property <see cref="TrackerSchema.Core.Data.Tracker.Entities.TrackerTaskExtended.OperatingSystem" /></summary>
-        public const string ColumnOperatingSystem = "OperatingSystem";
-        /// <summary>Column Name constant for property <see cref="TrackerSchema.Core.Data.Tracker.Entities.TrackerTaskExtended.Created" /></summary>
-        public const string ColumnCreated = "Created";
-        /// <summary>Column Name constant for property <see cref="TrackerSchema.Core.Data.Tracker.Entities.TrackerTaskExtended.CreatedBy" /></summary>
-        public const string ColumnCreatedBy = "CreatedBy";
-        /// <summary>Column Name constant for property <see cref="TrackerSchema.Core.Data.Tracker.Entities.TrackerTaskExtended.Updated" /></summary>
-        public const string ColumnUpdated = "Updated";
-        /// <summary>Column Name constant for property <see cref="TrackerSchema.Core.Data.Tracker.Entities.TrackerTaskExtended.UpdatedBy" /></summary>
-        public const string ColumnUpdatedBy = "UpdatedBy";
-        /// <summary>Column Name constant for property <see cref="TrackerSchema.Core.Data.Tracker.Entities.TrackerTaskExtended.RowVersion" /></summary>
-        public const string ColumnRowVersion = "RowVersion";
+        public struct Columns
+        {
+            /// <summary>Column Name constant for property <see cref="TrackerSchema.Core.Data.Tracker.Entities.TrackerTaskExtended.TaskId" /></summary>
+            public const string TaskId = "TaskId";
+            /// <summary>Column Name constant for property <see cref="TrackerSchema.Core.Data.Tracker.Entities.TrackerTaskExtended.UserAgent" /></summary>
+            public const string UserAgent = "UserAgent";
+            /// <summary>Column Name constant for property <see cref="TrackerSchema.Core.Data.Tracker.Entities.TrackerTaskExtended.Browser" /></summary>
+            public const string Browser = "Browser";
+            /// <summary>Column Name constant for property <see cref="TrackerSchema.Core.Data.Tracker.Entities.TrackerTaskExtended.OperatingSystem" /></summary>
+            public const string OperatingSystem = "OperatingSystem";
+            /// <summary>Column Name constant for property <see cref="TrackerSchema.Core.Data.Tracker.Entities.TrackerTaskExtended.Created" /></summary>
+            public const string Created = "Created";
+            /// <summary>Column Name constant for property <see cref="TrackerSchema.Core.Data.Tracker.Entities.TrackerTaskExtended.CreatedBy" /></summary>
+            public const string CreatedBy = "CreatedBy";
+            /// <summary>Column Name constant for property <see cref="TrackerSchema.Core.Data.Tracker.Entities.TrackerTaskExtended.Updated" /></summary>
+            public const string Updated = "Updated";
+            /// <summary>Column Name constant for property <see cref="TrackerSchema.Core.Data.Tracker.Entities.TrackerTaskExtended.UpdatedBy" /></summary>
+            public const string UpdatedBy = "UpdatedBy";
+            /// <summary>Column Name constant for property <see cref="TrackerSchema.Core.Data.Tracker.Entities.TrackerTaskExtended.RowVersion" /></summary>
+            public const string RowVersion = "RowVersion";
+        }
         #endregion
     }
 }

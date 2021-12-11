@@ -42,11 +42,17 @@ namespace Tracker.PostgreSQL.Core.Data.Mapping
         }
 
         #region Generated Constants
-        public const string TableSchema = "public";
-        public const string TableName = "UserRole";
+        public struct Table
+        {
+            public const string Schema = "public";
+            public const string Name = "UserRole";
+        }
 
-        public const string ColumnUserId = "UserId";
-        public const string ColumnRoleId = "RoleId";
+        public struct Columns
+        {
+            public const string UserId = "UserId";
+            public const string RoleId = "RoleId";
+        }
         #endregion
     }
 }
