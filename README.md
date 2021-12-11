@@ -4,6 +4,8 @@
 
 [![Build status](https://ci.appveyor.com/api/projects/status/7ncldyr182jpu524?svg=true)](https://ci.appveyor.com/project/LoreSoft/entityframeworkcore-generator)
 
+[![NuGet Version](https://img.shields.io/nuget/v/EntityFrameworkCore.Generator.svg?style=flat-square)](https://www.nuget.org/packages/EntityFrameworkCore.Generator/)
+
 ## Features
 
 - Entity Framework Core database first model generation
