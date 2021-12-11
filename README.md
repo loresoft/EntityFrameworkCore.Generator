@@ -153,6 +153,10 @@ Entity Framework Core Generator supports generating [Read](https://efg.loresoft.
 
 ## Change Log
 
+### Version 4.0
+
+- upgrade projects to .net 6
+
 ### Version 3.1
 
 - Breaking change to generated mapping constants
