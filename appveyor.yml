@@ -1,4 +1,4 @@
-version: 4.0.0.{build}
+version: 4.0.{build}
 os: Visual Studio 2022
 
 environment:
@@ -15,9 +15,9 @@ dotnet_csproj:
   file: 'build\version.props'
   version: '{version}'
   package_version: '{version}'
-  assembly_version: '{version}'
-  file_version: '{version}'
-  informational_version: '{version}'
+  assembly_version: '{version}.0'
+  file_version: '{version}.0'
+  informational_version: '{version}+Branch.$(APPVEYOR_REPO_BRANCH).Sha.$(APPVEYOR_REPO_COMMIT)'
 
 build_script:
   - dotnet pack EntityFrameworkCore.Generator.sln --configuration Release --include-symbols --include-source
