@@ -198,7 +198,10 @@ namespace EntityFrameworkCore.Generator
                 property.StoreType = mapping.StoreType;
                 property.NativeType = mapping.StoreTypeNameBase;
                 property.DataType = mapping.DbType ?? DbType.AnsiString;
+
                 property.SystemType = mapping.ClrType;
+                var fullName = $"{column.Table.Schema}.{column.Table.Name}.{column.Name}";
+                property.EnumTypeName = _options.Data.Entity.EnumMappings.GetValueOrDefault(fullName);
                 property.Size = mapping.Size;
 
                 property.IsProcessed = true;
@@ -227,10 +230,16 @@ namespace EntityFrameworkCore.Generator
 
         private void CreateRelationship(EntityContext entityContext, Entity foreignEntity, DatabaseForeignKey tableKeySchema)
         {
+            _options.Variables.Set(VariableConstants.TableSchema, ToLegalName(tableKeySchema.PrincipalTable.Schema));
+            _options.Variables.Set(VariableConstants.TableName, ToLegalName(tableKeySchema.PrincipalTable.Name));
+
             Entity primaryEntity = GetEntity(entityContext, tableKeySchema.PrincipalTable, false, false);
 
+            _options.Variables.Set(VariableConstants.TableSchema, ToLegalName(tableKeySchema.Table.Schema));
+            _options.Variables.Set(VariableConstants.TableName, ToLegalName(tableKeySchema.Table.Name));
+
             string primaryName = primaryEntity.EntityClass;
-            string foreignName = foreignEntity.EntityClass;
+            string foreignName = tableKeySchema.Name.ToLower();
 
             string relationshipName = tableKeySchema.Name;
             relationshipName = _namer.UniqueRelationshipName(relationshipName);
@@ -266,9 +275,9 @@ namespace EntityFrameworkCore.Generator
             foreignRelationship.Entity = foreignEntity;
             foreignRelationship.Properties = new PropertyCollection(foreignMembers);
 
-            string prefix = GetMemberPrefix(foreignRelationship, primaryName, foreignName);
+            //string prefix = GetMemberPrefix(foreignRelationship, primaryName, foreignName);
 
-            string foreignPropertyName = ToPropertyName(foreignEntity.EntityClass, prefix + primaryName);
+            string foreignPropertyName = ToPropertyName(foreignEntity.EntityClass, /*prefix +*/ foreignName);
             foreignPropertyName = _namer.UniqueName(foreignEntity.EntityClass, foreignPropertyName);
             foreignRelationship.PropertyName = foreignPropertyName;
 
@@ -297,7 +306,7 @@ namespace EntityFrameworkCore.Generator
             else
                 primaryRelationship.Cardinality = Cardinality.Many;
 
-            string primaryPropertyName = prefix + foreignName;
+            string primaryPropertyName = /*prefix +*/ foreignName;
             if (!isOneToOne)
                 primaryPropertyName = RelationshipName(primaryPropertyName);
 
