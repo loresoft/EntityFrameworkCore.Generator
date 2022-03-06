@@ -155,6 +155,10 @@ Entity Framework Core Generator supports generating [Read](https://efg.loresoft.
 
 ## Change Log
 
+### Version 4.5
+
+- add support for nullable reference types
+
 ### Version 4.0
 
 - upgrade projects to .net 6

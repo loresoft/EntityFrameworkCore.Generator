@@ -17,7 +17,8 @@ project:
   namespace: 'Company.{Database.Name}'
   # the root directory for the project
   directory: .\
-
+  # output should support nullable reference types
+  nullable: true
 #---------------------------------#
 # data section -  Used for configuring database connections
 #---------------------------------#
