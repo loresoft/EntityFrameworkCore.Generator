@@ -44,7 +44,7 @@ namespace Tracker.Core.Data.Entities
         /// The the navigation property for entity <see cref="Role" />.
         /// </value>
         /// <seealso cref="RoleId" />
-        public virtual Role Role { get; set; }
+        public virtual Role Role { get; set; } = null!;
 
         /// <summary>
         /// Gets or sets the navigation property for entity <see cref="User" />.
@@ -53,7 +53,7 @@ namespace Tracker.Core.Data.Entities
         /// The the navigation property for entity <see cref="User" />.
         /// </value>
         /// <seealso cref="UserId" />
-        public virtual User User { get; set; }
+        public virtual User User { get; set; } = null!;
 
         #endregion
 

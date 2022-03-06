@@ -16,7 +16,7 @@ namespace Tracker.Core.Domain.Models
         /// <value>
         /// The property value for 'Name'.
         /// </value>
-        public string Name { get; set; }
+        public string Name { get; set; } = null!;
 
         /// <summary>
         /// Gets or sets the property value for 'Description'.
@@ -24,7 +24,7 @@ namespace Tracker.Core.Domain.Models
         /// <value>
         /// The property value for 'Description'.
         /// </value>
-        public string Description { get; set; }
+        public string? Description { get; set; }
 
         /// <summary>
         /// Gets or sets the property value for 'IsActive'.

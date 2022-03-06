@@ -36,7 +36,7 @@ namespace Tracker.Core.Data.Entities
         /// <value>
         /// The property value representing column 'EmailAddress'.
         /// </value>
-        public string EmailAddress { get; set; }
+        public string EmailAddress { get; set; } = null!;
 
         /// <summary>
         /// Gets or sets the property value representing column 'IsEmailAddressConfirmed'.
@@ -52,7 +52,7 @@ namespace Tracker.Core.Data.Entities
         /// <value>
         /// The property value representing column 'DisplayName'.
         /// </value>
-        public string DisplayName { get; set; }
+        public string DisplayName { get; set; } = null!;
 
         /// <summary>
         /// Gets or sets the property value representing column 'PasswordHash'.
@@ -60,7 +60,7 @@ namespace Tracker.Core.Data.Entities
         /// <value>
         /// The property value representing column 'PasswordHash'.
         /// </value>
-        public string PasswordHash { get; set; }
+        public string? PasswordHash { get; set; }
 
         /// <summary>
         /// Gets or sets the property value representing column 'ResetHash'.
@@ -68,7 +68,7 @@ namespace Tracker.Core.Data.Entities
         /// <value>
         /// The property value representing column 'ResetHash'.
         /// </value>
-        public string ResetHash { get; set; }
+        public string? ResetHash { get; set; }
 
         /// <summary>
         /// Gets or sets the property value representing column 'InviteHash'.
@@ -76,7 +76,7 @@ namespace Tracker.Core.Data.Entities
         /// <value>
         /// The property value representing column 'InviteHash'.
         /// </value>
-        public string InviteHash { get; set; }
+        public string? InviteHash { get; set; }
 
         /// <summary>
         /// Gets or sets the property value representing column 'AccessFailedCount'.
@@ -132,7 +132,7 @@ namespace Tracker.Core.Data.Entities
         /// <value>
         /// The property value representing column 'CreatedBy'.
         /// </value>
-        public string CreatedBy { get; set; }
+        public string? CreatedBy { get; set; }
 
         /// <summary>
         /// Gets or sets the property value representing column 'Updated'.
@@ -148,7 +148,7 @@ namespace Tracker.Core.Data.Entities
         /// <value>
         /// The property value representing column 'UpdatedBy'.
         /// </value>
-        public string UpdatedBy { get; set; }
+        public string? UpdatedBy { get; set; }
 
         /// <summary>
         /// Gets or sets the property value representing column 'RowVersion'.
@@ -156,7 +156,7 @@ namespace Tracker.Core.Data.Entities
         /// <value>
         /// The property value representing column 'RowVersion'.
         /// </value>
-        public Byte[] RowVersion { get; set; }
+        public Byte[] RowVersion { get; set; } = null!;
 
         #endregion
 

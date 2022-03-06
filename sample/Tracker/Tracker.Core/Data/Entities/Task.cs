@@ -49,7 +49,7 @@ namespace Tracker.Core.Data.Entities
         /// <value>
         /// The property value representing column 'Title'.
         /// </value>
-        public string Title { get; set; }
+        public string Title { get; set; } = null!;
 
         /// <summary>
         /// Gets or sets the property value representing column 'Description'.
@@ -57,7 +57,7 @@ namespace Tracker.Core.Data.Entities
         /// <value>
         /// The property value representing column 'Description'.
         /// </value>
-        public string Description { get; set; }
+        public string? Description { get; set; }
 
         /// <summary>
         /// Gets or sets the property value representing column 'StartDate'.
@@ -113,7 +113,7 @@ namespace Tracker.Core.Data.Entities
         /// <value>
         /// The property value representing column 'CreatedBy'.
         /// </value>
-        public string CreatedBy { get; set; }
+        public string? CreatedBy { get; set; }
 
         /// <summary>
         /// Gets or sets the property value representing column 'Updated'.
@@ -129,7 +129,7 @@ namespace Tracker.Core.Data.Entities
         /// <value>
         /// The property value representing column 'UpdatedBy'.
         /// </value>
-        public string UpdatedBy { get; set; }
+        public string? UpdatedBy { get; set; }
 
         /// <summary>
         /// Gets or sets the property value representing column 'RowVersion'.
@@ -137,7 +137,7 @@ namespace Tracker.Core.Data.Entities
         /// <value>
         /// The property value representing column 'RowVersion'.
         /// </value>
-        public Byte[] RowVersion { get; set; }
+        public Byte[] RowVersion { get; set; } = null!;
 
         #endregion
 
@@ -149,7 +149,7 @@ namespace Tracker.Core.Data.Entities
         /// The the navigation property for entity <see cref="User" />.
         /// </value>
         /// <seealso cref="AssignedId" />
-        public virtual User AssignedUser { get; set; }
+        public virtual User? AssignedUser { get; set; }
 
         /// <summary>
         /// Gets or sets the navigation property for entity <see cref="Priority" />.
@@ -158,7 +158,7 @@ namespace Tracker.Core.Data.Entities
         /// The the navigation property for entity <see cref="Priority" />.
         /// </value>
         /// <seealso cref="PriorityId" />
-        public virtual Priority Priority { get; set; }
+        public virtual Priority? Priority { get; set; }
 
         /// <summary>
         /// Gets or sets the navigation property for entity <see cref="Status" />.
@@ -167,7 +167,7 @@ namespace Tracker.Core.Data.Entities
         /// The the navigation property for entity <see cref="Status" />.
         /// </value>
         /// <seealso cref="StatusId" />
-        public virtual Status Status { get; set; }
+        public virtual Status Status { get; set; } = null!;
 
         /// <summary>
         /// Gets or sets the navigation property for entity <see cref="TaskExtended" />.
@@ -176,7 +176,7 @@ namespace Tracker.Core.Data.Entities
         /// The the navigation property for entity <see cref="TaskExtended" />.
         /// </value>
         /// <seealso cref="Id" />
-        public virtual TaskExtended TaskExtended { get; set; }
+        public virtual TaskExtended TaskExtended { get; set; } = null!;
 
         /// <summary>
         /// Gets or sets the navigation property for entity <see cref="Tenant" />.
@@ -185,7 +185,7 @@ namespace Tracker.Core.Data.Entities
         /// The the navigation property for entity <see cref="Tenant" />.
         /// </value>
         /// <seealso cref="TenantId" />
-        public virtual Tenant Tenant { get; set; }
+        public virtual Tenant Tenant { get; set; } = null!;
 
         #endregion
 

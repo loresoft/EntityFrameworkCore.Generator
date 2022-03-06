@@ -18,8 +18,11 @@ namespace Tracker.Core.Data.Queries
         /// <param name="queryable">An <see cref="T:System.Linq.IQueryable`1" /> to filter.</param>
         /// <param name="taskId">The value to filter by.</param>
         /// <returns>An instance of <see cref="T:Tracker.Core.Data.Entities.TaskExtended"/> or null if not found.</returns>
-        public static Tracker.Core.Data.Entities.TaskExtended GetByKey(this IQueryable<Tracker.Core.Data.Entities.TaskExtended> queryable, Guid taskId)
+        public static Tracker.Core.Data.Entities.TaskExtended? GetByKey(this IQueryable<Tracker.Core.Data.Entities.TaskExtended> queryable, Guid taskId)
         {
+            if (queryable is null)
+                throw new ArgumentNullException(nameof(queryable));
+
             if (queryable is DbSet<Tracker.Core.Data.Entities.TaskExtended> dbSet)
                 return dbSet.Find(taskId);
 
@@ -32,13 +35,16 @@ namespace Tracker.Core.Data.Queries
         /// <param name="queryable">An <see cref="T:System.Linq.IQueryable`1" /> to filter.</param>
         /// <param name="taskId">The value to filter by.</param>
         /// <returns>An instance of <see cref="T:Tracker.Core.Data.Entities.TaskExtended"/> or null if not found.</returns>
-        public static ValueTask<Tracker.Core.Data.Entities.TaskExtended> GetByKeyAsync(this IQueryable<Tracker.Core.Data.Entities.TaskExtended> queryable, Guid taskId)
+        public static ValueTask<Tracker.Core.Data.Entities.TaskExtended?> GetByKeyAsync(this IQueryable<Tracker.Core.Data.Entities.TaskExtended> queryable, Guid taskId)
         {
+            if (queryable is null)
+                throw new ArgumentNullException(nameof(queryable));
+
             if (queryable is DbSet<Tracker.Core.Data.Entities.TaskExtended> dbSet)
                 return dbSet.FindAsync(taskId);
 
             var task = queryable.FirstOrDefaultAsync(q => q.TaskId == taskId);
-            return new ValueTask<Tracker.Core.Data.Entities.TaskExtended>(task);
+            return new ValueTask<Tracker.Core.Data.Entities.TaskExtended?>(task);
         }
 
         #endregion

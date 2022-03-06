@@ -1,7 +1,11 @@
-﻿using System.Linq;
+using System.DirectoryServices.ActiveDirectory;
+using System.Linq;
+
 using EntityFrameworkCore.Generator.Extensions;
 using EntityFrameworkCore.Generator.Metadata.Generation;
 using EntityFrameworkCore.Generator.Options;
+
+using Microsoft.Extensions.Options;
 
 namespace EntityFrameworkCore.Generator.Templates
 {
@@ -115,7 +119,7 @@ namespace EntityFrameworkCore.Generator.Templates
             CodeBuilder.AppendLine("#region Generated Properties");
             foreach (var property in _entity.Properties)
             {
-                var propertyType = property.SystemType.ToNullableType(property.IsNullable == true);
+                var propertyType = property.SystemType.ToType();
                 var propertyName = property.PropertyName.ToSafeName();
 
                 if (Options.Data.Entity.Document)
@@ -128,7 +132,13 @@ namespace EntityFrameworkCore.Generator.Templates
                     CodeBuilder.AppendLine("/// </value>");
                 }
 
-                CodeBuilder.AppendLine($"public {propertyType} {propertyName} {{ get; set; }}");
+                if (property.IsNullable == true && (property.SystemType.IsValueType || Options.Project.Nullable))
+                    CodeBuilder.AppendLine($"public {propertyType}? {propertyName} {{ get; set; }}");
+                else if (Options.Project.Nullable && !property.SystemType.IsValueType)
+                    CodeBuilder.AppendLine($"public {propertyType} {propertyName} {{ get; set; }} = null!;");
+                else
+                    CodeBuilder.AppendLine($"public {propertyType} {propertyName} {{ get; set; }}");
+
                 CodeBuilder.AppendLine();
             }
             CodeBuilder.AppendLine("#endregion");
@@ -178,7 +188,13 @@ namespace EntityFrameworkCore.Generator.Templates
                             CodeBuilder.AppendLine($"/// <seealso cref=\"{property.PropertyName}\" />");
                     }
 
-                    CodeBuilder.AppendLine($"public virtual {primaryFullName} {propertyName} {{ get; set; }}");
+                    if (!Options.Project.Nullable)
+                        CodeBuilder.AppendLine($"public virtual {primaryFullName} {propertyName} {{ get; set; }}");
+                    else if (relationship.Cardinality == Cardinality.One)
+                        CodeBuilder.AppendLine($"public virtual {primaryFullName} {propertyName} {{ get; set; }} = null!;");
+                    else
+                        CodeBuilder.AppendLine($"public virtual {primaryFullName}? {propertyName} {{ get; set; }}");
+
                     CodeBuilder.AppendLine();
                 }
             }

@@ -20,6 +20,9 @@ namespace Tracker.Core.Data.Queries
         /// <returns>An <see cref="T: System.Linq.IQueryable`1" /> that contains elements from the input sequence that satisfy the condition specified.</returns>
         public static IQueryable<Tracker.Core.Data.Entities.UserLogin> ByEmailAddress(this IQueryable<Tracker.Core.Data.Entities.UserLogin> queryable, string emailAddress)
         {
+            if (queryable is null)
+                throw new ArgumentNullException(nameof(queryable));
+
             return queryable.Where(q => q.EmailAddress == emailAddress);
         }
 
@@ -29,8 +32,11 @@ namespace Tracker.Core.Data.Queries
         /// <param name="queryable">An <see cref="T:System.Linq.IQueryable`1" /> to filter.</param>
         /// <param name="id">The value to filter by.</param>
         /// <returns>An instance of <see cref="T:Tracker.Core.Data.Entities.UserLogin"/> or null if not found.</returns>
-        public static Tracker.Core.Data.Entities.UserLogin GetByKey(this IQueryable<Tracker.Core.Data.Entities.UserLogin> queryable, Guid id)
+        public static Tracker.Core.Data.Entities.UserLogin? GetByKey(this IQueryable<Tracker.Core.Data.Entities.UserLogin> queryable, Guid id)
         {
+            if (queryable is null)
+                throw new ArgumentNullException(nameof(queryable));
+
             if (queryable is DbSet<Tracker.Core.Data.Entities.UserLogin> dbSet)
                 return dbSet.Find(id);
 
@@ -43,13 +49,16 @@ namespace Tracker.Core.Data.Queries
         /// <param name="queryable">An <see cref="T:System.Linq.IQueryable`1" /> to filter.</param>
         /// <param name="id">The value to filter by.</param>
         /// <returns>An instance of <see cref="T:Tracker.Core.Data.Entities.UserLogin"/> or null if not found.</returns>
-        public static ValueTask<Tracker.Core.Data.Entities.UserLogin> GetByKeyAsync(this IQueryable<Tracker.Core.Data.Entities.UserLogin> queryable, Guid id)
+        public static ValueTask<Tracker.Core.Data.Entities.UserLogin?> GetByKeyAsync(this IQueryable<Tracker.Core.Data.Entities.UserLogin> queryable, Guid id)
         {
+            if (queryable is null)
+                throw new ArgumentNullException(nameof(queryable));
+
             if (queryable is DbSet<Tracker.Core.Data.Entities.UserLogin> dbSet)
                 return dbSet.FindAsync(id);
 
             var task = queryable.FirstOrDefaultAsync(q => q.Id == id);
-            return new ValueTask<Tracker.Core.Data.Entities.UserLogin>(task);
+            return new ValueTask<Tracker.Core.Data.Entities.UserLogin?>(task);
         }
 
         /// <summary>
@@ -60,6 +69,9 @@ namespace Tracker.Core.Data.Queries
         /// <returns>An <see cref="T: System.Linq.IQueryable`1" /> that contains elements from the input sequence that satisfy the condition specified.</returns>
         public static IQueryable<Tracker.Core.Data.Entities.UserLogin> ByUserId(this IQueryable<Tracker.Core.Data.Entities.UserLogin> queryable, Guid? userId)
         {
+            if (queryable is null)
+                throw new ArgumentNullException(nameof(queryable));
+
             return queryable.Where(q => (q.UserId == userId || (userId == null && q.UserId == null)));
         }
 

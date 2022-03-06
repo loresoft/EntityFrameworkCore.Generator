@@ -33,7 +33,7 @@ namespace Tracker.Core.Domain.Models
         /// <value>
         /// The property value for 'Title'.
         /// </value>
-        public string Title { get; set; }
+        public string Title { get; set; } = null!;
 
         /// <summary>
         /// Gets or sets the property value for 'Description'.
@@ -41,7 +41,7 @@ namespace Tracker.Core.Domain.Models
         /// <value>
         /// The property value for 'Description'.
         /// </value>
-        public string Description { get; set; }
+        public string? Description { get; set; }
 
         /// <summary>
         /// Gets or sets the property value for 'StartDate'.
@@ -85,11 +85,11 @@ namespace Tracker.Core.Domain.Models
 
         #endregion
 
-        public string StatusName { get; set; }
+        public string StatusName { get; set; } = null!;
 
-        public string PriorityName { get; set; }
+        public string? PriorityName { get; set; }
 
-        public string AssignedEmail { get; set; }
+        public string? AssignedEmail { get; set; }
 
     }
 }

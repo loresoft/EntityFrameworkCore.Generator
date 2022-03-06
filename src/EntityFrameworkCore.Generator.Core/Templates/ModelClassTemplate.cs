@@ -1,4 +1,4 @@
-﻿using EntityFrameworkCore.Generator.Extensions;
+using EntityFrameworkCore.Generator.Extensions;
 using EntityFrameworkCore.Generator.Metadata.Generation;
 using EntityFrameworkCore.Generator.Options;
 
@@ -72,7 +72,7 @@ namespace EntityFrameworkCore.Generator.Templates
             CodeBuilder.AppendLine("#region Generated Properties");
             foreach (var property in _model.Properties)
             {
-                var propertyType = property.SystemType.ToNullableType(property.IsNullable == true);
+                var propertyType = property.SystemType.ToType();
                 var propertyName = property.PropertyName.ToSafeName();
 
                 if (ShouldDocument())
@@ -85,7 +85,13 @@ namespace EntityFrameworkCore.Generator.Templates
                     CodeBuilder.AppendLine("/// </value>");
                 }
 
-                CodeBuilder.AppendLine($"public {propertyType} {propertyName} {{ get; set; }}");
+                if (property.IsNullable == true && (property.SystemType.IsValueType || Options.Project.Nullable))
+                    CodeBuilder.AppendLine($"public {propertyType}? {propertyName} {{ get; set; }}");
+                else if (Options.Project.Nullable && !property.SystemType.IsValueType)
+                    CodeBuilder.AppendLine($"public {propertyType} {propertyName} {{ get; set; }} = null!;");
+                else
+                    CodeBuilder.AppendLine($"public {propertyType} {propertyName} {{ get; set; }}");
+
                 CodeBuilder.AppendLine();
             }
             CodeBuilder.AppendLine("#endregion");

@@ -1,4 +1,4 @@
-﻿namespace EntityFrameworkCore.Generator.Options
+namespace EntityFrameworkCore.Generator.Options
 {
     /// <summary>
     /// Project options
@@ -14,6 +14,7 @@
         {
             Namespace = "{Database.Name}";
             Directory = @".\";
+            Nullable = false;
         }
 
         /// <summary>
@@ -39,6 +40,15 @@
             get => GetProperty();
             set => SetProperty(value);
         }
+
+
+        /// <summary>
+        /// Gets or sets if the output should support nullable reference types.
+        /// </summary>
+        /// <value>
+        /// If the output should support nullable reference types.
+        /// </value>
+        public bool Nullable { get; set; }
 
     }
 }

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using EntityFrameworkCore.Generator.Metadata.Parsing;
@@ -48,7 +48,7 @@ namespace EntityFrameworkCore.Generator.Parsing
         {
             var preprocessingMessage = node
                 .DescendantTrivia()
-                .FirstOrDefault(t => t.Kind() == SyntaxKind.PreprocessingMessageTrivia);
+                .FirstOrDefault(t => t.IsKind(SyntaxKind.PreprocessingMessageTrivia));
 
 
             return preprocessingMessage.ToString();

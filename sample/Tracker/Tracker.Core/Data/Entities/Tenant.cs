@@ -34,7 +34,7 @@ namespace Tracker.Core.Data.Entities
         /// <value>
         /// The property value representing column 'Name'.
         /// </value>
-        public string Name { get; set; }
+        public string Name { get; set; } = null!;
 
         /// <summary>
         /// Gets or sets the property value representing column 'Description'.
@@ -42,7 +42,7 @@ namespace Tracker.Core.Data.Entities
         /// <value>
         /// The property value representing column 'Description'.
         /// </value>
-        public string Description { get; set; }
+        public string? Description { get; set; }
 
         /// <summary>
         /// Gets or sets the property value representing column 'IsActive'.
@@ -66,7 +66,7 @@ namespace Tracker.Core.Data.Entities
         /// <value>
         /// The property value representing column 'CreatedBy'.
         /// </value>
-        public string CreatedBy { get; set; }
+        public string? CreatedBy { get; set; }
 
         /// <summary>
         /// Gets or sets the property value representing column 'Updated'.
@@ -82,7 +82,7 @@ namespace Tracker.Core.Data.Entities
         /// <value>
         /// The property value representing column 'UpdatedBy'.
         /// </value>
-        public string UpdatedBy { get; set; }
+        public string? UpdatedBy { get; set; }
 
         /// <summary>
         /// Gets or sets the property value representing column 'RowVersion'.
@@ -90,7 +90,7 @@ namespace Tracker.Core.Data.Entities
         /// <value>
         /// The property value representing column 'RowVersion'.
         /// </value>
-        public Byte[] RowVersion { get; set; }
+        public Byte[] RowVersion { get; set; } = null!;
 
         #endregion
 

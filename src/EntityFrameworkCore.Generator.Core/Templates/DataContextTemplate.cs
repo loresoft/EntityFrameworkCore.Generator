@@ -1,4 +1,4 @@
-﻿using System.Linq;
+using System.Linq;
 using EntityFrameworkCore.Generator.Extensions;
 using EntityFrameworkCore.Generator.Metadata.Generation;
 using EntityFrameworkCore.Generator.Options;
@@ -102,7 +102,11 @@ namespace EntityFrameworkCore.Generator.Templates
                     CodeBuilder.AppendLine("/// </value>");
                 }
 
-                CodeBuilder.AppendLine($"public virtual DbSet<{fullName}> {propertyName} {{ get; set; }}");
+                CodeBuilder.Append($"public virtual DbSet<{fullName}> {propertyName} {{ get; set; }}");
+                if (Options.Project.Nullable)
+                    CodeBuilder.Append(" = null!;");
+
+                CodeBuilder.AppendLine();
                 CodeBuilder.AppendLine();
             }
 

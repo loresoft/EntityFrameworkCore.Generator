@@ -41,7 +41,7 @@ namespace Tracker.Core.Domain.Models
         /// <value>
         /// The property value for 'Content'.
         /// </value>
-        public string Content { get; set; }
+        public string Content { get; set; } = null!;
 
         /// <summary>
         /// Gets or sets the property value for 'Username'.
@@ -49,7 +49,7 @@ namespace Tracker.Core.Domain.Models
         /// <value>
         /// The property value for 'Username'.
         /// </value>
-        public string Username { get; set; }
+        public string Username { get; set; } = null!;
 
         #endregion
 

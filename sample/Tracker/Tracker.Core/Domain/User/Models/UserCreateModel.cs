@@ -17,7 +17,7 @@ namespace Tracker.Core.Domain.Models
         /// <value>
         /// The property value for 'EmailAddress'.
         /// </value>
-        public string EmailAddress { get; set; }
+        public string EmailAddress { get; set; } = null!;
 
         /// <summary>
         /// Gets or sets the property value for 'IsEmailAddressConfirmed'.
@@ -33,7 +33,7 @@ namespace Tracker.Core.Domain.Models
         /// <value>
         /// The property value for 'DisplayName'.
         /// </value>
-        public string DisplayName { get; set; }
+        public string DisplayName { get; set; } = null!;
 
         /// <summary>
         /// Gets or sets the property value for 'AccessFailedCount'.

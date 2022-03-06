@@ -1,4 +1,5 @@
-﻿using System.Linq;
+using System;
+using System.Linq;
 using EntityFrameworkCore.Generator.Extensions;
 using EntityFrameworkCore.Generator.Metadata.Generation;
 using EntityFrameworkCore.Generator.Options;
@@ -113,6 +114,11 @@ namespace EntityFrameworkCore.Generator.Templates
 
             using (CodeBuilder.Indent())
             {
+                CodeBuilder.AppendLine("if (queryable is null)");
+                using (CodeBuilder.Indent())
+                    CodeBuilder.AppendLine("throw new ArgumentNullException(nameof(queryable));");
+                CodeBuilder.AppendLine();
+
                 CodeBuilder.Append($"return queryable.Where(");
                 AppendLamba(method);
                 CodeBuilder.AppendLine(");");
@@ -129,7 +135,8 @@ namespace EntityFrameworkCore.Generator.Templates
             string suffix = method.NameSuffix;
 
             string asyncSuffix = async ? "Async" : string.Empty;
-            string returnType = async ? $"Task<{safeName}>" : safeName;
+            string nullableSuffix = Options.Project.Nullable ? "?" : "";
+            string returnType = async ? $"Task<{safeName}{nullableSuffix}>" : safeName + nullableSuffix;
 
             if (Options.Data.Query.Document)
             {
@@ -148,6 +155,12 @@ namespace EntityFrameworkCore.Generator.Templates
 
             using (CodeBuilder.Indent())
             {
+                CodeBuilder.AppendLine("if (queryable is null)");
+                using (CodeBuilder.Indent())
+                    CodeBuilder.AppendLine("throw new ArgumentNullException(nameof(queryable));");
+                CodeBuilder.AppendLine();
+
+
                 CodeBuilder.Append($"return queryable.FirstOrDefault{asyncSuffix}(");
                 AppendLamba(method);
                 CodeBuilder.AppendLine(");");
@@ -163,7 +176,8 @@ namespace EntityFrameworkCore.Generator.Templates
             string uniquePrefix = Options.Data.Query.UniquePrefix;
 
             string asyncSuffix = async ? "Async" : string.Empty;
-            string returnType = async ? $"ValueTask<{safeName}>" : safeName;
+            string nullableSuffix = Options.Project.Nullable ? "?" : "";
+            string returnType = async ? $"ValueTask<{safeName}{nullableSuffix}>" : safeName + nullableSuffix;
 
             if (Options.Data.Query.Document)
             {
@@ -182,6 +196,11 @@ namespace EntityFrameworkCore.Generator.Templates
 
             using (CodeBuilder.Indent())
             {
+                CodeBuilder.AppendLine("if (queryable is null)");
+                using (CodeBuilder.Indent())
+                    CodeBuilder.AppendLine("throw new ArgumentNullException(nameof(queryable));");
+                CodeBuilder.AppendLine();
+
                 CodeBuilder.AppendLine($"if (queryable is DbSet<{safeName}> dbSet)");
                 using (CodeBuilder.Indent())
                 {

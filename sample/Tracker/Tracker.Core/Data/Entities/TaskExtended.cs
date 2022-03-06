@@ -33,7 +33,7 @@ namespace Tracker.Core.Data.Entities
         /// <value>
         /// The property value representing column 'UserAgent'.
         /// </value>
-        public string UserAgent { get; set; }
+        public string? UserAgent { get; set; }
 
         /// <summary>
         /// Gets or sets the property value representing column 'Browser'.
@@ -41,7 +41,7 @@ namespace Tracker.Core.Data.Entities
         /// <value>
         /// The property value representing column 'Browser'.
         /// </value>
-        public string Browser { get; set; }
+        public string? Browser { get; set; }
 
         /// <summary>
         /// Gets or sets the property value representing column 'OperatingSystem'.
@@ -49,7 +49,7 @@ namespace Tracker.Core.Data.Entities
         /// <value>
         /// The property value representing column 'OperatingSystem'.
         /// </value>
-        public string OperatingSystem { get; set; }
+        public string? OperatingSystem { get; set; }
 
         /// <summary>
         /// Gets or sets the property value representing column 'Created'.
@@ -65,7 +65,7 @@ namespace Tracker.Core.Data.Entities
         /// <value>
         /// The property value representing column 'CreatedBy'.
         /// </value>
-        public string CreatedBy { get; set; }
+        public string? CreatedBy { get; set; }
 
         /// <summary>
         /// Gets or sets the property value representing column 'Updated'.
@@ -81,7 +81,7 @@ namespace Tracker.Core.Data.Entities
         /// <value>
         /// The property value representing column 'UpdatedBy'.
         /// </value>
-        public string UpdatedBy { get; set; }
+        public string? UpdatedBy { get; set; }
 
         /// <summary>
         /// Gets or sets the property value representing column 'RowVersion'.
@@ -89,7 +89,7 @@ namespace Tracker.Core.Data.Entities
         /// <value>
         /// The property value representing column 'RowVersion'.
         /// </value>
-        public Byte[] RowVersion { get; set; }
+        public Byte[] RowVersion { get; set; } = null!;
 
         #endregion
 
@@ -101,7 +101,7 @@ namespace Tracker.Core.Data.Entities
         /// The the navigation property for entity <see cref="Task" />.
         /// </value>
         /// <seealso cref="TaskId" />
-        public virtual Task Task { get; set; }
+        public virtual Task Task { get; set; } = null!;
 
         #endregion
 

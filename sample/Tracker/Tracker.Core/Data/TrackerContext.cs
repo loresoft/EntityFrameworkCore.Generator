@@ -25,7 +25,7 @@ namespace Tracker.Core.Data
         /// <value>
         /// The <see cref="T:Microsoft.EntityFrameworkCore.DbSet`1" /> that can be used to query and save instances of <see cref="Tracker.Core.Data.Entities.Audit"/>.
         /// </value>
-        public virtual DbSet<Tracker.Core.Data.Entities.Audit> Audits { get; set; }
+        public virtual DbSet<Tracker.Core.Data.Entities.Audit> Audits { get; set; } = null!;
 
         /// <summary>
         /// Gets or sets the <see cref="T:Microsoft.EntityFrameworkCore.DbSet`1" /> that can be used to query and save instances of <see cref="Tracker.Core.Data.Entities.Priority"/>.
@@ -33,7 +33,7 @@ namespace Tracker.Core.Data
         /// <value>
         /// The <see cref="T:Microsoft.EntityFrameworkCore.DbSet`1" /> that can be used to query and save instances of <see cref="Tracker.Core.Data.Entities.Priority"/>.
         /// </value>
-        public virtual DbSet<Tracker.Core.Data.Entities.Priority> Priorities { get; set; }
+        public virtual DbSet<Tracker.Core.Data.Entities.Priority> Priorities { get; set; } = null!;
 
         /// <summary>
         /// Gets or sets the <see cref="T:Microsoft.EntityFrameworkCore.DbSet`1" /> that can be used to query and save instances of <see cref="Tracker.Core.Data.Entities.Role"/>.
@@ -41,7 +41,7 @@ namespace Tracker.Core.Data
         /// <value>
         /// The <see cref="T:Microsoft.EntityFrameworkCore.DbSet`1" /> that can be used to query and save instances of <see cref="Tracker.Core.Data.Entities.Role"/>.
         /// </value>
-        public virtual DbSet<Tracker.Core.Data.Entities.Role> Roles { get; set; }
+        public virtual DbSet<Tracker.Core.Data.Entities.Role> Roles { get; set; } = null!;
 
         /// <summary>
         /// Gets or sets the <see cref="T:Microsoft.EntityFrameworkCore.DbSet`1" /> that can be used to query and save instances of <see cref="Tracker.Core.Data.Entities.Status"/>.
@@ -49,7 +49,7 @@ namespace Tracker.Core.Data
         /// <value>
         /// The <see cref="T:Microsoft.EntityFrameworkCore.DbSet`1" /> that can be used to query and save instances of <see cref="Tracker.Core.Data.Entities.Status"/>.
         /// </value>
-        public virtual DbSet<Tracker.Core.Data.Entities.Status> Statuses { get; set; }
+        public virtual DbSet<Tracker.Core.Data.Entities.Status> Statuses { get; set; } = null!;
 
         /// <summary>
         /// Gets or sets the <see cref="T:Microsoft.EntityFrameworkCore.DbSet`1" /> that can be used to query and save instances of <see cref="Tracker.Core.Data.Entities.TaskExtended"/>.
@@ -57,7 +57,7 @@ namespace Tracker.Core.Data
         /// <value>
         /// The <see cref="T:Microsoft.EntityFrameworkCore.DbSet`1" /> that can be used to query and save instances of <see cref="Tracker.Core.Data.Entities.TaskExtended"/>.
         /// </value>
-        public virtual DbSet<Tracker.Core.Data.Entities.TaskExtended> TaskExtended { get; set; }
+        public virtual DbSet<Tracker.Core.Data.Entities.TaskExtended> TaskExtended { get; set; } = null!;
 
         /// <summary>
         /// Gets or sets the <see cref="T:Microsoft.EntityFrameworkCore.DbSet`1" /> that can be used to query and save instances of <see cref="Tracker.Core.Data.Entities.Task"/>.
@@ -65,7 +65,7 @@ namespace Tracker.Core.Data
         /// <value>
         /// The <see cref="T:Microsoft.EntityFrameworkCore.DbSet`1" /> that can be used to query and save instances of <see cref="Tracker.Core.Data.Entities.Task"/>.
         /// </value>
-        public virtual DbSet<Tracker.Core.Data.Entities.Task> Tasks { get; set; }
+        public virtual DbSet<Tracker.Core.Data.Entities.Task> Tasks { get; set; } = null!;
 
         /// <summary>
         /// Gets or sets the <see cref="T:Microsoft.EntityFrameworkCore.DbSet`1" /> that can be used to query and save instances of <see cref="Tracker.Core.Data.Entities.Tenant"/>.
@@ -73,7 +73,7 @@ namespace Tracker.Core.Data
         /// <value>
         /// The <see cref="T:Microsoft.EntityFrameworkCore.DbSet`1" /> that can be used to query and save instances of <see cref="Tracker.Core.Data.Entities.Tenant"/>.
         /// </value>
-        public virtual DbSet<Tracker.Core.Data.Entities.Tenant> Tenants { get; set; }
+        public virtual DbSet<Tracker.Core.Data.Entities.Tenant> Tenants { get; set; } = null!;
 
         /// <summary>
         /// Gets or sets the <see cref="T:Microsoft.EntityFrameworkCore.DbSet`1" /> that can be used to query and save instances of <see cref="Tracker.Core.Data.Entities.UserLogin"/>.
@@ -81,7 +81,7 @@ namespace Tracker.Core.Data
         /// <value>
         /// The <see cref="T:Microsoft.EntityFrameworkCore.DbSet`1" /> that can be used to query and save instances of <see cref="Tracker.Core.Data.Entities.UserLogin"/>.
         /// </value>
-        public virtual DbSet<Tracker.Core.Data.Entities.UserLogin> UserLogins { get; set; }
+        public virtual DbSet<Tracker.Core.Data.Entities.UserLogin> UserLogins { get; set; } = null!;
 
         /// <summary>
         /// Gets or sets the <see cref="T:Microsoft.EntityFrameworkCore.DbSet`1" /> that can be used to query and save instances of <see cref="Tracker.Core.Data.Entities.UserRole"/>.
@@ -89,7 +89,7 @@ namespace Tracker.Core.Data
         /// <value>
         /// The <see cref="T:Microsoft.EntityFrameworkCore.DbSet`1" /> that can be used to query and save instances of <see cref="Tracker.Core.Data.Entities.UserRole"/>.
         /// </value>
-        public virtual DbSet<Tracker.Core.Data.Entities.UserRole> UserRoles { get; set; }
+        public virtual DbSet<Tracker.Core.Data.Entities.UserRole> UserRoles { get; set; } = null!;
 
         /// <summary>
         /// Gets or sets the <see cref="T:Microsoft.EntityFrameworkCore.DbSet`1" /> that can be used to query and save instances of <see cref="Tracker.Core.Data.Entities.User"/>.
@@ -97,7 +97,7 @@ namespace Tracker.Core.Data
         /// <value>
         /// The <see cref="T:Microsoft.EntityFrameworkCore.DbSet`1" /> that can be used to query and save instances of <see cref="Tracker.Core.Data.Entities.User"/>.
         /// </value>
-        public virtual DbSet<Tracker.Core.Data.Entities.User> Users { get; set; }
+        public virtual DbSet<Tracker.Core.Data.Entities.User> Users { get; set; } = null!;
 
         #endregion
 

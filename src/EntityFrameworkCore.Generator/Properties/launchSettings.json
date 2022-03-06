@@ -2,7 +2,8 @@
   "profiles": {
     "EntityFrameworkCore.Generator": {
       "commandName": "Project",
-      "commandLineArgs": "init"
+      "commandLineArgs": "generate",
+      "workingDirectory": "D:\\Projects\\github\\EntityFrameworkCore.Generator\\sample\\Tracker\\Tracker.Core"
     }
   }
 }

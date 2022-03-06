@@ -18,8 +18,11 @@ namespace Tracker.Core.Data.Queries
         /// <param name="queryable">An <see cref="T:System.Linq.IQueryable`1" /> to filter.</param>
         /// <param name="id">The value to filter by.</param>
         /// <returns>An instance of <see cref="T:Tracker.Core.Data.Entities.Priority"/> or null if not found.</returns>
-        public static Tracker.Core.Data.Entities.Priority GetByKey(this IQueryable<Tracker.Core.Data.Entities.Priority> queryable, Guid id)
+        public static Tracker.Core.Data.Entities.Priority? GetByKey(this IQueryable<Tracker.Core.Data.Entities.Priority> queryable, Guid id)
         {
+            if (queryable is null)
+                throw new ArgumentNullException(nameof(queryable));
+
             if (queryable is DbSet<Tracker.Core.Data.Entities.Priority> dbSet)
                 return dbSet.Find(id);
 
@@ -32,13 +35,16 @@ namespace Tracker.Core.Data.Queries
         /// <param name="queryable">An <see cref="T:System.Linq.IQueryable`1" /> to filter.</param>
         /// <param name="id">The value to filter by.</param>
         /// <returns>An instance of <see cref="T:Tracker.Core.Data.Entities.Priority"/> or null if not found.</returns>
-        public static ValueTask<Tracker.Core.Data.Entities.Priority> GetByKeyAsync(this IQueryable<Tracker.Core.Data.Entities.Priority> queryable, Guid id)
+        public static ValueTask<Tracker.Core.Data.Entities.Priority?> GetByKeyAsync(this IQueryable<Tracker.Core.Data.Entities.Priority> queryable, Guid id)
         {
+            if (queryable is null)
+                throw new ArgumentNullException(nameof(queryable));
+
             if (queryable is DbSet<Tracker.Core.Data.Entities.Priority> dbSet)
                 return dbSet.FindAsync(id);
 
             var task = queryable.FirstOrDefaultAsync(q => q.Id == id);
-            return new ValueTask<Tracker.Core.Data.Entities.Priority>(task);
+            return new ValueTask<Tracker.Core.Data.Entities.Priority?>(task);
         }
 
         #endregion

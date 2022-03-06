@@ -20,6 +20,9 @@ namespace Tracker.Core.Data.Queries
         /// <returns>An <see cref="T: System.Linq.IQueryable`1" /> that contains elements from the input sequence that satisfy the condition specified.</returns>
         public static IQueryable<Tracker.Core.Data.Entities.UserRole> ByRoleId(this IQueryable<Tracker.Core.Data.Entities.UserRole> queryable, Guid roleId)
         {
+            if (queryable is null)
+                throw new ArgumentNullException(nameof(queryable));
+
             return queryable.Where(q => q.RoleId == roleId);
         }
 
@@ -31,6 +34,9 @@ namespace Tracker.Core.Data.Queries
         /// <returns>An <see cref="T: System.Linq.IQueryable`1" /> that contains elements from the input sequence that satisfy the condition specified.</returns>
         public static IQueryable<Tracker.Core.Data.Entities.UserRole> ByUserId(this IQueryable<Tracker.Core.Data.Entities.UserRole> queryable, Guid userId)
         {
+            if (queryable is null)
+                throw new ArgumentNullException(nameof(queryable));
+
             return queryable.Where(q => q.UserId == userId);
         }
 
@@ -41,8 +47,11 @@ namespace Tracker.Core.Data.Queries
         /// <param name="userId">The value to filter by.</param>
         /// <param name="roleId">The value to filter by.</param>
         /// <returns>An instance of <see cref="T:Tracker.Core.Data.Entities.UserRole"/> or null if not found.</returns>
-        public static Tracker.Core.Data.Entities.UserRole GetByKey(this IQueryable<Tracker.Core.Data.Entities.UserRole> queryable, Guid userId, Guid roleId)
+        public static Tracker.Core.Data.Entities.UserRole? GetByKey(this IQueryable<Tracker.Core.Data.Entities.UserRole> queryable, Guid userId, Guid roleId)
         {
+            if (queryable is null)
+                throw new ArgumentNullException(nameof(queryable));
+
             if (queryable is DbSet<Tracker.Core.Data.Entities.UserRole> dbSet)
                 return dbSet.Find(userId, roleId);
 
@@ -57,14 +66,17 @@ namespace Tracker.Core.Data.Queries
         /// <param name="userId">The value to filter by.</param>
         /// <param name="roleId">The value to filter by.</param>
         /// <returns>An instance of <see cref="T:Tracker.Core.Data.Entities.UserRole"/> or null if not found.</returns>
-        public static ValueTask<Tracker.Core.Data.Entities.UserRole> GetByKeyAsync(this IQueryable<Tracker.Core.Data.Entities.UserRole> queryable, Guid userId, Guid roleId)
+        public static ValueTask<Tracker.Core.Data.Entities.UserRole?> GetByKeyAsync(this IQueryable<Tracker.Core.Data.Entities.UserRole> queryable, Guid userId, Guid roleId)
         {
+            if (queryable is null)
+                throw new ArgumentNullException(nameof(queryable));
+
             if (queryable is DbSet<Tracker.Core.Data.Entities.UserRole> dbSet)
                 return dbSet.FindAsync(userId, roleId);
 
             var task = queryable.FirstOrDefaultAsync(q => q.UserId == userId
                 && q.RoleId == roleId);
-            return new ValueTask<Tracker.Core.Data.Entities.UserRole>(task);
+            return new ValueTask<Tracker.Core.Data.Entities.UserRole?>(task);
         }
 
         #endregion

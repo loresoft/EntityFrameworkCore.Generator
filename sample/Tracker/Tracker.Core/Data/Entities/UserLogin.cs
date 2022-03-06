@@ -33,7 +33,7 @@ namespace Tracker.Core.Data.Entities
         /// <value>
         /// The property value representing column 'EmailAddress'.
         /// </value>
-        public string EmailAddress { get; set; }
+        public string EmailAddress { get; set; } = null!;
 
         /// <summary>
         /// Gets or sets the property value representing column 'UserId'.
@@ -49,7 +49,7 @@ namespace Tracker.Core.Data.Entities
         /// <value>
         /// The property value representing column 'UserAgent'.
         /// </value>
-        public string UserAgent { get; set; }
+        public string? UserAgent { get; set; }
 
         /// <summary>
         /// Gets or sets the property value representing column 'Browser'.
@@ -57,7 +57,7 @@ namespace Tracker.Core.Data.Entities
         /// <value>
         /// The property value representing column 'Browser'.
         /// </value>
-        public string Browser { get; set; }
+        public string? Browser { get; set; }
 
         /// <summary>
         /// Gets or sets the property value representing column 'OperatingSystem'.
@@ -65,7 +65,7 @@ namespace Tracker.Core.Data.Entities
         /// <value>
         /// The property value representing column 'OperatingSystem'.
         /// </value>
-        public string OperatingSystem { get; set; }
+        public string? OperatingSystem { get; set; }
 
         /// <summary>
         /// Gets or sets the property value representing column 'DeviceFamily'.
@@ -73,7 +73,7 @@ namespace Tracker.Core.Data.Entities
         /// <value>
         /// The property value representing column 'DeviceFamily'.
         /// </value>
-        public string DeviceFamily { get; set; }
+        public string? DeviceFamily { get; set; }
 
         /// <summary>
         /// Gets or sets the property value representing column 'DeviceBrand'.
@@ -81,7 +81,7 @@ namespace Tracker.Core.Data.Entities
         /// <value>
         /// The property value representing column 'DeviceBrand'.
         /// </value>
-        public string DeviceBrand { get; set; }
+        public string? DeviceBrand { get; set; }
 
         /// <summary>
         /// Gets or sets the property value representing column 'DeviceModel'.
@@ -89,7 +89,7 @@ namespace Tracker.Core.Data.Entities
         /// <value>
         /// The property value representing column 'DeviceModel'.
         /// </value>
-        public string DeviceModel { get; set; }
+        public string? DeviceModel { get; set; }
 
         /// <summary>
         /// Gets or sets the property value representing column 'IpAddress'.
@@ -97,7 +97,7 @@ namespace Tracker.Core.Data.Entities
         /// <value>
         /// The property value representing column 'IpAddress'.
         /// </value>
-        public string IpAddress { get; set; }
+        public string? IpAddress { get; set; }
 
         /// <summary>
         /// Gets or sets the property value representing column 'IsSuccessful'.
@@ -113,7 +113,7 @@ namespace Tracker.Core.Data.Entities
         /// <value>
         /// The property value representing column 'FailureMessage'.
         /// </value>
-        public string FailureMessage { get; set; }
+        public string? FailureMessage { get; set; }
 
         /// <summary>
         /// Gets or sets the property value representing column 'Created'.
@@ -129,7 +129,7 @@ namespace Tracker.Core.Data.Entities
         /// <value>
         /// The property value representing column 'CreatedBy'.
         /// </value>
-        public string CreatedBy { get; set; }
+        public string? CreatedBy { get; set; }
 
         /// <summary>
         /// Gets or sets the property value representing column 'Updated'.
@@ -145,7 +145,7 @@ namespace Tracker.Core.Data.Entities
         /// <value>
         /// The property value representing column 'UpdatedBy'.
         /// </value>
-        public string UpdatedBy { get; set; }
+        public string? UpdatedBy { get; set; }
 
         /// <summary>
         /// Gets or sets the property value representing column 'RowVersion'.
@@ -153,7 +153,7 @@ namespace Tracker.Core.Data.Entities
         /// <value>
         /// The property value representing column 'RowVersion'.
         /// </value>
-        public Byte[] RowVersion { get; set; }
+        public Byte[] RowVersion { get; set; } = null!;
 
         #endregion
 
@@ -165,7 +165,7 @@ namespace Tracker.Core.Data.Entities
         /// The the navigation property for entity <see cref="User" />.
         /// </value>
         /// <seealso cref="UserId" />
-        public virtual User User { get; set; }
+        public virtual User? User { get; set; }
 
         #endregion
 

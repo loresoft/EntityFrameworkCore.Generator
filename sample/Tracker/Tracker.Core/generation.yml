@@ -1,6 +1,7 @@
 project:
   namespace: '{Database.Name}.Core'
   directory: .\
+  nullable: true
 database:
   provider: SqlServer
   connectionString: Data Source=(local);Initial Catalog=Tracker;Integrated Security=True

@@ -18,8 +18,11 @@ namespace Tracker.Core.Data.Queries
         /// <param name="queryable">An <see cref="T:System.Linq.IQueryable`1" /> to filter.</param>
         /// <param name="id">The value to filter by.</param>
         /// <returns>An instance of <see cref="T:Tracker.Core.Data.Entities.Role"/> or null if not found.</returns>
-        public static Tracker.Core.Data.Entities.Role GetByKey(this IQueryable<Tracker.Core.Data.Entities.Role> queryable, Guid id)
+        public static Tracker.Core.Data.Entities.Role? GetByKey(this IQueryable<Tracker.Core.Data.Entities.Role> queryable, Guid id)
         {
+            if (queryable is null)
+                throw new ArgumentNullException(nameof(queryable));
+
             if (queryable is DbSet<Tracker.Core.Data.Entities.Role> dbSet)
                 return dbSet.Find(id);
 
@@ -32,13 +35,16 @@ namespace Tracker.Core.Data.Queries
         /// <param name="queryable">An <see cref="T:System.Linq.IQueryable`1" /> to filter.</param>
         /// <param name="id">The value to filter by.</param>
         /// <returns>An instance of <see cref="T:Tracker.Core.Data.Entities.Role"/> or null if not found.</returns>
-        public static ValueTask<Tracker.Core.Data.Entities.Role> GetByKeyAsync(this IQueryable<Tracker.Core.Data.Entities.Role> queryable, Guid id)
+        public static ValueTask<Tracker.Core.Data.Entities.Role?> GetByKeyAsync(this IQueryable<Tracker.Core.Data.Entities.Role> queryable, Guid id)
         {
+            if (queryable is null)
+                throw new ArgumentNullException(nameof(queryable));
+
             if (queryable is DbSet<Tracker.Core.Data.Entities.Role> dbSet)
                 return dbSet.FindAsync(id);
 
             var task = queryable.FirstOrDefaultAsync(q => q.Id == id);
-            return new ValueTask<Tracker.Core.Data.Entities.Role>(task);
+            return new ValueTask<Tracker.Core.Data.Entities.Role?>(task);
         }
 
         /// <summary>
@@ -47,8 +53,11 @@ namespace Tracker.Core.Data.Queries
         /// <param name="queryable">An <see cref="T:System.Linq.IQueryable`1" /> to filter.</param>
         /// <param name="name">The value to filter by.</param>
         /// <returns>An instance of <see cref="T:Tracker.Core.Data.Entities.Role"/> or null if not found.</returns>
-        public static Tracker.Core.Data.Entities.Role GetByName(this IQueryable<Tracker.Core.Data.Entities.Role> queryable, string name)
+        public static Tracker.Core.Data.Entities.Role? GetByName(this IQueryable<Tracker.Core.Data.Entities.Role> queryable, string name)
         {
+            if (queryable is null)
+                throw new ArgumentNullException(nameof(queryable));
+
             return queryable.FirstOrDefault(q => q.Name == name);
         }
 
@@ -58,8 +67,11 @@ namespace Tracker.Core.Data.Queries
         /// <param name="queryable">An <see cref="T:System.Linq.IQueryable`1" /> to filter.</param>
         /// <param name="name">The value to filter by.</param>
         /// <returns>An instance of <see cref="T:Tracker.Core.Data.Entities.Role"/> or null if not found.</returns>
-        public static Task<Tracker.Core.Data.Entities.Role> GetByNameAsync(this IQueryable<Tracker.Core.Data.Entities.Role> queryable, string name)
+        public static Task<Tracker.Core.Data.Entities.Role?> GetByNameAsync(this IQueryable<Tracker.Core.Data.Entities.Role> queryable, string name)
         {
+            if (queryable is null)
+                throw new ArgumentNullException(nameof(queryable));
+
             return queryable.FirstOrDefaultAsync(q => q.Name == name);
         }
 
