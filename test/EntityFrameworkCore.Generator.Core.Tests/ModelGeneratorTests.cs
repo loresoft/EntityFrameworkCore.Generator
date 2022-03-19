@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -76,7 +76,7 @@ namespace EntityFrameworkCore.Generator.Core.Tests
             nameProperty.Should().NotBeNull();
             nameProperty.PropertyName.Should().Be("Name");
         }
-        
+
         [Fact]
         public void GenerateModelsCheckNames()
         {
@@ -463,7 +463,7 @@ create default abc0 as 0
         public void GenerateIgnoreTable()
         {
             var generatorOptions = new GeneratorOptions();
-            generatorOptions.Database.Exclude.Add(new MatchOptions{ Expression = @"dbo\.ExpressionTable$" });
+            generatorOptions.Database.Exclude.Add(new MatchOptions { Expression = @"dbo\.ExpressionTable$" });
             generatorOptions.Database.Exclude.Add(new MatchOptions { Exact = @"dbo.DirectTable" });
             generatorOptions.Model.Read.Generate = true;
             generatorOptions.Model.Create.Generate = true;
@@ -561,6 +561,105 @@ create default abc0 as 0
             firstModel.ValidatorClass.Should().StartWith("TestTable");
             firstModel.ValidatorClass.Should().EndWith("Validator");
             firstModel.ValidatorNamespace.Should().Be("TestDatabase.Domain.Validation");
+
+        }
+
+        [Fact]
+        public void GenerateWithFilteredEntityName()
+        {
+
+            var generatorOptions = new GeneratorOptions();
+            generatorOptions.Data.Entity.EntityNamingFilters = new List<EntityNamingFilter>()
+            {
+                new EntityNamingFilter()
+                {
+                    Pattern = "^tbl(?<ClassName>.*?)$",
+                },
+                new EntityNamingFilter()
+                {
+                    Pattern = "^vw_(?<ClassName>.*?)$",
+                    Suffix = "View"
+                }
+            };
+            var databaseModel = new DatabaseModel
+            {
+                DatabaseName = "TestDatabase",
+                DefaultSchema = "dbo"
+            };
+            var testTableDbo = new DatabaseTable
+            {
+                Database = databaseModel,
+                Name = "tblTest",
+                Schema = "dbo"
+            };
+            var testTableTst = new DatabaseTable
+            {
+                Database = databaseModel,
+                Name = "vw_Test",
+                Schema = "dbo"
+            };
+            databaseModel.Tables.Add(testTableDbo);
+            databaseModel.Tables.Add(testTableTst);
+
+            var identifierColumnDbo = new DatabaseColumn
+            {
+                Table = testTableDbo,
+                Name = "Id",
+                IsNullable = false,
+                StoreType = "int"
+            };
+            var identifierColumnTst = new DatabaseColumn
+            {
+                Table = testTableTst,
+                Name = "Id",
+                IsNullable = false,
+                StoreType = "int"
+            };
+            testTableDbo.Columns.Add(identifierColumnDbo);
+            testTableDbo.Columns.Add(identifierColumnTst);
+
+            var nameColumnDbo = new DatabaseColumn
+            {
+                Table = testTableDbo,
+                Name = "Name",
+                IsNullable = true,
+                StoreType = "varchar(50)"
+            };
+            var nameColumnTst = new DatabaseColumn
+            {
+                Table = testTableTst,
+                Name = "Name",
+                IsNullable = true,
+                StoreType = "varchar(50)"
+            };
+            testTableDbo.Columns.Add(nameColumnDbo);
+            testTableDbo.Columns.Add(nameColumnTst);
+
+            var generator = new ModelGenerator(NullLoggerFactory.Instance);
+
+            var typeMappingSource = CreateTypeMappingSource();
+
+            var result = generator.Generate(generatorOptions, databaseModel, typeMappingSource);
+
+            result.ContextClass.Should().Be("TestDatabaseContext");
+            result.ContextNamespace.Should().Be("TestDatabase.Data");
+            result.Entities.Count.Should().Be(2);
+
+            var firstEntity = result.Entities[0];
+            firstEntity.TableName.Should().Be("tblTest");
+            firstEntity.TableSchema.Should().Be("dbo");
+            firstEntity.EntityClass.Should().Be("Test");
+            firstEntity.EntityNamespace.Should().Be("TestDatabase.Data.Entities");
+            firstEntity.MappingClass.Should().Be("TestMap");
+            firstEntity.MappingNamespace.Should().Be("TestDatabase.Data.Mapping");
+
+            var secondEntity = result.Entities[1];
+            secondEntity.TableName.Should().Be("vw_Test");
+            secondEntity.TableSchema.Should().Be("dbo");
+            secondEntity.EntityClass.Should().Be("TestView");
+            secondEntity.EntityNamespace.Should().Be("TestDatabase.Data.Entities");
+            secondEntity.MappingClass.Should().Be("TestViewMap");
+            secondEntity.MappingNamespace.Should().Be("TestDatabase.Data.Mapping");
 
         }
 
