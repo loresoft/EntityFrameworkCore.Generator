@@ -1,4 +1,6 @@
-﻿using System;
+using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.ComponentModel;
 
 namespace EntityFrameworkCore.Generator.Options
@@ -55,6 +57,14 @@ namespace EntityFrameworkCore.Generator.Options
         /// </value>
         [DefaultValue(EntityNaming.Singular)]
         public EntityNaming EntityNaming { get; set; }
+
+        /// <summary>
+        /// Gets or sets the Naming filters to apply to Entities
+        /// </summary>
+        /// <value>
+        /// A list of entity class naming filters
+        /// </value>
+        public IEnumerable<EntityNamingFilter> EntityNamingFilters { get; set; }
 
         /// <summary>
         /// Gets or sets the relationship property naming strategy.

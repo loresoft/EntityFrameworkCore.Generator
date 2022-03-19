@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -563,11 +563,36 @@ namespace EntityFrameworkCore.Generator
         {
             var tableNaming = _options.Database.TableNaming;
             var entityNaming = _options.Data.Entity.EntityNaming;
+            var entityNamingFilters = _options.Data.Entity.EntityNamingFilters;
 
             if (tableNaming != TableNaming.Plural && entityNaming == EntityNaming.Plural)
                 name = name.Pluralize(false);
             else if (tableNaming != TableNaming.Singular && entityNaming == EntityNaming.Singular)
                 name = name.Singularize(false);
+
+            foreach (var filter in entityNamingFilters)
+            {
+                if (!string.IsNullOrEmpty(filter.Pattern))
+                {
+                    var regex = new Regex(filter.Pattern, RegexOptions.IgnoreCase);
+                    var match = regex.Match(name);
+                    if (match.Success)
+                    {
+                        var matchedName = match.Groups[0].Value;
+
+                        if (match.Groups["ClassName"].Success)
+                        {
+                            matchedName = match.Groups["ClassName"].Value;
+                        }
+                        else if (match.Groups[1].Success)
+                        {
+                            matchedName = match.Groups[1].Value;
+                        }
+
+                        name = (filter.Prefix ?? "") + matchedName + (filter.Suffix ?? "");
+                    }
+                }
+            }
 
             return name;
         }
