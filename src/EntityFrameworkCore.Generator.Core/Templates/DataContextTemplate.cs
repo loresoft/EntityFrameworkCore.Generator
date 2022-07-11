@@ -23,15 +23,25 @@ namespace EntityFrameworkCore.Generator.Templates
             CodeBuilder.AppendLine("using Microsoft.EntityFrameworkCore.Metadata;");
             CodeBuilder.AppendLine();
 
-            CodeBuilder.AppendLine($"namespace {_entityContext.ContextNamespace}");
-            CodeBuilder.AppendLine("{");
+            CodeBuilder.Append($"namespace {_entityContext.ContextNamespace}");
 
-            using (CodeBuilder.Indent())
+            if (Options.Data.Context.FileScopedNamespace)
             {
+                CodeBuilder.AppendLine(";");
                 GenerateClass();
             }
+            else
+            {
+                CodeBuilder.AppendLine();
+                CodeBuilder.AppendLine("{");
 
-            CodeBuilder.AppendLine("}");
+                using (CodeBuilder.Indent())
+                {
+                    GenerateClass();
+                }
+
+                CodeBuilder.AppendLine("}");
+            }
 
             return CodeBuilder.ToString();
         }

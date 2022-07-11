@@ -1,4 +1,4 @@
-﻿using System.Globalization;
+using System.Globalization;
 using System.Linq;
 using EntityFrameworkCore.Generator.Extensions;
 using EntityFrameworkCore.Generator.Metadata.Generation;
@@ -27,15 +27,25 @@ namespace EntityFrameworkCore.Generator.Templates
             CodeBuilder.AppendLine("using Microsoft.EntityFrameworkCore;");
             CodeBuilder.AppendLine();
 
-            CodeBuilder.AppendLine($"namespace {_entity.MappingNamespace}");
-            CodeBuilder.AppendLine("{");
+            CodeBuilder.Append($"namespace {_entity.MappingNamespace}");
 
-            using (CodeBuilder.Indent())
+            if (Options.Data.Context.FileScopedNamespace)
             {
+                CodeBuilder.AppendLine(";");
                 GenerateClass();
             }
+            else
+            {
+                CodeBuilder.AppendLine();
+                CodeBuilder.AppendLine("{");
 
-            CodeBuilder.AppendLine("}");
+                using (CodeBuilder.Indent())
+                {
+                    GenerateClass();
+                }
+
+                CodeBuilder.AppendLine("}");
+            }
 
             return CodeBuilder.ToString();
         }
