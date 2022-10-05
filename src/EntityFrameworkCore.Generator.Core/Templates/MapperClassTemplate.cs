@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using EntityFrameworkCore.Generator.Extensions;
 using EntityFrameworkCore.Generator.Metadata.Generation;
 using EntityFrameworkCore.Generator.Options;
@@ -33,15 +33,25 @@ namespace EntityFrameworkCore.Generator.Templates
 
             CodeBuilder.AppendLine();
 
-            CodeBuilder.AppendLine($"namespace {_entity.MapperNamespace}");
-            CodeBuilder.AppendLine("{");
+            CodeBuilder.Append($"namespace {_entity.MapperNamespace}");
 
-            using (CodeBuilder.Indent())
+            if (Options.Data.Context.FileScopedNamespace)
             {
+                CodeBuilder.AppendLine(";");
                 GenerateClass();
             }
+            else
+            {
+                CodeBuilder.AppendLine();
+                CodeBuilder.AppendLine("{");
 
-            CodeBuilder.AppendLine("}");
+                using (CodeBuilder.Indent())
+                {
+                    GenerateClass();
+                }
+
+                CodeBuilder.AppendLine("}");
+            }
 
             return CodeBuilder.ToString();
         }

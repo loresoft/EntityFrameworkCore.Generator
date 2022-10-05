@@ -1,4 +1,4 @@
-﻿using System.ComponentModel;
+using System.ComponentModel;
 
 namespace EntityFrameworkCore.Generator.Options
 {
@@ -50,5 +50,14 @@ namespace EntityFrameworkCore.Generator.Options
         /// </value>
         [DefaultValue(false)]
         public bool Document { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether to use file-scoped namespace.
+        /// </summary>
+        /// <value>
+        ///   <c>true</c> to use file-coped namespace; otherwise, <c>false</c>.
+        /// </value>
+        [DefaultValue(false)]
+        public bool FileScopedNamespace { get; set; }
     }
 }

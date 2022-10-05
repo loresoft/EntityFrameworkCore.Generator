@@ -28,15 +28,25 @@ namespace EntityFrameworkCore.Generator.Templates
 
             var extensionNamespace = Options.Data.Query.Namespace;
 
-            CodeBuilder.AppendLine($"namespace {extensionNamespace}");
-            CodeBuilder.AppendLine("{");
+            CodeBuilder.Append($"namespace {extensionNamespace}");
 
-            using (CodeBuilder.Indent())
+            if (Options.Data.Context.FileScopedNamespace)
             {
+                CodeBuilder.AppendLine(";");
                 GenerateClass();
             }
+            else
+            {
+                CodeBuilder.AppendLine();
+                CodeBuilder.AppendLine("{");
 
-            CodeBuilder.AppendLine("}");
+                using (CodeBuilder.Indent())
+                {
+                    GenerateClass();
+                }
+
+                CodeBuilder.AppendLine("}");
+            }
 
             return CodeBuilder.ToString();
         }
