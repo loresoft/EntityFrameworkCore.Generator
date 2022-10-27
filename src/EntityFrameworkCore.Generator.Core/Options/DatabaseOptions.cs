@@ -118,5 +118,7 @@ namespace EntityFrameworkCore.Generator.Options
         /// </value>
         public List<MatchOptions> Exclude { get; set; }
 
+        public bool ProcessRelationships { get; set; } = true;
+
     }
 }
