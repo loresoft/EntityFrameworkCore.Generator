@@ -1,20 +1,17 @@
-﻿using System;
+﻿namespace EntityFrameworkCore.Generator.Options;
 
-namespace EntityFrameworkCore.Generator.Options
+/// <summary>
+/// Update model options
+/// </summary>
+/// <seealso cref="ModelOptionsBase" />
+public class UpdateModelOptions : ModelOptionsBase
 {
     /// <summary>
-    /// Update model options
+    /// Initializes a new instance of the <see cref="UpdateModelOptions"/> class.
     /// </summary>
-    /// <seealso cref="ModelOptionsBase" />
-    public class UpdateModelOptions : ModelOptionsBase
+    public UpdateModelOptions(VariableDictionary variables, string prefix)
+        : base(variables, AppendPrefix(prefix, "Update"))
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="UpdateModelOptions"/> class.
-        /// </summary>
-        public UpdateModelOptions(VariableDictionary variables, string prefix)
-            : base(variables, AppendPrefix(prefix, "Update"))
-        {
-            Name = "{Entity.Name}UpdateModel";
-        }
+        Name = "{Entity.Name}UpdateModel";
     }
 }

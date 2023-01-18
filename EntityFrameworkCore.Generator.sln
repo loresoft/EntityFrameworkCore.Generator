@@ -14,9 +14,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{6A18343D-8DEC-4FCC-861E-FA8312E25153}"
 	ProjectSection(SolutionItems) = preProject
 		appveyor.yml = appveyor.yml
-		build\common.props = build\common.props
-		build\sourcelink.props = build\sourcelink.props
-		build\version.props = build\version.props
+		src\Directory.Build.props = src\Directory.Build.props
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{AA406DDA-50E2-40C8-BCC9-3A2194771231}"

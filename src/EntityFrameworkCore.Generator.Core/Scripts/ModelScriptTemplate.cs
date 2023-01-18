@@ -2,27 +2,26 @@
 using EntityFrameworkCore.Generator.Options;
 using Microsoft.Extensions.Logging;
 
-namespace EntityFrameworkCore.Generator.Scripts
+namespace EntityFrameworkCore.Generator.Scripts;
+
+public class ModelScriptTemplate : ScriptTemplateBase<ModelScriptVariables>
 {
-    public class ModelScriptTemplate : ScriptTemplateBase<ModelScriptVariables>
+    private Model _model;
+
+    public ModelScriptTemplate(ILoggerFactory loggerFactory, GeneratorOptions generatorOptions, TemplateOptions templateOptions)
+        : base(loggerFactory, generatorOptions, templateOptions)
     {
-        private Model _model;
+    }
 
-        public ModelScriptTemplate(ILoggerFactory loggerFactory, GeneratorOptions generatorOptions, TemplateOptions templateOptions)
-            : base(loggerFactory, generatorOptions, templateOptions)
-        {
-        }
+    public void RunScript(Model model)
+    {
+        _model = model;
 
-        public void RunScript(Model model)
-        {
-            _model = model;
+        WriteCode();
+    }
 
-            WriteCode();
-        }
-
-        protected override ModelScriptVariables CreateVariables()
-        {
-            return new ModelScriptVariables(_model, GeneratorOptions, TemplateOptions);
-        }
+    protected override ModelScriptVariables CreateVariables()
+    {
+        return new ModelScriptVariables(_model, GeneratorOptions, TemplateOptions);
     }
 }

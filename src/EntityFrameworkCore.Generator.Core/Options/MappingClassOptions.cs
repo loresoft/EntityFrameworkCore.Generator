@@ -1,21 +1,18 @@
-﻿using System;
+﻿namespace EntityFrameworkCore.Generator.Options;
 
-namespace EntityFrameworkCore.Generator.Options
+/// <summary>
+/// EntityFramework mapping class generation options
+/// </summary>
+/// <seealso cref="ClassOptionsBase" />
+public class MappingClassOptions : ClassOptionsBase
 {
     /// <summary>
-    /// EntityFramework mapping class generation options
+    /// Initializes a new instance of the <see cref="MappingClassOptions"/> class.
     /// </summary>
-    /// <seealso cref="ClassOptionsBase" />
-    public class MappingClassOptions : ClassOptionsBase
+    public MappingClassOptions(VariableDictionary variables, string prefix)
+        : base(variables, AppendPrefix(prefix, "Mapping"))
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="MappingClassOptions"/> class.
-        /// </summary>
-        public MappingClassOptions(VariableDictionary variables, string prefix)
-            : base(variables, AppendPrefix(prefix, "Mapping"))
-        {
-            Namespace = "{Project.Namespace}.Data.Mapping";
-            Directory = @"{Project.Directory}\Data\Mapping";
-        }
+        Namespace = "{Project.Namespace}.Data.Mapping";
+        Directory = @"{Project.Directory}\Data\Mapping";
     }
 }

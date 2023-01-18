@@ -1,25 +1,22 @@
-﻿using System;
+﻿namespace EntityFrameworkCore.Generator.Options;
 
-namespace EntityFrameworkCore.Generator.Options
+/// <summary>
+/// Entity class naming strategy
+/// </summary>
+public enum EntityNaming
 {
     /// <summary>
-    /// Entity class naming strategy
+    /// Use table name as entity name
     /// </summary>
-    public enum EntityNaming
-    {
-        /// <summary>
-        /// Use table name as entity name
-        /// </summary>
-        Preserve = 0,
+    Preserve = 0,
 
-        /// <summary>
-        /// Use table name in plural form
-        /// </summary>
-        Plural = 1,
+    /// <summary>
+    /// Use table name in plural form
+    /// </summary>
+    Plural = 1,
 
-        /// <summary>
-        /// Use table name in singular form
-        /// </summary>
-        Singular = 2
-    }
+    /// <summary>
+    /// Use table name in singular form
+    /// </summary>
+    Singular = 2
 }

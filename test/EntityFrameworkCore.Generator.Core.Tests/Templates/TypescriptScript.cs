@@ -4,116 +4,115 @@ using EntityFrameworkCore.Generator.Metadata.Generation;
 using EntityFrameworkCore.Generator.Options;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 
-namespace EntityFrameworkCore.Generator.Core.Tests.Templates
+namespace EntityFrameworkCore.Generator.Core.Tests.Templates;
+
+public class TypescriptScript
 {
-    public class TypescriptScript
+    // simulate global script variables
+    public TemplateOptions TemplateOptions { get; set; }
+
+    public GeneratorOptions GeneratorOptions { get; set; }
+
+    public IndentedStringBuilder CodeBuilder { get; set; }
+
+    public Model Model { get; set; }
+
+
+
+    public string WriteCode()
     {
-        // simulate global script variables
-        public TemplateOptions TemplateOptions { get; set; }
+        CodeBuilder.Clear();
 
-        public GeneratorOptions GeneratorOptions { get; set; }
-
-        public IndentedStringBuilder CodeBuilder { get; set; }
-
-        public Model Model { get; set; }
-
-
-
-        public string WriteCode()
+        var hasNamespace = TemplateOptions.Namespace.HasValue();
+        if (hasNamespace)
         {
-            CodeBuilder.Clear();
+            CodeBuilder
+                .Append("namespace ")
+                .Append(TemplateOptions.Namespace)
+                .AppendLine(" {");
 
-            var hasNamespace = TemplateOptions.Namespace.HasValue();
-            if (hasNamespace)
-            {
-                CodeBuilder
-                    .Append("namespace ")
-                    .Append(TemplateOptions.Namespace)
-                    .AppendLine(" {");
-
-                CodeBuilder.IncrementIndent();
-            }
-
-            GenerateInterface();
-
-            if (hasNamespace)
-            {
-                CodeBuilder.DecrementIndent();
-                CodeBuilder.AppendLine("}");
-            }
-
-            return CodeBuilder.ToString();
+            CodeBuilder.IncrementIndent();
         }
 
-        private void GenerateInterface()
+        GenerateInterface();
+
+        if (hasNamespace)
         {
-            var modelClass = Model.ModelClass.ToSafeName().ToCamelCase();
-
-            CodeBuilder.Append($"export interface {modelClass}");
-
-            if (TemplateOptions.BaseClass.HasValue())
-            {
-                var modelBase = TemplateOptions.BaseClass.ToSafeName().ToCamelCase();
-                CodeBuilder.Append($" extends {modelBase}");
-            }
-
-            CodeBuilder.AppendLine(" {");
-
-            using (CodeBuilder.Indent())
-                GenerateProperties();
-
+            CodeBuilder.DecrementIndent();
             CodeBuilder.AppendLine("}");
         }
 
-        private void GenerateProperties()
+        return CodeBuilder.ToString();
+    }
+
+    private void GenerateInterface()
+    {
+        var modelClass = Model.ModelClass.ToSafeName().ToCamelCase();
+
+        CodeBuilder.Append($"export interface {modelClass}");
+
+        if (TemplateOptions.BaseClass.HasValue())
         {
-            foreach (var property in Model.Properties)
-            {
-                var propertyType = ToScriptType(property.SystemType);
-                var propertyName = property.PropertyName.ToSafeName().ToCamelCase();
-
-                CodeBuilder.Append(propertyName);
-                if (property.IsOptional)
-                    CodeBuilder.Append("?");
-
-                CodeBuilder
-                    .Append(": ")
-                    .Append(propertyType)
-                    .AppendLine(";");
-            }
+            var modelBase = TemplateOptions.BaseClass.ToSafeName().ToCamelCase();
+            CodeBuilder.Append($" extends {modelBase}");
         }
 
-        private static string ToScriptType(Type type)
-        {
-            var t = type.FullName;
+        CodeBuilder.AppendLine(" {");
 
-            switch (t)
-            {
-                case "System.Int16":
-                case "System.Int32":
-                case "System.Byte":
-                case "System.Double":
-                case "System.SByte":
-                case "System.Single":
-                case "System.UInt16":
-                case "System.UInt32":
-                    return "number";
-                case "System.Decimal":
-                case "System.Int64":
-                case "System.UInt64":
-                    return "number";
-                case "System.Boolean":
-                    return "boolean";
-                case "System.DateTime":
-                case "System.DateTimeOffset":
-                    return "Date";
-                case "System.String":
-                case "System.Guid":
-                case "System.TimeSpan":
-                    return "string";
-                default:
-                    return "any";
-            }
+        using (CodeBuilder.Indent())
+            GenerateProperties();
+
+        CodeBuilder.AppendLine("}");
+    }
+
+    private void GenerateProperties()
+    {
+        foreach (var property in Model.Properties)
+        {
+            var propertyType = ToScriptType(property.SystemType);
+            var propertyName = property.PropertyName.ToSafeName().ToCamelCase();
+
+            CodeBuilder.Append(propertyName);
+            if (property.IsOptional)
+                CodeBuilder.Append("?");
+
+            CodeBuilder
+                .Append(": ")
+                .Append(propertyType)
+                .AppendLine(";");
+        }
+    }
+
+    private static string ToScriptType(Type type)
+    {
+        var t = type.FullName;
+
+        switch (t)
+        {
+            case "System.Int16":
+            case "System.Int32":
+            case "System.Byte":
+            case "System.Double":
+            case "System.SByte":
+            case "System.Single":
+            case "System.UInt16":
+            case "System.UInt32":
+                return "number";
+            case "System.Decimal":
+            case "System.Int64":
+            case "System.UInt64":
+                return "number";
+            case "System.Boolean":
+                return "boolean";
+            case "System.DateTime":
+            case "System.DateTimeOffset":
+                return "Date";
+            case "System.String":
+            case "System.Guid":
+            case "System.TimeSpan":
+                return "string";
+            default:
+                return "any";
         }
     }
 }

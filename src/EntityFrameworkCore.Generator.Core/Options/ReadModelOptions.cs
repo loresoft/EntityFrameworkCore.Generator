@@ -1,18 +1,17 @@
-﻿namespace EntityFrameworkCore.Generator.Options
+﻿namespace EntityFrameworkCore.Generator.Options;
+
+/// <summary>
+/// Read model options
+/// </summary>
+/// <seealso cref="ModelOptionsBase" />
+public class ReadModelOptions : ModelOptionsBase
 {
     /// <summary>
-    /// Read model options
+    /// Initializes a new instance of the <see cref="ReadModelOptions"/> class.
     /// </summary>
-    /// <seealso cref="ModelOptionsBase" />
-    public class ReadModelOptions : ModelOptionsBase
+    public ReadModelOptions(VariableDictionary variables, string prefix)
+        : base(variables, AppendPrefix(prefix, "Read"))
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ReadModelOptions"/> class.
-        /// </summary>
-        public ReadModelOptions(VariableDictionary variables, string prefix)
-            : base(variables, AppendPrefix(prefix, "Read"))
-        {
-            Name = "{Entity.Name}ReadModel";
-        }
+        Name = "{Entity.Name}ReadModel";
     }
 }

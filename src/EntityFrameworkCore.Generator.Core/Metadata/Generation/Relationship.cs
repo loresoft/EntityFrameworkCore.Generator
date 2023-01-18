@@ -1,41 +1,40 @@
 ﻿using System.Diagnostics;
 
-namespace EntityFrameworkCore.Generator.Metadata.Generation
+namespace EntityFrameworkCore.Generator.Metadata.Generation;
+
+[DebuggerDisplay("Primary: {PrimaryEntity}, Property: {PropertyName}, Relationship: {RelationshipName}")]
+public class Relationship : ModelBase
 {
-    [DebuggerDisplay("Primary: {PrimaryEntity}, Property: {PropertyName}, Relationship: {RelationshipName}")]
-    public class Relationship : ModelBase
+    public Relationship()
     {
-        public Relationship()
-        {
-            Properties = new PropertyCollection();
-            PrimaryProperties = new PropertyCollection();
-        }
-
-        public string RelationshipName { get; set; }
-
-
-        public Entity Entity { get; set; }
-
-        public PropertyCollection Properties { get; set; }
-
-        public string PropertyName { get; set; }
-
-        public Cardinality Cardinality { get; set; }
-
-
-        public Entity PrimaryEntity { get; set; }
-
-        public PropertyCollection PrimaryProperties { get; set; }
-
-        public string PrimaryPropertyName { get; set; }
-
-        public Cardinality PrimaryCardinality { get; set; }
-
-
-        public bool? CascadeDelete { get; set; }
-        public bool IsForeignKey { get; set; }
-        public bool IsMapped { get; set; }
-
-        public bool IsOneToOne => Cardinality != Cardinality.Many && PrimaryCardinality != Cardinality.Many;
+        Properties = new PropertyCollection();
+        PrimaryProperties = new PropertyCollection();
     }
+
+    public string RelationshipName { get; set; }
+
+
+    public Entity Entity { get; set; }
+
+    public PropertyCollection Properties { get; set; }
+
+    public string PropertyName { get; set; }
+
+    public Cardinality Cardinality { get; set; }
+
+
+    public Entity PrimaryEntity { get; set; }
+
+    public PropertyCollection PrimaryProperties { get; set; }
+
+    public string PrimaryPropertyName { get; set; }
+
+    public Cardinality PrimaryCardinality { get; set; }
+
+
+    public bool? CascadeDelete { get; set; }
+    public bool IsForeignKey { get; set; }
+    public bool IsMapped { get; set; }
+
+    public bool IsOneToOne => Cardinality != Cardinality.Many && PrimaryCardinality != Cardinality.Many;
 }

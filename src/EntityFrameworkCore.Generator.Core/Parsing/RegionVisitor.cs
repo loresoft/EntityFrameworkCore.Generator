@@ -6,52 +6,51 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
-namespace EntityFrameworkCore.Generator.Parsing
+namespace EntityFrameworkCore.Generator.Parsing;
+
+public class RegionVisitor : CSharpSyntaxWalker
 {
-    public class RegionVisitor : CSharpSyntaxWalker
+    private readonly Stack<CodeRegion> _stack = new Stack<CodeRegion>();
+
+    public RegionVisitor() : base(SyntaxWalkerDepth.StructuredTrivia)
     {
-        private readonly Stack<CodeRegion> _stack = new Stack<CodeRegion>();
+        Regions = new Dictionary<string, CodeRegion>(StringComparer.OrdinalIgnoreCase);
+    }
 
-        public RegionVisitor() : base(SyntaxWalkerDepth.StructuredTrivia)
+    public Dictionary<string, CodeRegion> Regions { get; }
+
+    public override void VisitRegionDirectiveTrivia(RegionDirectiveTriviaSyntax node)
+    {
+        var region = new CodeRegion
         {
-            Regions = new Dictionary<string, CodeRegion>(StringComparer.OrdinalIgnoreCase);
-        }
+            StartIndex = node.FullSpan.Start,
+            Name = ParseRegionName(node)
+        };
+        _stack.Push(region);
 
-        public Dictionary<string, CodeRegion> Regions { get; }
+        base.VisitRegionDirectiveTrivia(node);
+    }
 
-        public override void VisitRegionDirectiveTrivia(RegionDirectiveTriviaSyntax node)
-        {
-            var region = new CodeRegion
-            {
-                StartIndex = node.FullSpan.Start,
-                Name = ParseRegionName(node)
-            };
-            _stack.Push(region);
+    public override void VisitEndRegionDirectiveTrivia(EndRegionDirectiveTriviaSyntax node)
+    {
+        if (_stack.Count == 0)
+            return;
 
-            base.VisitRegionDirectiveTrivia(node);
-        }
+        var region = _stack.Pop();
+        region.EndIndex = node.FullSpan.End;
 
-        public override void VisitEndRegionDirectiveTrivia(EndRegionDirectiveTriviaSyntax node)
-        {
-            if (_stack.Count == 0)
-                return;
+        Regions[region.Name] = region;
 
-            var region = _stack.Pop();
-            region.EndIndex = node.FullSpan.End;
+        base.VisitEndRegionDirectiveTrivia(node);
+    }
 
-            Regions[region.Name] = region;
-
-            base.VisitEndRegionDirectiveTrivia(node);
-        }
-
-        private string ParseRegionName(RegionDirectiveTriviaSyntax node)
-        {
-            var preprocessingMessage = node
-                .DescendantTrivia()
-                .FirstOrDefault(t => t.IsKind(SyntaxKind.PreprocessingMessageTrivia));
+    private string ParseRegionName(RegionDirectiveTriviaSyntax node)
+    {
+        var preprocessingMessage = node
+            .DescendantTrivia()
+            .FirstOrDefault(t => t.IsKind(SyntaxKind.PreprocessingMessageTrivia));
 
 
-            return preprocessingMessage.ToString();
-        }
+        return preprocessingMessage.ToString();
     }
 }

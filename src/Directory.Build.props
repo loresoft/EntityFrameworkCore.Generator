@@ -1,12 +1,4 @@
 <Project>
-  <Import Project="version.props" />
-
-  <PropertyGroup Label="Source Link">
-    <ProjectParentDirectory>$([System.IO.Path]::GetDirectoryName('$(MSBuildProjectDirectory)'))</ProjectParentDirectory>
-    <ProjectParentDirectoryName>$([System.IO.Path]::GetFileName('$(ProjectParentDirectory)'))</ProjectParentDirectoryName>
-  </PropertyGroup>
-
-  <Import Project="sourcelink.props" Condition="'$(ProjectParentDirectoryName)' == 'src'" />
 
   <PropertyGroup Label="Package">
     <Product>EntityFrameworkCore.Generator</Product>
@@ -14,28 +6,37 @@
     <Description>.NET Core command-line (CLI) tool to generate Entity Framework Core source files.</Description>
     <Copyright>Copyright © $([System.DateTime]::Now.ToString(yyyy)) LoreSoft</Copyright>
     <Authors>LoreSoft</Authors>
+    <NeutralLanguage>en-US</NeutralLanguage>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <PackageTags>Entity Framework Core;EF;Data;EntityFramework;EntityFrameworkCore;EFCore;Generation;Generator</PackageTags>
     <PackageOutputPath>$(SolutionDir)artifacts</PackageOutputPath>
     <PackageProjectUrl>https://github.com/loresoft/EntityFrameworkCore.Generator</PackageProjectUrl>
-    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageIcon>logo.png</PackageIcon>
     <RepositoryType>git</RepositoryType>
     <RepositoryUrl>https://github.com/loresoft/EntityFrameworkCore.Generator</RepositoryUrl>
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
     <NoWarn>1591</NoWarn>
+    <CheckEolTargetFramework>false</CheckEolTargetFramework>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <Version>5.0.0.0</Version>
+    <PackageVersion>5.0.0.0</PackageVersion>
+    <AssemblyVersion>5.0.0.0</AssemblyVersion>
+    <FileVersion>5.0.0.0</FileVersion>
+    <InformationalVersion>5.0.0.0</InformationalVersion>
   </PropertyGroup>
 
   <ItemGroup>
-    <None Include=".\..\..\LICENSE">
-      <Pack>True</Pack>
-      <PackagePath></PackagePath>
-    </None>
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="All" />
   </ItemGroup>
-
+  
   <ItemGroup>
     <None Include=".\..\..\logo.png">
-      <Pack>True</Pack>
-      <PackagePath></PackagePath>
+      <Pack>true</Pack>
+      <PackagePath>\</PackagePath>
+      <Visible>false</Visible>
     </None>
   </ItemGroup>
 

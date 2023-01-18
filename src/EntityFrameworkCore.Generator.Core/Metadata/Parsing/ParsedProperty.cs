@@ -1,18 +1,16 @@
-﻿using System;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 
-namespace EntityFrameworkCore.Generator.Metadata.Parsing
+namespace EntityFrameworkCore.Generator.Metadata.Parsing;
+
+[DebuggerDisplay("Column: {ColumnName}, Property: {PropertyName}")]
+public class ParsedProperty
 {
-    [DebuggerDisplay("Column: {ColumnName}, Property: {PropertyName}")]
-    public class ParsedProperty
-    {
-        public string ColumnName { get; set; }
-        public string PropertyName { get; set; }
+    public string ColumnName { get; set; }
+    public string PropertyName { get; set; }
 
-        public bool IsValid()
-        {
-            return !string.IsNullOrEmpty(ColumnName)
-                && !string.IsNullOrEmpty(PropertyName);
-        }
+    public bool IsValid()
+    {
+        return !string.IsNullOrEmpty(ColumnName)
+               && !string.IsNullOrEmpty(PropertyName);
     }
 }

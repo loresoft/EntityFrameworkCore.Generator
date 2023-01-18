@@ -1,10 +1,8 @@
-﻿using System;
-using EntityFrameworkCore.Generator.Options;
+﻿using EntityFrameworkCore.Generator.Options;
 
-namespace EntityFrameworkCore.Generator
+namespace EntityFrameworkCore.Generator;
+
+public interface ICodeGenerator
 {
-    public interface ICodeGenerator
-    {
-        bool Generate(GeneratorOptions options);
-    }
+    bool Generate(GeneratorOptions options);
 }

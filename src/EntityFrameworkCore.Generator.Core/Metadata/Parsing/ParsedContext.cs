@@ -1,19 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Diagnostics;
 
-namespace EntityFrameworkCore.Generator.Metadata.Parsing
+namespace EntityFrameworkCore.Generator.Metadata.Parsing;
+
+[DebuggerDisplay("Context: {ContextClass}")]
+public class ParsedContext
 {
-    [DebuggerDisplay("Context: {ContextClass}")]
-    public class ParsedContext
+    public ParsedContext()
     {
-        public ParsedContext()
-        {
-            Properties = new List<ParsedEntitySet>();
-        }
-
-        public string ContextClass { get; set; }
-
-        public List<ParsedEntitySet> Properties { get; }
+        Properties = new List<ParsedEntitySet>();
     }
+
+    public string ContextClass { get; set; }
+
+    public List<ParsedEntitySet> Properties { get; }
 }

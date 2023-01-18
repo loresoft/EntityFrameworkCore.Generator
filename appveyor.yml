@@ -12,7 +12,7 @@ init:
 
 dotnet_csproj:
   patch: true
-  file: 'build\version.props'
+  file: 'src\Directory.Build.props'
   version: '{version}'
   package_version: '{version}'
   assembly_version: '{version}.0'

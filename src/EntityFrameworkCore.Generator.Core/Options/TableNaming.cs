@@ -1,25 +1,22 @@
-﻿using System;
+﻿namespace EntityFrameworkCore.Generator.Options;
 
-namespace EntityFrameworkCore.Generator.Options
+/// <summary>
+/// Table naming hint for how database tables are named.
+/// </summary>
+public enum TableNaming
 {
     /// <summary>
-    /// Table naming hint for how database tables are named.
+    /// Mix of Plural and Singular
     /// </summary>
-    public enum TableNaming
-    {
-        /// <summary>
-        /// Mix of Plural and Singular
-        /// </summary>
-        Mixed = 0,
+    Mixed = 0,
 
-        /// <summary>
-        /// Tables are named in plural form
-        /// </summary>
-        Plural = 1,
+    /// <summary>
+    /// Tables are named in plural form
+    /// </summary>
+    Plural = 1,
 
-        /// <summary>
-        /// Tables are named in singular form
-        /// </summary>
-        Singular = 2
-    }
+    /// <summary>
+    /// Tables are named in singular form
+    /// </summary>
+    Singular = 2
 }

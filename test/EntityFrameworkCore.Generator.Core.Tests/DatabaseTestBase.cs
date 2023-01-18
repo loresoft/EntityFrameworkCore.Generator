@@ -1,27 +1,26 @@
 ﻿using System;
-using System.Data.SqlClient;
+
 using Xunit;
 using Xunit.Abstractions;
 
-namespace FluentCommand.SqlServer.Tests
+namespace FluentCommand.SqlServer.Tests;
+
+[Collection(DatabaseCollection.CollectionName)]
+public abstract class DatabaseTestBase : IDisposable
 {
-    [Collection(DatabaseCollection.CollectionName)]
-    public abstract class DatabaseTestBase : IDisposable
+    protected DatabaseTestBase(ITestOutputHelper output, DatabaseFixture databaseFixture)
     {
-        protected DatabaseTestBase(ITestOutputHelper output, DatabaseFixture databaseFixture)
-        {
-            Output = output;
-            Database = databaseFixture;
-        }
+        Output = output;
+        Database = databaseFixture;
+    }
 
 
-        public ITestOutputHelper Output { get; }
+    public ITestOutputHelper Output { get; }
 
-        public DatabaseFixture Database { get; }
+    public DatabaseFixture Database { get; }
 
-        public void Dispose()
-        {
-            Database?.Report(Output);
-        }
+    public void Dispose()
+    {
+        Database?.Report(Output);
     }
 }

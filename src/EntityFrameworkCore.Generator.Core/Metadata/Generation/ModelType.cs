@@ -1,9 +1,8 @@
-﻿namespace EntityFrameworkCore.Generator.Metadata.Generation
+﻿namespace EntityFrameworkCore.Generator.Metadata.Generation;
+
+public enum ModelType
 {
-    public enum ModelType
-    {
-        Read,
-        Create,
-        Update
-    }
+    Read,
+    Create,
+    Update
 }
