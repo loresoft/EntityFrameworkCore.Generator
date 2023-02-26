@@ -8,7 +8,7 @@ namespace EntityFrameworkCore.Generator.Extensions;
 public static class StringExtensions
 {
 
-    private static readonly Regex _splitNameRegex = new Regex(@"[\W_]+");
+    private static readonly Regex _splitNameRegex = new Regex(@"[\W]+");
 
     /// <summary>
     /// Indicates whether the specified String object is null or an empty string
