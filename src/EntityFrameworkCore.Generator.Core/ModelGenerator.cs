@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -177,7 +177,7 @@ public class ModelGenerator
                 entity.Properties.Add(property);
             }
 
-            string propertyName = ToPropertyName(entity.EntityClass, column.Name);
+            string propertyName = ToPropertyName(entity.EntityClass, column.Name, true);
             propertyName = _namer.UniqueName(entity.EntityClass, propertyName);
 
             property.PropertyName = propertyName;
@@ -589,16 +589,18 @@ public class ModelGenerator
         return legalName;
     }
 
-    private string ToPropertyName(string className, string name)
+    private string ToPropertyName(string className, string name,
+        bool allowUnderscore = false)
     {
-        string propertyName = ToLegalName(name);
+        string propertyName = ToLegalName(name, allowUnderscore);
         if (className.Equals(propertyName, StringComparison.OrdinalIgnoreCase))
             propertyName += "Member";
 
         return propertyName;
     }
 
-    private string ToLegalName(string name)
+    private string ToLegalName(string name,
+        bool allowUnderscore = false)
     {
         if (string.IsNullOrWhiteSpace(name))
             return string.Empty;
@@ -613,7 +615,9 @@ public class ModelGenerator
         if (legalName.IsNullOrWhiteSpace())
             legalName = "Number" + name;
 
-        legalName = legalName.ToPascalCase();
+        legalName = allowUnderscore ?
+            legalName.ToPascalCase(new Regex(@"[\W]+")) :
+            legalName.ToPascalCase();
 
         return legalName;
     }
