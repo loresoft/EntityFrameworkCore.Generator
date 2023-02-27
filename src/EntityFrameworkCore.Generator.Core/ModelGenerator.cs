@@ -270,7 +270,7 @@ public class ModelGenerator
         foreignRelationship.Properties = new PropertyCollection(foreignMembers);
 
         string prefix = GetMemberPrefix(foreignRelationship, primaryName, foreignName);
-        var fkNameToUse = prefix.IsNullOrWhiteSpace() ? primaryName : prefix;
+        var fkNameToUse = !prefix.IsNullOrWhiteSpace() && prefix != "_" ? prefix : primaryName;
         string foreignPropertyName = ToPropertyName(foreignEntity.EntityClass, fkNameToUse);
         foreignPropertyName = _namer.UniqueName(foreignEntity.EntityClass, foreignPropertyName);
         foreignRelationship.PropertyName = foreignPropertyName;
