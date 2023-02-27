@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -177,7 +177,7 @@ public class ModelGenerator
                 entity.Properties.Add(property);
             }
 
-            string propertyName = ToPropertyName(entity.EntityClass, column.Name);
+            string propertyName = ToPropertyName(entity.EntityClass, column.Name, true);
             propertyName = _namer.UniqueName(entity.EntityClass, propertyName);
 
             property.PropertyName = propertyName;
@@ -270,8 +270,8 @@ public class ModelGenerator
         foreignRelationship.Properties = new PropertyCollection(foreignMembers);
 
         string prefix = GetMemberPrefix(foreignRelationship, primaryName, foreignName);
-
-        string foreignPropertyName = ToPropertyName(foreignEntity.EntityClass, prefix + primaryName);
+        var fkNameToUse = !prefix.IsNullOrWhiteSpace() && prefix != "_" ? prefix : primaryName;
+        string foreignPropertyName = ToPropertyName(foreignEntity.EntityClass, fkNameToUse);
         foreignPropertyName = _namer.UniqueName(foreignEntity.EntityClass, foreignPropertyName);
         foreignRelationship.PropertyName = foreignPropertyName;
 
@@ -589,16 +589,18 @@ public class ModelGenerator
         return legalName;
     }
 
-    private string ToPropertyName(string className, string name)
+    private string ToPropertyName(string className, string name,
+        bool allowUnderscore = false)
     {
-        string propertyName = ToLegalName(name);
+        string propertyName = ToLegalName(name, allowUnderscore);
         if (className.Equals(propertyName, StringComparison.OrdinalIgnoreCase))
             propertyName += "Member";
 
         return propertyName;
     }
 
-    private string ToLegalName(string name)
+    private string ToLegalName(string name,
+        bool allowUnderscore = false)
     {
         if (string.IsNullOrWhiteSpace(name))
             return string.Empty;
@@ -613,7 +615,9 @@ public class ModelGenerator
         if (legalName.IsNullOrWhiteSpace())
             legalName = "Number" + name;
 
-        legalName = legalName.ToPascalCase();
+        legalName = allowUnderscore ?
+            legalName.ToPascalCase(new Regex(@"[\W]+")) :
+            legalName.ToPascalCase();
 
         return legalName;
     }

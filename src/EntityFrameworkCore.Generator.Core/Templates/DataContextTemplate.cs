@@ -150,8 +150,12 @@ public class DataContextTemplate : CodeTemplateBase
             }
 
             CodeBuilder.AppendLine("#endregion");
+            CodeBuilder.AppendLine(string.Empty);
+            CodeBuilder.AppendLine("OnModelCreatingPartial(modelBuilder);");
         }
 
         CodeBuilder.AppendLine("}");
+        CodeBuilder.AppendLine(string.Empty);
+        CodeBuilder.AppendLine("partial void OnModelCreatingPartial(ModelBuilder modelBuilder);");
     }
 }
