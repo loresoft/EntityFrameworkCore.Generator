@@ -1,8 +1,10 @@
 using System.Globalization;
 using System.Linq;
+
 using EntityFrameworkCore.Generator.Extensions;
 using EntityFrameworkCore.Generator.Metadata.Generation;
 using EntityFrameworkCore.Generator.Options;
+
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
@@ -104,7 +106,7 @@ public class MappingClassTemplate : CodeTemplateBase
 
             CodeBuilder.AppendLine($"public const string Name = \"{_entity.TableName}\";");
         }
-            
+
         CodeBuilder.AppendLine("}");
 
         CodeBuilder.AppendLine();
@@ -228,6 +230,14 @@ public class MappingClassTemplate : CodeTemplateBase
             CodeBuilder.Append(relationship.RelationshipName);
             CodeBuilder.Append("\")");
         }
+
+        var cascadeOption = $"{nameof(DeleteBehavior)}.{nameof(DeleteBehavior.NoAction)}";
+        if (relationship.CascadeDelete == true)
+        {
+            cascadeOption = $"{nameof(DeleteBehavior)}.{Options.Data.Mapping.RelationshipDeleteBehavior}";
+        }
+        CodeBuilder.AppendLine();
+        CodeBuilder.Append($".OnDelete({cascadeOption})");
 
         CodeBuilder.DecrementIndent();
 

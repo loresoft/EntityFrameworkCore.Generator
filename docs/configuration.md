@@ -43,7 +43,7 @@ database:
   # schemas to include or empty to include all
   schemas:
     - dbo
-  
+
   # list of expressions for tables to exclude, source is Schema.TableName
   exclude:
     - exact: dbo.SchemaVersions
@@ -90,6 +90,12 @@ data:
     directory: '{Project.Directory}\Data\Mapping'   # the mapping class output directory
     #include XML documentation
     document: false
+    # indicates how a delete operation is applied to dependent entities in a relationship when the
+    # principal is deleted or the relationship is severed.
+    # Defaults:
+    #   NoAction - when a foreign key has its Delete Rule set to No Action.
+    #   Cascade - when a foreign key has its Delete Rule set to Cascade.
+    relationshipDeleteBehavior: ClientSetNull|Restrict|SetNull|Cascade|ClientCascade|NoAction|ClientNoAction
 
   # query extension class file configuration
   query:
@@ -172,11 +178,11 @@ model:
 # script templates
 script:
   # collection script template with EntityContext as a variable
-  context:  
+  context:
     - templatePath: '.\templates\context.csx'          # path to script file
       fileName: 'ContextScript.cs'                     # filename to save script output
       directory: '{Project.Directory}\Domain\Context'  # directory to save script output
-      namespace: '{Project.Namespace}.Domain.Context'  
+      namespace: '{Project.Namespace}.Domain.Context'
       baseClass: ContextScriptBase
       overwrite: true                                  # overwrite existing file
   # collection of script template with current Entity as a variable
@@ -184,7 +190,7 @@ script:
     - templatePath: '.\templates\entity.csx'           # path to script file
       fileName: '{Entity.Name}Script.cs'               # filename to save script output
       directory: '{Project.Directory}\Domain\Entity'   # directory to save script output
-      namespace: '{Project.Namespace}.Domain.Entity'  
+      namespace: '{Project.Namespace}.Domain.Entity'
       baseClass: EntityScriptBase
       overwrite: true                                  # overwrite existing file
   # collection script template with current Model as a variable
@@ -192,13 +198,13 @@ script:
     - templatePath: '.\templates\model.csx'            # path to script file
       fileName: '{Model.Name}Script.cs'                # filename to save script output
       directory: '{Project.Directory}\Domain\Models'   # directory to save script output
-      namespace: '{Project.Namespace}.Domain.Models'  
+      namespace: '{Project.Namespace}.Domain.Models'
       baseClass: ModelScriptBase
       overwrite: true                                  # overwrite existing file
     - templatePath: '.\templates\sample.csx'           # path to script file
       fileName: '{Model.Name}Sample.cs'                # filename to save script output
       directory: '{Project.Directory}\Domain\Models'   # directory to save script output
-      namespace: '{Project.Namespace}.Domain.Models'  
+      namespace: '{Project.Namespace}.Domain.Models'
       baseClass: ModelSampleBase
       overwrite: true                                  # overwrite existing file
 ```

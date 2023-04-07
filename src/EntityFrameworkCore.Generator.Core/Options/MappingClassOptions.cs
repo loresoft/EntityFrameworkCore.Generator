@@ -1,4 +1,8 @@
-﻿namespace EntityFrameworkCore.Generator.Options;
+using System.ComponentModel;
+
+using Microsoft.EntityFrameworkCore;
+
+namespace EntityFrameworkCore.Generator.Options;
 
 /// <summary>
 /// EntityFramework mapping class generation options
@@ -14,5 +18,12 @@ public class MappingClassOptions : ClassOptionsBase
     {
         Namespace = "{Project.Namespace}.Data.Mapping";
         Directory = @"{Project.Directory}\Data\Mapping";
+        RelationshipDeleteBehavior = DeleteBehavior.Cascade;
     }
+
+    /// <summary>
+    /// Gets or sets the delete behavior for all foreign keys that have cascade deletes.
+    /// </summary>
+    [DefaultValue(DeleteBehavior.Cascade)]
+    public DeleteBehavior RelationshipDeleteBehavior { get; set; }
 }
