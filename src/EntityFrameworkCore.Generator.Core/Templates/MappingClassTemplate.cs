@@ -292,7 +292,7 @@ public class MappingClassTemplate : CodeTemplateBase
 
         if (property.SystemType == typeof(DateTime))
         {
-            if (Options.Data.Mapping.DateTimeKind == DateTimeKind.Utc)
+            if (Options.Data.Mapping.DateTimeKind == DateTimeKind.Utc || property.Default?.IndexOf("utc", StringComparison.OrdinalIgnoreCase) > -1)
             {
                 CodeBuilder.AppendLine();
                 if (property.IsNullable == false)
