@@ -1,10 +1,13 @@
 using System.Globalization;
 using System.Linq;
+
 using EntityFrameworkCore.Generator.Extensions;
 using EntityFrameworkCore.Generator.Metadata.Generation;
 using EntityFrameworkCore.Generator.Options;
+
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace EntityFrameworkCore.Generator.Templates;
 
@@ -104,7 +107,7 @@ public class MappingClassTemplate : CodeTemplateBase
 
             CodeBuilder.AppendLine($"public const string Name = \"{_entity.TableName}\";");
         }
-            
+
         CodeBuilder.AppendLine("}");
 
         CodeBuilder.AppendLine();
@@ -228,6 +231,33 @@ public class MappingClassTemplate : CodeTemplateBase
             CodeBuilder.Append(relationship.RelationshipName);
             CodeBuilder.Append("\")");
         }
+
+        /*
+         * applies global delete behavior options to ALL foreign keys/relationships. individual
+         * foreign key configuration may be needed in the future, and would need mapping at a more
+         * granular level - similar to exclude.entities
+         */
+        var onDeleteOption = Options.Data.Mapping.GlobalRelationshipNoActionDeleteBehavior.ToString();
+        if (relationship.ReferentialAction == ReferentialAction.Cascade)
+        {
+            // possible options: Cascade | ClientCascade
+            onDeleteOption = Options.Data.Mapping.GlobalRelationshipCascadeDeleteBehavior.ToString();
+        }
+        else if (relationship.ReferentialAction == ReferentialAction.SetNull)
+        {
+            // possible options: SetNull | ClientSetNull
+            onDeleteOption = Options.Data.Mapping.GlobalRelationshipSetNullDeleteBehavior.ToString();
+        }
+        else if (relationship.ReferentialAction == ReferentialAction.Restrict)
+        {
+            onDeleteOption = nameof(DeleteBehavior.Restrict);
+        }
+        else if (relationship.ReferentialAction == ReferentialAction.SetDefault)
+        {
+            // it's not clear what SetDefault should map to. assuming NoAction, and taking the default
+        }
+        CodeBuilder.AppendLine();
+        CodeBuilder.Append($".OnDelete({nameof(DeleteBehavior)}.{onDeleteOption})");
 
         CodeBuilder.DecrementIndent();
 

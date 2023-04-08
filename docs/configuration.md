@@ -43,7 +43,7 @@ database:
   # schemas to include or empty to include all
   schemas:
     - dbo
-  
+
   # list of expressions for tables to exclude, source is Schema.TableName
   exclude:
     - exact: dbo.SchemaVersions
@@ -65,7 +65,7 @@ data:
 
     # how to generate names for the DbSet properties on the data context.  Default: Plural
     propertyNaming: Preserve|Plural|Suffix
-    #include XML documentation
+    # include XML documentation
     document: false
 
   # entity class file configuration
@@ -78,7 +78,7 @@ data:
 
     # how to generate relationship collections names for the entity.  Default: Plural
     relationshipNaming: Preserve|Plural|Suffix
-    #include XML documentation
+    # include XML documentation
     document: false
 
     # Generate class names with prefixed schema name eg. dbo.MyTable = DboMyTable
@@ -88,8 +88,16 @@ data:
   mapping:
     namespace: '{Project.Namespace}.Data.Mapping'   # the mapping class namespace
     directory: '{Project.Directory}\Data\Mapping'   # the mapping class output directory
-    #include XML documentation
+    # include XML documentation
     document: false
+    # globally indicates how a delete operation is applied to dependent entities in a relationship
+    # when the principal is deleted or the relationship is severed.
+    # Default: Cascade
+    globalRelationshipCascadeDeleteBehavior: Cascade|ClientCascade
+    # Default: SetNull
+    globalRelationshipSetNullDeleteBehavior: SetNull|ClientSetNull
+    # Default: NoAction
+    globalRelationshipNoActionDeleteBehavior: NoAction|ClientNoAction
 
   # query extension class file configuration
   query:
@@ -98,7 +106,7 @@ data:
     uniquePrefix: GetBy     # Prefix for queries built from unique indexes
     namespace: '{Project.Namespace}.Data.Queries'   # the mapping class namespace
     directory: '{Project.Directory}\Data\Queries'   # the mapping class output directory
-    #include XML documentation
+    # include XML documentation
     document: false
 
 #---------------------------------#
@@ -172,11 +180,11 @@ model:
 # script templates
 script:
   # collection script template with EntityContext as a variable
-  context:  
+  context:
     - templatePath: '.\templates\context.csx'          # path to script file
       fileName: 'ContextScript.cs'                     # filename to save script output
       directory: '{Project.Directory}\Domain\Context'  # directory to save script output
-      namespace: '{Project.Namespace}.Domain.Context'  
+      namespace: '{Project.Namespace}.Domain.Context'
       baseClass: ContextScriptBase
       overwrite: true                                  # overwrite existing file
   # collection of script template with current Entity as a variable
@@ -184,7 +192,7 @@ script:
     - templatePath: '.\templates\entity.csx'           # path to script file
       fileName: '{Entity.Name}Script.cs'               # filename to save script output
       directory: '{Project.Directory}\Domain\Entity'   # directory to save script output
-      namespace: '{Project.Namespace}.Domain.Entity'  
+      namespace: '{Project.Namespace}.Domain.Entity'
       baseClass: EntityScriptBase
       overwrite: true                                  # overwrite existing file
   # collection script template with current Model as a variable
@@ -192,13 +200,13 @@ script:
     - templatePath: '.\templates\model.csx'            # path to script file
       fileName: '{Model.Name}Script.cs'                # filename to save script output
       directory: '{Project.Directory}\Domain\Models'   # directory to save script output
-      namespace: '{Project.Namespace}.Domain.Models'  
+      namespace: '{Project.Namespace}.Domain.Models'
       baseClass: ModelScriptBase
       overwrite: true                                  # overwrite existing file
     - templatePath: '.\templates\sample.csx'           # path to script file
       fileName: '{Model.Name}Sample.cs'                # filename to save script output
       directory: '{Project.Directory}\Domain\Models'   # directory to save script output
-      namespace: '{Project.Namespace}.Domain.Models'  
+      namespace: '{Project.Namespace}.Domain.Models'
       baseClass: ModelSampleBase
       overwrite: true                                  # overwrite existing file
 ```

@@ -1,5 +1,8 @@
-﻿using System.Runtime.CompilerServices;
+using System.Runtime.CompilerServices;
+
 using EntityFrameworkCore.Generator.Extensions;
+
+using Microsoft.Extensions.Logging;
 
 namespace EntityFrameworkCore.Generator.Options;
 
@@ -20,6 +23,7 @@ public class OptionsBase
 
     protected string Prefix { get; }
 
+    public virtual bool Validate(ILogger logger) => true;
 
     protected string GetProperty([CallerMemberName] string propertyName = null)
     {

@@ -1,4 +1,6 @@
-﻿using System.Diagnostics;
+using System.Diagnostics;
+
+using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace EntityFrameworkCore.Generator.Metadata.Generation;
 
@@ -32,7 +34,7 @@ public class Relationship : ModelBase
     public Cardinality PrimaryCardinality { get; set; }
 
 
-    public bool? CascadeDelete { get; set; }
+    public ReferentialAction? ReferentialAction { get; set; }
     public bool IsForeignKey { get; set; }
     public bool IsMapped { get; set; }
 

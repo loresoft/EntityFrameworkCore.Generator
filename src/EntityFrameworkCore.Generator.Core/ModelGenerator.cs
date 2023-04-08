@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -259,6 +259,7 @@ public class ModelGenerator
             };
             foreignEntity.Relationships.Add(foreignRelationship);
         }
+        foreignRelationship.ReferentialAction = tableKeySchema.OnDelete;
         foreignRelationship.IsMapped = true;
         foreignRelationship.IsForeignKey = true;
         foreignRelationship.Cardinality = foreignMembersRequired ? Cardinality.One : Cardinality.ZeroOrOne;
