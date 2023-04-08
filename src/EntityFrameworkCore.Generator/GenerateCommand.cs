@@ -1,8 +1,11 @@
-﻿using EntityFrameworkCore.Generator.Extensions;
-using EntityFrameworkCore.Generator.Options;
-using McMaster.Extensions.CommandLineUtils;
-using Microsoft.Extensions.Logging;
 using System;
+
+using EntityFrameworkCore.Generator.Extensions;
+using EntityFrameworkCore.Generator.Options;
+
+using McMaster.Extensions.CommandLineUtils;
+
+using Microsoft.Extensions.Logging;
 
 namespace EntityFrameworkCore.Generator;
 
@@ -72,6 +75,21 @@ public class GenerateCommand : OptionsCommandBase
 
         if (Validator.HasValue)
             options.Model.Validator.Generate = Validator.Value;
+
+        options.Model.Read.Validate(Logger);
+        options.Model.Create.Validate(Logger);
+        options.Model.Update.Validate(Logger);
+        options.Model.Mapper.Validate(Logger);
+        options.Model.Shared.Validate(Logger);
+        options.Model.Update.Validate(Logger);
+        options.Model.Validator.Validate(Logger);
+        options.Data.Mapping.Validate(Logger);
+        options.Data.Query.Validate(Logger);
+        options.Data.Entity.Validate(Logger);
+        options.Data.Context.Validate(Logger);
+        options.Database.Validate(Logger);
+        options.Project.Validate(Logger);
+        options.Script.Validate(Logger);
 
         var result = _codeGenerator.Generate(options);
 

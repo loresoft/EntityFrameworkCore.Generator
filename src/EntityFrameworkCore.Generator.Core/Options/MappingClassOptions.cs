@@ -1,6 +1,9 @@
+using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 
 namespace EntityFrameworkCore.Generator.Options;
 
@@ -10,9 +13,9 @@ namespace EntityFrameworkCore.Generator.Options;
 /// <seealso cref="ClassOptionsBase" />
 public class MappingClassOptions : ClassOptionsBase
 {
-    DeleteBehavior _globalRelationshipCascadeDeleteBehavior;
-    DeleteBehavior _globalRelationshipSetNullDeleteBehavior;
-    DeleteBehavior _globalRelationshipNoActionDeleteBehavior;
+    static List<DeleteBehavior> _validCascadeBehaviors = new List<DeleteBehavior> { DeleteBehavior.Cascade, DeleteBehavior.ClientCascade };
+    static List<DeleteBehavior> _validSetNullBehaviors = new List<DeleteBehavior> { DeleteBehavior.SetNull, DeleteBehavior.ClientSetNull };
+    static List<DeleteBehavior> _validNoActionBehaviors = new List<DeleteBehavior> { DeleteBehavior.NoAction, DeleteBehavior.ClientNoAction };
 
     /// <summary>
     /// Initializes a new instance of the <see cref="MappingClassOptions"/> class.
@@ -27,63 +30,56 @@ public class MappingClassOptions : ClassOptionsBase
         GlobalRelationshipNoActionDeleteBehavior = DeleteBehavior.NoAction;
     }
 
+    public override bool Validate(ILogger logger)
+    {
+        var errors = new List<string>();
+        if (_validCascadeBehaviors.Any(a => a == GlobalRelationshipCascadeDeleteBehavior) == false)
+        {
+            errors.Add(GetBehaviorValidationError(nameof(GlobalRelationshipCascadeDeleteBehavior), GlobalRelationshipCascadeDeleteBehavior, _validCascadeBehaviors));
+        }
+        if (_validSetNullBehaviors.Any(a => a == GlobalRelationshipSetNullDeleteBehavior) == false)
+        {
+            errors.Add(GetBehaviorValidationError(nameof(GlobalRelationshipSetNullDeleteBehavior), GlobalRelationshipSetNullDeleteBehavior, _validSetNullBehaviors));
+        }
+        if (_validNoActionBehaviors.Any(a => a == GlobalRelationshipNoActionDeleteBehavior) == false)
+        {
+            errors.Add(GetBehaviorValidationError(nameof(GlobalRelationshipNoActionDeleteBehavior), GlobalRelationshipNoActionDeleteBehavior, _validNoActionBehaviors));
+        }
+
+        if (errors.Any())
+        {
+            errors.ForEach(err =>
+            {
+                logger.LogError(err);
+            });
+            throw new InvalidEnumArgumentException(errors.FirstOrDefault());
+        }
+
+        // always call the base
+        return base.Validate(logger);
+
+        string GetBehaviorValidationError(string propertyName, DeleteBehavior behavior, List<DeleteBehavior> behaviors)
+        {
+            var error = $"{propertyName} can only be set to {string.Join(" or ", behaviors)}. Received {behavior}";
+            return error;
+        }
+    }
+
     /// <summary>
     /// Gets or sets the delete behavior globally for all relationships who's foreign keys have a insert delete <i>Cascade</i> rule set.
     /// </summary>
     [DefaultValue(DeleteBehavior.Cascade)]
-    public DeleteBehavior GlobalRelationshipCascadeDeleteBehavior
-    {
-        get => _globalRelationshipCascadeDeleteBehavior;
-        set
-        {
-            if (value == DeleteBehavior.Cascade || value == DeleteBehavior.ClientCascade)
-            {
-                _globalRelationshipCascadeDeleteBehavior = value;
-            }
-            else
-            {
-                throw new InvalidEnumArgumentException($"{nameof(GlobalRelationshipCascadeDeleteBehavior)} can only be set to {nameof(DeleteBehavior.Cascade)} or {nameof(DeleteBehavior.ClientCascade)}. Received {value}");
-            }
-        }
-    }
+    public DeleteBehavior GlobalRelationshipCascadeDeleteBehavior { get; set; }
 
     /// <summary>
     /// Gets or sets the delete behavior globally for all relationships who's foreign keys have a insert delete <i>Set Null</i> rule set.
     /// </summary>
     [DefaultValue(DeleteBehavior.SetNull)]
-    public DeleteBehavior GlobalRelationshipSetNullDeleteBehavior
-    {
-        get => _globalRelationshipSetNullDeleteBehavior;
-        set
-        {
-            if (value == DeleteBehavior.SetNull || value == DeleteBehavior.ClientSetNull)
-            {
-                _globalRelationshipSetNullDeleteBehavior = value;
-            }
-            else
-            {
-                throw new InvalidEnumArgumentException($"{nameof(GlobalRelationshipSetNullDeleteBehavior)} can only be set to {nameof(DeleteBehavior.SetNull)} or {nameof(DeleteBehavior.ClientSetNull)}. Received {value}");
-            }
-        }
-    }
+    public DeleteBehavior GlobalRelationshipSetNullDeleteBehavior { get; set; }
 
     /// <summary>
     /// Gets or sets the delete behavior globally for all relationships who's foreign keys have a insert delete <i>No Action</i> rule set.
     /// </summary>
     [DefaultValue(DeleteBehavior.NoAction)]
-    public DeleteBehavior GlobalRelationshipNoActionDeleteBehavior
-    {
-        get => _globalRelationshipNoActionDeleteBehavior;
-        set
-        {
-            if (value != DeleteBehavior.NoAction || value != DeleteBehavior.ClientNoAction)
-            {
-                _globalRelationshipNoActionDeleteBehavior = value;
-            }
-            else
-            {
-                throw new InvalidEnumArgumentException($"{nameof(GlobalRelationshipNoActionDeleteBehavior)} can only be set to {nameof(DeleteBehavior.NoAction)} or {nameof(DeleteBehavior.ClientNoAction)}. Received {value}");
-            }
-        }
-    }
+    public DeleteBehavior GlobalRelationshipNoActionDeleteBehavior { get; set; }
 }
