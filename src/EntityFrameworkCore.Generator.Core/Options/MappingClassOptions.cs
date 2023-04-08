@@ -23,11 +23,11 @@ public class MappingClassOptions : ClassOptionsBase
     /// Specifies the <see cref="System.DateTimeKind"/> to use for date/time columns.
     /// </summary>
     [DefaultValue(DateTimeKind.Local)]
-    public DateTimeKind DateTimeKind { get; set; }
+    public DateTimeKind DateTimeKind { get; set; } = DateTimeKind.Local;
 
     /// <summary>
     /// The name of the class that will generate default values for date/time columns that have default value defined in the database.
     /// </summary>
     [DefaultValue(DateTimeKind.Local)]
-    public string DateTimeDefaultValueGenerator { get; set; }
+    public string DateTimeDefaultValueGenerator { get; set; } = string.Empty;
 }
