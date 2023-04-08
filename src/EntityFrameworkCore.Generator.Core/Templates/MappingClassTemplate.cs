@@ -1,8 +1,11 @@
+using System;
 using System.Globalization;
 using System.Linq;
+
 using EntityFrameworkCore.Generator.Extensions;
 using EntityFrameworkCore.Generator.Metadata.Generation;
 using EntityFrameworkCore.Generator.Options;
+
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
@@ -104,7 +107,7 @@ public class MappingClassTemplate : CodeTemplateBase
 
             CodeBuilder.AppendLine($"public const string Name = \"{_entity.TableName}\";");
         }
-            
+
         CodeBuilder.AppendLine("}");
 
         CodeBuilder.AppendLine();
@@ -284,6 +287,29 @@ public class MappingClassTemplate : CodeTemplateBase
         {
             CodeBuilder.AppendLine();
             CodeBuilder.Append($".HasDefaultValueSql({property.Default.ToLiteral()})");
+        }
+
+
+        if (property.SystemType == typeof(DateTime))
+        {
+            if (Options.Data.Mapping.DateTimeKind == DateTimeKind.Utc)
+            {
+                CodeBuilder.AppendLine();
+                if (property.IsNullable == false)
+                {
+                    CodeBuilder.Append($".HasConversion(t => t, t => DateTime.SpecifyKind(t, DateTimeKind.Utc))");
+                }
+                else
+                {
+                    CodeBuilder.Append($".HasConversion(t => t, t => t == null ? null : DateTime.SpecifyKind(t.GetValueOrDefault(), DateTimeKind.Utc))");
+                }
+            }
+
+            if (!string.IsNullOrEmpty(property.Default) && string.IsNullOrEmpty(Options.Data.Mapping.DateTimeDefaultValueGenerator) == false)
+            {
+                CodeBuilder.AppendLine();
+                CodeBuilder.Append($".HasValueGenerator<{Options.Data.Mapping.DateTimeDefaultValueGenerator}>()");
+            }
         }
 
         switch (property.ValueGenerated)
