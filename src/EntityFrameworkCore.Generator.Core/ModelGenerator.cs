@@ -259,7 +259,7 @@ public class ModelGenerator
             };
             foreignEntity.Relationships.Add(foreignRelationship);
         }
-        foreignRelationship.CascadeDelete = tableKeySchema.OnDelete == Microsoft.EntityFrameworkCore.Migrations.ReferentialAction.Cascade;
+        foreignRelationship.ReferentialAction = tableKeySchema.OnDelete;
         foreignRelationship.IsMapped = true;
         foreignRelationship.IsForeignKey = true;
         foreignRelationship.Cardinality = foreignMembersRequired ? Cardinality.One : Cardinality.ZeroOrOne;

@@ -65,7 +65,7 @@ data:
 
     # how to generate names for the DbSet properties on the data context.  Default: Plural
     propertyNaming: Preserve|Plural|Suffix
-    #include XML documentation
+    # include XML documentation
     document: false
 
   # entity class file configuration
@@ -78,7 +78,7 @@ data:
 
     # how to generate relationship collections names for the entity.  Default: Plural
     relationshipNaming: Preserve|Plural|Suffix
-    #include XML documentation
+    # include XML documentation
     document: false
 
     # Generate class names with prefixed schema name eg. dbo.MyTable = DboMyTable
@@ -88,14 +88,16 @@ data:
   mapping:
     namespace: '{Project.Namespace}.Data.Mapping'   # the mapping class namespace
     directory: '{Project.Directory}\Data\Mapping'   # the mapping class output directory
-    #include XML documentation
+    # include XML documentation
     document: false
-    # indicates how a delete operation is applied to dependent entities in a relationship when the
-    # principal is deleted or the relationship is severed.
-    # Defaults:
-    #   NoAction - when a foreign key has its Delete Rule set to No Action.
-    #   Cascade - when a foreign key has its Delete Rule set to Cascade.
-    relationshipDeleteBehavior: ClientSetNull|Restrict|SetNull|Cascade|ClientCascade|NoAction|ClientNoAction
+    # globally indicates how a delete operation is applied to dependent entities in a relationship
+    # when the principal is deleted or the relationship is severed.
+    # Default: Cascade
+    globalRelationshipCascadeDeleteBehavior: Cascade|ClientCascade
+    # Default: SetNull
+    globalRelationshipSetNullDeleteBehavior: SetNull|ClientSetNull
+    # Default: NoAction
+    globalRelationshipNoActionDeleteBehavior: NoAction|ClientNoAction
 
   # query extension class file configuration
   query:
@@ -104,7 +106,7 @@ data:
     uniquePrefix: GetBy     # Prefix for queries built from unique indexes
     namespace: '{Project.Namespace}.Data.Queries'   # the mapping class namespace
     directory: '{Project.Directory}\Data\Queries'   # the mapping class output directory
-    #include XML documentation
+    # include XML documentation
     document: false
 
 #---------------------------------#

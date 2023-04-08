@@ -7,6 +7,7 @@ using EntityFrameworkCore.Generator.Options;
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace EntityFrameworkCore.Generator.Templates;
 
@@ -231,13 +232,32 @@ public class MappingClassTemplate : CodeTemplateBase
             CodeBuilder.Append("\")");
         }
 
-        var cascadeOption = $"{nameof(DeleteBehavior)}.{nameof(DeleteBehavior.NoAction)}";
-        if (relationship.CascadeDelete == true)
+        /*
+         * applies global delete behavior options to ALL foreign keys/relationships. individual
+         * foreign key configuration may be needed in the future, and would need mapping at a more
+         * granular level - similar to exclude.entities
+         */
+        var onDeleteOption = Options.Data.Mapping.GlobalRelationshipNoActionDeleteBehavior.ToString();
+        if (relationship.ReferentialAction == ReferentialAction.Cascade)
         {
-            cascadeOption = $"{nameof(DeleteBehavior)}.{Options.Data.Mapping.RelationshipDeleteBehavior}";
+            // possible options: Cascade | ClientCascade
+            onDeleteOption = Options.Data.Mapping.GlobalRelationshipCascadeDeleteBehavior.ToString();
+        }
+        else if (relationship.ReferentialAction == ReferentialAction.SetNull)
+        {
+            // possible options: SetNull | ClientSetNull
+            onDeleteOption = Options.Data.Mapping.GlobalRelationshipSetNullDeleteBehavior.ToString();
+        }
+        else if (relationship.ReferentialAction == ReferentialAction.Restrict)
+        {
+            onDeleteOption = nameof(DeleteBehavior.Restrict);
+        }
+        else if (relationship.ReferentialAction == ReferentialAction.SetDefault)
+        {
+            // it's not clear what SetDefault should map to. assuming NoAction, and taking the default
         }
         CodeBuilder.AppendLine();
-        CodeBuilder.Append($".OnDelete({cascadeOption})");
+        CodeBuilder.Append($".OnDelete({nameof(DeleteBehavior)}.{onDeleteOption})");
 
         CodeBuilder.DecrementIndent();
 
