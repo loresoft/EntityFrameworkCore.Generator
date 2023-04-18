@@ -122,7 +122,7 @@ public static class StringExtensions
                 }
                 else
                 {
-                    output.Append(name);
+                    output.Append(name.ToUpper());
                 }
             }
         }
