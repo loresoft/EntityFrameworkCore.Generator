@@ -1,3 +1,5 @@
+using System.ComponentModel;
+
 namespace EntityFrameworkCore.Generator.Options;
 
 /// <summary>
@@ -48,6 +50,15 @@ public class ProjectOptions : OptionsBase
     /// <value>
     /// If the output should support nullable reference types.
     /// </value>
+    [DefaultValue(false)]
     public bool Nullable { get; set; }
 
+    /// <summary>
+    /// Gets or sets a value indicating whether to use file-scoped namespace.
+    /// </summary>
+    /// <value>
+    ///   <c>true</c> to use file-coped namespace; otherwise, <c>false</c>.
+    /// </value>
+    [DefaultValue(false)]
+    public bool FileScopedNamespace { get; set; }
 }

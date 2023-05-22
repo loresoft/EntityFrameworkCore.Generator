@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+
 using EntityFrameworkCore.Generator.Extensions;
 using EntityFrameworkCore.Generator.Metadata.Generation;
 using EntityFrameworkCore.Generator.Options;
@@ -35,7 +36,7 @@ public class MapperClassTemplate : CodeTemplateBase
 
         CodeBuilder.Append($"namespace {_entity.MapperNamespace}");
 
-        if (Options.Data.Context.FileScopedNamespace)
+        if (Options.Project.FileScopedNamespace)
         {
             CodeBuilder.AppendLine(";");
             GenerateClass();

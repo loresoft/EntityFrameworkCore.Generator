@@ -27,7 +27,7 @@ public class ValidatorClassTemplate : CodeTemplateBase
 
         CodeBuilder.Append($"namespace {_model.ValidatorNamespace}");
 
-        if (Options.Data.Context.FileScopedNamespace)
+        if (Options.Project.FileScopedNamespace)
         {
             CodeBuilder.AppendLine(";");
             GenerateClass();

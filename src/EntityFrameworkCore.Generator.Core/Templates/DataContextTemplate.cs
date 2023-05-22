@@ -1,4 +1,5 @@
 using System.Linq;
+
 using EntityFrameworkCore.Generator.Extensions;
 using EntityFrameworkCore.Generator.Metadata.Generation;
 using EntityFrameworkCore.Generator.Options;
@@ -25,7 +26,7 @@ public class DataContextTemplate : CodeTemplateBase
 
         CodeBuilder.Append($"namespace {_entityContext.ContextNamespace}");
 
-        if (Options.Data.Context.FileScopedNamespace)
+        if (Options.Project.FileScopedNamespace)
         {
             CodeBuilder.AppendLine(";");
             GenerateClass();

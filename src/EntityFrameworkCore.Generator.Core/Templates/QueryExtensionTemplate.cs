@@ -30,7 +30,7 @@ public class QueryExtensionTemplate : CodeTemplateBase
 
         CodeBuilder.Append($"namespace {extensionNamespace}");
 
-        if (Options.Data.Context.FileScopedNamespace)
+        if (Options.Project.FileScopedNamespace)
         {
             CodeBuilder.AppendLine(";");
             GenerateClass();

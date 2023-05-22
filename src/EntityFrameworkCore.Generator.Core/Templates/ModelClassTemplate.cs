@@ -23,7 +23,7 @@ public class ModelClassTemplate : CodeTemplateBase
 
         CodeBuilder.Append($"namespace {_model.ModelNamespace}");
 
-        if (Options.Data.Context.FileScopedNamespace)
+        if (Options.Project.FileScopedNamespace)
         {
             CodeBuilder.AppendLine(";");
             GenerateClass();

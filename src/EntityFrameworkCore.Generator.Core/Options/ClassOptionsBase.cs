@@ -1,3 +1,4 @@
+using System;
 using System.ComponentModel;
 
 namespace EntityFrameworkCore.Generator.Options;
@@ -57,6 +58,6 @@ public abstract class ClassOptionsBase : OptionsBase
     /// <value>
     ///   <c>true</c> to use file-coped namespace; otherwise, <c>false</c>.
     /// </value>
-    [DefaultValue(false)]
-    public bool FileScopedNamespace { get; set; }
+    [Obsolete("Use ProjectOptions.FileScopedNamespace instead")]
+    public bool? FileScopedNamespace { get; set; }
 }

@@ -1,8 +1,10 @@
 using System.Globalization;
 using System.Linq;
+
 using EntityFrameworkCore.Generator.Extensions;
 using EntityFrameworkCore.Generator.Metadata.Generation;
 using EntityFrameworkCore.Generator.Options;
+
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
@@ -10,7 +12,7 @@ namespace EntityFrameworkCore.Generator.Templates;
 
 public class MappingClassTemplate : CodeTemplateBase
 {
-    private Entity _entity;
+    private readonly Entity _entity;
 
     public MappingClassTemplate(Entity entity, GeneratorOptions options) : base(options)
     {
@@ -29,7 +31,7 @@ public class MappingClassTemplate : CodeTemplateBase
 
         CodeBuilder.Append($"namespace {_entity.MappingNamespace}");
 
-        if (Options.Data.Context.FileScopedNamespace)
+        if (Options.Project.FileScopedNamespace)
         {
             CodeBuilder.AppendLine(";");
             GenerateClass();
@@ -104,7 +106,7 @@ public class MappingClassTemplate : CodeTemplateBase
 
             CodeBuilder.AppendLine($"public const string Name = \"{_entity.TableName}\";");
         }
-            
+
         CodeBuilder.AppendLine("}");
 
         CodeBuilder.AppendLine();
