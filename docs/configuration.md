@@ -19,6 +19,8 @@ project:
   directory: .\
   # output should support nullable reference types
   nullable: true
+  # use file scoped namespaces
+  fileScopedNamespace: true
 #---------------------------------#
 # data section -  Used for configuring database connections
 #---------------------------------#
