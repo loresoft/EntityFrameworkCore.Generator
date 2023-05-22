@@ -3,7 +3,7 @@
     "EntityFrameworkCore.Generator": {
       "commandName": "Project",
       "commandLineArgs": "generate",
-      "workingDirectory": "D:\\Projects\\github\\EntityFrameworkCore.Generator\\sample\\Tracker\\Tracker.Core"
+      "workingDirectory": "..\\..\\sample\\Tracker\\Tracker.Core"
     }
   }
 }

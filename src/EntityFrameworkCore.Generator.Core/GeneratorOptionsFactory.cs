@@ -1,11 +1,13 @@
-﻿using System;
+using System;
 using System.Threading;
+
 using EntityFrameworkCore.Generator.Options;
-using YamlDotNet.Serialization;
+
+using YamlDotNet.Serialization.ObjectFactories;
 
 namespace EntityFrameworkCore.Generator;
 
-public class GeneratorOptionsFactory : IObjectFactory
+public class GeneratorOptionsFactory : ObjectFactoryBase
 {
     private readonly GeneratorOptions _generatorOptions;
     private int _scriptCount;
@@ -17,7 +19,7 @@ public class GeneratorOptionsFactory : IObjectFactory
         _scriptCount = 0;
     }
 
-    public object Create(Type type)
+    public override object Create(Type type)
     {
         // work around YamlDotNet requiring parameterless constructor
         if (type == typeof(GeneratorOptions))
