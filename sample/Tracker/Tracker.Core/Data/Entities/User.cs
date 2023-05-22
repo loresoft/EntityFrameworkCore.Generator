@@ -2,26 +2,26 @@ using System;
 using System.Collections.Generic;
 using Tracker.Core.Definitions;
 
-namespace Tracker.Core.Data.Entities
+namespace Tracker.Core.Data.Entities;
+
+/// <summary>
+/// Entity class representing data for table 'User'.
+/// </summary>
+public partial class User : IHaveIdentifier, ITrackCreated, ITrackUpdated
 {
     /// <summary>
-    /// Entity class representing data for table 'User'.
+    /// Initializes a new instance of the <see cref="User"/> class.
     /// </summary>
-    public partial class User : IHaveIdentifier, ITrackCreated, ITrackUpdated
+    public User()
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="User"/> class.
-        /// </summary>
-        public User()
-        {
-            #region Generated Constructor
+        #region Generated Constructor
             AssignedTasks = new HashSet<Task>();
             UserLogins = new HashSet<UserLogin>();
             UserRoles = new HashSet<UserRole>();
             #endregion
-        }
+    }
 
-        #region Generated Properties
+    #region Generated Properties
         /// <summary>
         /// Gets or sets the property value representing column 'Id'.
         /// </summary>
@@ -160,7 +160,7 @@ namespace Tracker.Core.Data.Entities
 
         #endregion
 
-        #region Generated Relationships
+    #region Generated Relationships
         /// <summary>
         /// Gets or sets the navigation collection for entity <see cref="Task" />.
         /// </summary>
@@ -187,5 +187,4 @@ namespace Tracker.Core.Data.Entities
 
         #endregion
 
-    }
 }

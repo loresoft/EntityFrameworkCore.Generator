@@ -1,9 +1,8 @@
 ﻿using System;
 
-namespace Tracker.Core.Definitions
+namespace Tracker.Core.Definitions;
+
+public interface ITrackConcurrency
 {
-    public interface ITrackConcurrency
-    {
-        string RowVersion { get; set; }
-    }
+    string RowVersion { get; set; }
 }

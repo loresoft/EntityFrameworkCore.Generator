@@ -2,23 +2,23 @@ using System;
 using System.Collections.Generic;
 using Tracker.Core.Definitions;
 
-namespace Tracker.Core.Data.Entities
+namespace Tracker.Core.Data.Entities;
+
+/// <summary>
+/// Entity class representing data for table 'Audit'.
+/// </summary>
+public partial class Audit : IHaveIdentifier
 {
     /// <summary>
-    /// Entity class representing data for table 'Audit'.
+    /// Initializes a new instance of the <see cref="Audit"/> class.
     /// </summary>
-    public partial class Audit : IHaveIdentifier
+    public Audit()
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Audit"/> class.
-        /// </summary>
-        public Audit()
-        {
-            #region Generated Constructor
+        #region Generated Constructor
             #endregion
-        }
+    }
 
-        #region Generated Properties
+    #region Generated Properties
         /// <summary>
         /// Gets or sets the property value representing column 'Id'.
         /// </summary>
@@ -109,8 +109,7 @@ namespace Tracker.Core.Data.Entities
 
         #endregion
 
-        #region Generated Relationships
+    #region Generated Relationships
         #endregion
 
-    }
 }

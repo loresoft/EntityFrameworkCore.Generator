@@ -1,15 +1,15 @@
 using System;
 using System.Collections.Generic;
 
-namespace Tracker.Core.Domain.Models
+namespace Tracker.Core.Domain.Models;
+
+/// <summary>
+/// View Model class
+/// </summary>
+public partial class TenantUpdateModel
+    : EntityUpdateModel
 {
-    /// <summary>
-    /// View Model class
-    /// </summary>
-    public partial class TenantUpdateModel
-        : EntityUpdateModel
-    {
-        #region Generated Properties
+    #region Generated Properties
         /// <summary>
         /// Gets or sets the property value for 'Name'.
         /// </summary>
@@ -36,5 +36,4 @@ namespace Tracker.Core.Domain.Models
 
         #endregion
 
-    }
 }

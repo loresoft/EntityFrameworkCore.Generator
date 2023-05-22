@@ -1,9 +1,8 @@
 ﻿using System;
 
-namespace Tracker.Core.Definitions
+namespace Tracker.Core.Definitions;
+
+public interface IHaveIdentifier
 {
-    public interface IHaveIdentifier
-    {
-        Guid Id { get; set; }
-    }
+    Guid Id { get; set; }
 }

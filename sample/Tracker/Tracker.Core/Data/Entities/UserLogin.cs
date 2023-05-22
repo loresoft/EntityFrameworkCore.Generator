@@ -2,23 +2,23 @@ using System;
 using System.Collections.Generic;
 using Tracker.Core.Definitions;
 
-namespace Tracker.Core.Data.Entities
+namespace Tracker.Core.Data.Entities;
+
+/// <summary>
+/// Entity class representing data for table 'UserLogin'.
+/// </summary>
+public partial class UserLogin : IHaveIdentifier, ITrackCreated, ITrackUpdated
 {
     /// <summary>
-    /// Entity class representing data for table 'UserLogin'.
+    /// Initializes a new instance of the <see cref="UserLogin"/> class.
     /// </summary>
-    public partial class UserLogin : IHaveIdentifier, ITrackCreated, ITrackUpdated
+    public UserLogin()
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="UserLogin"/> class.
-        /// </summary>
-        public UserLogin()
-        {
-            #region Generated Constructor
+        #region Generated Constructor
             #endregion
-        }
+    }
 
-        #region Generated Properties
+    #region Generated Properties
         /// <summary>
         /// Gets or sets the property value representing column 'Id'.
         /// </summary>
@@ -157,7 +157,7 @@ namespace Tracker.Core.Data.Entities
 
         #endregion
 
-        #region Generated Relationships
+    #region Generated Relationships
         /// <summary>
         /// Gets or sets the navigation property for entity <see cref="User" />.
         /// </summary>
@@ -169,5 +169,4 @@ namespace Tracker.Core.Data.Entities
 
         #endregion
 
-    }
 }

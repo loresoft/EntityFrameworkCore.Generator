@@ -1,22 +1,20 @@
-using System;
-using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 
-namespace Tracker.Core.Data.Mapping
+namespace Tracker.Core.Data.Mapping;
+
+/// <summary>
+/// Allows configuration for an entity type <see cref="Tracker.Core.Data.Entities.Task" />
+/// </summary>
+public partial class TaskMap
+    : IEntityTypeConfiguration<Tracker.Core.Data.Entities.Task>
 {
     /// <summary>
-    /// Allows configuration for an entity type <see cref="Tracker.Core.Data.Entities.Task" />
+    /// Configures the entity of type <see cref="Tracker.Core.Data.Entities.Task" />
     /// </summary>
-    public partial class TaskMap
-        : IEntityTypeConfiguration<Tracker.Core.Data.Entities.Task>
+    /// <param name="builder">The builder to be used to configure the entity type.</param>
+    public void Configure(Microsoft.EntityFrameworkCore.Metadata.Builders.EntityTypeBuilder<Tracker.Core.Data.Entities.Task> builder)
     {
-        /// <summary>
-        /// Configures the entity of type <see cref="Tracker.Core.Data.Entities.Task" />
-        /// </summary>
-        /// <param name="builder">The builder to be used to configure the entity type.</param>
-        public void Configure(Microsoft.EntityFrameworkCore.Metadata.Builders.EntityTypeBuilder<Tracker.Core.Data.Entities.Task> builder)
-        {
-            #region Generated Configure
+        #region Generated Configure
             // table
             builder.ToTable("Task", "dbo");
 
@@ -122,9 +120,9 @@ namespace Tracker.Core.Data.Mapping
                 .HasConstraintName("FK_Task_User_AssignedId");
 
             #endregion
-        }
+    }
 
-        #region Generated Constants
+    #region Generated Constants
         public struct Table
         {
             /// <summary>Table Schema name constant for entity <see cref="Tracker.Core.Data.Entities.Task" /></summary>
@@ -167,5 +165,4 @@ namespace Tracker.Core.Data.Mapping
             public const string RowVersion = "RowVersion";
         }
         #endregion
-    }
 }

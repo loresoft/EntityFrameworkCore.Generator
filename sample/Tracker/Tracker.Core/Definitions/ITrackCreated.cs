@@ -1,10 +1,9 @@
 using System;
 
-namespace Tracker.Core.Definitions
+namespace Tracker.Core.Definitions;
+
+public interface ITrackCreated
 {
-    public interface ITrackCreated
-    {
-        DateTimeOffset Created { get; set; }
-        string? CreatedBy { get; set; }
-    }
+    DateTimeOffset Created { get; set; }
+    string? CreatedBy { get; set; }
 }

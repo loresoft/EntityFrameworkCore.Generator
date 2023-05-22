@@ -1,23 +1,23 @@
 using System;
 using System.Collections.Generic;
 
-namespace Tracker.Core.Data.Entities
+namespace Tracker.Core.Data.Entities;
+
+/// <summary>
+/// Entity class representing data for table 'UserRole'.
+/// </summary>
+public partial class UserRole
 {
     /// <summary>
-    /// Entity class representing data for table 'UserRole'.
+    /// Initializes a new instance of the <see cref="UserRole"/> class.
     /// </summary>
-    public partial class UserRole
+    public UserRole()
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="UserRole"/> class.
-        /// </summary>
-        public UserRole()
-        {
-            #region Generated Constructor
+        #region Generated Constructor
             #endregion
-        }
+    }
 
-        #region Generated Properties
+    #region Generated Properties
         /// <summary>
         /// Gets or sets the property value representing column 'UserId'.
         /// </summary>
@@ -36,7 +36,7 @@ namespace Tracker.Core.Data.Entities
 
         #endregion
 
-        #region Generated Relationships
+    #region Generated Relationships
         /// <summary>
         /// Gets or sets the navigation property for entity <see cref="Role" />.
         /// </summary>
@@ -57,5 +57,4 @@ namespace Tracker.Core.Data.Entities
 
         #endregion
 
-    }
 }

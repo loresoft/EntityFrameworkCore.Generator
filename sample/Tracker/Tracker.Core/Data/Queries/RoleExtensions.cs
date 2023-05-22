@@ -4,14 +4,14 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 
-namespace Tracker.Core.Data.Queries
+namespace Tracker.Core.Data.Queries;
+
+/// <summary>
+/// Query extensions for entity <see cref="Tracker.Core.Data.Entities.Role" />.
+/// </summary>
+public static partial class RoleExtensions
 {
-    /// <summary>
-    /// Query extensions for entity <see cref="Tracker.Core.Data.Entities.Role" />.
-    /// </summary>
-    public static partial class RoleExtensions
-    {
-        #region Generated Extensions
+    #region Generated Extensions
         /// <summary>
         /// Gets an instance by the primary key.
         /// </summary>
@@ -77,5 +77,4 @@ namespace Tracker.Core.Data.Queries
 
         #endregion
 
-    }
 }

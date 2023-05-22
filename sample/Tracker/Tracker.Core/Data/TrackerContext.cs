@@ -2,23 +2,23 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
-namespace Tracker.Core.Data
+namespace Tracker.Core.Data;
+
+/// <summary>
+/// A <see cref="DbContext" /> instance represents a session with the database and can be used to query and save instances of entities.
+/// </summary>
+public partial class TrackerContext : DbContext
 {
     /// <summary>
-    /// A <see cref="DbContext" /> instance represents a session with the database and can be used to query and save instances of entities.
+    /// Initializes a new instance of the <see cref="TrackerContext"/> class.
     /// </summary>
-    public partial class TrackerContext : DbContext
+    /// <param name="options">The options to be used by this <see cref="DbContext" />.</param>
+    public TrackerContext(DbContextOptions<TrackerContext> options)
+        : base(options)
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="TrackerContext"/> class.
-        /// </summary>
-        /// <param name="options">The options to be used by this <see cref="DbContext" />.</param>
-        public TrackerContext(DbContextOptions<TrackerContext> options)
-            : base(options)
-        {
-        }
+    }
 
-        #region Generated Properties
+    #region Generated Properties
         /// <summary>
         /// Gets or sets the <see cref="T:Microsoft.EntityFrameworkCore.DbSet`1" /> that can be used to query and save instances of <see cref="Tracker.Core.Data.Entities.Audit"/>.
         /// </summary>
@@ -101,13 +101,13 @@ namespace Tracker.Core.Data
 
         #endregion
 
-        /// <summary>
-        /// Configure the model that was discovered from the entity types exposed in <see cref="T:Microsoft.EntityFrameworkCore.DbSet`1" /> properties on this context.
-        /// </summary>
-        /// <param name="modelBuilder">The builder being used to construct the model for this context.</param>
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            #region Generated Configuration
+    /// <summary>
+    /// Configure the model that was discovered from the entity types exposed in <see cref="T:Microsoft.EntityFrameworkCore.DbSet`1" /> properties on this context.
+    /// </summary>
+    /// <param name="modelBuilder">The builder being used to construct the model for this context.</param>
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        #region Generated Configuration
             modelBuilder.ApplyConfiguration(new Tracker.Core.Data.Mapping.AuditMap());
             modelBuilder.ApplyConfiguration(new Tracker.Core.Data.Mapping.PriorityMap());
             modelBuilder.ApplyConfiguration(new Tracker.Core.Data.Mapping.RoleMap());
@@ -119,6 +119,5 @@ namespace Tracker.Core.Data
             modelBuilder.ApplyConfiguration(new Tracker.Core.Data.Mapping.UserMap());
             modelBuilder.ApplyConfiguration(new Tracker.Core.Data.Mapping.UserRoleMap());
             #endregion
-        }
     }
 }

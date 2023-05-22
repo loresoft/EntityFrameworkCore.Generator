@@ -2,21 +2,21 @@ using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 
-namespace Tracker.Core.Data.Mapping
+namespace Tracker.Core.Data.Mapping;
+
+/// <summary>
+/// Allows configuration for an entity type <see cref="Tracker.Core.Data.Entities.TaskExtended" />
+/// </summary>
+public partial class TaskExtendedMap
+    : IEntityTypeConfiguration<Tracker.Core.Data.Entities.TaskExtended>
 {
     /// <summary>
-    /// Allows configuration for an entity type <see cref="Tracker.Core.Data.Entities.TaskExtended" />
+    /// Configures the entity of type <see cref="Tracker.Core.Data.Entities.TaskExtended" />
     /// </summary>
-    public partial class TaskExtendedMap
-        : IEntityTypeConfiguration<Tracker.Core.Data.Entities.TaskExtended>
+    /// <param name="builder">The builder to be used to configure the entity type.</param>
+    public void Configure(Microsoft.EntityFrameworkCore.Metadata.Builders.EntityTypeBuilder<Tracker.Core.Data.Entities.TaskExtended> builder)
     {
-        /// <summary>
-        /// Configures the entity of type <see cref="Tracker.Core.Data.Entities.TaskExtended" />
-        /// </summary>
-        /// <param name="builder">The builder to be used to configure the entity type.</param>
-        public void Configure(Microsoft.EntityFrameworkCore.Metadata.Builders.EntityTypeBuilder<Tracker.Core.Data.Entities.TaskExtended> builder)
-        {
-            #region Generated Configure
+        #region Generated Configure
             // table
             builder.ToTable("TaskExtended", "dbo");
 
@@ -80,9 +80,9 @@ namespace Tracker.Core.Data.Mapping
                 .HasConstraintName("FK_TaskExtended_Task_TaskId");
 
             #endregion
-        }
+    }
 
-        #region Generated Constants
+    #region Generated Constants
         public struct Table
         {
             /// <summary>Table Schema name constant for entity <see cref="Tracker.Core.Data.Entities.TaskExtended" /></summary>
@@ -113,5 +113,4 @@ namespace Tracker.Core.Data.Mapping
             public const string RowVersion = "RowVersion";
         }
         #endregion
-    }
 }

@@ -2,24 +2,24 @@ using System;
 using System.Collections.Generic;
 using Tracker.Core.Definitions;
 
-namespace Tracker.Core.Data.Entities
+namespace Tracker.Core.Data.Entities;
+
+/// <summary>
+/// Entity class representing data for table 'Priority'.
+/// </summary>
+public partial class Priority : IHaveIdentifier, ITrackCreated, ITrackUpdated
 {
     /// <summary>
-    /// Entity class representing data for table 'Priority'.
+    /// Initializes a new instance of the <see cref="Priority"/> class.
     /// </summary>
-    public partial class Priority : IHaveIdentifier, ITrackCreated, ITrackUpdated
+    public Priority()
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Priority"/> class.
-        /// </summary>
-        public Priority()
-        {
-            #region Generated Constructor
+        #region Generated Constructor
             Tasks = new HashSet<Task>();
             #endregion
-        }
+    }
 
-        #region Generated Properties
+    #region Generated Properties
         /// <summary>
         /// Gets or sets the property value representing column 'Id'.
         /// </summary>
@@ -102,7 +102,7 @@ namespace Tracker.Core.Data.Entities
 
         #endregion
 
-        #region Generated Relationships
+    #region Generated Relationships
         /// <summary>
         /// Gets or sets the navigation collection for entity <see cref="Task" />.
         /// </summary>
@@ -113,5 +113,4 @@ namespace Tracker.Core.Data.Entities
 
         #endregion
 
-    }
 }

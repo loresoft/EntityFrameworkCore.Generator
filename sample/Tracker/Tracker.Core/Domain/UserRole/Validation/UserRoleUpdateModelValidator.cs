@@ -3,22 +3,21 @@ using FluentValidation;
 using Tracker.Core.Domain.Models;
 
 // ReSharper disable once CheckNamespace
-namespace Tracker.Core.Domain.Validation
+namespace Tracker.Core.Domain.Validation;
+
+/// <summary>
+/// Validator class for <see cref="UserRoleUpdateModel"/> .
+/// </summary>
+public partial class UserRoleUpdateModelValidator
+    : AbstractValidator<UserRoleUpdateModel>
 {
     /// <summary>
-    /// Validator class for <see cref="UserRoleUpdateModel"/> .
+    /// Initializes a new instance of the <see cref="UserRoleUpdateModelValidator"/> class.
     /// </summary>
-    public partial class UserRoleUpdateModelValidator
-        : AbstractValidator<UserRoleUpdateModel>
+    public UserRoleUpdateModelValidator()
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="UserRoleUpdateModelValidator"/> class.
-        /// </summary>
-        public UserRoleUpdateModelValidator()
-        {
-            #region Generated Constructor
+        #region Generated Constructor
             #endregion
-        }
-
     }
+
 }

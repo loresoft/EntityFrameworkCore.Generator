@@ -2,24 +2,24 @@ using System;
 using System.Collections.Generic;
 using Tracker.Core.Definitions;
 
-namespace Tracker.Core.Data.Entities
+namespace Tracker.Core.Data.Entities;
+
+/// <summary>
+/// Entity class representing data for table 'Role'.
+/// </summary>
+public partial class Role : IHaveIdentifier, ITrackCreated, ITrackUpdated
 {
     /// <summary>
-    /// Entity class representing data for table 'Role'.
+    /// Initializes a new instance of the <see cref="Role"/> class.
     /// </summary>
-    public partial class Role : IHaveIdentifier, ITrackCreated, ITrackUpdated
+    public Role()
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Role"/> class.
-        /// </summary>
-        public Role()
-        {
-            #region Generated Constructor
+        #region Generated Constructor
             UserRoles = new HashSet<UserRole>();
             #endregion
-        }
+    }
 
-        #region Generated Properties
+    #region Generated Properties
         /// <summary>
         /// Gets or sets the property value representing column 'Id'.
         /// </summary>
@@ -86,7 +86,7 @@ namespace Tracker.Core.Data.Entities
 
         #endregion
 
-        #region Generated Relationships
+    #region Generated Relationships
         /// <summary>
         /// Gets or sets the navigation collection for entity <see cref="UserRole" />.
         /// </summary>
@@ -97,5 +97,4 @@ namespace Tracker.Core.Data.Entities
 
         #endregion
 
-    }
 }

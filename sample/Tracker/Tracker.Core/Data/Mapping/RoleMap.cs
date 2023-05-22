@@ -2,21 +2,21 @@ using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 
-namespace Tracker.Core.Data.Mapping
+namespace Tracker.Core.Data.Mapping;
+
+/// <summary>
+/// Allows configuration for an entity type <see cref="Tracker.Core.Data.Entities.Role" />
+/// </summary>
+public partial class RoleMap
+    : IEntityTypeConfiguration<Tracker.Core.Data.Entities.Role>
 {
     /// <summary>
-    /// Allows configuration for an entity type <see cref="Tracker.Core.Data.Entities.Role" />
+    /// Configures the entity of type <see cref="Tracker.Core.Data.Entities.Role" />
     /// </summary>
-    public partial class RoleMap
-        : IEntityTypeConfiguration<Tracker.Core.Data.Entities.Role>
+    /// <param name="builder">The builder to be used to configure the entity type.</param>
+    public void Configure(Microsoft.EntityFrameworkCore.Metadata.Builders.EntityTypeBuilder<Tracker.Core.Data.Entities.Role> builder)
     {
-        /// <summary>
-        /// Configures the entity of type <see cref="Tracker.Core.Data.Entities.Role" />
-        /// </summary>
-        /// <param name="builder">The builder to be used to configure the entity type.</param>
-        public void Configure(Microsoft.EntityFrameworkCore.Metadata.Builders.EntityTypeBuilder<Tracker.Core.Data.Entities.Role> builder)
-        {
-            #region Generated Configure
+        #region Generated Configure
             // table
             builder.ToTable("Role", "dbo");
 
@@ -72,9 +72,9 @@ namespace Tracker.Core.Data.Mapping
 
             // relationships
             #endregion
-        }
+    }
 
-        #region Generated Constants
+    #region Generated Constants
         public struct Table
         {
             /// <summary>Table Schema name constant for entity <see cref="Tracker.Core.Data.Entities.Role" /></summary>
@@ -103,5 +103,4 @@ namespace Tracker.Core.Data.Mapping
             public const string RowVersion = "RowVersion";
         }
         #endregion
-    }
 }

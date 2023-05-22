@@ -2,15 +2,15 @@ using System;
 using System.Collections.Generic;
 
 // ReSharper disable once CheckNamespace
-namespace Tracker.Core.Domain.Models
+namespace Tracker.Core.Domain.Models;
+
+/// <summary>
+/// View Model class
+/// </summary>
+public partial class AuditReadModel
+    : EntityReadModel
 {
-    /// <summary>
-    /// View Model class
-    /// </summary>
-    public partial class AuditReadModel
-        : EntityReadModel
-    {
-        #region Generated Properties
+    #region Generated Properties
         /// <summary>
         /// Gets or sets the property value for 'Date'.
         /// </summary>
@@ -53,5 +53,4 @@ namespace Tracker.Core.Domain.Models
 
         #endregion
 
-    }
 }

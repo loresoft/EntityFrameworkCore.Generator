@@ -4,23 +4,22 @@ using Tracker.Core.Data.Entities;
 using Tracker.Core.Domain.Models;
 
 // ReSharper disable once CheckNamespace
-namespace Tracker.Core.Domain.Mapping
+namespace Tracker.Core.Domain.Mapping;
+
+/// <summary>
+/// Mapper class for entity <see cref="UserRole"/> .
+/// </summary>
+public partial class UserRoleProfile
+    : Profile
 {
     /// <summary>
-    /// Mapper class for entity <see cref="UserRole"/> .
+    /// Initializes a new instance of the <see cref="UserRoleProfile"/> class.
     /// </summary>
-    public partial class UserRoleProfile
-        : Profile
+    public UserRoleProfile()
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="UserRoleProfile"/> class.
-        /// </summary>
-        public UserRoleProfile()
-        {
-            CreateMap<UserRole, UserRoleReadModel>();
-            CreateMap<UserRoleCreateModel, UserRole>();
-            CreateMap<UserRoleUpdateModel, UserRole>();
-        }
-
+        CreateMap<UserRole, UserRoleReadModel>();
+        CreateMap<UserRoleCreateModel, UserRole>();
+        CreateMap<UserRoleUpdateModel, UserRole>();
     }
+
 }

@@ -2,21 +2,21 @@ using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 
-namespace Tracker.Core.Data.Mapping
+namespace Tracker.Core.Data.Mapping;
+
+/// <summary>
+/// Allows configuration for an entity type <see cref="Tracker.Core.Data.Entities.UserRole" />
+/// </summary>
+public partial class UserRoleMap
+    : IEntityTypeConfiguration<Tracker.Core.Data.Entities.UserRole>
 {
     /// <summary>
-    /// Allows configuration for an entity type <see cref="Tracker.Core.Data.Entities.UserRole" />
+    /// Configures the entity of type <see cref="Tracker.Core.Data.Entities.UserRole" />
     /// </summary>
-    public partial class UserRoleMap
-        : IEntityTypeConfiguration<Tracker.Core.Data.Entities.UserRole>
+    /// <param name="builder">The builder to be used to configure the entity type.</param>
+    public void Configure(Microsoft.EntityFrameworkCore.Metadata.Builders.EntityTypeBuilder<Tracker.Core.Data.Entities.UserRole> builder)
     {
-        /// <summary>
-        /// Configures the entity of type <see cref="Tracker.Core.Data.Entities.UserRole" />
-        /// </summary>
-        /// <param name="builder">The builder to be used to configure the entity type.</param>
-        public void Configure(Microsoft.EntityFrameworkCore.Metadata.Builders.EntityTypeBuilder<Tracker.Core.Data.Entities.UserRole> builder)
-        {
-            #region Generated Configure
+        #region Generated Configure
             // table
             builder.ToTable("UserRole", "dbo");
 
@@ -46,9 +46,9 @@ namespace Tracker.Core.Data.Mapping
                 .HasConstraintName("FK_UserRole_User_UserId");
 
             #endregion
-        }
+    }
 
-        #region Generated Constants
+    #region Generated Constants
         public struct Table
         {
             /// <summary>Table Schema name constant for entity <see cref="Tracker.Core.Data.Entities.UserRole" /></summary>
@@ -65,5 +65,4 @@ namespace Tracker.Core.Data.Mapping
             public const string RoleId = "RoleId";
         }
         #endregion
-    }
 }

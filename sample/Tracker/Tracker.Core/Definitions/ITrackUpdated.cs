@@ -1,10 +1,9 @@
 using System;
 
-namespace Tracker.Core.Definitions
+namespace Tracker.Core.Definitions;
+
+public interface ITrackUpdated
 {
-    public interface ITrackUpdated
-    {
-        DateTimeOffset Updated { get; set; }
-        string? UpdatedBy { get; set; }
-    }
+    DateTimeOffset Updated { get; set; }
+    string? UpdatedBy { get; set; }
 }

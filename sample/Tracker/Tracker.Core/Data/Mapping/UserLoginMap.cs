@@ -2,21 +2,21 @@ using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 
-namespace Tracker.Core.Data.Mapping
+namespace Tracker.Core.Data.Mapping;
+
+/// <summary>
+/// Allows configuration for an entity type <see cref="Tracker.Core.Data.Entities.UserLogin" />
+/// </summary>
+public partial class UserLoginMap
+    : IEntityTypeConfiguration<Tracker.Core.Data.Entities.UserLogin>
 {
     /// <summary>
-    /// Allows configuration for an entity type <see cref="Tracker.Core.Data.Entities.UserLogin" />
+    /// Configures the entity of type <see cref="Tracker.Core.Data.Entities.UserLogin" />
     /// </summary>
-    public partial class UserLoginMap
-        : IEntityTypeConfiguration<Tracker.Core.Data.Entities.UserLogin>
+    /// <param name="builder">The builder to be used to configure the entity type.</param>
+    public void Configure(Microsoft.EntityFrameworkCore.Metadata.Builders.EntityTypeBuilder<Tracker.Core.Data.Entities.UserLogin> builder)
     {
-        /// <summary>
-        /// Configures the entity of type <see cref="Tracker.Core.Data.Entities.UserLogin" />
-        /// </summary>
-        /// <param name="builder">The builder to be used to configure the entity type.</param>
-        public void Configure(Microsoft.EntityFrameworkCore.Metadata.Builders.EntityTypeBuilder<Tracker.Core.Data.Entities.UserLogin> builder)
-        {
-            #region Generated Configure
+        #region Generated Configure
             // table
             builder.ToTable("UserLogin", "dbo");
 
@@ -121,9 +121,9 @@ namespace Tracker.Core.Data.Mapping
                 .HasConstraintName("FK_UserLogin_User_UserId");
 
             #endregion
-        }
+    }
 
-        #region Generated Constants
+    #region Generated Constants
         public struct Table
         {
             /// <summary>Table Schema name constant for entity <see cref="Tracker.Core.Data.Entities.UserLogin" /></summary>
@@ -170,5 +170,4 @@ namespace Tracker.Core.Data.Mapping
             public const string RowVersion = "RowVersion";
         }
         #endregion
-    }
 }

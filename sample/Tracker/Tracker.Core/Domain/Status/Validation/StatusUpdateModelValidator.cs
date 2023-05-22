@@ -3,25 +3,24 @@ using FluentValidation;
 using Tracker.Core.Domain.Models;
 
 // ReSharper disable once CheckNamespace
-namespace Tracker.Core.Domain.Validation
+namespace Tracker.Core.Domain.Validation;
+
+/// <summary>
+/// Validator class for <see cref="StatusUpdateModel"/> .
+/// </summary>
+public partial class StatusUpdateModelValidator
+    : AbstractValidator<StatusUpdateModel>
 {
     /// <summary>
-    /// Validator class for <see cref="StatusUpdateModel"/> .
+    /// Initializes a new instance of the <see cref="StatusUpdateModelValidator"/> class.
     /// </summary>
-    public partial class StatusUpdateModelValidator
-        : AbstractValidator<StatusUpdateModel>
+    public StatusUpdateModelValidator()
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="StatusUpdateModelValidator"/> class.
-        /// </summary>
-        public StatusUpdateModelValidator()
-        {
-            #region Generated Constructor
+        #region Generated Constructor
             RuleFor(p => p.Name).NotEmpty();
             RuleFor(p => p.Name).MaximumLength(100);
             RuleFor(p => p.Description).MaximumLength(255);
             #endregion
-        }
-
     }
+
 }

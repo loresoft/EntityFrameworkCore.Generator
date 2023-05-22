@@ -4,14 +4,14 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 
-namespace Tracker.Core.Data.Queries
+namespace Tracker.Core.Data.Queries;
+
+/// <summary>
+/// Query extensions for entity <see cref="Tracker.Core.Data.Entities.UserLogin" />.
+/// </summary>
+public static partial class UserLoginExtensions
 {
-    /// <summary>
-    /// Query extensions for entity <see cref="Tracker.Core.Data.Entities.UserLogin" />.
-    /// </summary>
-    public static partial class UserLoginExtensions
-    {
-        #region Generated Extensions
+    #region Generated Extensions
         /// <summary>
         /// Filters a sequence of values based on a predicate.
         /// </summary>
@@ -77,5 +77,4 @@ namespace Tracker.Core.Data.Queries
 
         #endregion
 
-    }
 }

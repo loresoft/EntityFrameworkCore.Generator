@@ -2,15 +2,15 @@ using System;
 using System.Collections.Generic;
 
 // ReSharper disable once CheckNamespace
-namespace Tracker.Core.Domain.Models
+namespace Tracker.Core.Domain.Models;
+
+/// <summary>
+/// View Model class
+/// </summary>
+public partial class TaskReadModel
+    : EntityReadModel
 {
-    /// <summary>
-    /// View Model class
-    /// </summary>
-    public partial class TaskReadModel
-        : EntityReadModel
-    {
-        #region Generated Properties
+    #region Generated Properties
         /// <summary>
         /// Gets or sets the property value for 'StatusId'.
         /// </summary>
@@ -85,11 +85,10 @@ namespace Tracker.Core.Domain.Models
 
         #endregion
 
-        public string StatusName { get; set; } = null!;
+    public string StatusName { get; set; } = null!;
 
-        public string? PriorityName { get; set; }
+    public string? PriorityName { get; set; }
 
-        public string? AssignedEmail { get; set; }
+    public string? AssignedEmail { get; set; }
 
-    }
 }

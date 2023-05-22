@@ -1,9 +1,8 @@
 ﻿using System;
 
-namespace Tracker.Core.Definitions
+namespace Tracker.Core.Definitions;
+
+public interface ITrackDeleted
 {
-    public interface ITrackDeleted
-    {
-        bool IsDeleted { get; set; }
-    }
+    bool IsDeleted { get; set; }
 }
