@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -14,6 +14,7 @@ using Humanizer;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Scaffolding.Metadata;
 using Microsoft.EntityFrameworkCore.Scaffolding.Metadata.Internal;
+using Microsoft.EntityFrameworkCore.SqlServer.Metadata.Internal;
 using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.Extensions.Logging;
 
@@ -145,6 +146,23 @@ public class ModelGenerator
         entity.ContextProperty = contextName;
 
         entity.IsView = tableSchema is DatabaseView;
+
+        bool? isTemporal = tableSchema[SqlServerAnnotationNames.IsTemporal] as bool?;
+        if (isTemporal == true)
+        {
+            entity.TemporalTableName = tableSchema[SqlServerAnnotationNames.TemporalHistoryTableName] as string;
+            entity.TemporalTableSchema = tableSchema[SqlServerAnnotationNames.TemporalHistoryTableSchema] as string;
+
+            entity.TemporalStartProperty = tableSchema[SqlServerAnnotationNames.TemporalPeriodStartPropertyName] as string;
+
+            entity.TemporalStartColumn = tableSchema[SqlServerAnnotationNames.TemporalPeriodStartColumnName] as string
+                ?? entity.TemporalStartProperty;
+
+            entity.TemporalEndProperty = tableSchema[SqlServerAnnotationNames.TemporalPeriodEndPropertyName] as string;
+
+            entity.TemporalEndColumn = tableSchema[SqlServerAnnotationNames.TemporalPeriodEndColumnName] as string
+                ?? entity.TemporalEndProperty;
+        }
 
         entityContext.Entities.Add(entity);
 

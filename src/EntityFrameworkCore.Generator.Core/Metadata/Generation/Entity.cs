@@ -1,4 +1,4 @@
-﻿using System.Diagnostics;
+using System.Diagnostics;
 
 namespace EntityFrameworkCore.Generator.Metadata.Generation;
 
@@ -161,6 +161,55 @@ public class Entity : ModelBase, IOptionVariable
     ///   <c>true</c> if this instance is view; otherwise, <c>false</c>.
     /// </value>
     public bool IsView { get; set; }
+
+
+    /// <summary>
+    /// Gets or sets the name of the temporal table.
+    /// </summary>
+    /// <value>
+    /// The name of the temporal table.
+    /// </value>
+    public string TemporalTableName { get; set; }
+
+    /// <summary>
+    /// Gets or sets the temporal table schema.
+    /// </summary>
+    /// <value>
+    /// The temporal table schema.
+    /// </value>
+    public string TemporalTableSchema { get; set; }
+
+    /// <summary>
+    /// Gets or sets the temporal start property.
+    /// </summary>
+    /// <value>
+    /// The temporal start property.
+    /// </value>
+    public string TemporalStartProperty { get; set; }
+
+    /// <summary>
+    /// Gets or sets the temporal start column.
+    /// </summary>
+    /// <value>
+    /// The temporal start column.
+    /// </value>
+    public string TemporalStartColumn { get; set; }
+
+    /// <summary>
+    /// Gets or sets the temporal end property.
+    /// </summary>
+    /// <value>
+    /// The temporal end property.
+    /// </value>
+    public string TemporalEndProperty { get; set; }
+
+    /// <summary>
+    /// Gets or sets the temporal end column.
+    /// </summary>
+    /// <value>
+    /// The temporal end column.
+    /// </value>
+    public string TemporalEndColumn { get; set; }
 
     void IOptionVariable.Set(VariableDictionary variableDictionary)
     {

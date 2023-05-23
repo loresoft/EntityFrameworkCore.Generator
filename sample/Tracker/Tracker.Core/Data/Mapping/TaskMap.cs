@@ -18,6 +18,21 @@ public partial class TaskMap
         // table
         builder.ToTable("Task", "dbo");
 
+        builder
+            .ToTable(tableBuilder => tableBuilder
+                .IsTemporal(temporalBuilder =>
+                {
+                    temporalBuilder
+                        .UseHistoryTable("Task", "History");
+                    temporalBuilder
+                        .HasPeriodStart("PeriodStart")
+                        .HasColumnName("PeriodStart");
+                    temporalBuilder
+                        .HasPeriodEnd("PeriodEnd")
+                        .HasColumnName("PeriodEnd");
+                })
+            );
+
         // key
         builder.HasKey(t => t.Id);
 

@@ -363,5 +363,45 @@ public class MappingClassTemplate : CodeTemplateBase
             : $"builder.{method}(\"{_entity.TableName}\");");
 
         CodeBuilder.AppendLine();
+
+        if (_entity.TemporalTableName.IsNullOrEmpty())
+            return;
+
+        CodeBuilder.AppendLine("builder");
+        CodeBuilder.IncrementIndent();
+        CodeBuilder.AppendLine(".ToTable(tableBuilder => tableBuilder");
+        CodeBuilder.IncrementIndent();
+        CodeBuilder.AppendLine(".IsTemporal(temporalBuilder =>");
+        CodeBuilder.AppendLine("{");
+        CodeBuilder.IncrementIndent();
+        CodeBuilder.AppendLine("temporalBuilder");
+        CodeBuilder.IncrementIndent();
+
+        CodeBuilder.AppendLine(_entity.TemporalTableSchema.HasValue()
+            ? $".UseHistoryTable(\"{_entity.TemporalTableName}\", \"{_entity.TemporalTableSchema}\");"
+            : $".UseHistoryTable(\"{_entity.TemporalTableName}\");");
+
+        CodeBuilder.DecrementIndent();
+        CodeBuilder.AppendLine("temporalBuilder");
+        CodeBuilder.IncrementIndent();
+        CodeBuilder.AppendLine($".HasPeriodStart(\"{_entity.TemporalStartProperty}\")");
+        CodeBuilder.AppendLine($".HasColumnName(\"{_entity.TemporalStartColumn}\");");
+
+        CodeBuilder.DecrementIndent();
+        CodeBuilder.AppendLine("temporalBuilder");
+        CodeBuilder.IncrementIndent();
+        CodeBuilder.AppendLine($".HasPeriodEnd(\"{_entity.TemporalEndProperty}\")");
+        CodeBuilder.AppendLine($".HasColumnName(\"{_entity.TemporalEndColumn}\");");
+
+        CodeBuilder.DecrementIndent();
+        CodeBuilder.DecrementIndent();
+        CodeBuilder.AppendLine("})");
+
+        CodeBuilder.DecrementIndent();
+        CodeBuilder.AppendLine(");");
+
+        CodeBuilder.DecrementIndent();
+
+        CodeBuilder.AppendLine();
     }
 }
