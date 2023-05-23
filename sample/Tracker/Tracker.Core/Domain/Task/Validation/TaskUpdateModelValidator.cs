@@ -17,9 +17,9 @@ public partial class TaskUpdateModelValidator
     public TaskUpdateModelValidator()
     {
         #region Generated Constructor
-            RuleFor(p => p.Title).NotEmpty();
-            RuleFor(p => p.Title).MaximumLength(255);
-            #endregion
+        RuleFor(p => p.Title).NotEmpty();
+        RuleFor(p => p.Title).MaximumLength(255);
+        #endregion
     }
 
 }

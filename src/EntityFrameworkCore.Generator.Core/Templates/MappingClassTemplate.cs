@@ -90,7 +90,7 @@ public class MappingClassTemplate : CodeTemplateBase
 
         CodeBuilder.AppendLine("#region Generated Constants");
 
-        CodeBuilder.AppendLine("public struct Table");
+        CodeBuilder.AppendLine("public readonly struct Table");
         CodeBuilder.AppendLine("{");
 
         using (CodeBuilder.Indent())
@@ -110,7 +110,7 @@ public class MappingClassTemplate : CodeTemplateBase
         CodeBuilder.AppendLine("}");
 
         CodeBuilder.AppendLine();
-        CodeBuilder.AppendLine("public struct Columns");
+        CodeBuilder.AppendLine("public readonly struct Columns");
         CodeBuilder.AppendLine("{");
 
         using (CodeBuilder.Indent())

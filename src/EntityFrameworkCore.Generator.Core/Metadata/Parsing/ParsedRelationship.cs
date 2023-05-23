@@ -1,27 +1,29 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Diagnostics;
 
 namespace EntityFrameworkCore.Generator.Metadata.Parsing;
 
-[DebuggerDisplay("This: {ThisPropertyName}, Other: {OtherPropertyName}")]
+[DebuggerDisplay("Name: {RelationshipName}, Property: {PropertyName}, Primary: {PrimaryPropertyName}")]
 public class ParsedRelationship
 {
     public ParsedRelationship()
     {
-        ThisProperties = new List<string>();
+        Properties = new List<string>();
     }
+    public string RelationshipName { get; set; }
 
-    public string ThisPropertyName { get; set; }
+    public string PropertyName { get; set; }
 
-    public List<string> ThisProperties { get; }
+    public List<string> Properties { get; }
 
-    public string OtherPropertyName { get; set; }
+    public string PrimaryPropertyName { get; set; }
+
 
     public bool IsValid()
     {
-        return !string.IsNullOrEmpty(ThisPropertyName)
-               && !string.IsNullOrEmpty(OtherPropertyName)
-               && ThisProperties.Count > 0;
+        return !string.IsNullOrEmpty(PropertyName)
+               && !string.IsNullOrEmpty(PrimaryPropertyName)
+               && Properties.Count > 0;
     }
 
 }

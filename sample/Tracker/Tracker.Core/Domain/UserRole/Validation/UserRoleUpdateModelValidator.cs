@@ -17,7 +17,7 @@ public partial class UserRoleUpdateModelValidator
     public UserRoleUpdateModelValidator()
     {
         #region Generated Constructor
-            #endregion
+        #endregion
     }
 
 }

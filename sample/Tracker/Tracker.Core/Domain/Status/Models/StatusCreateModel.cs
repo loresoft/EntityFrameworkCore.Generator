@@ -11,38 +11,38 @@ public partial class StatusCreateModel
     : EntityCreateModel
 {
     #region Generated Properties
-        /// <summary>
-        /// Gets or sets the property value for 'Name'.
-        /// </summary>
-        /// <value>
-        /// The property value for 'Name'.
-        /// </value>
-        public string Name { get; set; } = null!;
+    /// <summary>
+    /// Gets or sets the property value for 'Name'.
+    /// </summary>
+    /// <value>
+    /// The property value for 'Name'.
+    /// </value>
+    public string Name { get; set; } = null!;
 
-        /// <summary>
-        /// Gets or sets the property value for 'Description'.
-        /// </summary>
-        /// <value>
-        /// The property value for 'Description'.
-        /// </value>
-        public string? Description { get; set; }
+    /// <summary>
+    /// Gets or sets the property value for 'Description'.
+    /// </summary>
+    /// <value>
+    /// The property value for 'Description'.
+    /// </value>
+    public string? Description { get; set; }
 
-        /// <summary>
-        /// Gets or sets the property value for 'DisplayOrder'.
-        /// </summary>
-        /// <value>
-        /// The property value for 'DisplayOrder'.
-        /// </value>
-        public int DisplayOrder { get; set; }
+    /// <summary>
+    /// Gets or sets the property value for 'DisplayOrder'.
+    /// </summary>
+    /// <value>
+    /// The property value for 'DisplayOrder'.
+    /// </value>
+    public int DisplayOrder { get; set; }
 
-        /// <summary>
-        /// Gets or sets the property value for 'IsActive'.
-        /// </summary>
-        /// <value>
-        /// The property value for 'IsActive'.
-        /// </value>
-        public bool IsActive { get; set; }
+    /// <summary>
+    /// Gets or sets the property value for 'IsActive'.
+    /// </summary>
+    /// <value>
+    /// The property value for 'IsActive'.
+    /// </value>
+    public bool IsActive { get; set; }
 
-        #endregion
+    #endregion
 
 }

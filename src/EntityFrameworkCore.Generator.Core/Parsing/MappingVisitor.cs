@@ -1,4 +1,4 @@
-﻿using System.Linq;
+using System.Linq;
 
 using EntityFrameworkCore.Generator.Metadata.Parsing;
 
@@ -36,6 +36,9 @@ public class MappingVisitor : CSharpSyntaxWalker
 
         switch (methodName)
         {
+            case "HasConstraintName":
+                ParseConstraintName(node);
+                break;
             case "HasForeignKey":
                 ParseForeignKey(node);
                 break;
@@ -115,12 +118,14 @@ public class MappingVisitor : CSharpSyntaxWalker
 
     private void ParseHasOne(InvocationExpressionSyntax node)
     {
-        if (node == null || ParsedEntity == null || _currentRelationship == null)
+        if (node == null || ParsedEntity == null)
             return;
+
+        _currentRelationship ??= new ParsedRelationship();
 
         var propertyName = ParseLambaExpression(node);
         if (!string.IsNullOrEmpty(propertyName))
-            _currentRelationship.ThisPropertyName = propertyName;
+            _currentRelationship.PropertyName = propertyName;
 
         // add and reset current relationship
         if (_currentRelationship.IsValid())
@@ -131,14 +136,15 @@ public class MappingVisitor : CSharpSyntaxWalker
 
     private void ParseWithMany(InvocationExpressionSyntax node)
     {
-        if (node == null || ParsedEntity == null || _currentRelationship == null)
+        if (node == null || ParsedEntity == null)
             return;
 
         var propertyName = ParseLambaExpression(node);
         if (string.IsNullOrEmpty(propertyName))
             return;
 
-        _currentRelationship.OtherPropertyName = propertyName;
+        _currentRelationship ??= new ParsedRelationship();
+        _currentRelationship.PrimaryPropertyName = propertyName;
     }
 
     private void ParseForeignKey(InvocationExpressionSyntax node)
@@ -151,10 +157,26 @@ public class MappingVisitor : CSharpSyntaxWalker
         if (string.IsNullOrEmpty(propertyName))
             return;
 
-        // start new relationship
-        _currentRelationship = new ParsedRelationship();
-        _currentRelationship.ThisProperties.Add(propertyName);
+        _currentRelationship ??= new ParsedRelationship();
+        _currentRelationship.Properties.Add(propertyName);
     }
+
+    private void ParseConstraintName(InvocationExpressionSyntax node)
+    {
+        if (node == null || ParsedEntity == null)
+            return;
+
+        var constraitName = node
+            .ArgumentList
+            .DescendantNodes()
+            .OfType<LiteralExpressionSyntax>()
+            .Select(t => t.Token.ValueText)
+        .FirstOrDefault();
+
+        _currentRelationship ??= new ParsedRelationship();
+        _currentRelationship.RelationshipName = constraitName;
+    }
+
 
     private void ParseProperty(InvocationExpressionSyntax node)
     {

@@ -22,6 +22,7 @@ public class QueryExtensionTemplate : CodeTemplateBase
         CodeBuilder.AppendLine("using System;");
         CodeBuilder.AppendLine("using System.Collections.Generic;");
         CodeBuilder.AppendLine("using System.Linq;");
+        CodeBuilder.AppendLine("using System.Threading;");
         CodeBuilder.AppendLine("using System.Threading.Tasks;");
         CodeBuilder.AppendLine("using Microsoft.EntityFrameworkCore;");
         CodeBuilder.AppendLine();
@@ -117,7 +118,7 @@ public class QueryExtensionTemplate : CodeTemplateBase
             CodeBuilder.AppendLine("/// <returns>An <see cref=\"T: System.Linq.IQueryable`1\" /> that contains elements from the input sequence that satisfy the condition specified.</returns>");
         }
 
-        CodeBuilder.Append($"public static IQueryable<{safeName}> {prefix}{suffix}(this IQueryable<{safeName}> queryable, ");
+        CodeBuilder.Append($"public static System.Linq.IQueryable<{safeName}> {prefix}{suffix}(this System.Linq.IQueryable<{safeName}> queryable, ");
         AppendParameters(method);
         CodeBuilder.AppendLine(")");
         CodeBuilder.AppendLine("{");
@@ -145,8 +146,10 @@ public class QueryExtensionTemplate : CodeTemplateBase
         string suffix = method.NameSuffix;
 
         string asyncSuffix = async ? "Async" : string.Empty;
+        string asyncPrefix = async ? "async " : string.Empty;
+        string awaitPrefix = async ? "await " : string.Empty;
         string nullableSuffix = Options.Project.Nullable ? "?" : "";
-        string returnType = async ? $"Task<{safeName}{nullableSuffix}>" : safeName + nullableSuffix;
+        string returnType = async ? $"System.Threading.Tasks.Task<{safeName}{nullableSuffix}>" : safeName + nullableSuffix;
 
         if (Options.Data.Query.Document)
         {
@@ -158,8 +161,12 @@ public class QueryExtensionTemplate : CodeTemplateBase
             CodeBuilder.AppendLine($"/// <returns>An instance of <see cref=\"T:{safeName}\"/> or null if not found.</returns>");
         }
 
-        CodeBuilder.Append($"public static {returnType} {uniquePrefix}{suffix}{asyncSuffix}(this IQueryable<{safeName}> queryable, ");
+        CodeBuilder.Append($"public static {asyncPrefix}{returnType} {uniquePrefix}{suffix}{asyncSuffix}(this System.Linq.IQueryable<{safeName}> queryable, ");
         AppendParameters(method);
+
+        if (async)
+            CodeBuilder.Append(", System.Threading.CancellationToken cancellationToken = default");
+
         CodeBuilder.AppendLine(")");
         CodeBuilder.AppendLine("{");
 
@@ -171,8 +178,13 @@ public class QueryExtensionTemplate : CodeTemplateBase
             CodeBuilder.AppendLine();
 
 
-            CodeBuilder.Append($"return queryable.FirstOrDefault{asyncSuffix}(");
+            CodeBuilder.Append($"return {awaitPrefix}queryable.FirstOrDefault{asyncSuffix}(");
+
             AppendLamba(method);
+
+            if (async)
+                CodeBuilder.Append(", cancellationToken");
+
             CodeBuilder.AppendLine(");");
         }
 
@@ -186,8 +198,10 @@ public class QueryExtensionTemplate : CodeTemplateBase
         string uniquePrefix = Options.Data.Query.UniquePrefix;
 
         string asyncSuffix = async ? "Async" : string.Empty;
+        string asyncPrefix = async ? "async " : string.Empty;
+        string awaitPrefix = async ? "await " : string.Empty;
         string nullableSuffix = Options.Project.Nullable ? "?" : "";
-        string returnType = async ? $"ValueTask<{safeName}{nullableSuffix}>" : safeName + nullableSuffix;
+        string returnType = async ? $"System.Threading.Tasks.ValueTask<{safeName}{nullableSuffix}>" : safeName + nullableSuffix;
 
         if (Options.Data.Query.Document)
         {
@@ -199,8 +213,12 @@ public class QueryExtensionTemplate : CodeTemplateBase
             CodeBuilder.AppendLine($"/// <returns>An instance of <see cref=\"T:{safeName}\"/> or null if not found.</returns>");
         }
 
-        CodeBuilder.Append($"public static {returnType} {uniquePrefix}Key{asyncSuffix}(this IQueryable<{safeName}> queryable, ");
+        CodeBuilder.Append($"public static {asyncPrefix}{returnType} {uniquePrefix}Key{asyncSuffix}(this System.Linq.IQueryable<{safeName}> queryable, ");
         AppendParameters(method);
+
+        if (async)
+            CodeBuilder.Append(", System.Threading.CancellationToken cancellationToken = default");
+
         CodeBuilder.AppendLine(")");
         CodeBuilder.AppendLine("{");
 
@@ -214,25 +232,28 @@ public class QueryExtensionTemplate : CodeTemplateBase
             CodeBuilder.AppendLine($"if (queryable is DbSet<{safeName}> dbSet)");
             using (CodeBuilder.Indent())
             {
-                CodeBuilder.Append($"return dbSet.Find{asyncSuffix}(");
+                CodeBuilder.Append($"return {awaitPrefix}dbSet.Find{asyncSuffix}(");
+
+                if (async)
+                    CodeBuilder.Append("new object[] { ");
+
                 AppendNames(method);
+
+                if (async)
+                    CodeBuilder.Append(" }, cancellationToken");
+
                 CodeBuilder.AppendLine(");");
             }
 
             CodeBuilder.AppendLine("");
+            CodeBuilder.Append($"return {awaitPrefix}queryable.FirstOrDefault{asyncSuffix}(");
+
+            AppendLamba(method);
+
             if (async)
-            {
-                CodeBuilder.Append($"var task = queryable.FirstOrDefault{asyncSuffix}(");
-                AppendLamba(method);
-                CodeBuilder.AppendLine(");");
-                CodeBuilder.AppendLine($"return new {returnType}(task);");
-            }
-            else
-            {
-                CodeBuilder.Append($"return queryable.FirstOrDefault{asyncSuffix}(");
-                AppendLamba(method);
-                CodeBuilder.AppendLine(");");
-            }
+                CodeBuilder.Append(", cancellationToken");
+
+            CodeBuilder.AppendLine(");");
         }
         CodeBuilder.AppendLine("}");
         CodeBuilder.AppendLine();

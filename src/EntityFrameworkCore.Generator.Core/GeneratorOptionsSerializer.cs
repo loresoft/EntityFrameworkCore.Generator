@@ -1,7 +1,10 @@
-﻿using System;
+using System;
 using System.IO;
+
 using EntityFrameworkCore.Generator.Options;
+
 using Microsoft.Extensions.Logging;
+
 using YamlDotNet.Serialization;
 using YamlDotNet.Serialization.NamingConventions;
 

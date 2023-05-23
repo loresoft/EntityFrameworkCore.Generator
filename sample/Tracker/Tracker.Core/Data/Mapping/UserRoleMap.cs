@@ -17,52 +17,52 @@ public partial class UserRoleMap
     public void Configure(Microsoft.EntityFrameworkCore.Metadata.Builders.EntityTypeBuilder<Tracker.Core.Data.Entities.UserRole> builder)
     {
         #region Generated Configure
-            // table
-            builder.ToTable("UserRole", "dbo");
+        // table
+        builder.ToTable("UserRole", "dbo");
 
-            // key
-            builder.HasKey(t => new { t.UserId, t.RoleId });
+        // key
+        builder.HasKey(t => new { t.UserId, t.RoleId });
 
-            // properties
-            builder.Property(t => t.UserId)
-                .IsRequired()
-                .HasColumnName("UserId")
-                .HasColumnType("uniqueidentifier");
+        // properties
+        builder.Property(t => t.UserId)
+            .IsRequired()
+            .HasColumnName("UserId")
+            .HasColumnType("uniqueidentifier");
 
-            builder.Property(t => t.RoleId)
-                .IsRequired()
-                .HasColumnName("RoleId")
-                .HasColumnType("uniqueidentifier");
+        builder.Property(t => t.RoleId)
+            .IsRequired()
+            .HasColumnName("RoleId")
+            .HasColumnType("uniqueidentifier");
 
-            // relationships
-            builder.HasOne(t => t.Role)
-                .WithMany(t => t.UserRoles)
-                .HasForeignKey(d => d.RoleId)
-                .HasConstraintName("FK_UserRole_Role_RoleId");
+        // relationships
+        builder.HasOne(t => t.Role)
+            .WithMany(t => t.UserRoles)
+            .HasForeignKey(d => d.RoleId)
+            .HasConstraintName("FK_UserRole_Role_RoleId");
 
-            builder.HasOne(t => t.User)
-                .WithMany(t => t.UserRoles)
-                .HasForeignKey(d => d.UserId)
-                .HasConstraintName("FK_UserRole_User_UserId");
+        builder.HasOne(t => t.User)
+            .WithMany(t => t.UserRoles)
+            .HasForeignKey(d => d.UserId)
+            .HasConstraintName("FK_UserRole_User_UserId");
 
-            #endregion
+        #endregion
     }
 
     #region Generated Constants
-        public struct Table
-        {
-            /// <summary>Table Schema name constant for entity <see cref="Tracker.Core.Data.Entities.UserRole" /></summary>
-            public const string Schema = "dbo";
-            /// <summary>Table Name constant for entity <see cref="Tracker.Core.Data.Entities.UserRole" /></summary>
-            public const string Name = "UserRole";
-        }
+    public readonly struct Table
+    {
+        /// <summary>Table Schema name constant for entity <see cref="Tracker.Core.Data.Entities.UserRole" /></summary>
+        public const string Schema = "dbo";
+        /// <summary>Table Name constant for entity <see cref="Tracker.Core.Data.Entities.UserRole" /></summary>
+        public const string Name = "UserRole";
+    }
 
-        public struct Columns
-        {
-            /// <summary>Column Name constant for property <see cref="Tracker.Core.Data.Entities.UserRole.UserId" /></summary>
-            public const string UserId = "UserId";
-            /// <summary>Column Name constant for property <see cref="Tracker.Core.Data.Entities.UserRole.RoleId" /></summary>
-            public const string RoleId = "RoleId";
-        }
-        #endregion
+    public readonly struct Columns
+    {
+        /// <summary>Column Name constant for property <see cref="Tracker.Core.Data.Entities.UserRole.UserId" /></summary>
+        public const string UserId = "UserId";
+        /// <summary>Column Name constant for property <see cref="Tracker.Core.Data.Entities.UserRole.RoleId" /></summary>
+        public const string RoleId = "RoleId";
+    }
+    #endregion
 }

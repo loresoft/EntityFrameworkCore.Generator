@@ -16,9 +16,9 @@ public partial class TenantCreateModelValidator
     public TenantCreateModelValidator()
     {
         #region Generated Constructor
-            RuleFor(p => p.Name).NotEmpty();
-            RuleFor(p => p.Name).MaximumLength(256);
-            #endregion
+        RuleFor(p => p.Name).NotEmpty();
+        RuleFor(p => p.Name).MaximumLength(256);
+        #endregion
     }
 
 }

@@ -17,9 +17,9 @@ public partial class TaskExtendedCreateModelValidator
     public TaskExtendedCreateModelValidator()
     {
         #region Generated Constructor
-            RuleFor(p => p.Browser).MaximumLength(256);
-            RuleFor(p => p.OperatingSystem).MaximumLength(256);
-            #endregion
+        RuleFor(p => p.Browser).MaximumLength(256);
+        RuleFor(p => p.OperatingSystem).MaximumLength(256);
+        #endregion
     }
 
 }

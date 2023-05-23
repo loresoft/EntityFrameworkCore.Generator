@@ -12,41 +12,40 @@ namespace Tracker.Core.Data.Queries;
 public static partial class TenantExtensions
 {
     #region Generated Extensions
-        /// <summary>
-        /// Gets an instance by the primary key.
-        /// </summary>
-        /// <param name="queryable">An <see cref="T:System.Linq.IQueryable`1" /> to filter.</param>
-        /// <param name="id">The value to filter by.</param>
-        /// <returns>An instance of <see cref="T:Tracker.Core.Data.Entities.Tenant"/> or null if not found.</returns>
-        public static Tracker.Core.Data.Entities.Tenant? GetByKey(this IQueryable<Tracker.Core.Data.Entities.Tenant> queryable, Guid id)
-        {
-            if (queryable is null)
-                throw new ArgumentNullException(nameof(queryable));
+    /// <summary>
+    /// Gets an instance by the primary key.
+    /// </summary>
+    /// <param name="queryable">An <see cref="T:System.Linq.IQueryable`1" /> to filter.</param>
+    /// <param name="id">The value to filter by.</param>
+    /// <returns>An instance of <see cref="T:Tracker.Core.Data.Entities.Tenant"/> or null if not found.</returns>
+    public static Tracker.Core.Data.Entities.Tenant? GetByKey(this System.Linq.IQueryable<Tracker.Core.Data.Entities.Tenant> queryable, Guid id)
+    {
+        if (queryable is null)
+            throw new ArgumentNullException(nameof(queryable));
 
-            if (queryable is DbSet<Tracker.Core.Data.Entities.Tenant> dbSet)
-                return dbSet.Find(id);
+        if (queryable is DbSet<Tracker.Core.Data.Entities.Tenant> dbSet)
+            return dbSet.Find(id);
 
-            return queryable.FirstOrDefault(q => q.Id == id);
-        }
+        return queryable.FirstOrDefault(q => q.Id == id);
+    }
 
-        /// <summary>
-        /// Gets an instance by the primary key.
-        /// </summary>
-        /// <param name="queryable">An <see cref="T:System.Linq.IQueryable`1" /> to filter.</param>
-        /// <param name="id">The value to filter by.</param>
-        /// <returns>An instance of <see cref="T:Tracker.Core.Data.Entities.Tenant"/> or null if not found.</returns>
-        public static ValueTask<Tracker.Core.Data.Entities.Tenant?> GetByKeyAsync(this IQueryable<Tracker.Core.Data.Entities.Tenant> queryable, Guid id)
-        {
-            if (queryable is null)
-                throw new ArgumentNullException(nameof(queryable));
+    /// <summary>
+    /// Gets an instance by the primary key.
+    /// </summary>
+    /// <param name="queryable">An <see cref="T:System.Linq.IQueryable`1" /> to filter.</param>
+    /// <param name="id">The value to filter by.</param>
+    /// <returns>An instance of <see cref="T:Tracker.Core.Data.Entities.Tenant"/> or null if not found.</returns>
+    public static async System.Threading.Tasks.ValueTask<Tracker.Core.Data.Entities.Tenant?> GetByKeyAsync(this System.Linq.IQueryable<Tracker.Core.Data.Entities.Tenant> queryable, Guid id, System.Threading.CancellationToken cancellationToken = default)
+    {
+        if (queryable is null)
+            throw new ArgumentNullException(nameof(queryable));
 
-            if (queryable is DbSet<Tracker.Core.Data.Entities.Tenant> dbSet)
-                return dbSet.FindAsync(id);
+        if (queryable is DbSet<Tracker.Core.Data.Entities.Tenant> dbSet)
+            return await dbSet.FindAsync(new object[] { id }, cancellationToken);
 
-            var task = queryable.FirstOrDefaultAsync(q => q.Id == id);
-            return new ValueTask<Tracker.Core.Data.Entities.Tenant?>(task);
-        }
+        return await queryable.FirstOrDefaultAsync(q => q.Id == id, cancellationToken);
+    }
 
-        #endregion
+    #endregion
 
 }
