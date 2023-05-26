@@ -43,7 +43,7 @@ public class Program : CommandBase
                     .SetMinimumLevel(LogLevel.Information)
                 )
                 .AddSingleton(PhysicalConsole.Singleton)
-                .AddTransient<IGeneratorOptionsSerializer, GeneratorOptionsSerializer>()
+                .AddTransient<IConfigurationSerializer, ConfigurationSerializer>()
                 .AddTransient<ICodeGenerator, CodeGenerator>()
                 .BuildServiceProvider();
 

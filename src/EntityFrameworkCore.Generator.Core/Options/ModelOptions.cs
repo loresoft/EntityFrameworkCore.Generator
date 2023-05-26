@@ -1,4 +1,4 @@
-﻿namespace EntityFrameworkCore.Generator.Options;
+namespace EntityFrameworkCore.Generator.Options;
 
 /// <summary>
 /// Model options group
@@ -27,7 +27,7 @@ public class ModelOptions : OptionsBase
     /// <value>
     /// The shared options between read,create and update models.
     /// </value>
-    public SharedModelOptions Shared { get; set; }
+    public SharedModelOptions Shared { get; }
 
     /// <summary>
     /// Gets or sets the read model options.
@@ -35,7 +35,7 @@ public class ModelOptions : OptionsBase
     /// <value>
     /// The read model options.
     /// </value>
-    public ReadModelOptions Read { get; set; }
+    public ReadModelOptions Read { get; }
 
     /// <summary>
     /// Gets or sets the create model options.
@@ -43,7 +43,7 @@ public class ModelOptions : OptionsBase
     /// <value>
     /// The create model options.
     /// </value>
-    public CreateModelOptions Create { get; set; }
+    public CreateModelOptions Create { get; }
 
     /// <summary>
     /// Gets or sets the update model options.
@@ -51,7 +51,7 @@ public class ModelOptions : OptionsBase
     /// <value>
     /// The update model options.
     /// </value>
-    public UpdateModelOptions Update { get; set; }
+    public UpdateModelOptions Update { get; }
 
     /// <summary>
     /// Gets or sets the view model mapper options.
@@ -59,7 +59,7 @@ public class ModelOptions : OptionsBase
     /// <value>
     /// The view model mapper options.
     /// </value>
-    public MapperClassOptions Mapper { get; set; }
+    public MapperClassOptions Mapper { get; }
 
     /// <summary>
     /// Gets or sets the model validator options.
@@ -67,6 +67,6 @@ public class ModelOptions : OptionsBase
     /// <value>
     /// The model validator options.
     /// </value>
-    public ValidatorClassOptions Validator { get; set; }
+    public ValidatorClassOptions Validator { get; }
 
 }

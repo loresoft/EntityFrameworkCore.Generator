@@ -7,13 +7,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Options\full.yaml" />
     <None Remove="Scripts\Script001.Tracker.Schema.sql" />
     <None Remove="Scripts\Script002.Tracker.Data.sql" />
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="Scripts\Script001.Tracker.Schema.sql" />
-    <EmbeddedResource Include="Scripts\Script002.Tracker.Data.sql" />
+    <EmbeddedResource Include="Options\*.yaml" />
+    <EmbeddedResource Include="Scripts\*.sql" />
   </ItemGroup>
 
   <ItemGroup>

@@ -1,24 +1,19 @@
-namespace EntityFrameworkCore.Generator.Options;
+using EntityFrameworkCore.Generator.Options;
+
+namespace EntityFrameworkCore.Generator.Serialization;
 
 /// <summary>
 /// Shared model options
 /// </summary>
-/// <seealso cref="OptionsBase" />
-public class SharedModelOptions : OptionsBase
+public class SharedModel
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="SharedModelOptions"/> class.
     /// </summary>
-    /// <param name="variables">The shared variables dictionary.</param>
-    /// <param name="prefix">The variable key prefix.</param>
-    public SharedModelOptions(VariableDictionary variables, string prefix)
-        : base(variables, prefix)
+    public SharedModel()
     {
         Namespace = "{Project.Namespace}.Domain.Models";
         Directory = @"{Project.Directory}\Domain\Models";
-
-        Include = new SelectionOptions(variables, AppendPrefix(prefix, "Include"));
-        Exclude = new SelectionOptions(variables, AppendPrefix(prefix, "Exclude"));
     }
 
     /// <summary>
@@ -27,11 +22,7 @@ public class SharedModelOptions : OptionsBase
     /// <value>
     /// The class namespace.
     /// </value>
-    public string Namespace
-    {
-        get => GetProperty();
-        set => SetProperty(value);
-    }
+    public string Namespace { get; set; }
 
     /// <summary>
     /// Gets or sets the output directory.
@@ -39,11 +30,7 @@ public class SharedModelOptions : OptionsBase
     /// <value>
     /// The output directory.
     /// </value>
-    public string Directory
-    {
-        get => GetProperty();
-        set => SetProperty(value);
-    }
+    public string Directory { get; set; }
 
     /// <summary>
     /// Gets or sets the include selection options.
@@ -51,7 +38,7 @@ public class SharedModelOptions : OptionsBase
     /// <value>
     /// The include selection options.
     /// </value>
-    public SelectionOptions Include { get; }
+    public SelectionModel Include { get; set; }
 
     /// <summary>
     /// Gets or sets the exclude selection options.
@@ -59,6 +46,5 @@ public class SharedModelOptions : OptionsBase
     /// <value>
     /// The exclude selection options.
     /// </value>
-    public SelectionOptions Exclude { get; }
-
+    public SelectionModel Exclude { get; set; }
 }

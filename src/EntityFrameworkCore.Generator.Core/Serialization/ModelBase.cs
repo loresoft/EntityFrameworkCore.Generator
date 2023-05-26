@@ -1,25 +1,20 @@
-namespace EntityFrameworkCore.Generator.Options;
+namespace EntityFrameworkCore.Generator.Serialization;
 
 /// <summary>
 /// Base class for the Model generation
 /// </summary>
-/// <seealso cref="ClassOptionsBase" />
-public abstract class ModelOptionsBase : ClassOptionsBase
+public abstract class ModelBase : ClassBase
 {
     /// <summary>
-    /// Initializes a new instance of the <see cref="ModelOptionsBase"/> class.
+    /// Initializes a new instance of the <see cref="ModelBase"/> class.
     /// </summary>
-    protected ModelOptionsBase(VariableDictionary variables, string prefix)
-        : base(variables, prefix)
+    protected ModelBase()
     {
         // null so shared option is used
         Namespace = null;
         Directory = null;
 
         Generate = false;
-
-        Include = new SelectionOptions(variables, AppendPrefix(prefix, "Include"));
-        Exclude = new SelectionOptions(variables, AppendPrefix(prefix, "Exclude"));
     }
 
     /// <summary>
@@ -36,11 +31,7 @@ public abstract class ModelOptionsBase : ClassOptionsBase
     /// <value>
     /// The class name template.
     /// </value>
-    public string Name
-    {
-        get => GetProperty();
-        set => SetProperty(value);
-    }
+    public string Name { get; set; }
 
     /// <summary>
     /// Gets or sets the base class to inherit from.
@@ -48,12 +39,7 @@ public abstract class ModelOptionsBase : ClassOptionsBase
     /// <value>
     /// The base class.
     /// </value>
-    public string BaseClass
-    {
-        get => GetProperty();
-        set => SetProperty(value);
-    }
-
+    public string BaseClass { get; set; }
 
     /// <summary>
     /// Gets or sets the include selection options.
@@ -61,7 +47,7 @@ public abstract class ModelOptionsBase : ClassOptionsBase
     /// <value>
     /// The include selection options.
     /// </value>
-    public SelectionOptions Include { get; }
+    public SelectionModel Include { get; set; }
 
     /// <summary>
     /// Gets or sets the exclude selection options.
@@ -69,5 +55,5 @@ public abstract class ModelOptionsBase : ClassOptionsBase
     /// <value>
     /// The exclude selection options.
     /// </value>
-    public SelectionOptions Exclude { get; }
+    public SelectionModel Exclude { get; set; }
 }

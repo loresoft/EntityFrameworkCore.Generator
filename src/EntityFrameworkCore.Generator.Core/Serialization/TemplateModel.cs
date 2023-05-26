@@ -1,34 +1,19 @@
 using System.Collections.Generic;
 
-namespace EntityFrameworkCore.Generator.Options;
+namespace EntityFrameworkCore.Generator.Serialization;
 
 /// <summary>
-/// Script Template options
+/// Sript template options
 /// </summary>
-public class TemplateOptions : OptionsBase
+public class TemplateModel
 {
-    /// <summary>
-    /// Initializes a new instance of the <see cref="TemplateOptions"/> class.
-    /// </summary>
-    /// <param name="variables">The shared variables dictionary.</param>
-    /// <param name="prefix">The variable key prefix.</param>
-    public TemplateOptions(VariableDictionary variables, string prefix)
-        : base(variables, AppendPrefix(prefix, "Template"))
-    {
-        Parameters = new Dictionary<string, string>();
-    }
-
     /// <summary>
     /// Gets or sets the template file path.
     /// </summary>
     /// <value>
     /// The template file path.
     /// </value>
-    public string TemplatePath
-    {
-        get => GetProperty();
-        set => SetProperty(value);
-    }
+    public string TemplatePath { get; set; }
 
     /// <summary>
     /// Gets or sets the name of the class
@@ -36,11 +21,7 @@ public class TemplateOptions : OptionsBase
     /// <value>
     /// The name of the class.
     /// </value>
-    public string FileName
-    {
-        get => GetProperty();
-        set => SetProperty(value);
-    }
+    public string FileName { get; set; }
 
     /// <summary>
     /// Gets or sets the class namespace.
@@ -48,11 +29,7 @@ public class TemplateOptions : OptionsBase
     /// <value>
     /// The class namespace.
     /// </value>
-    public string Namespace
-    {
-        get => GetProperty();
-        set => SetProperty(value);
-    }
+    public string Namespace { get; set; }
 
     /// <summary>
     /// Gets or sets the base class.
@@ -60,11 +37,7 @@ public class TemplateOptions : OptionsBase
     /// <value>
     /// The base class.
     /// </value>
-    public string BaseClass
-    {
-        get => GetProperty();
-        set => SetProperty(value);
-    }
+    public string BaseClass { get; set; }
 
 
     /// <summary>
@@ -73,11 +46,7 @@ public class TemplateOptions : OptionsBase
     /// <value>
     /// The output directory.
     /// </value>
-    public string Directory
-    {
-        get => GetProperty();
-        set => SetProperty(value);
-    }
+    public string Directory { get; set; }
 
     /// <summary>
     /// Gets or sets a value indicating whether the generated file will be over written.
@@ -93,5 +62,6 @@ public class TemplateOptions : OptionsBase
     /// <value>
     /// The template parameters.
     /// </value>
-    public Dictionary<string, string> Parameters { get; }
+    public Dictionary<string, string> Parameters { get; set; }
+
 }

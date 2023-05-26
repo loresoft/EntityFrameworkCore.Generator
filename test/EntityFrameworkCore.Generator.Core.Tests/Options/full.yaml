@@ -1,0 +1,130 @@
+project:
+  namespace: 'Company.{Database.Name}'
+  directory: .\
+  nullable: true
+  fileScopedNamespace: true
+database:
+  connectionString: 'Data Source=(local);Initial Catalog=Tracker;Integrated Security=True'
+  provider: SqlServer
+  connectionName: 'ConnectionStrings:Generator'
+  userSecretsId: '984ef0cf-2b22-4fd1-876d-e01499da4c1f'
+  tables:
+    - Priority
+    - Status
+    - Task
+    - User
+  schemas:
+    - dbo
+  exclude:
+    - exact: dbo.SchemaVersions
+    - regex: dbo\.SchemaVersions$
+  tableNaming: Singular
+data:
+  context:
+    name: '{Database.Name}Context'
+    baseClass: DbContext          
+    namespace: '{Project.Namespace}.Data'  
+    directory: '{Project.Directory}\Data'  
+    propertyNaming: Plural
+    document: false
+  entity:
+    namespace: '{Project.Namespace}.Data.Entities'  
+    directory: '{Project.Directory}\Data\Entities'  
+    entityNaming: Singular
+    relationshipNaming: Plural
+    document: false
+    prefixWithSchemaName: false
+    renaming:
+      entities:
+        - ^(sp|tbl|udf|vw)_
+      properties:
+        - ^{Table.Name}(?=Id|Name)
+  mapping:
+    namespace: '{Project.Namespace}.Data.Mapping'   
+    directory: '{Project.Directory}\Data\Mapping'   
+    document: false
+  query:
+    generate: true          
+    indexPrefix: By         
+    uniquePrefix: GetBy     
+    namespace: '{Project.Namespace}.Data.Queries'   
+    directory: '{Project.Directory}\Data\Queries'   
+    document: false
+model:
+  shared:
+    namespace: '{Project.Namespace}.Domain.Models' 
+    directory: '{Project.Directory}\Domain\Models' 
+    exclude:
+      entities:
+        - 'EmailDelivery'
+        - 'UserLogin'
+      properties:
+        - 'User\.PasswordHash$'
+        - 'User\.ResetHash$'
+  read:
+    generate: true                  
+    name: '{Entity.Name}ReadModel'  
+    baseClass: EntityReadModel      
+    namespace: '{Project.Namespace}.Domain.Models'
+    directory: '{Project.Directory}\Domain\Models'
+    exclude:
+      entities: []
+      properties: []
+  create:
+    generate: true                      
+    name: '{Entity.Name}CreateModel'    
+    baseClass: EntityCreateModel        
+    namespace: '{Project.Namespace}.Domain.Models'
+    directory: '{Project.Directory}\Domain\Models'
+    exclude:
+      entities: []
+      properties: []
+  update:
+    generate: true                      
+    name: '{Entity.Name}UpdateModel'    
+    baseClass: EntityUpdateModel        
+    namespace: '{Project.Namespace}.Domain.Models'
+    directory: '{Project.Directory}\Domain\Models'
+    exclude:
+      entities: []
+      properties: []
+  mapper:
+    generate: true
+    name: '{Entity.Name}Profile'
+    baseClass: Profile
+    namespace: '{Project.Namespace}.Domain.Mapping'
+    directory: '{Project.Directory}\Domain\Mapping'
+  validator:
+    generate: true
+    name: '{Model.Name}Validator'
+    baseClass: 'AbstractValidator<{Model.Name}>'
+    namespace: '{Project.Namespace}.Domain.Validation'
+    directory: '{Project.Directory}\Domain\Validation'
+script:
+  context:  
+    - templatePath: '.\templates\context.csx'          
+      fileName: 'ContextScript.cs'                     
+      directory: '{Project.Directory}\Domain\Context'  
+      namespace: '{Project.Namespace}.Domain.Context'  
+      baseClass: ContextScriptBase
+      overwrite: true                                  
+  entity:
+    - templatePath: '.\templates\entity.csx'           
+      fileName: '{Entity.Name}Script.cs'               
+      directory: '{Project.Directory}\Domain\Entity'   
+      namespace: '{Project.Namespace}.Domain.Entity'  
+      baseClass: EntityScriptBase
+      overwrite: true                                  
+  model:
+    - templatePath: '.\templates\model.csx'            
+      fileName: '{Model.Name}Script.cs'                
+      directory: '{Project.Directory}\Domain\Models'   
+      namespace: '{Project.Namespace}.Domain.Models'  
+      baseClass: ModelScriptBase
+      overwrite: true                                  
+    - templatePath: '.\templates\sample.csx'           
+      fileName: '{Model.Name}Sample.cs'                
+      directory: '{Project.Directory}\Domain\Models'   
+      namespace: '{Project.Namespace}.Domain.Models'  
+      baseClass: ModelSampleBase
+      overwrite: true                                  

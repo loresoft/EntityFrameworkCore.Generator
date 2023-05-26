@@ -1,4 +1,5 @@
-﻿using System.Runtime.CompilerServices;
+using System.Runtime.CompilerServices;
+
 using EntityFrameworkCore.Generator.Extensions;
 
 namespace EntityFrameworkCore.Generator.Options;
@@ -16,9 +17,9 @@ public class OptionsBase
         Prefix = prefix;
     }
 
-    protected VariableDictionary Variables { get; }
+    public VariableDictionary Variables { get; }
 
-    protected string Prefix { get; }
+    public string Prefix { get; }
 
 
     protected string GetProperty([CallerMemberName] string propertyName = null)
@@ -34,7 +35,7 @@ public class OptionsBase
     }
 
 
-    protected static string AppendPrefix(string root, string prefix)
+    public static string AppendPrefix(string root, string prefix)
     {
         if (prefix.IsNullOrWhiteSpace())
             return root;

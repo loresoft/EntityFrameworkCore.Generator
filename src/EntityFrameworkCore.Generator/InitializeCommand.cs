@@ -1,8 +1,11 @@
-﻿using System;
+using System;
 using System.IO;
+
 using EntityFrameworkCore.Generator.Extensions;
 using EntityFrameworkCore.Generator.Options;
+
 using McMaster.Extensions.CommandLineUtils;
+
 using Microsoft.Extensions.Logging;
 
 namespace EntityFrameworkCore.Generator;
@@ -10,7 +13,7 @@ namespace EntityFrameworkCore.Generator;
 [Command("initialize", "init")]
 public class InitializeCommand : OptionsCommandBase
 {
-    public InitializeCommand(ILoggerFactory logger, IConsole console, IGeneratorOptionsSerializer serializer)
+    public InitializeCommand(ILoggerFactory logger, IConsole console, IConfigurationSerializer serializer)
         : base(logger, console, serializer)
     {
     }
@@ -37,9 +40,9 @@ public class InitializeCommand : OptionsCommandBase
             Directory.CreateDirectory(workingDirectory);
         }
 
-        var optionsFile = OptionsFile ?? GeneratorOptionsSerializer.OptionsFileName;
+        var optionsFile = OptionsFile ?? ConfigurationSerializer.OptionsFileName;
 
-        GeneratorOptions options = null;
+        Serialization.GeneratorModel options = null;
 
         if (Serializer.Exists(workingDirectory, optionsFile))
             options = Serializer.Load(workingDirectory, optionsFile);
@@ -63,13 +66,13 @@ public class InitializeCommand : OptionsCommandBase
             else
                 options.Database.ConnectionString = ConnectionString;
         }
-            
+
         Serializer.Save(options, workingDirectory, optionsFile);
 
         return 0;
     }
 
-    private GeneratorOptions CreateUserSecret(GeneratorOptions options)
+    private Serialization.GeneratorModel CreateUserSecret(Serialization.GeneratorModel options)
     {
         if (options.Database.UserSecretsId.IsNullOrWhiteSpace())
             options.Database.UserSecretsId = Guid.NewGuid().ToString();
@@ -87,9 +90,14 @@ public class InitializeCommand : OptionsCommandBase
         return options;
     }
 
-    private GeneratorOptions CreateOptionsFile(string optionsFile)
+    private Serialization.GeneratorModel CreateOptionsFile(string optionsFile)
     {
-        var options = new GeneratorOptions();
+        var options = new Serialization.GeneratorModel();
+
+        options.Project.Namespace = Directory.CreateDirectory(Environment.CurrentDirectory)?.Name ?? "Project.Core";
+        options.Project.Directory = ".\\";
+        options.Project.Nullable = true;
+        options.Project.FileScopedNamespace = true;
 
         // default all to generate
         options.Data.Query.Generate = true;
@@ -98,21 +106,6 @@ public class InitializeCommand : OptionsCommandBase
         options.Model.Update.Generate = true;
         options.Model.Validator.Generate = true;
         options.Model.Mapper.Generate = true;
-
-        // null out collection for cleaner yaml file
-        options.Database.Tables = null;
-        options.Database.Schemas = null;
-        options.Database.Exclude = null;
-        options.Model.Shared.Include = null;
-        options.Model.Shared.Exclude = null;
-        options.Model.Read.Include = null;
-        options.Model.Read.Exclude = null;
-        options.Model.Create.Include = null;
-        options.Model.Create.Exclude = null;
-        options.Model.Update.Include = null;
-        options.Model.Update.Exclude = null;
-
-        options.Script = null;
 
         Logger.LogInformation($"Creating options file: {optionsFile}");
 

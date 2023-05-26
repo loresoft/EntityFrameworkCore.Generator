@@ -1,8 +1,11 @@
-﻿using EntityFrameworkCore.Generator.Extensions;
-using EntityFrameworkCore.Generator.Options;
-using McMaster.Extensions.CommandLineUtils;
-using Microsoft.Extensions.Logging;
 using System;
+
+using EntityFrameworkCore.Generator.Extensions;
+using EntityFrameworkCore.Generator.Options;
+
+using McMaster.Extensions.CommandLineUtils;
+
+using Microsoft.Extensions.Logging;
 
 namespace EntityFrameworkCore.Generator;
 
@@ -11,7 +14,7 @@ public class GenerateCommand : OptionsCommandBase
 {
     private readonly ICodeGenerator _codeGenerator;
 
-    public GenerateCommand(ILoggerFactory logger, IConsole console, IGeneratorOptionsSerializer serializer, ICodeGenerator codeGenerator)
+    public GenerateCommand(ILoggerFactory logger, IConsole console, IConfigurationSerializer serializer, ICodeGenerator codeGenerator)
         : base(logger, console, serializer)
     {
         _codeGenerator = codeGenerator;
@@ -40,38 +43,41 @@ public class GenerateCommand : OptionsCommandBase
     protected override int OnExecute(CommandLineApplication application)
     {
         var workingDirectory = WorkingDirectory ?? Environment.CurrentDirectory;
-        var optionsFile = OptionsFile ?? GeneratorOptionsSerializer.OptionsFileName;
+        var configurationFile = OptionsFile ?? ConfigurationSerializer.OptionsFileName;
 
-        var options = Serializer.Load(workingDirectory, optionsFile);
-        if (options == null)
+        var configuration = Serializer.Load(workingDirectory, configurationFile);
+        if (configuration == null)
         {
             Logger.LogInformation("Using default options");
-            options = new GeneratorOptions();
+            configuration = new Serialization.GeneratorModel();
         }
 
         // override options
         if (ConnectionString.HasValue())
-            options.Database.ConnectionString = ConnectionString;
+            configuration.Database.ConnectionString = ConnectionString;
 
         if (Provider.HasValue)
-            options.Database.Provider = Provider.Value;
+            configuration.Database.Provider = Provider.Value;
 
         if (Extensions.HasValue)
-            options.Data.Query.Generate = Extensions.Value;
+            configuration.Data.Query.Generate = Extensions.Value;
 
 
         if (Models.HasValue)
         {
-            options.Model.Read.Generate = Models.Value;
-            options.Model.Create.Generate = Models.Value;
-            options.Model.Update.Generate = Models.Value;
+            configuration.Model.Read.Generate = Models.Value;
+            configuration.Model.Create.Generate = Models.Value;
+            configuration.Model.Update.Generate = Models.Value;
         }
 
         if (Mapper.HasValue)
-            options.Model.Mapper.Generate = Mapper.Value;
+            configuration.Model.Mapper.Generate = Mapper.Value;
 
         if (Validator.HasValue)
-            options.Model.Validator.Generate = Validator.Value;
+            configuration.Model.Validator.Generate = Validator.Value;
+
+        // conver to options format to support variables
+        var options = OptionMapper.Map(configuration);
 
         var result = _codeGenerator.Generate(options);
 

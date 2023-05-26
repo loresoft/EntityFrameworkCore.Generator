@@ -1,4 +1,4 @@
-﻿using YamlDotNet.Serialization;
+using YamlDotNet.Serialization;
 
 namespace EntityFrameworkCore.Generator.Options;
 
@@ -30,7 +30,7 @@ public class GeneratorOptions
     /// <value>
     /// The project level options.
     /// </value>
-    public ProjectOptions Project { get; set; }
+    public ProjectOptions Project { get; }
 
     /// <summary>
     /// Gets or sets the options for reverse engineer the database.
@@ -38,7 +38,7 @@ public class GeneratorOptions
     /// <value>
     /// The database.
     /// </value>
-    public DatabaseOptions Database { get; set; }
+    public DatabaseOptions Database { get; }
 
     /// <summary>
     /// Gets or sets the EntityFramework configuration options.
@@ -46,7 +46,7 @@ public class GeneratorOptions
     /// <value>
     /// The data.
     /// </value>
-    public DataOptions Data { get; set; }
+    public DataOptions Data { get; }
 
     /// <summary>
     /// Gets or sets the domain view model options.
@@ -54,7 +54,7 @@ public class GeneratorOptions
     /// <value>
     /// The model.
     /// </value>
-    public ModelOptions Model { get; set; }
+    public ModelOptions Model { get; }
 
     /// <summary>
     /// Gets or sets the script template options.
@@ -62,5 +62,5 @@ public class GeneratorOptions
     /// <value>
     /// The script template options.
     /// </value>
-    public ScriptOptions Script { get; set; }
+    public ScriptOptions Script { get; }
 }

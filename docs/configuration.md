@@ -86,6 +86,16 @@ data:
     # Generate class names with prefixed schema name eg. dbo.MyTable = DboMyTable
     prefixWithSchemaName: false
 
+    # Rename entities and properties with regular expressions
+    renaming:
+      # list of regular expressions to clean entity names
+      entities:
+        - ^(sp|tbl|udf|vw)_
+
+      # list of regular expressions to clean property names
+      properties:
+        - ^{Table.Name}(?=Id|Name)
+
   # mapping class file configuration
   mapping:
     namespace: '{Project.Namespace}.Data.Mapping'   # the mapping class namespace

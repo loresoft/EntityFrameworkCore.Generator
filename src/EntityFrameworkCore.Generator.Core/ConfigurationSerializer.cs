@@ -1,7 +1,7 @@
 using System;
 using System.IO;
 
-using EntityFrameworkCore.Generator.Options;
+using EntityFrameworkCore.Generator.Serialization;
 
 using Microsoft.Extensions.Logging;
 
@@ -11,17 +11,17 @@ using YamlDotNet.Serialization.NamingConventions;
 namespace EntityFrameworkCore.Generator;
 
 /// <summary>
-/// Serialization and Deserialization for the <see cref="GeneratorOptions"/> class
+/// Serialization and Deserialization for the <see cref="Generator"/> class
 /// </summary>
-public class GeneratorOptionsSerializer : IGeneratorOptionsSerializer
+public class ConfigurationSerializer : IConfigurationSerializer
 {
-    private readonly ILogger<GeneratorOptionsSerializer> _logger;
+    private readonly ILogger<ConfigurationSerializer> _logger;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GeneratorOptionsSerializer"/> class.
+    /// Initializes a new instance of the <see cref="ConfigurationSerializer"/> class.
     /// </summary>
     /// <param name="logger">The logger.</param>
-    public GeneratorOptionsSerializer(ILogger<GeneratorOptionsSerializer> logger)
+    public ConfigurationSerializer(ILogger<ConfigurationSerializer> logger)
     {
         _logger = logger;
     }
@@ -36,8 +36,8 @@ public class GeneratorOptionsSerializer : IGeneratorOptionsSerializer
     /// </summary>
     /// <param name="directory">The directory where the file is located.</param>
     /// <param name="file">The name of the options file.</param>
-    /// <returns>An instance of <see cref="GeneratorOptions"/> if the file exists; otherwise <c>null</c>.</returns>
-    public GeneratorOptions Load(string directory = null, string file = OptionsFileName)
+    /// <returns>An instance of <see cref="Generator"/> if the file exists; otherwise <c>null</c>.</returns>
+    public GeneratorModel Load(string directory = null, string file = OptionsFileName)
     {
         var path = GetPath(directory, file);
         if (!File.Exists(path))
@@ -46,20 +46,30 @@ public class GeneratorOptionsSerializer : IGeneratorOptionsSerializer
             return null;
         }
 
-        var factory = new GeneratorOptionsFactory();
+        _logger.LogInformation($"Loading options file: {file}");
+        using var reader = File.OpenText(path);
+
+        return Load(reader);
+    }
+
+    /// <summary>
+    /// Loads the options using the specified <paramref name="reader" />
+    /// </summary>
+    /// <param name="reader">The reader.</param>
+    /// <returns>
+    /// An instance of <see cref="Generator" />.
+    /// </returns>
+    public GeneratorModel Load(TextReader reader)
+    {
+        if (reader == null)
+            return null;
 
         var deserializer = new DeserializerBuilder()
             .WithNamingConvention(CamelCaseNamingConvention.Instance)
-            .WithObjectFactory(factory)
             .Build();
 
-        _logger.LogInformation($"Loading options file: {file}");
-        GeneratorOptions generatorOptions;
-        using (var streamReader = File.OpenText(path))
-            generatorOptions = deserializer.Deserialize<GeneratorOptions>(streamReader);
-
-        generatorOptions.Variables.ShouldEvaluate = true;
-        return generatorOptions;
+        // use Serialization model for better yaml support
+        return deserializer.Deserialize<GeneratorModel>(reader);
     }
 
     /// <summary>
@@ -69,7 +79,7 @@ public class GeneratorOptionsSerializer : IGeneratorOptionsSerializer
     /// <param name="directory">The directory where the file is located.</param>
     /// <param name="file">The name of the options file.</param>
     /// <returns>The full path of the options file.</returns>
-    public string Save(GeneratorOptions generatorOptions, string directory = null, string file = OptionsFileName)
+    public string Save(GeneratorModel generatorOptions, string directory = null, string file = OptionsFileName)
     {
         if (string.IsNullOrWhiteSpace(directory))
             directory = Environment.CurrentDirectory;
@@ -88,16 +98,12 @@ public class GeneratorOptionsSerializer : IGeneratorOptionsSerializer
         var path = Path.Combine(directory, file);
 
         var serializer = new SerializerBuilder()
-            .ConfigureDefaultValuesHandling(DefaultValuesHandling.OmitNull)
+            .ConfigureDefaultValuesHandling(DefaultValuesHandling.OmitDefaults)
             .WithNamingConvention(CamelCaseNamingConvention.Instance)
             .Build();
 
-        generatorOptions.Variables.ShouldEvaluate = false;
-
         using (var streamWriter = File.CreateText(path))
             serializer.Serialize(streamWriter, generatorOptions);
-
-        generatorOptions.Variables.ShouldEvaluate = true;
 
         return path;
     }

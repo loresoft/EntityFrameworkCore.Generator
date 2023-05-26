@@ -1,16 +1,17 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 
 namespace EntityFrameworkCore.Generator.Options;
 
 /// <summary>
 /// Selection options
 /// </summary>
-public class SelectionOptions
+public class SelectionOptions : OptionsBase
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="SelectionOptions"/> class.
     /// </summary>
-    public SelectionOptions()
+    public SelectionOptions(VariableDictionary variables, string prefix)
+        : base(variables, prefix)
     {
         Entities = new List<MatchOptions>();
         Properties = new List<MatchOptions>();
@@ -22,7 +23,7 @@ public class SelectionOptions
     /// <value>
     /// The list of regular expression of entities to select.
     /// </value>
-    public List<MatchOptions> Entities { get; set; }
+    public List<MatchOptions> Entities { get; }
 
     /// <summary>
     /// Gets or sets a list of regular expression of properties to select.
@@ -30,5 +31,5 @@ public class SelectionOptions
     /// <value>
     /// The list of regular expression of properties to select.
     /// </value>
-    public List<MatchOptions> Properties { get; set; }
+    public List<MatchOptions> Properties { get; }
 }

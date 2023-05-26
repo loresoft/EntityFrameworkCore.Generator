@@ -1,7 +1,16 @@
 using System;
+using System.IO;
+using System.Reflection;
+
 using EntityFrameworkCore.Generator.Options;
+
+using FluentAssertions;
+
+using Microsoft.Extensions.Logging.Abstractions;
+
 using Xunit;
 using Xunit.Abstractions;
+
 using YamlDotNet.Serialization;
 using YamlDotNet.Serialization.NamingConventions;
 
@@ -32,20 +41,6 @@ public class OptionsTests
         generatorOptions.Model.Validator.Generate = true;
         generatorOptions.Model.Mapper.Generate = true;
 
-        // null out collection for cleaner yaml file
-        generatorOptions.Database.Tables = null;
-        generatorOptions.Database.Schemas = null;
-        generatorOptions.Model.Shared.Include = null;
-        generatorOptions.Model.Shared.Exclude = null;
-        generatorOptions.Model.Read.Include = null;
-        generatorOptions.Model.Read.Exclude = null;
-        generatorOptions.Model.Create.Include = null;
-        generatorOptions.Model.Create.Exclude = null;
-        generatorOptions.Model.Update.Include = null;
-        generatorOptions.Model.Update.Exclude = null;
-
-        generatorOptions.Script = null;
-
         var serializer = new SerializerBuilder()
             .WithNamingConvention(CamelCaseNamingConvention.Instance)
             .Build();
@@ -55,5 +50,30 @@ public class OptionsTests
 
 
         _output.WriteLine(yaml);
+    }
+
+    [Fact]
+    public void Load()
+    {
+        var serializer = new ConfigurationSerializer(NullLogger<ConfigurationSerializer>.Instance);
+
+        var resourcePath = "EntityFrameworkCore.Generator.Core.Tests.Options.full.yaml";
+        var assembly = Assembly.GetExecutingAssembly();
+
+        using var stream = assembly.GetManifestResourceStream(resourcePath);
+        using var reader = new StreamReader(stream);
+
+        var options = serializer.Load(reader);
+        options.Should().NotBeNull();
+    }
+
+    public string ReadResource(string resourcePath)
+    {
+        var assembly = Assembly.GetExecutingAssembly();
+
+        using var stream = assembly.GetManifestResourceStream(resourcePath);
+        using var reader = new StreamReader(stream);
+
+        return reader.ReadToEnd();
     }
 }

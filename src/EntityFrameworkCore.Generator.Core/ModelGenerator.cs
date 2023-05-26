@@ -195,7 +195,16 @@ public class ModelGenerator
                 entity.Properties.Add(property);
             }
 
-            string propertyName = ToPropertyName(entity.EntityClass, column.Name);
+            string name = ToPropertyName(entity.EntityClass, column.Name);
+            string propertyName = name;
+
+            foreach (var selection in _options.Data.Entity.Renaming.Properties.Where(p => p.Expression.HasValue()))
+                propertyName = Regex.Replace(propertyName, selection.Expression, string.Empty);
+
+            // make sure regex doesn't remove everything
+            if (propertyName.IsNullOrEmpty())
+                propertyName = name;
+
             propertyName = _namer.UniqueName(entity.EntityClass, propertyName);
 
             property.PropertyName = propertyName;
@@ -590,7 +599,12 @@ public class ModelGenerator
         else if (tableNaming != TableNaming.Singular && entityNaming == EntityNaming.Singular)
             name = name.Singularize(false);
 
-        return name;
+        var rename = name;
+        foreach (var selection in _options.Data.Entity.Renaming.Entities.Where(p => p.Expression.HasValue()))
+            rename = Regex.Replace(rename, selection.Expression, string.Empty);
+
+        // make sure regex doesn't remove everything
+        return rename.HasValue() ? rename : name;
     }
 
 

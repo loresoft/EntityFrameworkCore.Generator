@@ -1,4 +1,4 @@
-﻿namespace EntityFrameworkCore.Generator.Options;
+namespace EntityFrameworkCore.Generator.Options;
 
 /// <summary>
 /// The data options group
@@ -25,7 +25,7 @@ public class DataOptions : OptionsBase
     /// <value>
     /// The data context options
     /// </value>
-    public ContextClassOptions Context { get; set; }
+    public ContextClassOptions Context { get; }
 
 
     /// <summary>
@@ -34,7 +34,7 @@ public class DataOptions : OptionsBase
     /// <value>
     /// The entity class generation options.
     /// </value>
-    public EntityClassOptions Entity { get; set; }
+    public EntityClassOptions Entity { get; }
 
     /// <summary>
     /// Gets or sets the mapping class generation options.
@@ -42,7 +42,7 @@ public class DataOptions : OptionsBase
     /// <value>
     /// The mapping class generation options.
     /// </value>
-    public MappingClassOptions Mapping { get; set; }
+    public MappingClassOptions Mapping { get; }
 
     /// <summary>
     /// Gets or sets the query extension options.
@@ -50,5 +50,5 @@ public class DataOptions : OptionsBase
     /// <value>
     /// The query extension options.
     /// </value>
-    public QueryExtensionOptions Query { get; set; }
+    public QueryExtensionOptions Query { get; }
 }

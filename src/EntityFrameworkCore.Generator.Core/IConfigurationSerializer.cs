@@ -1,19 +1,28 @@
-﻿using EntityFrameworkCore.Generator.Options;
+using System.IO;
 
 namespace EntityFrameworkCore.Generator;
 
 /// <summary>
-/// <c>interface</c> for serialization and deserialization of <see cref="GeneratorOptions"/> class
+/// <c>interface</c> for serialization and deserialization of <see cref="Serialization.GeneratorModel"/> class
 /// </summary>
-public interface IGeneratorOptionsSerializer
+public interface IConfigurationSerializer
 {
     /// <summary>
     /// Loads the options file using the specified <paramref name="directory"/> and <paramref name="file"/>.
     /// </summary>
     /// <param name="directory">The directory where the file is located.</param>
     /// <param name="file">The name of the options file.</param>
-    /// <returns>An instance of <see cref="GeneratorOptions"/> if the file exists; otherwise <c>null</c>.</returns>
-    GeneratorOptions Load(string directory = null, string file = GeneratorOptionsSerializer.OptionsFileName);
+    /// <returns>An instance of <see cref="Serialization.GeneratorModel"/> if the file exists; otherwise <c>null</c>.</returns>
+    Serialization.GeneratorModel Load(string directory = null, string file = ConfigurationSerializer.OptionsFileName);
+
+    /// <summary>
+    /// Loads the options using the specified <paramref name="reader" />
+    /// </summary>
+    /// <param name="reader">The reader.</param>
+    /// <returns>
+    /// An instance of <see cref="Generator" />.
+    /// </returns>
+    Serialization.GeneratorModel Load(TextReader reader);
 
     /// <summary>
     /// Saves the generator options to the specified <paramref name="directory"/> and <paramref name="file"/>.
@@ -22,7 +31,7 @@ public interface IGeneratorOptionsSerializer
     /// <param name="directory">The directory where the file is located.</param>
     /// <param name="file">The name of the options file.</param>
     /// <returns>The full path of the options file.</returns>
-    string Save(GeneratorOptions generatorOptions, string directory = null, string file = GeneratorOptionsSerializer.OptionsFileName);
+    string Save(Serialization.GeneratorModel generatorOptions, string directory = null, string file = ConfigurationSerializer.OptionsFileName);
 
     /// <summary>
     /// Determines if the specified options file exists.
@@ -30,5 +39,5 @@ public interface IGeneratorOptionsSerializer
     /// <param name="directory">The directory where the file is located.</param>
     /// <param name="file">The name of the options file.</param>
     /// <returns><c>true</c> if options file exits; otherwise <c>false</c>.</returns>
-    bool Exists(string directory = null, string file = GeneratorOptionsSerializer.OptionsFileName);
+    bool Exists(string directory = null, string file = ConfigurationSerializer.OptionsFileName);
 }

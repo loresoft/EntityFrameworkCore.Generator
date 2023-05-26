@@ -2,8 +2,8 @@
   "profiles": {
     "EntityFrameworkCore.Generator": {
       "commandName": "Project",
-      "commandLineArgs": "generate",
-      "workingDirectory": "..\\..\\sample\\Tracker\\Tracker.Core"
+      "commandLineArgs": "gen",
+      "workingDirectory": "C:\\Users\\PaulWelter\\source\\repos\\Matrix\\Matrix.Core"
     }
   }
 }

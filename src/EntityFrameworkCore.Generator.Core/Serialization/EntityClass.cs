@@ -1,18 +1,19 @@
 using System.ComponentModel;
 
-namespace EntityFrameworkCore.Generator.Options;
+using EntityFrameworkCore.Generator.Options;
+
+namespace EntityFrameworkCore.Generator.Serialization;
 
 /// <summary>
 /// EntityFramework entity class generation options
 /// </summary>
-/// <seealso cref="ClassOptionsBase" />
-public class EntityClassOptions : ClassOptionsBase
+/// <seealso cref="ClassBase" />
+public class EntityClass : ClassBase
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="EntityClassOptions"/> class.
     /// </summary>
-    public EntityClassOptions(VariableDictionary variables, string prefix)
-        : base(variables, AppendPrefix(prefix, "Entity"))
+    public EntityClass()
     {
         Namespace = "{Project.Namespace}.Data.Entities";
         Directory = @"{Project.Directory}\Data\Entities";
@@ -20,8 +21,6 @@ public class EntityClassOptions : ClassOptionsBase
         RelationshipNaming = RelationshipNaming.Plural;
         EntityNaming = EntityNaming.Singular;
         PrefixWithSchemaName = false;
-
-        Renaming = new SelectionOptions(variables, AppendPrefix(prefix, "Naming"));
     }
 
     /// <summary>
@@ -30,11 +29,7 @@ public class EntityClassOptions : ClassOptionsBase
     /// <value>
     /// The entity class name template.
     /// </value>
-    public string Name
-    {
-        get => GetProperty();
-        set => SetProperty(value);
-    }
+    public string Name { get; set; }
 
     /// <summary>
     /// Gets or sets the base class to inherit from.
@@ -42,11 +37,7 @@ public class EntityClassOptions : ClassOptionsBase
     /// <value>
     /// The base class.
     /// </value>
-    public string BaseClass
-    {
-        get => GetProperty();
-        set => SetProperty(value);
-    }
+    public string BaseClass { get; set; }
 
     /// <summary>
     /// Gets or sets the entity class naming strategy.
@@ -78,5 +69,5 @@ public class EntityClassOptions : ClassOptionsBase
     /// <value>
     /// The renaming expressions.
     /// </value>
-    public SelectionOptions Renaming { get; }
+    public SelectionModel Renaming { get; set; }
 }

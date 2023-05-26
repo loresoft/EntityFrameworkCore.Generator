@@ -1,41 +1,15 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 
-namespace EntityFrameworkCore.Generator.Options;
+using EntityFrameworkCore.Generator.Options;
+
+namespace EntityFrameworkCore.Generator.Serialization;
 
 /// <summary>
-/// Database options for reverse engineering the database
+/// Database options
 /// </summary>
-public class DatabaseOptions : OptionsBase
+public class DatabaseModel
 {
-    /// <summary>
-    /// Initializes a new instance of the <see cref="DatabaseOptions"/> class.
-    /// </summary>
-    /// <param name="variables">The shared variables dictionary.</param>
-    /// <param name="prefix">The variable key prefix.</param>
-    public DatabaseOptions(VariableDictionary variables, string prefix)
-        : base(variables, AppendPrefix(prefix, "Database"))
-    {
-        Provider = DatabaseProviders.SqlServer;
-        TableNaming = TableNaming.Singular;
-        Tables = new List<string>();
-        Schemas = new List<string>();
-        Exclude = new List<MatchOptions>();
-    }
-
-    /// <summary>
-    /// Gets or sets the name of the database.
-    /// </summary>
-    /// <value>
-    /// The name of the database.
-    /// </value>
-    public string Name
-    {
-        get => GetProperty();
-        set => SetProperty(value);
-    }
-
-
     /// <summary>
     /// Gets or sets the database to generate code for.
     /// </summary>
@@ -43,8 +17,7 @@ public class DatabaseOptions : OptionsBase
     /// The database to generate code for.
     /// </value>
     [DefaultValue(DatabaseProviders.SqlServer)]
-    public DatabaseProviders Provider { get; set; }
-
+    public DatabaseProviders Provider { get; set; } = DatabaseProviders.SqlServer;
 
     /// <summary>
     /// Gets or sets the connection string for reverse engineering the database
@@ -52,11 +25,7 @@ public class DatabaseOptions : OptionsBase
     /// <value>
     /// The connection string for reverse engineering the database
     /// </value>
-    public string ConnectionString
-    {
-        get => GetProperty();
-        set => SetProperty(value);
-    }
+    public string ConnectionString { get; set; }
 
     /// <summary>
     /// Gets or sets the name of the connection in the user secret file.
@@ -64,11 +33,7 @@ public class DatabaseOptions : OptionsBase
     /// <value>
     /// The name of the connection.
     /// </value>
-    public string ConnectionName
-    {
-        get => GetProperty();
-        set => SetProperty(value);
-    }
+    public string ConnectionName { get; set; }
 
     /// <summary>
     /// Gets or sets the user secrets identifier. A user secrets ID is unique value used to store and identify a collection of secret configuration values.
@@ -76,11 +41,7 @@ public class DatabaseOptions : OptionsBase
     /// <value>
     /// The user secrets identifier.
     /// </value>
-    public string UserSecretsId
-    {
-        get => GetProperty();
-        set => SetProperty(value);
-    }
+    public string UserSecretsId { get; set; }
 
 
     /// <summary>
@@ -90,8 +51,7 @@ public class DatabaseOptions : OptionsBase
     /// The table naming hint for how tables are named.
     /// </value>
     [DefaultValue(TableNaming.Singular)]
-    public TableNaming TableNaming { get; set; }
-
+    public TableNaming TableNaming { get; set; } = TableNaming.Singular;
 
 
     /// <summary>
@@ -100,7 +60,7 @@ public class DatabaseOptions : OptionsBase
     /// <value>
     /// The tables to include in the model, or an empty enumerable to include all
     /// </value>
-    public List<string> Tables { get; }
+    public List<string> Tables { get; set; }
 
     /// <summary>
     /// Gets or sets the schema to include in the model, or an empty enumerable to include all.
@@ -108,7 +68,7 @@ public class DatabaseOptions : OptionsBase
     /// <value>
     /// The schema to include in the model, or an empty enumerable to include all.
     /// </value>
-    public List<string> Schemas { get; }
+    public List<string> Schemas { get; set; }
 
     /// <summary>
     /// Gets or sets the exclude table options.
@@ -116,6 +76,6 @@ public class DatabaseOptions : OptionsBase
     /// <value>
     /// The exclude table options.
     /// </value>
-    public List<MatchOptions> Exclude { get; }
+    public List<MatchModel> Exclude { get; set; }
 
 }
