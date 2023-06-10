@@ -5,7 +5,7 @@ project:
   fileScopedNamespace: true
 database:
   provider: SqlServer
-  connectionString: Data Source=(local)\sql2022;Initial Catalog=Tracker;Integrated Security=True;TrustServerCertificate=True
+  connectionString: Data Source=(local);Initial Catalog=Tracker;Integrated Security=True;TrustServerCertificate=True
   exclude:
     - exact: 'dbo.SchemaVersions'
 data:

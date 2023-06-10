@@ -67,13 +67,4 @@ public class OptionsTests
         options.Should().NotBeNull();
     }
 
-    public string ReadResource(string resourcePath)
-    {
-        var assembly = Assembly.GetExecutingAssembly();
-
-        using var stream = assembly.GetManifestResourceStream(resourcePath);
-        using var reader = new StreamReader(stream);
-
-        return reader.ReadToEnd();
-    }
 }
