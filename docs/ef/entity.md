@@ -58,6 +58,11 @@ data:
     entityNaming: Singular
     relationshipNaming: Plural
     prefixWithSchemaName: false
+    renaming:
+      entities:
+        - ^(sp|tbl|udf|vw)_
+      properties:
+        - ^{Table.Name}(?=Id|Name)    
 ```
 
 ### name
@@ -97,6 +102,18 @@ Control if class names should be generated with schema name prefixed eg. dbo.MyT
 ### document
 
 Include XML documentation for the generated class. Default: `false`
+
+### renaming
+
+Rename entities and properties with regular expressions
+
+#### entities
+
+list of regular expressions to clean entity names
+
+#### properties
+
+list of regular expressions to clean property names
 
 ## Regeneration
 
