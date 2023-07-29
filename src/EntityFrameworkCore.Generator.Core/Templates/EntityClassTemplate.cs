@@ -172,7 +172,7 @@ public class EntityClassTemplate : CodeTemplateBase
                     CodeBuilder.AppendLine($"/// Gets or sets the navigation collection for entity <see cref=\"{primaryFullName}\" />.");
                     CodeBuilder.AppendLine("/// </summary>");
                     CodeBuilder.AppendLine("/// <value>");
-                    CodeBuilder.AppendLine($"/// The the navigation collection for entity <see cref=\"{primaryFullName}\" />.");
+                    CodeBuilder.AppendLine($"/// The navigation collection for entity <see cref=\"{primaryFullName}\" />.");
                     CodeBuilder.AppendLine("/// </value>");
                 }
 
@@ -188,7 +188,7 @@ public class EntityClassTemplate : CodeTemplateBase
                     CodeBuilder.AppendLine($"/// Gets or sets the navigation property for entity <see cref=\"{primaryFullName}\" />.");
                     CodeBuilder.AppendLine("/// </summary>");
                     CodeBuilder.AppendLine("/// <value>");
-                    CodeBuilder.AppendLine($"/// The the navigation property for entity <see cref=\"{primaryFullName}\" />.");
+                    CodeBuilder.AppendLine($"/// The navigation property for entity <see cref=\"{primaryFullName}\" />.");
                     CodeBuilder.AppendLine("/// </value>");
 
                     foreach (var property in relationship.Properties)
