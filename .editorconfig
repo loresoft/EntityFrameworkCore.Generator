@@ -1,4 +1,4 @@
-# EditorConfig is awesome: https://EditorConfig.org
+# EditorConfig: https://EditorConfig.org
 
 root = true
 
@@ -11,7 +11,7 @@ insert_final_newline = true
 trim_trailing_whitespace = true
 
 # XML Configuration Files
-[*.{xml,config,props,targets,nuspec,resx,ruleset,vsixmanifest,vsct}]
+[*.{xml,config,props,targets,nuspec,resx,ruleset,vsixmanifest,vsct,refactorlog,runsettings}]
 indent_size = 2
 
 # JSON Files
