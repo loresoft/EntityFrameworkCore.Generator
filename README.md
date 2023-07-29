@@ -2,7 +2,7 @@
 
 .NET Core command-line (CLI) tool to generate Entity Framework Core model from an existing database.
 
-[![Build status](https://ci.appveyor.com/api/projects/status/7ncldyr182jpu524?svg=true)](https://ci.appveyor.com/project/LoreSoft/entityframeworkcore-generator)
+[![Build Project](https://github.com/loresoft/EntityFrameworkCore.Generator/actions/workflows/dotnet.yml/badge.svg)](https://github.com/loresoft/EntityFrameworkCore.Generator/actions/workflows/dotnet.yml)
 
 [![NuGet Version](https://img.shields.io/nuget/v/EntityFrameworkCore.Generator.svg?style=flat-square)](https://www.nuget.org/packages/EntityFrameworkCore.Generator/)
 
