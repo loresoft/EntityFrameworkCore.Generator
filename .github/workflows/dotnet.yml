@@ -3,6 +3,7 @@ name: Build
 env:
   DOTNET_NOLOGO: true
   DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
+  ASPNETCORE_ENVIRONMENT: github
   BUILD_PATH: '${{github.workspace}}/artifacts'
   COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}
 
