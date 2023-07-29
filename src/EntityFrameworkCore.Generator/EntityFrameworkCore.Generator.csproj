@@ -7,10 +7,6 @@
     <NoWarn>1591,EF1001</NoWarn>
   </PropertyGroup>
 
-  <PropertyGroup>
-    <PackageReadmeFile>readme.md</PackageReadmeFile>
-  </PropertyGroup>
-
   <ItemGroup>
     <PackageReference Include="McMaster.Extensions.CommandLineUtils" Version="4.0.2" />
     <PackageReference Include="Serilog.Extensions.Hosting" Version="7.0.0" />
@@ -19,14 +15,6 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include=".\..\..\docs\readme.md">
-      <Pack>True</Pack>
-      <PackagePath></PackagePath>
-      <Visible>false</Visible>
-    </None>
   </ItemGroup>
   
   <ItemGroup>
