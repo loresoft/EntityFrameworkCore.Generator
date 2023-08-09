@@ -2,6 +2,7 @@ using System;
 
 using McMaster.Extensions.CommandLineUtils;
 
+using Microsoft.CodeAnalysis;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
@@ -67,5 +68,5 @@ public class Program : CommandBase
     }
 
 
-    private static string GetVersion() => ThisAssembly.Info.InformationalVersion;
+    private static string GetVersion() => AssemblyMetadata.InformationalVersion;
 }
