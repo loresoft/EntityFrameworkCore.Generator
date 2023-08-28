@@ -2,29 +2,39 @@ site_name: Entity Framework Core Generator
 theme: readthedocs
 repo_url: https://github.com/loresoft/EntityFrameworkCore.Generator
 
-pages:
-- Home: index.md
+nav:
+  - Home: index.md
 
-- Quick Start: quickStart.md
-- Database Connection: connectionString.md
-- Database Providers: providers.md
-- Regeneration: regeneration.md
-- Generation Configuration: configuration.md
-- Configuration Variables: variables.md
-- Command Line Reference: commands.md
+  - Quick Start: quickStart.md
+  - Database Connection: connectionString.md
+  - Database Providers: providers.md
+  - Regeneration: regeneration.md
+  - Generation Configuration: configuration.md
+  - Configuration Variables: variables.md
+  - Command Line Reference: commands.md
 
-- EntityFramework Templates:
-    - Data Context: ef/dataContext.md
-    - Entity: ef/entity.md
-    - Mapping: ef/mapping.md
-    - Extensions: ef/extensions.md
+  - EntityFramework Templates:
+      - Data Context: ef/dataContext.md
+      - Entity: ef/entity.md
+      - Mapping: ef/mapping.md
+      - Extensions: ef/extensions.md
 
-- Model Templates:
-    - Shared Configuration: md/shared.md
-    - Read Model: md/read.md
-    - Create Model: md/create.md
-    - Update Model: md/update.md
-    - Validation: md/validation.md
-    - Object Mapper: md/mapper.md
+  - Model Templates:
+      - Shared Configuration: md/shared.md
+      - Read Model: md/read.md
+      - Create Model: md/create.md
+      - Update Model: md/update.md
+      - Validation: md/validation.md
+      - Object Mapper: md/mapper.md
 
-- Script Templates: scripts.md
+  - Script Templates: scripts.md
+
+markdown_extensions:
+  - tables
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences
