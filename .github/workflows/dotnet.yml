@@ -58,7 +58,7 @@ jobs:
       run: dotnet test --configuration Release --collect:"XPlat Code Coverage" --settings coverlet.runsettings
 
     - name: Generate Coverage 
-      uses: danielpalme/ReportGenerator-GitHub-Action@5.1.24
+      uses: danielpalme/ReportGenerator-GitHub-Action@5.1.25
       with:
         reports: '${{github.workspace}}/test/*/TestResults/*/coverage.info'
         targetdir: ${{env.BUILD_PATH}}
