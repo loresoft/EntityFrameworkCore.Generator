@@ -91,7 +91,7 @@ public partial class Role : IHaveIdentifier, ITrackCreated, ITrackUpdated
     /// Gets or sets the navigation collection for entity <see cref="UserRole" />.
     /// </summary>
     /// <value>
-    /// The the navigation collection for entity <see cref="UserRole" />.
+    /// The navigation collection for entity <see cref="UserRole" />.
     /// </value>
     public virtual ICollection<UserRole> UserRoles { get; set; }
 

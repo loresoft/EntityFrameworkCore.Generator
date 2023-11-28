@@ -165,7 +165,7 @@ public partial class User : IHaveIdentifier, ITrackCreated, ITrackUpdated
     /// Gets or sets the navigation collection for entity <see cref="Task" />.
     /// </summary>
     /// <value>
-    /// The the navigation collection for entity <see cref="Task" />.
+    /// The navigation collection for entity <see cref="Task" />.
     /// </value>
     public virtual ICollection<Task> AssignedTasks { get; set; }
 
@@ -173,7 +173,7 @@ public partial class User : IHaveIdentifier, ITrackCreated, ITrackUpdated
     /// Gets or sets the navigation collection for entity <see cref="UserLogin" />.
     /// </summary>
     /// <value>
-    /// The the navigation collection for entity <see cref="UserLogin" />.
+    /// The navigation collection for entity <see cref="UserLogin" />.
     /// </value>
     public virtual ICollection<UserLogin> UserLogins { get; set; }
 
@@ -181,7 +181,7 @@ public partial class User : IHaveIdentifier, ITrackCreated, ITrackUpdated
     /// Gets or sets the navigation collection for entity <see cref="UserRole" />.
     /// </summary>
     /// <value>
-    /// The the navigation collection for entity <see cref="UserRole" />.
+    /// The navigation collection for entity <see cref="UserRole" />.
     /// </value>
     public virtual ICollection<UserRole> UserRoles { get; set; }
 

@@ -3,6 +3,7 @@ name: Build
 env:
   DOTNET_NOLOGO: true
   DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
+  DOTNET_ENVIRONMENT: github
   ASPNETCORE_ENVIRONMENT: github
   BUILD_PATH: '${{github.workspace}}/artifacts'
   COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}
@@ -41,12 +42,12 @@ jobs:
       with:
         fetch-depth: 0
 
-    - name: Install .NET Core
+    - name: Install .NET
       uses: actions/setup-dotnet@v3
       with:
           dotnet-version: | 
                 6.0.x
-                7.0.x
+                8.0.x
 
     - name: Restore Dependencies
       run: dotnet restore
@@ -55,21 +56,14 @@ jobs:
       run: dotnet build --no-restore --configuration Release
 
     - name: Run Test
-      run: dotnet test --configuration Release --collect:"XPlat Code Coverage" --settings coverlet.runsettings
-
-    - name: Generate Coverage 
-      uses: danielpalme/ReportGenerator-GitHub-Action@5.1.24
-      with:
-        reports: '${{github.workspace}}/test/*/TestResults/*/coverage.info'
-        targetdir: ${{env.BUILD_PATH}}
-        reporttypes: lcov
+      run: dotnet test --no-build --configuration Release --collect:"XPlat Code Coverage" --settings coverlet.runsettings
 
     - name: Report Coverage
       if: success()
       uses: coverallsapp/github-action@v2
       with:
-          file: artifacts/lcov.info
-          format: lcov
+        file: "${{github.workspace}}/test/*/TestResults/*/coverage.info"
+        format: lcov
 
     - name: Create Packages
       if: success() && github.event_name != 'pull_request'
