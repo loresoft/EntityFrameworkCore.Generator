@@ -1,4 +1,4 @@
-﻿using EntityFrameworkCore.Generator.Metadata.Generation;
+using EntityFrameworkCore.Generator.Metadata.Generation;
 using EntityFrameworkCore.Generator.Options;
 
 namespace EntityFrameworkCore.Generator.Scripts;

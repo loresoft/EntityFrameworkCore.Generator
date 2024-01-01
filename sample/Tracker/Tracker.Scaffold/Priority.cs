@@ -13,7 +13,7 @@ public partial class Priority
 
     public int DisplayOrder { get; set; }
 
-    public bool? IsActive { get; set; }
+    public bool IsActive { get; set; }
 
     public DateTimeOffset Created { get; set; }
 

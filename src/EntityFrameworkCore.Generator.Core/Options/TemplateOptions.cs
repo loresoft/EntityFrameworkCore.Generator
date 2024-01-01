@@ -10,7 +10,7 @@ public class TemplateOptions : OptionsBase
     /// <summary>
     /// Initializes a new instance of the <see cref="TemplateOptions"/> class.
     /// </summary>
-    /// <param name="variables">The shared variables dictionary.</param>
+    /// <param name="variables">The shared variable dictionary.</param>
     /// <param name="prefix">The variable key prefix.</param>
     public TemplateOptions(VariableDictionary variables, string prefix)
         : base(variables, AppendPrefix(prefix, "Template"))
@@ -80,12 +80,20 @@ public class TemplateOptions : OptionsBase
     }
 
     /// <summary>
-    /// Gets or sets a value indicating whether the generated file will be over written.
+    /// Gets or sets a value indicating whether the generated file will be overwritten.
     /// </summary>
     /// <value>
     ///   <c>true</c> to overwrite generated file; otherwise, <c>false</c>.
     /// </value>
     public bool Overwrite { get; set; }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether the generated file will be merged via region replacement.
+    /// </summary>
+    /// <value>
+    ///   <c>true</c> to merged via region replacement; otherwise, <c>false</c>.
+    /// </value>
+    public bool Merge { get; set; }
 
     /// <summary>
     /// Gets or sets the template parameters.

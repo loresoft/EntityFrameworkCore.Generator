@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 
@@ -36,7 +36,8 @@ public partial class TrackerContext : DbContext
     public virtual DbSet<UserLogin> UserLogins { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        => optionsBuilder.UseSqlServer("Data Source=(local)\\sql2022;Initial Catalog=Tracker;Integrated Security=True;TrustServerCertificate=True");
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
+        => optionsBuilder.UseSqlServer("Data Source=(local);Initial Catalog=Tracker;Integrated Security=True;TrustServerCertificate=True");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -64,9 +65,7 @@ public partial class TrackerContext : DbContext
             entity.Property(e => e.Created).HasDefaultValueSql("(sysutcdatetime())");
             entity.Property(e => e.CreatedBy).HasMaxLength(100);
             entity.Property(e => e.Description).HasMaxLength(255);
-            entity.Property(e => e.IsActive)
-                .IsRequired()
-                .HasDefaultValueSql("((1))");
+            entity.Property(e => e.IsActive).HasDefaultValue(true);
             entity.Property(e => e.Name).HasMaxLength(100);
             entity.Property(e => e.RowVersion)
                 .IsRowVersion()
@@ -108,9 +107,7 @@ public partial class TrackerContext : DbContext
             entity.Property(e => e.Created).HasDefaultValueSql("(sysutcdatetime())");
             entity.Property(e => e.CreatedBy).HasMaxLength(100);
             entity.Property(e => e.Description).HasMaxLength(255);
-            entity.Property(e => e.IsActive)
-                .IsRequired()
-                .HasDefaultValueSql("((1))");
+            entity.Property(e => e.IsActive).HasDefaultValue(true);
             entity.Property(e => e.Name).HasMaxLength(100);
             entity.Property(e => e.RowVersion)
                 .IsRowVersion()
@@ -151,8 +148,6 @@ public partial class TrackerContext : DbContext
             entity.Property(e => e.Title).HasMaxLength(255);
             entity.Property(e => e.Updated).HasDefaultValueSql("(sysutcdatetime())");
             entity.Property(e => e.UpdatedBy).HasMaxLength(100);
-
-            
 
             entity.HasOne(d => d.Assigned).WithMany(p => p.Tasks).HasForeignKey(d => d.AssignedId);
 
@@ -196,9 +191,7 @@ public partial class TrackerContext : DbContext
             entity.Property(e => e.Id).HasDefaultValueSql("(newsequentialid())");
             entity.Property(e => e.Created).HasDefaultValueSql("(sysutcdatetime())");
             entity.Property(e => e.CreatedBy).HasMaxLength(100);
-            entity.Property(e => e.IsActive)
-                .IsRequired()
-                .HasDefaultValueSql("((1))");
+            entity.Property(e => e.IsActive).HasDefaultValue(true);
             entity.Property(e => e.Name).HasMaxLength(256);
             entity.Property(e => e.RowVersion)
                 .IsRowVersion()

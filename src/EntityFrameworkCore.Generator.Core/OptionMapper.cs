@@ -155,6 +155,8 @@ public static class OptionMapper
         option.Namespace = mapping.Namespace;
         option.Directory = mapping.Directory;
         option.Document = mapping.Document;
+        option.Temporal = mapping.Temporal;
+        option.RowVersion = mapping.RowVersion;
     }
 
     private static void MapEntity(EntityClassOptions option, EntityClass entity)
@@ -267,6 +269,7 @@ public static class OptionMapper
             BaseClass = template.BaseClass,
             Directory = template.Directory,
             Overwrite = template.Overwrite,
+            Merge = template.Merge,
         };
 
         if (template.Parameters == null || template.Parameters.Count == 0)

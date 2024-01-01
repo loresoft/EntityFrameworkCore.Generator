@@ -1,5 +1,5 @@
+using System.Data;
 using System.Globalization;
-using System.Linq;
 
 using EntityFrameworkCore.Generator.Extensions;
 using EntityFrameworkCore.Generator.Metadata.Generation;
@@ -263,8 +263,19 @@ public class MappingClassTemplate : CodeTemplateBase
 
         if (property.IsRowVersion == true)
         {
+            if (property.DataType == DbType.Binary && property.SystemType != typeof(byte[]))
+            {
+                CodeBuilder.AppendLine();
+                CodeBuilder.Append(".HasConversion<byte[]>()");
+            }
             CodeBuilder.AppendLine();
             CodeBuilder.Append(".IsRowVersion()");
+        }
+
+        if (property.IsConcurrencyToken == true)
+        {
+            CodeBuilder.AppendLine();
+            CodeBuilder.Append(".IsConcurrencyToken()");
         }
 
         CodeBuilder.AppendLine();
@@ -282,7 +293,13 @@ public class MappingClassTemplate : CodeTemplateBase
             CodeBuilder.Append($".HasMaxLength({property.Size.Value.ToString(CultureInfo.InvariantCulture)})");
         }
 
-        if (!string.IsNullOrEmpty(property.Default))
+        // only use for simple types
+        if (property.DefaultValue is bool or int or long or byte or double or float or short)
+        {
+            CodeBuilder.AppendLine();
+            CodeBuilder.Append($".HasDefaultValue({property.DefaultValue?.ToString()?.ToLowerInvariant()})");
+        }
+        else if (!string.IsNullOrEmpty(property.Default))
         {
             CodeBuilder.AppendLine();
             CodeBuilder.Append($".HasDefaultValueSql({property.Default.ToLiteral()})");

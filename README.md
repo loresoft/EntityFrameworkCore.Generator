@@ -155,6 +155,13 @@ Entity Framework Core Generator supports generating [Read](https://efg.loresoft.
 
 ## Change Log
 
+### Version 6.0
+
+- upgrade to .net 8
+- add option to turn off temporal table mapping
+- add rowversion options, ByteArray|Long|ULong 
+- add script template merge
+
 ### Version 5.0
 
 - add support for navigation property renames
