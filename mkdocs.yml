@@ -9,7 +9,7 @@ nav:
   - Database Connection: connectionString.md
   - Database Providers: providers.md
   - Regeneration: regeneration.md
-  - Generation Configuration: configuration.md
+  - Configuration File: configuration.md
   - Configuration Variables: variables.md
   - Command Line Reference: commands.md
 
