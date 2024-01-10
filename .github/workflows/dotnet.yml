@@ -15,6 +15,9 @@ on:
       - develop
     tags:
       - 'v*'
+    paths-ignore:
+      - 'docs/**'
+      - 'mkdocs.yml'
   pull_request:
     branches:
       - master
@@ -45,7 +48,7 @@ jobs:
     - name: Install .NET
       uses: actions/setup-dotnet@v4
       with:
-          dotnet-version: | 
+          dotnet-version: |
                 6.0.x
                 8.0.x
 

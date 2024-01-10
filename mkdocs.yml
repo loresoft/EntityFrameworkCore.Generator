@@ -1,5 +1,5 @@
 site_name: Entity Framework Core Generator
-theme: readthedocs
+theme: material
 repo_url: https://github.com/loresoft/EntityFrameworkCore.Generator
 
 nav:
