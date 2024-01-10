@@ -37,7 +37,7 @@ jobs:
         uses: actions/upload-pages-artifact@v2
         with:
           name: github-pages
-          path: '/site'
+          path: 'site/'
 
   pages:
     runs-on: ubuntu-latest
