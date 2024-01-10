@@ -134,6 +134,14 @@ The directory location to write the source file. *Variables Supported*
 
 Include XML documentation for the generated class.  Default: `false`
 
+### temporal
+
+If temporal table mapping is enabled. Default true
+
+### rowVersion
+
+How row versions should be mapped. Default ByteArray. ByteArray|Long|ULong
+
 ## Regeneration
 
 The entity template has one region that is replaced on regeneration.
