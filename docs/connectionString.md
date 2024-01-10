@@ -45,7 +45,6 @@ The `userSecretsId` can be shared with your .NET Core Project.
 
 ```XML
 <PropertyGroup>
-  <TargetFramework>netcoreapp2.1</TargetFramework>
   <UserSecretsId>984ef0cf-2b22-4fd1-876d-e01499da4c1f</UserSecretsId>
 </PropertyGroup>
 ```
