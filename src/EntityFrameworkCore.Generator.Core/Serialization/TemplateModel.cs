@@ -3,7 +3,7 @@ using System.Collections.Generic;
 namespace EntityFrameworkCore.Generator.Serialization;
 
 /// <summary>
-/// Sript template options
+/// Script template options
 /// </summary>
 public class TemplateModel
 {
@@ -49,12 +49,20 @@ public class TemplateModel
     public string Directory { get; set; }
 
     /// <summary>
-    /// Gets or sets a value indicating whether the generated file will be over written.
+    /// Gets or sets a value indicating whether the generated file will be overwritten.
     /// </summary>
     /// <value>
     ///   <c>true</c> to overwrite generated file; otherwise, <c>false</c>.
     /// </value>
     public bool Overwrite { get; set; }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether the generated file will be merged via region replacement.
+    /// </summary>
+    /// <value>
+    ///   <c>true</c> to merged via region replacement; otherwise, <c>false</c>.
+    /// </value>
+    public bool Merge { get; set; }
 
     /// <summary>
     /// Gets or sets the template parameters.

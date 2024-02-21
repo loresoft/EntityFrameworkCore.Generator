@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Data;
 using System.Diagnostics;
 using Microsoft.EntityFrameworkCore.Metadata;
@@ -36,6 +36,8 @@ public class Property : ModelBase
 
     public bool? IsRowVersion { get; set; }
 
+    public bool? IsConcurrencyToken { get; set; }
+
     public bool? IsUnique { get; set; }
 
     [Obsolete("Value no longer used, will be deleted")]
@@ -48,6 +50,8 @@ public class Property : ModelBase
 
     [Obsolete("Value no longer used, will be deleted")]
     public int? Scale { get; set; }
+
+    public object DefaultValue { get; set; }
 
     public string Default { get; set; }
 

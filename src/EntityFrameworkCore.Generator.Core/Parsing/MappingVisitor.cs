@@ -57,6 +57,7 @@ public class MappingVisitor : CSharpSyntaxWalker
                 ParseProperty(node);
                 break;
             case "ToTable":
+            case "ToView":
                 ParseTable(node);
                 break;
         }

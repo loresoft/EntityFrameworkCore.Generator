@@ -3,6 +3,7 @@ name: Build
 env:
   DOTNET_NOLOGO: true
   DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
+  DOTNET_ENVIRONMENT: github
   ASPNETCORE_ENVIRONMENT: github
   BUILD_PATH: '${{github.workspace}}/artifacts'
   COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}
@@ -14,6 +15,9 @@ on:
       - develop
     tags:
       - 'v*'
+    paths-ignore:
+      - 'docs/**'
+      - 'mkdocs.yml'
   pull_request:
     branches:
       - master
@@ -37,16 +41,16 @@ jobs:
 
     steps:
     - name: Checkout
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
       with:
         fetch-depth: 0
 
-    - name: Install .NET Core
-      uses: actions/setup-dotnet@v3
+    - name: Install .NET
+      uses: actions/setup-dotnet@v4
       with:
-          dotnet-version: | 
+          dotnet-version: |
                 6.0.x
-                7.0.x
+                8.0.x
 
     - name: Restore Dependencies
       run: dotnet restore
@@ -55,21 +59,14 @@ jobs:
       run: dotnet build --no-restore --configuration Release
 
     - name: Run Test
-      run: dotnet test --configuration Release --collect:"XPlat Code Coverage" --settings coverlet.runsettings
-
-    - name: Generate Coverage 
-      uses: danielpalme/ReportGenerator-GitHub-Action@5.1.23
-      with:
-        reports: '${{github.workspace}}/test/*/TestResults/*/coverage.info'
-        targetdir: ${{env.BUILD_PATH}}
-        reporttypes: lcov
+      run: dotnet test --no-build --configuration Release --collect:"XPlat Code Coverage" --settings coverlet.runsettings
 
     - name: Report Coverage
       if: success()
       uses: coverallsapp/github-action@v2
       with:
-          file: artifacts/lcov.info
-          format: lcov
+        file: "${{github.workspace}}/test/*/TestResults/*/coverage.info"
+        format: lcov
 
     - name: Create Packages
       if: success() && github.event_name != 'pull_request'
@@ -77,7 +74,7 @@ jobs:
 
     - name: Upload Packages
       if: success() && github.event_name != 'pull_request'
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: packages
         path: '${{env.BUILD_PATH}}'
@@ -89,7 +86,7 @@ jobs:
 
     steps:
     - name: Download Artifact
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v4
       with:
         name: packages
 

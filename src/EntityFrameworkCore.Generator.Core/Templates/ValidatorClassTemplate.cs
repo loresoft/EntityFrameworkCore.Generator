@@ -30,6 +30,7 @@ public class ValidatorClassTemplate : CodeTemplateBase
         if (Options.Project.FileScopedNamespace)
         {
             CodeBuilder.AppendLine(";");
+            CodeBuilder.AppendLine();
             GenerateClass();
         }
         else
@@ -105,7 +106,7 @@ public class ValidatorClassTemplate : CodeTemplateBase
 
                 if (property.IsRequired && property.SystemType == typeof(string))
                     CodeBuilder.AppendLine($"RuleFor(p => p.{propertyName}).NotEmpty();");
-                if (property.Size.HasValue && property.SystemType == typeof(string))
+                if (property.Size.HasValue && property.SystemType == typeof(string) && property.Size > 0)
                     CodeBuilder.AppendLine($"RuleFor(p => p.{propertyName}).MaximumLength({property.Size});");
 
             }

@@ -108,7 +108,7 @@ public partial class Priority : IHaveIdentifier, ITrackCreated, ITrackUpdated
     /// Gets or sets the navigation collection for entity <see cref="Task" />.
     /// </summary>
     /// <value>
-    /// The the navigation collection for entity <see cref="Task" />.
+    /// The navigation collection for entity <see cref="Task" />.
     /// </value>
     public virtual ICollection<Task> Tasks { get; set; }
 

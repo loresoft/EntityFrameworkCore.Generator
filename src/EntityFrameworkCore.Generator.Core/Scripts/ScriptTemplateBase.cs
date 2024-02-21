@@ -1,7 +1,9 @@
-﻿using System.IO;
+using System.IO;
+using System.Text;
 
 using EntityFrameworkCore.Generator.Extensions;
 using EntityFrameworkCore.Generator.Options;
+using EntityFrameworkCore.Generator.Parsing;
 
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Scripting;
@@ -23,13 +25,19 @@ public abstract class ScriptTemplateBase<TVariable>
 
         TemplateOptions = templateOptions;
         GeneratorOptions = generatorOptions;
+        RegionReplace = new RegionReplace();
+
     }
 
     protected ILogger Logger { get; }
 
+    protected RegionReplace RegionReplace { get; }
+
+
     public TemplateOptions TemplateOptions { get; }
 
     public GeneratorOptions GeneratorOptions { get; }
+
 
     protected virtual void WriteCode()
     {
@@ -51,7 +59,7 @@ public abstract class ScriptTemplateBase<TVariable>
 
         var exists = File.Exists(path);
 
-        if (exists && !TemplateOptions.Overwrite)
+        if (exists && !(TemplateOptions.Merge || TemplateOptions.Overwrite))
         {
             Logger.LogDebug("Skipping template '{template}' because output '{fileName}' already exists.", templatePath, fileName);
             return;
@@ -70,7 +78,10 @@ public abstract class ScriptTemplateBase<TVariable>
             return;
         }
 
-        File.WriteAllText(path, content);
+        if (exists && TemplateOptions.Merge && !TemplateOptions.Overwrite)
+            RegionReplace.MergeFile(path, content);
+        else
+            File.WriteAllText(path, content);
     }
 
     protected virtual string ExecuteScript()

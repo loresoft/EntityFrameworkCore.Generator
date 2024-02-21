@@ -185,12 +185,14 @@ script:
     - templatePath: '.\Templates\entity-yaml.csx'
       fileName: '{Entity.Name}.yml'
       directory: '{Project.Directory}\Yaml\Entity'
-      overwrite: true
+      overwrite: false
+      merge: true
   model:
     - templatePath: '.\Templates\model-yaml.csx'
       fileName: '{Model.Name}.yml'
       directory: '{Project.Directory}\Yaml\Model'
-      overwrite: true
+      overwrite: false
+      merge: true
 ```
 
 ### TemplatePath
@@ -216,3 +218,7 @@ The directory location to write script template output. *Variables Supported*
 #### Overwrite
 
 Flag indicating whether to overwrite existing file. Default: `false`
+
+#### Merge
+
+Flag indicating whether to merge regions with existing file. Default: `false`

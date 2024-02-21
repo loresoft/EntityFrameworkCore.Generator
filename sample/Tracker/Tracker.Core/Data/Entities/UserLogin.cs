@@ -162,7 +162,7 @@ public partial class UserLogin : IHaveIdentifier, ITrackCreated, ITrackUpdated
     /// Gets or sets the navigation property for entity <see cref="User" />.
     /// </summary>
     /// <value>
-    /// The the navigation property for entity <see cref="User" />.
+    /// The navigation property for entity <see cref="User" />.
     /// </value>
     /// <seealso cref="UserId" />
     public virtual User? User { get; set; }

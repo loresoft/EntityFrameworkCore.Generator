@@ -98,7 +98,7 @@ public partial class TaskExtended : ITrackCreated, ITrackUpdated
     /// Gets or sets the navigation property for entity <see cref="Task" />.
     /// </summary>
     /// <value>
-    /// The the navigation property for entity <see cref="Task" />.
+    /// The navigation property for entity <see cref="Task" />.
     /// </value>
     /// <seealso cref="TaskId" />
     public virtual Task Task { get; set; } = null!;

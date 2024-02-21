@@ -102,6 +102,9 @@ data:
     directory: '{Project.Directory}\Data\Mapping'   # the mapping class output directory
     #include XML documentation
     document: false
+    
+    temporal: false                                 # if temporal table mapping is enabled. Default true
+    rowVersion: ByteArray|Long|ULong                # How row versions should be mapped. Default ByteArray
 
   # query extension class file configuration
   query:
@@ -191,6 +194,7 @@ script:
       namespace: '{Project.Namespace}.Domain.Context'  
       baseClass: ContextScriptBase
       overwrite: true                                  # overwrite existing file
+      merge: true                                      # merge regions with existing file
   # collection of script template with current Entity as a variable
   entity:
     - templatePath: '.\templates\entity.csx'           # path to script file
@@ -199,6 +203,7 @@ script:
       namespace: '{Project.Namespace}.Domain.Entity'  
       baseClass: EntityScriptBase
       overwrite: true                                  # overwrite existing file
+      merge: true                                      # merge regions with existing file
   # collection script template with current Model as a variable
   model:
     - templatePath: '.\templates\model.csx'            # path to script file
@@ -207,10 +212,12 @@ script:
       namespace: '{Project.Namespace}.Domain.Models'  
       baseClass: ModelScriptBase
       overwrite: true                                  # overwrite existing file
+      merge: true                                      # merge regions with existing file
     - templatePath: '.\templates\sample.csx'           # path to script file
       fileName: '{Model.Name}Sample.cs'                # filename to save script output
       directory: '{Project.Directory}\Domain\Models'   # directory to save script output
       namespace: '{Project.Namespace}.Domain.Models'  
       baseClass: ModelSampleBase
       overwrite: true                                  # overwrite existing file
+      merge: true                                      # merge regions with existing file
 ```

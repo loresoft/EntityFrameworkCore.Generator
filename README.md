@@ -40,7 +40,7 @@ Replace `<ConnectionString>` with a valid database connection string.
 
 ### Generation Output
 
-The `generate` command will create the follow files and directory structure by default.  The root directory defaults to the current working directory.  Most of the output names and locations can be customized in the [configuration file](https://efg.loresoft.com/en/latest/configuration/)
+The `generate` command will create the follow files and directory structure by default.  The root directory defaults to the current working directory.  Most of the output names and locations can be customized in the [configuration file](https://efg.loresoft.com/configuration/)
 
 #### Data Context Output
 
@@ -56,7 +56,7 @@ The mapping directory contains a fluent mapping class to map each entity to its 
 
 ## Initialize Command
 
-The `initialize` command is used to create the configuration yaml file and optionally set the [connection string](https://efg.loresoft.com/en/latest/connectionString/). The configuration file has many options to configure the generated output.  See the [configuration file](https://efg.loresoft.com/en/latest/configuration/) documentation for more details.
+The `initialize` command is used to create the configuration yaml file and optionally set the [connection string](https://efg.loresoft.com/connectionString/). The configuration file has many options to configure the generated output.  See the [configuration file](https://efg.loresoft.com/configuration/) documentation for more details.
 
 The following command will create an initial `generation.yaml` configuration file as well as setting a user secret to store the connection string.
 
@@ -129,7 +129,7 @@ Entity Framework Core Generator supports the following databases.
 - MySQL
 - Sqlite
 
-The provider can be set via command line or via the [configuration file](https://efg.loresoft.com/en/latest/configuration/).
+The provider can be set via command line or via the [configuration file](https://efg.loresoft.com/configuration/).
 
 Set via command line
 
@@ -151,9 +151,16 @@ The database schema is loaded from the metadata model factory implementation of 
 
 ## View Models
 
-Entity Framework Core Generator supports generating [Read](https://efg.loresoft.com/en/latest/md/read/), [Create](https://efg.loresoft.com/en/latest/md/create/) and [Update](https://efg.loresoft.com/en/latest/md/update/) view models from an entity.  Many projects rely on view models to shape data.  The model templates can be used to quickly get the basic view models created.  The model templates also support regeneration so any database change can easily be sync'd to the view models.  
+Entity Framework Core Generator supports generating [Read](https://efg.loresoft.com/md/read/), [Create](https://efg.loresoft.com/md/create/) and [Update](https://efg.loresoft.com/md/update/) view models from an entity.  Many projects rely on view models to shape data.  The model templates can be used to quickly get the basic view models created.  The model templates also support regeneration so any database change can easily be sync'd to the view models.  
 
 ## Change Log
+
+### Version 6.0
+
+- upgrade to .net 8
+- add option to turn off temporal table mapping
+- add rowversion options, ByteArray|Long|ULong 
+- add script template merge
 
 ### Version 5.0
 

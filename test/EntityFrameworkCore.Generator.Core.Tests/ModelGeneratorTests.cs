@@ -7,6 +7,7 @@ using FluentAssertions;
 using Microsoft.EntityFrameworkCore.Scaffolding.Metadata;
 using Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal;
 using Microsoft.EntityFrameworkCore.Storage;
+using Microsoft.EntityFrameworkCore.Storage.Json;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Microsoft.Extensions.Logging.Abstractions;
 
@@ -570,9 +571,8 @@ create default abc0 as 0
 #pragma warning disable EF1001 // Internal EF Core API usage.
         var sqlServerTypeMappingSource = new SqlServerTypeMappingSource(
             new TypeMappingSourceDependencies(
-                new ValueConverterSelector(
-                    new ValueConverterSelectorDependencies()
-                ),
+                new ValueConverterSelector(new ValueConverterSelectorDependencies()),
+                new JsonValueReaderWriterSource(new JsonValueReaderWriterSourceDependencies()),
                 Enumerable.Empty<ITypeMappingSourcePlugin>()
             ),
             new RelationalTypeMappingSourceDependencies(Enumerable.Empty<IRelationalTypeMappingSourcePlugin>())

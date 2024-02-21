@@ -1,3 +1,7 @@
+using System.ComponentModel;
+
+using EntityFrameworkCore.Generator.Options;
+
 namespace EntityFrameworkCore.Generator.Serialization;
 
 /// <summary>
@@ -13,4 +17,24 @@ public class MappingClass : ClassBase
         Namespace = "{Project.Namespace}.Data.Mapping";
         Directory = @"{Project.Directory}\Data\Mapping";
     }
+
+    /// <summary>
+    /// Gets or sets if temporal table mapping is enabled. Default true
+    /// </summary>
+    /// <value>
+    /// If temporal table mapping is enabled.
+    /// </value>
+    [DefaultValue(true)]
+    public bool Temporal { get; set; } = true;
+
+    /// <summary>
+    /// Gets or sets how row version properties should be mapped.
+    /// </summary>
+    /// <value>
+    /// How row version properties should be mapped.
+    /// </value>
+    /// <seealso cref="RowVersionMapping"/>
+    [DefaultValue(RowVersionMapping.ByteArray)]
+    public RowVersionMapping RowVersion { get; set; } = RowVersionMapping.ByteArray;
+
 }

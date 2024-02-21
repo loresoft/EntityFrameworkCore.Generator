@@ -94,10 +94,12 @@ public class InitializeCommand : OptionsCommandBase
     {
         var options = new Serialization.GeneratorModel();
 
-        options.Project.Namespace = Directory.CreateDirectory(Environment.CurrentDirectory)?.Name ?? "Project.Core";
+        options.Project.Namespace = Directory.CreateDirectory(Environment.CurrentDirectory).Name ?? "Project.Core";
         options.Project.Directory = ".\\";
         options.Project.Nullable = true;
         options.Project.FileScopedNamespace = true;
+
+        options.Data.Mapping.RowVersion = RowVersionMapping.Long;
 
         // default all to generate
         options.Data.Query.Generate = true;
@@ -106,7 +108,7 @@ public class InitializeCommand : OptionsCommandBase
         options.Model.Update.Generate = true;
         options.Model.Validator.Generate = true;
         options.Model.Mapper.Generate = true;
-
+        
         Logger.LogInformation($"Creating options file: {optionsFile}");
 
         return options;

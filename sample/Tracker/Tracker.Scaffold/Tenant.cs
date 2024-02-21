@@ -11,7 +11,7 @@ public partial class Tenant
 
     public string? Description { get; set; }
 
-    public bool? IsActive { get; set; }
+    public bool IsActive { get; set; }
 
     public DateTimeOffset Created { get; set; }
 

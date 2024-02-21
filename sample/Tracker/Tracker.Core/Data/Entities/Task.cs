@@ -146,7 +146,7 @@ public partial class Task : IHaveIdentifier, ITrackCreated, ITrackUpdated
     /// Gets or sets the navigation property for entity <see cref="User" />.
     /// </summary>
     /// <value>
-    /// The the navigation property for entity <see cref="User" />.
+    /// The navigation property for entity <see cref="User" />.
     /// </value>
     /// <seealso cref="AssignedId" />
     public virtual User? AssignedUser { get; set; }
@@ -155,7 +155,7 @@ public partial class Task : IHaveIdentifier, ITrackCreated, ITrackUpdated
     /// Gets or sets the navigation property for entity <see cref="Priority" />.
     /// </summary>
     /// <value>
-    /// The the navigation property for entity <see cref="Priority" />.
+    /// The navigation property for entity <see cref="Priority" />.
     /// </value>
     /// <seealso cref="PriorityId" />
     public virtual Priority? Priority { get; set; }
@@ -164,7 +164,7 @@ public partial class Task : IHaveIdentifier, ITrackCreated, ITrackUpdated
     /// Gets or sets the navigation property for entity <see cref="Status" />.
     /// </summary>
     /// <value>
-    /// The the navigation property for entity <see cref="Status" />.
+    /// The navigation property for entity <see cref="Status" />.
     /// </value>
     /// <seealso cref="StatusId" />
     public virtual Status Status { get; set; } = null!;
@@ -173,7 +173,7 @@ public partial class Task : IHaveIdentifier, ITrackCreated, ITrackUpdated
     /// Gets or sets the navigation property for entity <see cref="TaskExtended" />.
     /// </summary>
     /// <value>
-    /// The the navigation property for entity <see cref="TaskExtended" />.
+    /// The navigation property for entity <see cref="TaskExtended" />.
     /// </value>
     /// <seealso cref="Id" />
     public virtual TaskExtended TaskExtended { get; set; } = null!;
@@ -182,7 +182,7 @@ public partial class Task : IHaveIdentifier, ITrackCreated, ITrackUpdated
     /// Gets or sets the navigation property for entity <see cref="Tenant" />.
     /// </summary>
     /// <value>
-    /// The the navigation property for entity <see cref="Tenant" />.
+    /// The navigation property for entity <see cref="Tenant" />.
     /// </value>
     /// <seealso cref="TenantId" />
     public virtual Tenant Tenant { get; set; } = null!;

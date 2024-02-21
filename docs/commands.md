@@ -20,7 +20,7 @@ Options:
 
 Example:
 
-efg initialize initialize -c "Data Source=(local);Initial Catalog=Tracker;Integrated Security=True"
+efg initialize -c "Data Source=(local);Initial Catalog=Tracker;Integrated Security=True"
 ```
 
 ## Generate Command

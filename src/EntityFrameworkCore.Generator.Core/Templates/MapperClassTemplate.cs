@@ -39,6 +39,7 @@ public class MapperClassTemplate : CodeTemplateBase
         if (Options.Project.FileScopedNamespace)
         {
             CodeBuilder.AppendLine(";");
+            CodeBuilder.AppendLine();
             GenerateClass();
         }
         else

@@ -1,7 +1,4 @@
-using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 
@@ -12,12 +9,17 @@ using EntityFrameworkCore.Generator.Options;
 using Humanizer;
 
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.EntityFrameworkCore.Scaffolding.Metadata;
 using Microsoft.EntityFrameworkCore.Scaffolding.Metadata.Internal;
 using Microsoft.EntityFrameworkCore.SqlServer.Metadata.Internal;
 using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.Extensions.Logging;
 
+using static Npgsql.Replication.PgOutput.Messages.RelationMessage;
+
+using Model = EntityFrameworkCore.Generator.Metadata.Generation.Model;
+using Property = EntityFrameworkCore.Generator.Metadata.Generation.Property;
 using PropertyCollection = EntityFrameworkCore.Generator.Metadata.Generation.PropertyCollection;
 
 namespace EntityFrameworkCore.Generator;
@@ -96,7 +98,7 @@ public class ModelGenerator
                         ?? CreateEntity(entityContext, tableSchema);
 
         if (!entity.Properties.IsProcessed)
-            CreateProperties(entity, tableSchema.Columns);
+            CreateProperties(entity, tableSchema);
 
         if (processRelationships && !entity.Relationships.IsProcessed)
             CreateRelationships(entityContext, entity, tableSchema);
@@ -148,7 +150,7 @@ public class ModelGenerator
         entity.IsView = tableSchema is DatabaseView;
 
         bool? isTemporal = tableSchema[SqlServerAnnotationNames.IsTemporal] as bool?;
-        if (isTemporal == true)
+        if (isTemporal == true && _options.Data.Mapping.Temporal)
         {
             entity.TemporalTableName = tableSchema[SqlServerAnnotationNames.TemporalHistoryTableName] as string;
             entity.TemporalTableSchema = tableSchema[SqlServerAnnotationNames.TemporalHistoryTableSchema] as string;
@@ -170,8 +172,9 @@ public class ModelGenerator
     }
 
 
-    private void CreateProperties(Entity entity, IEnumerable<DatabaseColumn> columns)
+    private void CreateProperties(Entity entity, DatabaseTable tableSchema)
     {
+        var columns = tableSchema.Columns;
         foreach (var column in columns)
         {
             var table = column.Table;
@@ -212,6 +215,7 @@ public class ModelGenerator
             property.IsNullable = column.IsNullable;
 
             property.IsRowVersion = column.IsRowVersion();
+            property.IsConcurrencyToken = (bool?)column[ScaffoldingAnnotationNames.ConcurrencyToken] == true;
 
             property.IsPrimaryKey = table.PrimaryKey?.Columns.Contains(column) == true;
             property.IsForeignKey = table.ForeignKeys.Any(c => c.Columns.Contains(column));
@@ -219,7 +223,9 @@ public class ModelGenerator
             property.IsUnique = table.UniqueConstraints.Any(c => c.Columns.Contains(column))
                                 || table.Indexes.Where(i => i.IsUnique).Any(c => c.Columns.Contains(column));
 
+            property.DefaultValue = column.DefaultValue;
             property.Default = column.DefaultValueSql;
+
             property.ValueGenerated = column.ValueGenerated;
 
             if (property.ValueGenerated == null && !string.IsNullOrWhiteSpace(column.ComputedColumnSql))
@@ -231,10 +237,67 @@ public class ModelGenerator
             property.SystemType = mapping.ClrType;
             property.Size = mapping.Size;
 
+            // overwrite row version type
+            if (property.IsRowVersion == true && _options.Data.Mapping.RowVersion != RowVersionMapping.ByteArray && property.SystemType == typeof(byte[]))
+            {
+                property.SystemType = _options.Data.Mapping.RowVersion switch
+                {
+                    RowVersionMapping.ByteArray => typeof(byte[]),
+                    RowVersionMapping.Long => typeof(long),
+                    RowVersionMapping.ULong => typeof(ulong),
+                    _ => typeof(byte[])
+                };
+            }
+
             property.IsProcessed = true;
         }
 
         entity.Properties.IsProcessed = true;
+
+
+        bool? isTemporal = tableSchema[SqlServerAnnotationNames.IsTemporal] as bool?;
+        if (isTemporal != true || _options.Data.Mapping.Temporal)
+            return;
+
+        // add temporal period columns
+        var temporalStartColumn = tableSchema[SqlServerAnnotationNames.TemporalPeriodStartColumnName] as string
+                                  ?? tableSchema[SqlServerAnnotationNames.TemporalPeriodStartPropertyName] as string;
+
+        var temporalStart = entity.Properties.ByColumn(temporalStartColumn);
+
+        if (temporalStart == null)
+        {
+            temporalStart = new Property { Entity = entity, ColumnName = temporalStartColumn };
+            entity.Properties.Add(temporalStart);
+        }
+
+        temporalStart.PropertyName = ToPropertyName(entity.EntityClass, temporalStartColumn);
+        temporalStart.ValueGenerated = ValueGenerated.OnAddOrUpdate;
+        temporalStart.StoreType = "datetime2";
+        temporalStart.DataType = DbType.DateTime2;
+        temporalStart.SystemType = typeof(DateTime);
+
+        temporalStart.IsProcessed = true;
+
+
+        var temporalEndColumn = tableSchema[SqlServerAnnotationNames.TemporalPeriodEndColumnName] as string
+                                ?? tableSchema[SqlServerAnnotationNames.TemporalPeriodEndPropertyName] as string;
+
+        var temporalEnd = entity.Properties.ByColumn(temporalEndColumn);
+
+        if (temporalEnd == null)
+        {
+            temporalEnd = new Property { Entity = entity, ColumnName = temporalEndColumn };
+            entity.Properties.Add(temporalEnd);
+        }
+
+        temporalEnd.PropertyName = ToPropertyName(entity.EntityClass, temporalEndColumn);
+        temporalEnd.ValueGenerated = ValueGenerated.OnAddOrUpdate;
+        temporalEnd.StoreType = "datetime2";
+        temporalEnd.DataType = DbType.DateTime2;
+        temporalEnd.SystemType = typeof(DateTime);
+
+        temporalEnd.IsProcessed = true;
     }
 
 

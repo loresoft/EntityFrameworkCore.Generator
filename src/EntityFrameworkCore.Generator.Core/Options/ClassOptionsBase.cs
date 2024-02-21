@@ -51,13 +51,4 @@ public abstract class ClassOptionsBase : OptionsBase
     /// </value>
     [DefaultValue(false)]
     public bool Document { get; set; }
-
-    /// <summary>
-    /// Gets or sets a value indicating whether to use file-scoped namespace.
-    /// </summary>
-    /// <value>
-    ///   <c>true</c> to use file-coped namespace; otherwise, <c>false</c>.
-    /// </value>
-    [Obsolete("Use ProjectOptions.FileScopedNamespace instead")]
-    public bool? FileScopedNamespace { get; set; }
 }

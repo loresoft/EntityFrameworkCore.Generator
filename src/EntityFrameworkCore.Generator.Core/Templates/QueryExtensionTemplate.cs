@@ -34,6 +34,7 @@ public class QueryExtensionTemplate : CodeTemplateBase
         if (Options.Project.FileScopedNamespace)
         {
             CodeBuilder.AppendLine(";");
+            CodeBuilder.AppendLine();
             GenerateClass();
         }
         else
@@ -158,6 +159,10 @@ public class QueryExtensionTemplate : CodeTemplateBase
             CodeBuilder.AppendLine("/// </summary>");
             CodeBuilder.AppendLine("/// <param name=\"queryable\">An <see cref=\"T:System.Linq.IQueryable`1\" /> to filter.</param>");
             AppendDocumentation(method);
+
+            if (async)
+                CodeBuilder.AppendLine("/// <param name=\"cancellationToken\">A <see cref=\"System.Threading.CancellationToken\" /> to observe while waiting for the task to complete.</param>");
+
             CodeBuilder.AppendLine($"/// <returns>An instance of <see cref=\"T:{safeName}\"/> or null if not found.</returns>");
         }
 
@@ -210,6 +215,10 @@ public class QueryExtensionTemplate : CodeTemplateBase
             CodeBuilder.AppendLine("/// </summary>");
             CodeBuilder.AppendLine("/// <param name=\"queryable\">An <see cref=\"T:System.Linq.IQueryable`1\" /> to filter.</param>");
             AppendDocumentation(method);
+
+            if (async)
+                CodeBuilder.AppendLine("/// <param name=\"cancellationToken\">A <see cref=\"System.Threading.CancellationToken\" /> to observe while waiting for the task to complete.</param>");
+
             CodeBuilder.AppendLine($"/// <returns>An instance of <see cref=\"T:{safeName}\"/> or null if not found.</returns>");
         }
 

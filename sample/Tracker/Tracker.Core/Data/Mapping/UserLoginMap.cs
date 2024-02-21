@@ -77,7 +77,8 @@ public partial class UserLoginMap
         builder.Property(t => t.IsSuccessful)
             .IsRequired()
             .HasColumnName("IsSuccessful")
-            .HasColumnType("bit");
+            .HasColumnType("bit")
+            .HasDefaultValue(false);
 
         builder.Property(t => t.FailureMessage)
             .HasColumnName("FailureMessage")
@@ -109,6 +110,7 @@ public partial class UserLoginMap
         builder.Property(t => t.RowVersion)
             .IsRequired()
             .IsRowVersion()
+            .IsConcurrencyToken()
             .HasColumnName("RowVersion")
             .HasColumnType("rowversion")
             .HasMaxLength(8)
