@@ -1,4 +1,4 @@
-﻿namespace EntityFrameworkCore.Generator.Options;
+namespace EntityFrameworkCore.Generator.Options;
 
 /// <summary>
 /// Validator class options
@@ -26,28 +26,4 @@ public class ValidatorClassOptions : ClassOptionsBase
     ///   <c>true</c> to generate; otherwise, <c>false</c>.
     /// </value>
     public bool Generate { get; set; }
-
-    /// <summary>
-    /// Gets or sets the validator class name template.
-    /// </summary>
-    /// <value>
-    /// The validator class name template.
-    /// </value>
-    public string Name
-    {
-        get => GetProperty();
-        set => SetProperty(value);
-    }
-
-    /// <summary>
-    /// Gets or sets the base class to inherit from.
-    /// </summary>
-    /// <value>
-    /// The base class.
-    /// </value>
-    public string BaseClass
-    {
-        get => GetProperty();
-        set => SetProperty(value);
-    }
 }

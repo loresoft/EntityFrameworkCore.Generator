@@ -1,4 +1,4 @@
-﻿using System.ComponentModel;
+using System.ComponentModel;
 
 using Microsoft.EntityFrameworkCore;
 
@@ -22,30 +22,6 @@ public class ContextClassOptions : ClassOptionsBase
         Name = "{Database.Name}Context";
         BaseClass = "DbContext";
         PropertyNaming = ContextNaming.Plural;
-    }
-
-    /// <summary>
-    /// Gets or sets the class name for the generated <see cref="DbContext"/> file.
-    /// </summary>
-    /// <value>
-    /// The class name for the <see cref="DbContext"/> file.
-    /// </value>
-    public string Name
-    {
-        get => GetProperty();
-        set => SetProperty(value);
-    }
-
-    /// <summary>
-    /// Gets or sets the base class to inherit from. Default is <see cref="DbContext"/>.
-    /// </summary>
-    /// <value>
-    /// The base class.
-    /// </value>
-    public string BaseClass
-    {
-        get => GetProperty();
-        set => SetProperty(value);
     }
 
     /// <summary>

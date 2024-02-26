@@ -60,7 +60,10 @@ public class ValidatorClassTemplate : CodeTemplateBase
             CodeBuilder.AppendLine($"/// Validator class for <see cref=\"{modelClass}\"/> .");
             CodeBuilder.AppendLine("/// </summary>");
         }
-
+        if (Options.Model.Validator.Attributes.HasValue())
+        {
+            CodeBuilder.AppendLine(Options.Model.Validator.Attributes);
+        }
         CodeBuilder.AppendLine($"public partial class {validatorClass}");
 
         if (_model.ValidatorBaseClass.HasValue())

@@ -16,6 +16,7 @@ public class MappingClassOptions : ClassOptionsBase
     {
         Namespace = "{Project.Namespace}.Data.Mapping";
         Directory = @"{Project.Directory}\Data\Mapping";
+        Name = "{Entity.Name}Map";
     }
 
     /// <summary>

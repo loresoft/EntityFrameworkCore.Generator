@@ -108,7 +108,7 @@ public class InitializeCommand : OptionsCommandBase
         options.Model.Update.Generate = true;
         options.Model.Validator.Generate = true;
         options.Model.Mapper.Generate = true;
-        
+
         Logger.LogInformation($"Creating options file: {optionsFile}");
 
         return options;

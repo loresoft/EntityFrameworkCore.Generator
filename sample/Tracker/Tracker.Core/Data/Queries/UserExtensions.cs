@@ -31,6 +31,7 @@ public static partial class UserExtensions
     /// </summary>
     /// <param name="queryable">An <see cref="T:System.Linq.IQueryable`1" /> to filter.</param>
     /// <param name="emailAddress">The value to filter by.</param>
+    /// <param name="cancellationToken">A <see cref="System.Threading.CancellationToken" /> to observe while waiting for the task to complete.</param>
     /// <returns>An instance of <see cref="T:Tracker.Core.Data.Entities.User"/> or null if not found.</returns>
     public static async System.Threading.Tasks.Task<Tracker.Core.Data.Entities.User?> GetByEmailAddressAsync(this System.Linq.IQueryable<Tracker.Core.Data.Entities.User> queryable, string emailAddress, System.Threading.CancellationToken cancellationToken = default)
     {
@@ -62,6 +63,7 @@ public static partial class UserExtensions
     /// </summary>
     /// <param name="queryable">An <see cref="T:System.Linq.IQueryable`1" /> to filter.</param>
     /// <param name="id">The value to filter by.</param>
+    /// <param name="cancellationToken">A <see cref="System.Threading.CancellationToken" /> to observe while waiting for the task to complete.</param>
     /// <returns>An instance of <see cref="T:Tracker.Core.Data.Entities.User"/> or null if not found.</returns>
     public static async System.Threading.Tasks.ValueTask<Tracker.Core.Data.Entities.User?> GetByKeyAsync(this System.Linq.IQueryable<Tracker.Core.Data.Entities.User> queryable, Guid id, System.Threading.CancellationToken cancellationToken = default)
     {

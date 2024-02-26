@@ -56,7 +56,10 @@ public class ModelClassTemplate : CodeTemplateBase
             CodeBuilder.AppendLine("/// View Model class");
             CodeBuilder.AppendLine("/// </summary>");
         }
-
+        if (_model.ModelAttributes.HasValue())
+        {
+            CodeBuilder.AppendLine(_model.ModelAttributes);
+        }
         CodeBuilder.AppendLine($"public partial class {modelClass}");
 
         if (_model.ModelBaseClass.HasValue())

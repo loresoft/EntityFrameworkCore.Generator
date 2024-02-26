@@ -25,20 +25,4 @@ public class MapperClass : ClassBase
     ///   <c>true</c> to generate; otherwise, <c>false</c>.
     /// </value>
     public bool Generate { get; set; }
-
-    /// <summary>
-    /// Gets or sets the mapper class name template.
-    /// </summary>
-    /// <value>
-    /// The mapper class name template.
-    /// </value>
-    public string Name { get; set; }
-
-    /// <summary>
-    /// Gets or sets the base class to inherit from.
-    /// </summary>
-    /// <value>
-    /// The base class.
-    /// </value>
-    public string BaseClass { get; set; }
 }

@@ -1,8 +1,13 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 using EntityFrameworkCore.Generator.Options;
 using EntityFrameworkCore.Generator.Serialization;
+
+using Microsoft.CodeAnalysis.Options;
+
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace EntityFrameworkCore.Generator;
 
@@ -58,68 +63,54 @@ public static class OptionMapper
         MapValidator(option.Validator, model.Validator);
     }
 
+    private static void MapClassBase(ClassOptionsBase option, ClassBase classBase)
+    {
+        option.Namespace = classBase.Namespace;
+        option.Directory = classBase.Directory;
+        option.Document = classBase.Document;
+        option.Name = classBase.Name;
+        option.BaseClass = classBase.BaseClass;
+        option.Attributes = classBase.Attributes;
+    }
+
+    private static void MapModelBase(ModelOptionsBase option, ModelBase modelBase)
+    {
+        MapClassBase(option, modelBase);
+
+        option.Generate = modelBase.Generate;
+
+        MapSelection(option.Include, modelBase.Include);
+        MapSelection(option.Exclude, modelBase.Exclude);
+
+    }
+
     private static void MapValidator(ValidatorClassOptions option, ValidatorClass validator)
     {
-        option.Namespace = validator.Namespace;
-        option.Directory = validator.Directory;
-        option.Document = validator.Document;
+        MapClassBase(option, validator);
 
         option.Generate = validator.Generate;
-        option.Name = validator.Name;
-        option.BaseClass = validator.BaseClass;
     }
 
     private static void MapMapper(MapperClassOptions option, MapperClass mapper)
     {
-        option.Namespace = mapper.Namespace;
-        option.Directory = mapper.Directory;
-        option.Document = mapper.Document;
+        MapClassBase(option, mapper);
 
         option.Generate = mapper.Generate;
-        option.Name = mapper.Name;
-        option.BaseClass = mapper.BaseClass;
     }
 
     private static void MapUpdate(UpdateModelOptions option, UpdateModel update)
     {
-        option.Namespace = update.Namespace;
-        option.Directory = update.Directory;
-        option.Document = update.Document;
-
-        option.Generate = update.Generate;
-        option.Name = update.Name;
-        option.BaseClass = update.BaseClass;
-
-        MapSelection(option.Include, update.Include);
-        MapSelection(option.Exclude, update.Exclude);
+        MapModelBase(option, update);
     }
 
     private static void MapCreate(CreateModelOptions option, CreateModel create)
     {
-        option.Namespace = create.Namespace;
-        option.Directory = create.Directory;
-        option.Document = create.Document;
-
-        option.Generate = create.Generate;
-        option.Name = create.Name;
-        option.BaseClass = create.BaseClass;
-
-        MapSelection(option.Include, create.Include);
-        MapSelection(option.Exclude, create.Exclude);
+        MapModelBase(option, create);
     }
 
     private static void MapRead(ReadModelOptions option, ReadModel read)
     {
-        option.Namespace = read.Namespace;
-        option.Directory = read.Directory;
-        option.Document = read.Document;
-
-        option.Generate = read.Generate;
-        option.Name = read.Name;
-        option.BaseClass = read.BaseClass;
-
-        MapSelection(option.Include, read.Include);
-        MapSelection(option.Exclude, read.Exclude);
+        MapModelBase(option, read);
     }
 
     private static void MapShared(SharedModelOptions option, SharedModel shared)
@@ -141,9 +132,7 @@ public static class OptionMapper
 
     private static void MapQuery(QueryExtensionOptions option, QueryExtension query)
     {
-        option.Namespace = query.Namespace;
-        option.Directory = query.Directory;
-        option.Document = query.Document;
+        MapClassBase(option, query);
 
         option.Generate = query.Generate;
         option.IndexPrefix = query.IndexPrefix;
@@ -152,21 +141,16 @@ public static class OptionMapper
 
     private static void MapMapping(MappingClassOptions option, MappingClass mapping)
     {
-        option.Namespace = mapping.Namespace;
-        option.Directory = mapping.Directory;
-        option.Document = mapping.Document;
+        MapClassBase(option, mapping);
+
         option.Temporal = mapping.Temporal;
         option.RowVersion = mapping.RowVersion;
     }
 
     private static void MapEntity(EntityClassOptions option, EntityClass entity)
     {
-        option.Namespace = entity.Namespace;
-        option.Directory = entity.Directory;
-        option.Document = entity.Document;
+        MapClassBase(option, entity);
 
-        option.Name = entity.Name;
-        option.BaseClass = entity.BaseClass;
         option.EntityNaming = entity.EntityNaming;
         option.RelationshipNaming = entity.RelationshipNaming;
         option.PrefixWithSchemaName = entity.PrefixWithSchemaName;
@@ -194,12 +178,8 @@ public static class OptionMapper
 
     private static void MapContext(ContextClassOptions option, ContextClass context)
     {
-        option.Namespace = context.Namespace;
-        option.Directory = context.Directory;
-        option.Document = context.Document;
+        MapClassBase(option, context);
 
-        option.Name = context.Name;
-        option.BaseClass = context.BaseClass;
         option.PropertyNaming = context.PropertyNaming;
     }
 

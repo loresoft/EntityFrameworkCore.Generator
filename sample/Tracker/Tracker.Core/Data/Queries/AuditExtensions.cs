@@ -34,6 +34,7 @@ public static partial class AuditExtensions
     /// </summary>
     /// <param name="queryable">An <see cref="T:System.Linq.IQueryable`1" /> to filter.</param>
     /// <param name="id">The value to filter by.</param>
+    /// <param name="cancellationToken">A <see cref="System.Threading.CancellationToken" /> to observe while waiting for the task to complete.</param>
     /// <returns>An instance of <see cref="T:Tracker.Core.Data.Entities.Audit"/> or null if not found.</returns>
     public static async System.Threading.Tasks.ValueTask<Tracker.Core.Data.Entities.Audit?> GetByKeyAsync(this System.Linq.IQueryable<Tracker.Core.Data.Entities.Audit> queryable, Guid id, System.Threading.CancellationToken cancellationToken = default)
     {

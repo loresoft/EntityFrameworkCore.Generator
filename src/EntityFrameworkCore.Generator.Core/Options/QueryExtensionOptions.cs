@@ -1,4 +1,4 @@
-﻿namespace EntityFrameworkCore.Generator.Options;
+namespace EntityFrameworkCore.Generator.Options;
 
 /// <summary>
 /// Query extensions options
@@ -14,6 +14,7 @@ public class QueryExtensionOptions : ClassOptionsBase
     {
         Namespace = "{Project.Namespace}.Data.Queries";
         Directory = @"{Project.Directory}\Data\Queries";
+        Name = "{Entity.Name}Extensions";
 
         Generate = false;
         IndexPrefix = "By";

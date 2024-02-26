@@ -79,4 +79,5 @@ model:
     baseClass: 'AbstractValidator<{Model.Name}>'
     namespace: '{Project.Namespace}.Domain.Validation'
     directory: '{Project.Directory}\Domain\{Entity.Name}\Validation'
+    attributes: '[RegisterSingleton<IValidator<{Model.Name}>>]'
     document: true

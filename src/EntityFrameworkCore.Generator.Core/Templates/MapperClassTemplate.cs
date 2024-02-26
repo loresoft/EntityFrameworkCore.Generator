@@ -69,7 +69,10 @@ public class MapperClassTemplate : CodeTemplateBase
             CodeBuilder.AppendLine($"/// Mapper class for entity <see cref=\"{entityClass}\"/> .");
             CodeBuilder.AppendLine("/// </summary>");
         }
-
+        if (Options.Model.Mapper.Attributes.HasValue())
+        {
+            CodeBuilder.AppendLine(Options.Model.Mapper.Attributes);
+        }
         CodeBuilder.AppendLine($"public partial class {mapperClass}");
 
         if (_entity.MapperBaseClass.HasValue())

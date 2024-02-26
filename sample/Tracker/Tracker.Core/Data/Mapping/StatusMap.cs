@@ -45,7 +45,7 @@ public partial class StatusMap
             .IsRequired()
             .HasColumnName("DisplayOrder")
             .HasColumnType("int")
-            .HasDefaultValueSql("((0))");
+            .HasDefaultValue(0);
 
         builder.Property(t => t.IsActive)
             .IsRequired()

@@ -16,8 +16,6 @@ using Microsoft.EntityFrameworkCore.SqlServer.Metadata.Internal;
 using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.Extensions.Logging;
 
-using static Npgsql.Replication.PgOutput.Messages.RelationMessage;
-
 using Model = EntityFrameworkCore.Generator.Metadata.Generation.Model;
 using Property = EntityFrameworkCore.Generator.Metadata.Generation.Property;
 using PropertyCollection = EntityFrameworkCore.Generator.Metadata.Generation.PropertyCollection;
@@ -537,7 +535,8 @@ public class ModelGenerator
             ModelType = modelType,
             ModelBaseClass = options.BaseClass,
             ModelNamespace = modelNamespace,
-            ModelClass = modelClass
+            ModelClass = modelClass,
+            ModelAttributes = options.Attributes,
         };
 
         foreach (var property in entity.Properties)

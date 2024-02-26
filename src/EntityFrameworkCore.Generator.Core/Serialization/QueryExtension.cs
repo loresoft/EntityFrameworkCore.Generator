@@ -12,6 +12,7 @@ public class QueryExtension : ClassBase
     {
         Namespace = "{Project.Namespace}.Data.Queries";
         Directory = @"{Project.Directory}\Data\Queries";
+        Name = "{Entity.Name}Extensions";
 
         Generate = false;
         IndexPrefix = "By";

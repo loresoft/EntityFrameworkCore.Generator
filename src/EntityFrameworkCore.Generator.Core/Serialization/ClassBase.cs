@@ -31,4 +31,28 @@ public abstract class ClassBase
     /// </value>
     [DefaultValue(false)]
     public bool Document { get; set; }
+
+    /// <summary>
+    /// Gets or sets the class name template.
+    /// </summary>
+    /// <value>
+    /// The class name template.
+    /// </value>
+    public string Name { get; set; }
+
+    /// <summary>
+    /// Gets or sets the base class to inherit from.
+    /// </summary>
+    /// <value>
+    /// The base class.
+    /// </value>
+    public string BaseClass { get; set; }
+
+    /// <summary>
+    /// Gets or sets the attributes to add to the class
+    /// </summary>
+    /// <value>
+    /// The attributes to add to the class
+    /// </value>
+    public string Attributes { get; set; }
 }

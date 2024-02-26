@@ -64,7 +64,7 @@ public partial class UserMap
             .IsRequired()
             .HasColumnName("AccessFailedCount")
             .HasColumnType("int")
-            .HasDefaultValueSql("((0))");
+            .HasDefaultValue(0);
 
         builder.Property(t => t.LockoutEnabled)
             .IsRequired()

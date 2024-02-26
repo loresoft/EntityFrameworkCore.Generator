@@ -3,6 +3,7 @@ using System.IO;
 using System.Reflection;
 
 using EntityFrameworkCore.Generator.Options;
+using EntityFrameworkCore.Generator.Serialization;
 
 using FluentAssertions;
 
@@ -28,7 +29,7 @@ public class OptionsTests
     [Fact]
     public void SaveDefault()
     {
-        var generatorOptions = new GeneratorOptions();
+        var generatorOptions = new GeneratorModel();
         // set user secret values
         generatorOptions.Database.UserSecretsId = Guid.NewGuid().ToString();
         generatorOptions.Database.ConnectionName = "ConnectionStrings:Generator";
@@ -42,9 +43,9 @@ public class OptionsTests
         generatorOptions.Model.Mapper.Generate = true;
 
         var serializer = new SerializerBuilder()
+            .ConfigureDefaultValuesHandling(DefaultValuesHandling.OmitDefaults)
             .WithNamingConvention(CamelCaseNamingConvention.Instance)
             .Build();
-
 
         var yaml = serializer.Serialize(generatorOptions);
 

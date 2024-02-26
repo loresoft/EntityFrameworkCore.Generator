@@ -26,21 +26,13 @@ public class ContextClass : ClassBase
     }
 
     /// <summary>
-    /// Gets or sets the class name for the generated <see cref="DbContext"/> file.
-    /// </summary>
-    /// <value>
-    /// The class name for the <see cref="DbContext"/> file.
-    /// </value>
-    public string Name { get; set; }
-
-    /// <summary>
     /// Gets or sets the base class to inherit from. Default is <see cref="DbContext"/>.
     /// </summary>
     /// <value>
     /// The base class.
     /// </value>
     [DefaultValue("DbContext")]
-    public string BaseClass { get; set; }
+    public new string BaseClass { get; set; }
 
     /// <summary>
     /// Gets or sets the property naming strategy for entity data set property.

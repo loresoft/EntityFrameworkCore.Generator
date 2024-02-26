@@ -1,4 +1,4 @@
-﻿namespace EntityFrameworkCore.Generator.Metadata.Generation;
+namespace EntityFrameworkCore.Generator.Metadata.Generation;
 
 public class Model : ModelBase, IOptionVariable
 {
@@ -17,6 +17,8 @@ public class Model : ModelBase, IOptionVariable
 
     public string ModelBaseClass { get; set; }
 
+    public string ModelAttributes { get; set; }
+
 
     public string ValidatorNamespace { get; set; }
 
@@ -26,7 +28,6 @@ public class Model : ModelBase, IOptionVariable
 
 
     public PropertyCollection Properties { get; set; }
-
 
     void IOptionVariable.Set(VariableDictionary variableDictionary)
     {
