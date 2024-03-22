@@ -20,6 +20,7 @@ public class EntityClassOptions : ClassOptionsBase
         RelationshipNaming = RelationshipNaming.Plural;
         EntityNaming = EntityNaming.Singular;
         PrefixWithSchemaName = false;
+        GeneratePkValue = false;
 
         Renaming = new SelectionOptions(variables, AppendPrefix(prefix, "Naming"));
     }
@@ -79,4 +80,10 @@ public class EntityClassOptions : ClassOptionsBase
     /// The renaming expressions.
     /// </value>
     public SelectionOptions Renaming { get; }
+
+    /// <summary>
+    /// If true, the primary key property will have a value generated in the constructor
+    /// </summary>
+    [DefaultValue(false)]
+    public bool GeneratePkValue { get; set; }
 }

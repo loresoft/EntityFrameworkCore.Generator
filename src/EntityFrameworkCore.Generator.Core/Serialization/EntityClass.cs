@@ -21,6 +21,7 @@ public class EntityClass : ClassBase
         RelationshipNaming = RelationshipNaming.Plural;
         EntityNaming = EntityNaming.Singular;
         PrefixWithSchemaName = false;
+        GeneratePkValue = false;
     }
 
     /// <summary>
@@ -70,4 +71,10 @@ public class EntityClass : ClassBase
     /// The renaming expressions.
     /// </value>
     public SelectionModel Renaming { get; set; }
+
+    /// <summary>
+    /// If true, the primary key property will have a value generated in the constructor
+    /// </summary>
+    [DefaultValue(false)]
+    public bool GeneratePkValue { get; set; }
 }
