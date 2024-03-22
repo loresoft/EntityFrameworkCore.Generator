@@ -70,4 +70,9 @@ public class EntityClass : ClassBase
     /// The renaming expressions.
     /// </value>
     public SelectionModel Renaming { get; set; }
+
+    /// <summary>
+    /// Additional using statements, ;-separated - example: MyLib;MyLib.Data;MyLib.Domain;MyLib.Domain.Interfaces
+    /// </summary>
+    public string AdditionalUsings { get; set; }
 }
