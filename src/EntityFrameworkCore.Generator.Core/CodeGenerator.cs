@@ -436,24 +436,28 @@ public class CodeGenerator : ICodeGenerator
     {
         var designTimeServices = new Pomelo.EntityFrameworkCore.MySql.Design.Internal.MySqlDesignTimeServices();
         designTimeServices.ConfigureDesignTimeServices(services);
+            services.AddEntityFrameworkMySqlNetTopologySuite();
     }
 
     private void ConfigurePostgresServices(IServiceCollection services)
     {
         var designTimeServices = new Npgsql.EntityFrameworkCore.PostgreSQL.Design.Internal.NpgsqlDesignTimeServices();
         designTimeServices.ConfigureDesignTimeServices(services);
+            services.AddEntityFrameworkNpgsqlNetTopologySuite();
     }
 
     private void ConfigureSqlServerServices(IServiceCollection services)
     {
         var designTimeServices = new Microsoft.EntityFrameworkCore.SqlServer.Design.Internal.SqlServerDesignTimeServices();
         designTimeServices.ConfigureDesignTimeServices(services);
+            services.AddEntityFrameworkSqlServerNetTopologySuite();
     }
 
     private void ConfigureSqliteServices(IServiceCollection services)
     {
         var designTimeServices = new Microsoft.EntityFrameworkCore.Sqlite.Design.Internal.SqliteDesignTimeServices();
         designTimeServices.ConfigureDesignTimeServices(services);
+            services.AddEntityFrameworkSqliteNetTopologySuite();
     }
 
     private void ConfigureOracleServices(IServiceCollection services)
