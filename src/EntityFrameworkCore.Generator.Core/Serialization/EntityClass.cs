@@ -70,4 +70,9 @@ public class EntityClass : ClassBase
     /// The renaming expressions.
     /// </value>
     public SelectionModel Renaming { get; set; }
+
+    /// <summary>
+    /// Attributes which are added to the generated relationships, ;-separated
+    /// </summary>
+    public string RelationshipAttributes { get; set; }
 }

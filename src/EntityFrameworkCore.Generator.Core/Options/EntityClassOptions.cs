@@ -79,4 +79,9 @@ public class EntityClassOptions : ClassOptionsBase
     /// The renaming expressions.
     /// </value>
     public SelectionOptions Renaming { get; }
+
+    /// <summary>
+    /// Attributes which are added to the generated relationships, ;-separated
+    /// </summary>
+    public string RelationshipAttributes { get; set; }
 }
