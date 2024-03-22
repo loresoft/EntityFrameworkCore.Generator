@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
 
@@ -10,6 +10,7 @@
     <None Remove="Options\full.yaml" />
     <None Remove="Scripts\Script001.Tracker.Schema.sql" />
     <None Remove="Scripts\Script002.Tracker.Data.sql" />
+    <None Remove="Scripts\Script003.Tracker.User.sql" />
   </ItemGroup>
 
   <ItemGroup>

@@ -365,7 +365,15 @@ public class CodeGenerator : ICodeGenerator
         _logger.LogInformation("Loading database model ...");
 
         var database = Options.Database;
+
+        //do not evaluate connection string resolving (cfr. { or } in password => crash)
+        var shouldEvaluate = Options.Variables.ShouldEvaluate;
+        Options.Variables.ShouldEvaluate = false;
+
         var connectionString = ResolveConnectionString(database);
+
+        Options.Variables.ShouldEvaluate = shouldEvaluate;
+
         var options = new DatabaseModelFactoryOptions(database.Tables, database.Schemas);
 
         return factory.Create(connectionString, options);
