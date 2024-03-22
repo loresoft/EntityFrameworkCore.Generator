@@ -25,30 +25,6 @@ public class EntityClassOptions : ClassOptionsBase
     }
 
     /// <summary>
-    /// Gets or sets the entity class name template.
-    /// </summary>
-    /// <value>
-    /// The entity class name template.
-    /// </value>
-    public string Name
-    {
-        get => GetProperty();
-        set => SetProperty(value);
-    }
-
-    /// <summary>
-    /// Gets or sets the base class to inherit from.
-    /// </summary>
-    /// <value>
-    /// The base class.
-    /// </value>
-    public string BaseClass
-    {
-        get => GetProperty();
-        set => SetProperty(value);
-    }
-
-    /// <summary>
     /// Gets or sets the entity class naming strategy.
     /// </summary>
     /// <value>
