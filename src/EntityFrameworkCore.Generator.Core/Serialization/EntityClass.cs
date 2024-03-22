@@ -24,22 +24,6 @@ public class EntityClass : ClassBase
     }
 
     /// <summary>
-    /// Gets or sets the entity class name template.
-    /// </summary>
-    /// <value>
-    /// The entity class name template.
-    /// </value>
-    public string Name { get; set; }
-
-    /// <summary>
-    /// Gets or sets the base class to inherit from.
-    /// </summary>
-    /// <value>
-    /// The base class.
-    /// </value>
-    public string BaseClass { get; set; }
-
-    /// <summary>
     /// Gets or sets the entity class naming strategy.
     /// </summary>
     /// <value>
