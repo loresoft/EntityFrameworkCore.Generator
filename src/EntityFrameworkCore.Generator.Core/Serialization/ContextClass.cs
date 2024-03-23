@@ -26,15 +26,6 @@ public class ContextClass : ClassBase
     }
 
     /// <summary>
-    /// Gets or sets the base class to inherit from. Default is <see cref="DbContext"/>.
-    /// </summary>
-    /// <value>
-    /// The base class.
-    /// </value>
-    [DefaultValue("DbContext")]
-    public new string BaseClass { get; set; }
-
-    /// <summary>
     /// Gets or sets the property naming strategy for entity data set property.
     /// </summary>
     /// <value>
