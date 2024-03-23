@@ -138,7 +138,7 @@ public class SourceSynchronizer
             // sync releationships
             foreach (var parsedRelationship in parsedEntity.Relationships)
             {
-                var relationship = entity.Relationships.FirstOrDefault(r => r.RelationshipName == parsedRelationship.RelationshipName);
+                var relationship = entity.Relationships.FirstOrDefault(r => r.RelationshipName == parsedRelationship.RelationshipName && r.IsForeignKey);
                 if (relationship == null)
                     continue;
 
@@ -195,7 +195,7 @@ public class SourceSynchronizer
         }
 
         var primaryEntity = relationship.PrimaryEntity;
-        var primaryRelationship = primaryEntity.Relationships.FirstOrDefault(r => r.RelationshipName == parsedRelationship.RelationshipName);
+        var primaryRelationship = primaryEntity.Relationships.FirstOrDefault(r => r.RelationshipName == parsedRelationship.RelationshipName && !r.IsForeignKey);
 
         if (primaryRelationship == null)
             return;

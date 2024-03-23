@@ -323,9 +323,6 @@ public class ModelGenerator
         string primaryName = primaryEntity.EntityClass;
         string foreignName = foreignEntity.EntityClass;
 
-        string relationshipName = tableKeySchema.Name;
-        relationshipName = _namer.UniqueRelationshipName(relationshipName);
-
         var foreignMembers = GetKeyMembers(foreignEntity, tableKeySchema.Columns, tableKeySchema.Name);
         bool foreignMembersRequired = foreignMembers.Any(c => c.IsRequired);
 
@@ -335,6 +332,14 @@ public class ModelGenerator
         // skip invalid fkeys
         if (foreignMembers.Count == 0 || primaryMembers.Count == 0)
             return;
+
+        string relationshipName = tableKeySchema.Name;
+
+        // ensure relationship name for sync support
+        if (relationshipName.IsNullOrEmpty())
+            relationshipName = $"FK_{foreignName}_{primaryName}_{primaryMembers.Select(p => p.PropertyName).ToDelimitedString("_")}";
+
+        relationshipName = _namer.UniqueRelationshipName(relationshipName);
 
         Relationship foreignRelationship = foreignEntity.Relationships
             .FirstOrDefault(r => r.RelationshipName == relationshipName && r.IsForeignKey);
