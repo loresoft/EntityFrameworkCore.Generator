@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.IO;
 using EntityFrameworkCore.Generator.Extensions;
 using EntityFrameworkCore.Generator.Metadata.Generation;
@@ -366,13 +366,7 @@ public class CodeGenerator : ICodeGenerator
 
         var database = Options.Database;
 
-        //do not evaluate connection string resolving (cfr. { or } in password => crash)
-        var shouldEvaluate = Options.Variables.ShouldEvaluate;
-        Options.Variables.ShouldEvaluate = false;
-
         var connectionString = ResolveConnectionString(database);
-
-        Options.Variables.ShouldEvaluate = shouldEvaluate;
 
         var options = new DatabaseModelFactoryOptions(database.Tables, database.Schemas);
 

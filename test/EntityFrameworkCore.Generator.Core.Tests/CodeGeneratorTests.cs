@@ -1,8 +1,13 @@
-using EntityFrameworkCore.Generator.Options;
-using FluentAssertions;
-using FluentCommand.SqlServer.Tests;
-using Microsoft.Extensions.Logging.Abstractions;
 using System.IO;
+
+using EntityFrameworkCore.Generator.Options;
+
+using FluentAssertions;
+
+using FluentCommand.SqlServer.Tests;
+
+using Microsoft.Extensions.Logging.Abstractions;
+
 using Xunit;
 using Xunit.Abstractions;
 
@@ -40,39 +45,40 @@ public class CodeGeneratorTests : DatabaseTestBase
 
         result.Should().BeTrue();
     }
-        [Fact]
-        public void GenerateSpatial()
-        {
-            var generatorOptions = new GeneratorOptions();
-            generatorOptions.Database.ConnectionString = Database.ConnectionString;
 
-            var generator = new CodeGenerator(NullLoggerFactory.Instance);
-            var result = generator.Generate(generatorOptions);
+    [Fact]
+    public void GenerateSpatial()
+    {
+        var generatorOptions = new GeneratorOptions();
+        generatorOptions.Database.ConnectionString = Database.ConnectionString;
 
-            result.Should().BeTrue();
+        var generator = new CodeGenerator(NullLoggerFactory.Instance);
+        var result = generator.Generate(generatorOptions);
 
-            const string spatialTableName = "CitiesSpatial";
+        result.Should().BeTrue();
 
-            var citiesSpatialEntityFile  = Path.Combine(generatorOptions.Data.Entity.Directory, spatialTableName + ".cs");
-            var citiesSpatialMappingFile = Path.Combine(generatorOptions.Data.Mapping.Directory, spatialTableName + "Map.cs");
+        const string spatialTableName = "CitiesSpatial";
 
-            var citiesSpatialEntityContent  = File.ReadAllText(citiesSpatialEntityFile);
-            var citiesSpatialMappingContent = File.ReadAllText(citiesSpatialMappingFile);
+        var citiesSpatialEntityFile = Path.Combine(generatorOptions.Data.Entity.Directory, spatialTableName + ".cs");
+        var citiesSpatialMappingFile = Path.Combine(generatorOptions.Data.Mapping.Directory, spatialTableName + "Map.cs");
 
-            citiesSpatialEntityContent.Contains("public NetTopologySuite.Geometries.Geometry GeometryField { get; set; }").Should().BeTrue();
-            citiesSpatialEntityContent.Contains("public NetTopologySuite.Geometries.Geometry GeographyField { get; set; }").Should().BeTrue();
+        var citiesSpatialEntityContent = File.ReadAllText(citiesSpatialEntityFile);
+        var citiesSpatialMappingContent = File.ReadAllText(citiesSpatialMappingFile);
 
-            citiesSpatialMappingContent.Contains("builder.Property(t => t.GeometryField)" + System.Environment.NewLine +
+        citiesSpatialEntityContent.Contains("public NetTopologySuite.Geometries.Geometry GeometryField { get; set; }").Should().BeTrue();
+        citiesSpatialEntityContent.Contains("public NetTopologySuite.Geometries.Geometry GeographyField { get; set; }").Should().BeTrue();
+
+        citiesSpatialMappingContent.Contains("builder.Property(t => t.GeometryField)" + System.Environment.NewLine +
 "                .IsRequired()" + System.Environment.NewLine +
 "                .HasColumnName(\"GeometryField\")" + System.Environment.NewLine +
 "                .HasColumnType(\"geometry\");").Should().BeTrue();
 
-            citiesSpatialMappingContent.Contains("builder.Property(t => t.GeographyField)" + System.Environment.NewLine +
+        citiesSpatialMappingContent.Contains("builder.Property(t => t.GeographyField)" + System.Environment.NewLine +
 "                .IsRequired()" + System.Environment.NewLine +
 "                .HasColumnName(\"GeographyField\")" + System.Environment.NewLine +
 "                .HasColumnType(\"geography\");").Should().BeTrue();
 
-        }
+    }
 
 }
 

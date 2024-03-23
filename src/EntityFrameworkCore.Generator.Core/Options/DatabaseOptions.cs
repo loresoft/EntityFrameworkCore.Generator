@@ -52,11 +52,7 @@ public class DatabaseOptions : OptionsBase
     /// <value>
     /// The connection string for reverse engineering the database
     /// </value>
-    public string ConnectionString
-    {
-        get => GetProperty();
-        set => SetProperty(value);
-    }
+    public string ConnectionString { get; set; }
 
     /// <summary>
     /// Gets or sets the name of the connection in the user secret file.
@@ -64,11 +60,7 @@ public class DatabaseOptions : OptionsBase
     /// <value>
     /// The name of the connection.
     /// </value>
-    public string ConnectionName
-    {
-        get => GetProperty();
-        set => SetProperty(value);
-    }
+    public string ConnectionName { get; set; }
 
     /// <summary>
     /// Gets or sets the user secrets identifier. A user secrets ID is unique value used to store and identify a collection of secret configuration values.
@@ -76,11 +68,7 @@ public class DatabaseOptions : OptionsBase
     /// <value>
     /// The user secrets identifier.
     /// </value>
-    public string UserSecretsId
-    {
-        get => GetProperty();
-        set => SetProperty(value);
-    }
+    public string UserSecretsId { get; set; }
 
 
     /// <summary>
