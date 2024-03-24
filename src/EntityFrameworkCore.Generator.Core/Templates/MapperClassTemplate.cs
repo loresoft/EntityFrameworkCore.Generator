@@ -127,6 +127,7 @@ public class MapperClassTemplate : CodeTemplateBase
                         break;
                     case ModelType.Create:
                         CodeBuilder.AppendLine($"CreateMap<{modelFullName}, {entityFullName}>();").AppendLine();
+                        CodeBuilder.AppendLine($"CreateMap<{entityFullName}, {modelFullName}>();").AppendLine();
                         break;
                     case ModelType.Update:
                         updateFullName = modelFullName;
