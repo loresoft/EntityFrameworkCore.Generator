@@ -54,4 +54,10 @@ public class EntityClass : ClassBase
     /// The renaming expressions.
     /// </value>
     public SelectionModel Renaming { get; set; }
+
+    /// <summary>
+    /// If true, files without a corresponding database table will be removed in the folder
+    /// </summary>
+    [DefaultValue(false)]
+    public bool DeleteUnusedFiles { get; set; }
 }
