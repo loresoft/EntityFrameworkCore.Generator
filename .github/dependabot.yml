@@ -1,15 +1,57 @@
 version: 2
 updates:
-- package-ecosystem: "github-actions"
-  directory: "/"
-  schedule:
-    interval: daily
-    time: "01:00"   
-  open-pull-requests-limit: 10
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: daily
+      time: "01:00"
+      timezone: "America/Chicago"
+    open-pull-requests-limit: 10
 
-- package-ecosystem: nuget
-  directory: "/"
-  schedule:
-    interval: daily
-    time: "11:00"
-  open-pull-requests-limit: 10
+  - package-ecosystem: nuget
+    directory: "/"
+    schedule:
+      interval: daily
+      time: "02:00"
+      timezone: "America/Chicago"
+    open-pull-requests-limit: 10
+    groups:
+      Azure:
+        patterns:
+          - "Azure.*"
+          - "Microsoft.Azure.*"
+          - "Microsoft.Extensions.Azure"
+      AspNetCoreHealthChecks:
+        patterns:
+          - "AspNetCore.HealthChecks.*"
+      AspNetCore:
+        patterns:
+          - "Microsoft.AspNetCore.*"
+          - "Microsoft.Extensions.Features"
+      MicrosoftExtensions:
+        patterns:
+          - "Microsoft.Extensions.*"
+      EntityFrameworkCore:
+        patterns:
+          - "Microsoft.EntityFrameworkCore.*"
+      OpenTelemetry:
+        patterns:
+          - "OpenTelemetry.*"
+      Serilog:
+        patterns:
+          - "Serilog"
+          - "Serilog.*"
+      Hangfire:
+        patterns:
+          - "Hangfire"
+          - "Hangfire.*"
+      Testcontainers:
+        patterns:
+          - "Testcontainers.*"
+      xUnit:
+        patterns:
+          - "xunit"
+          - "xunit.assert"
+          - "xunit.core"
+          - "xunit.extensibility.*"
+          - "xunit.runner.*"

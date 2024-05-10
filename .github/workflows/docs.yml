@@ -6,10 +6,10 @@ on:
       - master
       - develop
     tags:
-      - 'v*'
+      - "v*"
     paths:
-      - 'docs/**'
-      - 'mkdocs.yml'
+      - "docs/**"
+      - "mkdocs.yml"
 
 permissions:
   contents: write
@@ -37,7 +37,7 @@ jobs:
         uses: actions/upload-pages-artifact@v3
         with:
           name: github-pages
-          path: 'site/'
+          path: "site/"
 
   pages:
     runs-on: ubuntu-latest

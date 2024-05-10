@@ -12,7 +12,7 @@
     <PackageReference Include="Serilog.Extensions.Hosting" Version="8.0.0" />
     <PackageReference Include="Serilog.Sinks.Console" Version="5.0.1" />
   </ItemGroup>
-  
+
   <ItemGroup>
     <ProjectReference Include="..\EntityFrameworkCore.Generator.Core\EntityFrameworkCore.Generator.Core.csproj" />
   </ItemGroup>
