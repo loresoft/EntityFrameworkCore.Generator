@@ -55,4 +55,9 @@ public class EntityClassOptions : ClassOptionsBase
     /// The renaming expressions.
     /// </value>
     public SelectionOptions Renaming { get; }
+
+    /// <summary>
+    /// Additional using statements, ;-separated - example: MyLib;MyLib.Data;MyLib.Domain;MyLib.Domain.Interfaces
+    /// </summary>
+    public string AdditionalUsings { get; set; }
 }
