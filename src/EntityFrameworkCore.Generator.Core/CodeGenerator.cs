@@ -90,6 +90,9 @@ public class CodeGenerator : ICodeGenerator
 
     private void GenerateMappingClasses(EntityContext entityContext)
     {
+        if (Options.Data.Mapping.DeleteUnusedFiles)
+            DeleteUnusedFiles(Options.Data.Mapping.Directory, entityContext.Entities.Select(e => e.MappingClass).ToHashSet(), "mapping");
+
         foreach (var entity in entityContext.Entities)
         {
             Options.Variables.Set(entity);
@@ -111,6 +114,9 @@ public class CodeGenerator : ICodeGenerator
 
     private void GenerateEntityClasses(EntityContext entityContext)
     {
+        if (Options.Data.Entity.DeleteUnusedFiles)
+            DeleteUnusedFiles(Options.Data.Entity.Directory, entityContext.Entities.Select(e => e.EntityClass).ToHashSet(), "entity");
+
         foreach (var entity in entityContext.Entities)
         {
             Options.Variables.Set(entity);
@@ -127,6 +133,20 @@ public class CodeGenerator : ICodeGenerator
             template.WriteCode(path);
 
             Options.Variables.Remove(entity);
+        }
+    }
+
+    private void DeleteUnusedFiles(string directory, HashSet<string> fileNamesToBeGenerated, string fileType)
+    {
+        var existingFiles = Directory.EnumerateFiles(directory, "*.cs");
+        foreach (var existingFile in existingFiles)
+        {
+            var fileName = Path.GetFileNameWithoutExtension(existingFile);
+            if (!fileNamesToBeGenerated.Contains(fileName))
+            {
+                _logger.LogInformation("Deleting {fileType} class: {file}.cs", fileType, fileName);
+                File.Delete(existingFile);
+            }
         }
     }
 
