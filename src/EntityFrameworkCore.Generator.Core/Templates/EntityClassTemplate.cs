@@ -103,6 +103,20 @@ public class EntityClassTemplate : CodeTemplateBase
         using (CodeBuilder.Indent())
         {
             CodeBuilder.AppendLine("#region Generated Constructor");
+
+            if (Options.Data.Entity.GeneratePkValue)
+            {
+                var primaryKeyProperty = _entity.Properties.FirstOrDefault(p => p.IsPrimaryKey == true);
+
+                if (primaryKeyProperty != null && primaryKeyProperty.DataType == System.Data.DbType.Guid)
+                {
+                    var primaryKeyPropertyName = primaryKeyProperty.PropertyName.ToSafeName();
+
+                    CodeBuilder.AppendLine($"{primaryKeyPropertyName} = Guid.NewGuid();");
+                    CodeBuilder.AppendLine();
+                }
+            }
+
             foreach (var relationship in relationships)
             {
                 var propertyName = relationship.PropertyName.ToSafeName();
