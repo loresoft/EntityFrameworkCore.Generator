@@ -306,20 +306,29 @@ public class MappingClassTemplate : CodeTemplateBase
             CodeBuilder.Append($".HasDefaultValueSql({property.Default.ToLiteral()})");
         }
 
-        switch (property.ValueGenerated)
+        //If Primary key value should be generated, specify ValueGeneratedNever() so the database won't generate values for the property
+        if (property.IsPrimaryKey == true && Options.Data.Entity.GeneratePkValue)
         {
-            case ValueGenerated.OnAdd:
-                CodeBuilder.AppendLine();
-                CodeBuilder.Append(".ValueGeneratedOnAdd()");
-                break;
-            case ValueGenerated.OnAddOrUpdate:
-                CodeBuilder.AppendLine();
-                CodeBuilder.Append(".ValueGeneratedOnAddOrUpdate()");
-                break;
-            case ValueGenerated.OnUpdate:
-                CodeBuilder.AppendLine();
-                CodeBuilder.Append(".ValueGeneratedOnUpdate()");
-                break;
+            CodeBuilder.AppendLine();
+            CodeBuilder.Append(".ValueGeneratedNever()");
+        }
+        else
+        {
+            switch (property.ValueGenerated)
+            {
+                case ValueGenerated.OnAdd:
+                    CodeBuilder.AppendLine();
+                    CodeBuilder.Append(".ValueGeneratedOnAdd()");
+                    break;
+                case ValueGenerated.OnAddOrUpdate:
+                    CodeBuilder.AppendLine();
+                    CodeBuilder.Append(".ValueGeneratedOnAddOrUpdate()");
+                    break;
+                case ValueGenerated.OnUpdate:
+                    CodeBuilder.AppendLine();
+                    CodeBuilder.Append(".ValueGeneratedOnUpdate()");
+                    break;
+            }
         }
         CodeBuilder.DecrementIndent();
 
