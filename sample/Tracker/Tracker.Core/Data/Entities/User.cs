@@ -8,7 +8,7 @@ namespace Tracker.Core.Data.Entities;
 /// Entity class representing data for table 'User'.
 /// </summary>
 [System.ComponentModel.DataAnnotations.Schema.Table("User", Schema = "dbo")]
-partial class User : IHaveIdentifier, ITrackCreated, ITrackUpdated
+public partial class User : IHaveIdentifier, ITrackCreated, ITrackUpdated
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="User"/> class.
