@@ -55,4 +55,13 @@ public class EntityClassOptions : ClassOptionsBase
     /// The renaming expressions.
     /// </value>
     public SelectionOptions Renaming { get; }
+
+    /// <summary>
+    /// Gets or sets if mapping attributes are included on the entity classes. Default false
+    /// </summary>
+    /// <value>
+    /// If mapping attributes are included.
+    /// </value>
+    [DefaultValue(false)]
+    public bool MappingAttributes { get; set; }
 }

@@ -4,6 +4,8 @@ using EntityFrameworkCore.Generator.Extensions;
 using EntityFrameworkCore.Generator.Metadata.Generation;
 using EntityFrameworkCore.Generator.Options;
 
+using Microsoft.EntityFrameworkCore.Metadata;
+
 namespace EntityFrameworkCore.Generator.Templates;
 
 public class EntityClassTemplate : CodeTemplateBase
@@ -57,7 +59,10 @@ public class EntityClassTemplate : CodeTemplateBase
             CodeBuilder.AppendLine($"/// Entity class representing data for table '{_entity.TableName}'.");
             CodeBuilder.AppendLine("/// </summary>");
         }
-
+        if (Options.Data.Entity.MappingAttributes)
+        {
+            CodeBuilder.AppendLine($"[System.ComponentModel.DataAnnotations.Schema.Table(\"{_entity.TableName}\", Schema = \"{_entity.TableSchema}\")]");
+        }
         CodeBuilder.AppendLine($"public partial class {entityClass}");
 
         if (_entity.EntityBaseClass.HasValue())
@@ -138,6 +143,30 @@ public class EntityClassTemplate : CodeTemplateBase
                 CodeBuilder.AppendLine("/// <value>");
                 CodeBuilder.AppendLine($"/// The property value representing column '{property.ColumnName}'.");
                 CodeBuilder.AppendLine("/// </value>");
+            }
+
+            if (Options.Data.Entity.MappingAttributes)
+            {
+                if (property.IsPrimaryKey == true)
+                {
+                    CodeBuilder.AppendLine("[System.ComponentModel.DataAnnotations.Key()]");
+                }
+
+                if (property.IsConcurrencyToken == true)
+                {
+                    CodeBuilder.AppendLine("[System.ComponentModel.DataAnnotations.ConcurrencyCheck()]");
+                }
+
+                CodeBuilder.AppendLine($"[System.ComponentModel.DataAnnotations.Schema.Column(\"{property.ColumnName}\", TypeName = \"{property.StoreType}\")]");
+
+                if (property.IsRowVersion == true || property.ValueGenerated == ValueGenerated.OnAddOrUpdate)
+                {
+                    CodeBuilder.AppendLine("[System.ComponentModel.DataAnnotations.Schema.DatabaseGenerated(System.ComponentModel.DataAnnotations.Schema.DatabaseGeneratedOption.Computed)]");
+                }
+                else if (property.ValueGenerated == ValueGenerated.OnAdd)
+                {
+                    CodeBuilder.AppendLine("[System.ComponentModel.DataAnnotations.Schema.DatabaseGenerated(System.ComponentModel.DataAnnotations.Schema.DatabaseGeneratedOption.Identity)]");
+                }
             }
 
             if (property.IsNullable == true && (property.SystemType.IsValueType || Options.Project.Nullable))

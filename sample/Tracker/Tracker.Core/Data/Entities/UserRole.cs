@@ -6,6 +6,7 @@ namespace Tracker.Core.Data.Entities;
 /// <summary>
 /// Entity class representing data for table 'UserRole'.
 /// </summary>
+[System.ComponentModel.DataAnnotations.Schema.Table("UserRole", Schema = "dbo")]
 public partial class UserRole
 {
     /// <summary>
@@ -24,6 +25,8 @@ public partial class UserRole
     /// <value>
     /// The property value representing column 'UserId'.
     /// </value>
+    [System.ComponentModel.DataAnnotations.Key()]
+    [System.ComponentModel.DataAnnotations.Schema.Column("UserId", TypeName = "uniqueidentifier")]
     public Guid UserId { get; set; }
 
     /// <summary>
@@ -32,6 +35,8 @@ public partial class UserRole
     /// <value>
     /// The property value representing column 'RoleId'.
     /// </value>
+    [System.ComponentModel.DataAnnotations.Key()]
+    [System.ComponentModel.DataAnnotations.Schema.Column("RoleId", TypeName = "uniqueidentifier")]
     public Guid RoleId { get; set; }
 
     #endregion

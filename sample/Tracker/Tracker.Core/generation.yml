@@ -18,6 +18,7 @@ data:
   entity:
     namespace: '{Project.Namespace}.Data.Entities'
     directory: '{Project.Directory}\Data\Entities'
+    mappingAttributes: true
     document: true
   mapping:
     namespace: '{Project.Namespace}.Data.Mapping'

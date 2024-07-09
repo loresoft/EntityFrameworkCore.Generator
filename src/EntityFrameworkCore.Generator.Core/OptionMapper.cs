@@ -154,6 +154,7 @@ public static class OptionMapper
         option.EntityNaming = entity.EntityNaming;
         option.RelationshipNaming = entity.RelationshipNaming;
         option.PrefixWithSchemaName = entity.PrefixWithSchemaName;
+        option.MappingAttributes = entity.MappingAttributes;
 
         MapSelection(option.Renaming, entity.Renaming);
     }

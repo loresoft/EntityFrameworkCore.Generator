@@ -82,7 +82,8 @@ data:
     relationshipNaming: Preserve|Plural|Suffix
     #include XML documentation
     document: false
-
+    #include mapping attributes on the entity classes
+    mappingAttributes: true
     # Generate class names with prefixed schema name eg. dbo.MyTable = DboMyTable
     prefixWithSchemaName: false
 

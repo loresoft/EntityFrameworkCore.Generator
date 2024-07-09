@@ -103,6 +103,10 @@ Control if class names should be generated with schema name prefixed eg. dbo.MyT
 
 Include XML documentation for the generated class. Default: `false`
 
+### mappingAttributes
+
+Include mapping attributes on the entity classes. Default: `false`
+
 ### renaming
 
 Rename entities and properties with regular expressions

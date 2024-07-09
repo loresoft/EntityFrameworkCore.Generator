@@ -7,6 +7,7 @@ namespace Tracker.Core.Data.Entities;
 /// <summary>
 /// Entity class representing data for table 'Role'.
 /// </summary>
+[System.ComponentModel.DataAnnotations.Schema.Table("Role", Schema = "dbo")]
 public partial class Role : IHaveIdentifier, ITrackCreated, ITrackUpdated
 {
     /// <summary>
@@ -26,6 +27,8 @@ public partial class Role : IHaveIdentifier, ITrackCreated, ITrackUpdated
     /// <value>
     /// The property value representing column 'Id'.
     /// </value>
+    [System.ComponentModel.DataAnnotations.Key()]
+    [System.ComponentModel.DataAnnotations.Schema.Column("Id", TypeName = "uniqueidentifier")]
     public Guid Id { get; set; }
 
     /// <summary>
@@ -34,6 +37,7 @@ public partial class Role : IHaveIdentifier, ITrackCreated, ITrackUpdated
     /// <value>
     /// The property value representing column 'Name'.
     /// </value>
+    [System.ComponentModel.DataAnnotations.Schema.Column("Name", TypeName = "nvarchar(256)")]
     public string Name { get; set; } = null!;
 
     /// <summary>
@@ -42,6 +46,7 @@ public partial class Role : IHaveIdentifier, ITrackCreated, ITrackUpdated
     /// <value>
     /// The property value representing column 'Description'.
     /// </value>
+    [System.ComponentModel.DataAnnotations.Schema.Column("Description", TypeName = "nvarchar(max)")]
     public string? Description { get; set; }
 
     /// <summary>
@@ -50,6 +55,7 @@ public partial class Role : IHaveIdentifier, ITrackCreated, ITrackUpdated
     /// <value>
     /// The property value representing column 'Created'.
     /// </value>
+    [System.ComponentModel.DataAnnotations.Schema.Column("Created", TypeName = "datetimeoffset")]
     public DateTimeOffset Created { get; set; }
 
     /// <summary>
@@ -58,6 +64,7 @@ public partial class Role : IHaveIdentifier, ITrackCreated, ITrackUpdated
     /// <value>
     /// The property value representing column 'CreatedBy'.
     /// </value>
+    [System.ComponentModel.DataAnnotations.Schema.Column("CreatedBy", TypeName = "nvarchar(100)")]
     public string? CreatedBy { get; set; }
 
     /// <summary>
@@ -66,6 +73,7 @@ public partial class Role : IHaveIdentifier, ITrackCreated, ITrackUpdated
     /// <value>
     /// The property value representing column 'Updated'.
     /// </value>
+    [System.ComponentModel.DataAnnotations.Schema.Column("Updated", TypeName = "datetimeoffset")]
     public DateTimeOffset Updated { get; set; }
 
     /// <summary>
@@ -74,6 +82,7 @@ public partial class Role : IHaveIdentifier, ITrackCreated, ITrackUpdated
     /// <value>
     /// The property value representing column 'UpdatedBy'.
     /// </value>
+    [System.ComponentModel.DataAnnotations.Schema.Column("UpdatedBy", TypeName = "nvarchar(100)")]
     public string? UpdatedBy { get; set; }
 
     /// <summary>
@@ -82,6 +91,9 @@ public partial class Role : IHaveIdentifier, ITrackCreated, ITrackUpdated
     /// <value>
     /// The property value representing column 'RowVersion'.
     /// </value>
+    [System.ComponentModel.DataAnnotations.ConcurrencyCheck()]
+    [System.ComponentModel.DataAnnotations.Schema.Column("RowVersion", TypeName = "rowversion")]
+    [System.ComponentModel.DataAnnotations.Schema.DatabaseGenerated(System.ComponentModel.DataAnnotations.Schema.DatabaseGeneratedOption.Computed)]
     public Byte[] RowVersion { get; set; } = null!;
 
     #endregion
