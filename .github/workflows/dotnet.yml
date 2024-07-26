@@ -110,3 +110,15 @@ jobs:
             echo "${0##*/}": Pushing $package...
             dotnet nuget push $package --source https://api.nuget.org/v3/index.json --api-key ${{ secrets.NUGET_KEY }} --skip-duplicate
           done
+
+  dependabot:
+    runs-on: ubuntu-latest
+    needs: build
+    if: success() && github.event_name == 'pull_request' && github.actor == 'dependabot[bot]'
+  
+    steps:
+      - name: Enable Auto-Merge for Dependabot PRs
+        run: gh pr merge --auto --merge "$PR_URL"
+        env:
+          PR_URL: ${{github.event.pull_request.html_url}}
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
