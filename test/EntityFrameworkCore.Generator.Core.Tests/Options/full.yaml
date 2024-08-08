@@ -40,6 +40,7 @@ data:
       properties:
         - ^{Table.Name}(?=Id|Name)
   mapping:
+    generate: true
     namespace: '{Project.Namespace}.Data.Mapping'   
     directory: '{Project.Directory}\Data\Mapping'   
     document: false
