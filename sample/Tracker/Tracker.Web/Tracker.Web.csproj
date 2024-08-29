@@ -12,7 +12,7 @@
 
   <ItemGroup>
     <PackageReference Include="Scrutor" Version="4.2.2" />
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.7.3" />
   </ItemGroup>
 
   <ItemGroup>
