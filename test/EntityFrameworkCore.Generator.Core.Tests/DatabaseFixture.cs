@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.IO;
 using System.Reflection;
 using System.Text;
@@ -88,19 +88,38 @@ public class DatabaseFixture : IUpgradeLog, IDisposable
     }
 
 
-    public void WriteInformation(string format, params object[] args)
+    public void LogDebug(string format, params object[] args)
+    {
+        _logger.Write("DEBUG : ");
+        _logger.WriteLine(format, args);
+    }
+
+    public void LogError(string format, params object[] args)
+    {
+        _logger.Write("ERROR : ");
+        _logger.WriteLine(format, args);
+    }
+
+    public void LogError(Exception ex, string format, params object[] args)
+    {
+        _logger.Write("ERROR : ");
+        _logger.WriteLine(format, args);
+        _logger.WriteLine(ex.ToString());
+    }
+
+    public void LogInformation(string format, params object[] args)
     {
         _logger.Write("INFO : ");
         _logger.WriteLine(format, args);
     }
 
-    public void WriteError(string format, params object[] args)
+    public void LogTrace(string format, params object[] args)
     {
-        _logger.Write("ERROR: ");
+        _logger.Write("TRACE : ");
         _logger.WriteLine(format, args);
     }
 
-    public void WriteWarning(string format, params object[] args)
+    public void LogWarning(string format, params object[] args)
     {
         _logger.Write("WARN : ");
         _logger.WriteLine(format, args);

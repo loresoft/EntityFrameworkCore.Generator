@@ -15,6 +15,8 @@ updates:
       time: "02:00"
       timezone: "America/Chicago"
     open-pull-requests-limit: 10
+    ignore:
+      - dependency-name: "Microsoft.CodeAnalysis.CSharp.Scripting"
     groups:
       Azure:
         patterns:
