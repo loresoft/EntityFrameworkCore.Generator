@@ -17,7 +17,17 @@ public class MappingClassOptions : ClassOptionsBase
         Namespace = "{Project.Namespace}.Data.Mapping";
         Directory = @"{Project.Directory}\Data\Mapping";
         Name = "{Entity.Name}Map";
+
+        Generate = true;
     }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether this option is generated.
+    /// </summary>
+    /// <value>
+    ///   <c>true</c> to generate; otherwise, <c>false</c>.
+    /// </value>
+    public bool Generate { get; set; }
 
     /// <summary>
     /// Gets or sets if temporal table mapping is enabled. Default true
