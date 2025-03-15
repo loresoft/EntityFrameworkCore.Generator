@@ -5,8 +5,6 @@ using System.Reflection;
 using EntityFrameworkCore.Generator.Options;
 using EntityFrameworkCore.Generator.Serialization;
 
-using FluentAssertions;
-
 using Microsoft.Extensions.Logging.Abstractions;
 
 using Xunit;
@@ -65,7 +63,7 @@ public class OptionsTests
         using var reader = new StreamReader(stream);
 
         var options = serializer.Load(reader);
-        options.Should().NotBeNull();
+        Assert.NotNull(options);
     }
 
 }

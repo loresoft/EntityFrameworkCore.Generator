@@ -2,8 +2,6 @@ using System.Linq;
 
 using EntityFrameworkCore.Generator.Options;
 
-using FluentAssertions;
-
 using Microsoft.EntityFrameworkCore.Scaffolding.Metadata;
 using Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal;
 using Microsoft.EntityFrameworkCore.Storage;
@@ -56,27 +54,27 @@ public class ModelGeneratorTests
         var typeMappingSource = CreateTypeMappingSource();
 
         var result = generator.Generate(generatorOptions, databaseModel, typeMappingSource);
-        result.ContextClass.Should().Be("TestDatabaseContext");
-        result.ContextNamespace.Should().Be("TestDatabase.Data");
-        result.Entities.Count.Should().Be(1);
+        Assert.Equal("TestDatabaseContext", result.ContextClass);
+        Assert.Equal("TestDatabase.Data", result.ContextNamespace);
+        Assert.Single(result.Entities);
 
         var firstEntity = result.Entities[0];
-        firstEntity.TableName.Should().Be("TestTable");
-        firstEntity.TableSchema.Should().Be("dbo");
-        firstEntity.EntityClass.Should().Be("TestTable");
-        firstEntity.EntityNamespace.Should().Be("TestDatabase.Data.Entities");
-        firstEntity.MappingClass.Should().Be("TestTableMap");
-        firstEntity.MappingNamespace.Should().Be("TestDatabase.Data.Mapping");
+        Assert.Equal("TestTable", firstEntity.TableName);
+        Assert.Equal("dbo", firstEntity.TableSchema);
+        Assert.Equal("TestTable", firstEntity.EntityClass);
+        Assert.Equal("TestDatabase.Data.Entities", firstEntity.EntityNamespace);
+        Assert.Equal("TestTableMap", firstEntity.MappingClass);
+        Assert.Equal("TestDatabase.Data.Mapping", firstEntity.MappingNamespace);
 
-        firstEntity.Properties.Count.Should().Be(2);
+        Assert.Equal(2, firstEntity.Properties.Count);
 
         var identifierProperty = firstEntity.Properties.ByColumn("Id");
-        identifierProperty.Should().NotBeNull();
-        identifierProperty.PropertyName.Should().Be("Id");
+        Assert.NotNull(identifierProperty);
+        Assert.Equal("Id", identifierProperty.PropertyName);
 
         var nameProperty = firstEntity.Properties.ByColumn("Name");
-        nameProperty.Should().NotBeNull();
-        nameProperty.PropertyName.Should().Be("Name");
+        Assert.NotNull(nameProperty);
+        Assert.Equal("Name", nameProperty.PropertyName);
     }
 
     [Fact]
@@ -124,30 +122,30 @@ public class ModelGeneratorTests
         var typeMappingSource = CreateTypeMappingSource();
 
         var result = generator.Generate(generatorOptions, databaseModel, typeMappingSource);
-        result.ContextClass.Should().Be("TestDatabaseContext");
-        result.ContextNamespace.Should().Be("TestDatabase.Data");
-        result.Entities.Count.Should().Be(1);
+        Assert.Equal("TestDatabaseContext", result.ContextClass);
+        Assert.Equal("TestDatabase.Data", result.ContextNamespace);
+        Assert.Single(result.Entities);
 
         var firstEntity = result.Entities[0];
-        firstEntity.TableName.Should().Be("TestTable");
-        firstEntity.TableSchema.Should().Be("dbo");
-        firstEntity.EntityClass.Should().Be("TestTable");
-        firstEntity.EntityNamespace.Should().Be("TestDatabase.Data.Entities");
-        firstEntity.MappingClass.Should().Be("TestTableMap");
-        firstEntity.MappingNamespace.Should().Be("TestDatabase.Data.Mapping");
-        firstEntity.MapperClass.Should().Be("TestTableProfile");
-        firstEntity.MapperNamespace.Should().Be("TestDatabase.Domain.Mapping");
+        Assert.Equal("TestTable", firstEntity.TableName);
+        Assert.Equal("dbo", firstEntity.TableSchema);
+        Assert.Equal("TestTable", firstEntity.EntityClass);
+        Assert.Equal("TestDatabase.Data.Entities", firstEntity.EntityNamespace);
+        Assert.Equal("TestTableMap", firstEntity.MappingClass);
+        Assert.Equal("TestDatabase.Data.Mapping", firstEntity.MappingNamespace);
+        Assert.Equal("TestTableProfile", firstEntity.MapperClass);
+        Assert.Equal("TestDatabase.Domain.Mapping", firstEntity.MapperNamespace);
 
-        firstEntity.Properties.Count.Should().Be(2);
-        firstEntity.Models.Count.Should().Be(3);
+        Assert.Equal(2, firstEntity.Properties.Count);
+        Assert.Equal(3, firstEntity.Models.Count);
 
         var firstModel = firstEntity.Models[0];
-        firstModel.ModelClass.Should().StartWith("TestTable");
-        firstModel.ModelClass.Should().EndWith("Model");
-        firstModel.ModelNamespace.Should().Be("TestDatabase.Domain.Models");
-        firstModel.ValidatorClass.Should().StartWith("TestTable");
-        firstModel.ValidatorClass.Should().EndWith("Validator");
-        firstModel.ValidatorNamespace.Should().Be("TestDatabase.Domain.Validation");
+        Assert.StartsWith("TestTable", firstModel.ModelClass);
+        Assert.EndsWith("Model", firstModel.ModelClass);
+        Assert.Equal("TestDatabase.Domain.Models", firstModel.ModelNamespace);
+        Assert.StartsWith("TestTable", firstModel.ValidatorClass);
+        Assert.EndsWith("Validator", firstModel.ValidatorClass);
+        Assert.Equal("TestDatabase.Domain.Validation", firstModel.ValidatorNamespace);
 
     }
 
@@ -181,12 +179,12 @@ public class ModelGeneratorTests
         var typeMappingSource = CreateTypeMappingSource();
 
         var result = generator.Generate(generatorOptions, databaseModel, typeMappingSource);
-        result.ContextClass.Should().Be("TestSymbolContext");
-        result.ContextNamespace.Should().Be("TestSymbol.Data");
+        Assert.Equal("TestSymbolContext", result.ContextClass);
+        Assert.Equal("TestSymbol.Data", result.ContextNamespace);
 
-        result.Entities.Count.Should().Be(1);
-        result.Entities[0].EntityClass.Should().Be("TestError");
-        result.Entities[0].EntityNamespace.Should().Be("TestSymbol.Data.Entities");
+        Assert.Single(result.Entities);
+        Assert.Equal("TestError", result.Entities[0].EntityClass);
+        Assert.Equal("TestSymbol.Data.Entities", result.Entities[0].EntityNamespace);
     }
 
     [Fact]
@@ -228,22 +226,22 @@ public class ModelGeneratorTests
         var typeMappingSource = CreateTypeMappingSource();
 
         var result = generator.Generate(generatorOptions, databaseModel, typeMappingSource);
-        result.ContextClass.Should().Be("TestDatabaseContext");
-        result.ContextNamespace.Should().Be("TestDatabase.Data");
-        result.Entities.Count.Should().Be(1);
+        Assert.Equal("TestDatabaseContext", result.ContextClass);
+        Assert.Equal("TestDatabase.Data", result.ContextNamespace);
+        Assert.Single(result.Entities);
 
         var firstEntity = result.Entities[0];
-        firstEntity.EntityClass.Should().Be("TestTable");
-        firstEntity.EntityNamespace.Should().Be("TestDatabase.Data.Entities");
-        firstEntity.Properties.Count.Should().Be(2);
+        Assert.Equal("TestTable", firstEntity.EntityClass);
+        Assert.Equal("TestDatabase.Data.Entities", firstEntity.EntityNamespace);
+        Assert.Equal(2, firstEntity.Properties.Count);
 
         var identifierProperty = firstEntity.Properties.ByColumn("Id");
-        identifierProperty.Should().NotBeNull();
-        identifierProperty.PropertyName.Should().Be("Id");
+        Assert.NotNull(identifierProperty);
+        Assert.Equal("Id", identifierProperty.PropertyName);
 
         var numberProperty = firstEntity.Properties.ByColumn("404");
-        numberProperty.Should().NotBeNull();
-        numberProperty.PropertyName.Should().Be("Number404");
+        Assert.NotNull(numberProperty);
+        Assert.Equal("Number404", numberProperty.PropertyName);
     }
 
     [Fact]
@@ -288,27 +286,27 @@ create default abc0 as 0
         var typeMappingSource = CreateTypeMappingSource();
 
         var result = generator.Generate(generatorOptions, databaseModel, typeMappingSource);
-        result.ContextClass.Should().Be("TestDatabaseContext");
-        result.ContextNamespace.Should().Be("TestDatabase.Data");
-        result.Entities.Count.Should().Be(1);
+        Assert.Equal("TestDatabaseContext", result.ContextClass);
+        Assert.Equal("TestDatabase.Data", result.ContextNamespace);
+        Assert.Single(result.Entities);
 
         var firstEntity = result.Entities[0];
-        firstEntity.TableName.Should().Be("TestTable");
-        firstEntity.TableSchema.Should().Be("dbo");
-        firstEntity.EntityClass.Should().Be("TestTable");
-        firstEntity.EntityNamespace.Should().Be("TestDatabase.Data.Entities");
-        firstEntity.MappingClass.Should().Be("TestTableMap");
-        firstEntity.MappingNamespace.Should().Be("TestDatabase.Data.Mapping");
+        Assert.Equal("TestTable", firstEntity.TableName);
+        Assert.Equal("dbo", firstEntity.TableSchema);
+        Assert.Equal("TestTable", firstEntity.EntityClass);
+        Assert.Equal("TestDatabase.Data.Entities", firstEntity.EntityNamespace);
+        Assert.Equal("TestTableMap", firstEntity.MappingClass);
+        Assert.Equal("TestDatabase.Data.Mapping", firstEntity.MappingNamespace);
 
-        firstEntity.Properties.Count.Should().Be(2);
+        Assert.Equal(2, firstEntity.Properties.Count);
 
         var identifierProperty = firstEntity.Properties.ByColumn("Id");
-        identifierProperty.Should().NotBeNull();
-        identifierProperty.PropertyName.Should().Be("Id");
+        Assert.NotNull(identifierProperty);
+        Assert.Equal("Id", identifierProperty.PropertyName);
 
         var nameProperty = firstEntity.Properties.ByColumn("Name");
-        nameProperty.Should().NotBeNull();
-        nameProperty.PropertyName.Should().Be("Name");
+        Assert.NotNull(nameProperty);
+        Assert.Equal("Name", nameProperty.PropertyName);
     }
 
     [Fact]
@@ -350,27 +348,27 @@ create default abc0 as 0
         var typeMappingSource = CreateTypeMappingSource();
 
         var result = generator.Generate(generatorOptions, databaseModel, typeMappingSource);
-        result.ContextClass.Should().Be("TestDatabaseContext");
-        result.ContextNamespace.Should().Be("TestDatabase.Data");
-        result.Entities.Count.Should().Be(1);
+        Assert.Equal("TestDatabaseContext", result.ContextClass);
+        Assert.Equal("TestDatabase.Data", result.ContextNamespace);
+        Assert.Single(result.Entities);
 
         var firstEntity = result.Entities[0];
-        firstEntity.TableName.Should().Be("aammstest");
-        firstEntity.TableSchema.Should().Be("dbo");
-        firstEntity.EntityClass.Should().Be("Aammstest");
-        firstEntity.EntityNamespace.Should().Be("TestDatabase.Data.Entities");
-        firstEntity.MappingClass.Should().Be("AammstestMap");
-        firstEntity.MappingNamespace.Should().Be("TestDatabase.Data.Mapping");
+        Assert.Equal("aammstest", firstEntity.TableName);
+        Assert.Equal("dbo", firstEntity.TableSchema);
+        Assert.Equal("Aammstest", firstEntity.EntityClass);
+        Assert.Equal("TestDatabase.Data.Entities", firstEntity.EntityNamespace);
+        Assert.Equal("AammstestMap", firstEntity.MappingClass);
+        Assert.Equal("TestDatabase.Data.Mapping", firstEntity.MappingNamespace);
 
-        firstEntity.Properties.Count.Should().Be(2);
+        Assert.Equal(2, firstEntity.Properties.Count);
 
         var identifierProperty = firstEntity.Properties.ByColumn("Id");
-        identifierProperty.Should().NotBeNull();
-        identifierProperty.PropertyName.Should().Be("Id");
+        Assert.NotNull(identifierProperty);
+        Assert.Equal("Id", identifierProperty.PropertyName);
 
         var nameProperty = firstEntity.Properties.ByColumn("Name");
-        nameProperty.Should().NotBeNull();
-        nameProperty.PropertyName.Should().Be("Name");
+        Assert.NotNull(nameProperty);
+        Assert.Equal("Name", nameProperty.PropertyName);
     }
 
     [Fact]
@@ -439,25 +437,25 @@ create default abc0 as 0
 
         var result = generator.Generate(generatorOptions, databaseModel, typeMappingSource);
 
-        result.ContextClass.Should().Be("TestDatabaseContext");
-        result.ContextNamespace.Should().Be("TestDatabase.Data");
-        result.Entities.Count.Should().Be(2);
+        Assert.Equal("TestDatabaseContext", result.ContextClass);
+        Assert.Equal("TestDatabase.Data", result.ContextNamespace);
+        Assert.Equal(2, result.Entities.Count);
 
         var firstEntity = result.Entities[0];
-        firstEntity.TableName.Should().Be("TestTable");
-        firstEntity.TableSchema.Should().Be("dbo");
-        firstEntity.EntityClass.Should().Be("DboTestTable");
-        firstEntity.EntityNamespace.Should().Be("TestDatabase.Data.Entities");
-        firstEntity.MappingClass.Should().Be("DboTestTableMap");
-        firstEntity.MappingNamespace.Should().Be("TestDatabase.Data.Mapping");
+        Assert.Equal("TestTable", firstEntity.TableName);
+        Assert.Equal("dbo", firstEntity.TableSchema);
+        Assert.Equal("DboTestTable", firstEntity.EntityClass);
+        Assert.Equal("TestDatabase.Data.Entities", firstEntity.EntityNamespace);
+        Assert.Equal("DboTestTableMap", firstEntity.MappingClass);
+        Assert.Equal("TestDatabase.Data.Mapping", firstEntity.MappingNamespace);
 
         var secondEntity = result.Entities[1];
-        secondEntity.TableName.Should().Be("TestTable");
-        secondEntity.TableSchema.Should().Be("tst");
-        secondEntity.EntityClass.Should().Be("TstTestTable");
-        secondEntity.EntityNamespace.Should().Be("TestDatabase.Data.Entities");
-        secondEntity.MappingClass.Should().Be("TstTestTableMap");
-        secondEntity.MappingNamespace.Should().Be("TestDatabase.Data.Mapping");
+        Assert.Equal("TestTable", secondEntity.TableName);
+        Assert.Equal("tst", secondEntity.TableSchema);
+        Assert.Equal("TstTestTable", secondEntity.EntityClass);
+        Assert.Equal("TestDatabase.Data.Entities", secondEntity.EntityNamespace);
+        Assert.Equal("TstTestTableMap", secondEntity.MappingClass);
+        Assert.Equal("TestDatabase.Data.Mapping", secondEntity.MappingNamespace);
 
     }
 
@@ -539,30 +537,30 @@ create default abc0 as 0
         var typeMappingSource = CreateTypeMappingSource();
 
         var result = generator.Generate(generatorOptions, databaseModel, typeMappingSource);
-        result.ContextClass.Should().Be("TestDatabaseContext");
-        result.ContextNamespace.Should().Be("TestDatabase.Data");
-        result.Entities.Count.Should().Be(1);
+        Assert.Equal("TestDatabaseContext", result.ContextClass);
+        Assert.Equal("TestDatabase.Data", result.ContextNamespace);
+        Assert.Single(result.Entities);
 
         var firstEntity = result.Entities[0];
-        firstEntity.TableName.Should().Be("TestTable");
-        firstEntity.TableSchema.Should().Be("dbo");
-        firstEntity.EntityClass.Should().Be("TestTable");
-        firstEntity.EntityNamespace.Should().Be("TestDatabase.Data.Entities");
-        firstEntity.MappingClass.Should().Be("TestTableMap");
-        firstEntity.MappingNamespace.Should().Be("TestDatabase.Data.Mapping");
-        firstEntity.MapperClass.Should().Be("TestTableProfile");
-        firstEntity.MapperNamespace.Should().Be("TestDatabase.Domain.Mapping");
+        Assert.Equal("TestTable", firstEntity.TableName);
+        Assert.Equal("dbo", firstEntity.TableSchema);
+        Assert.Equal("TestTable", firstEntity.EntityClass);
+        Assert.Equal("TestDatabase.Data.Entities", firstEntity.EntityNamespace);
+        Assert.Equal("TestTableMap", firstEntity.MappingClass);
+        Assert.Equal("TestDatabase.Data.Mapping", firstEntity.MappingNamespace);
+        Assert.Equal("TestTableProfile", firstEntity.MapperClass);
+        Assert.Equal("TestDatabase.Domain.Mapping", firstEntity.MapperNamespace);
 
-        firstEntity.Properties.Count.Should().Be(2);
-        firstEntity.Models.Count.Should().Be(3);
+        Assert.Equal(2, firstEntity.Properties.Count);
+        Assert.Equal(3, firstEntity.Models.Count);
 
         var firstModel = firstEntity.Models[0];
-        firstModel.ModelClass.Should().StartWith("TestTable");
-        firstModel.ModelClass.Should().EndWith("Model");
-        firstModel.ModelNamespace.Should().Be("TestDatabase.Domain.Models");
-        firstModel.ValidatorClass.Should().StartWith("TestTable");
-        firstModel.ValidatorClass.Should().EndWith("Validator");
-        firstModel.ValidatorNamespace.Should().Be("TestDatabase.Domain.Validation");
+        Assert.StartsWith("TestTable", firstModel.ModelClass);
+        Assert.EndsWith("Model", firstModel.ModelClass);
+        Assert.Equal("TestDatabase.Domain.Models", firstModel.ModelNamespace);
+        Assert.StartsWith("TestTable", firstModel.ValidatorClass);
+        Assert.EndsWith("Validator", firstModel.ValidatorClass);
+        Assert.Equal("TestDatabase.Domain.Validation", firstModel.ValidatorNamespace);
 
     }
 

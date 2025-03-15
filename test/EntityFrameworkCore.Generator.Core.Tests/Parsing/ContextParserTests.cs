@@ -1,6 +1,5 @@
 ﻿using System.Text;
 using EntityFrameworkCore.Generator.Parsing;
-using FluentAssertions;
 using Microsoft.Extensions.Logging.Abstractions;
 using Xunit;
 
@@ -57,9 +56,9 @@ public class ContextParserTests
         sb.AppendLine(@"}");
 
         var result = parser.ParseCode(sb.ToString());
-        result.Should().NotBeNull();
-        result.Properties.Count.Should().Be(9);
-        result.ContextClass.Should().Be("TrackerContext");
+        Assert.NotNull(result);
+        Assert.Equal(9, result.Properties.Count);
+        Assert.Equal("TrackerContext", result.ContextClass);
 
     }
 
@@ -112,9 +111,9 @@ public class ContextParserTests
         sb.AppendLine(@"}");
 
         var result = parser.ParseCode(sb.ToString());
-        result.Should().NotBeNull();
-        result.Properties.Count.Should().Be(9);
-        result.ContextClass.Should().Be("TrackerContext");
+        Assert.NotNull(result);
+        Assert.Equal(9, result.Properties.Count);
+        Assert.Equal("TrackerContext", result.ContextClass);
 
     }
 
@@ -133,7 +132,7 @@ public class ContextParserTests
         sb.AppendLine(@"}");
 
         var result = parser.ParseCode(sb.ToString());
-        result.Should().BeNull();
+        Assert.Null(result);
 
     }
 

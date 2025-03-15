@@ -1,9 +1,7 @@
-﻿using System.Linq;
+using System.Linq;
 using System.Text;
 
 using EntityFrameworkCore.Generator.Parsing;
-
-using FluentAssertions;
 
 using Xunit;
 
@@ -32,19 +30,19 @@ public class RegionParserTests
 
 
         var result = parser.ParseRegions(source.ToString());
-        result.Should().NotBeNull();
-        result.Count.Should().Be(1);
+        Assert.NotNull(result);
+        Assert.Single(result);
 
         var first = result.Values.First();
-        first.Should().NotBeNull();
-        first.Name.Should().Be("Generated Properties");
+        Assert.NotNull(first);
+        Assert.Equal("Generated Properties", first.Name);
 
         var content = new StringBuilder();
         content.AppendLine(@"#region Generated Properties");
         content.AppendLine(@"        public Guid Id { get; set; }");
         content.AppendLine(@"        #endregion");
 
-        first.Content.Should().Be(content.ToString());
+        Assert.Equal(content.ToString(), first.Content);
 
     }
 
@@ -85,12 +83,12 @@ public class RegionParserTests
 
 
         var result = parser.ParseRegions(source.ToString());
-        result.Should().NotBeNull();
-        result.Count.Should().Be(3);
+        Assert.NotNull(result);
+        Assert.Equal(3, result.Count);
 
         var first = result.Values.First();
-        first.Should().NotBeNull();
-        first.Name.Should().Be("Generated Initializes");
+        Assert.NotNull(first);
+        Assert.Equal("Generated Initializes", first.Name);
     }
 
     [Fact]
@@ -119,23 +117,23 @@ public class RegionParserTests
 
 
         var result = parser.ParseRegions(source.ToString());
-        result.Should().NotBeNull();
-        result.Count.Should().Be(2);
+        Assert.NotNull(result);
+        Assert.Equal(2, result.Count);
 
         var nested = result["Nested Properties"];
-        nested.Should().NotBeNull();
-        nested.Name.Should().Be("Nested Properties");
+        Assert.NotNull(nested);
+        Assert.Equal("Nested Properties", nested.Name);
 
         var nestedContent = new StringBuilder();
         nestedContent.AppendLine(@"#region Nested Properties");
         nestedContent.AppendLine(@"        public string EmailAddress { get; set; }");
         nestedContent.AppendLine(@"        #endregion");
 
-        nested.Content.Should().Be(nestedContent.ToString());
+        Assert.Equal(nestedContent.ToString(), nested.Content);
 
         var generated = result["Generated Properties"];
-        generated.Should().NotBeNull();
-        generated.Name.Should().Be("Generated Properties");
+        Assert.NotNull(generated);
+        Assert.Equal("Generated Properties", generated.Name);
 
         var generatedContent = new StringBuilder();
         generatedContent.AppendLine(@"#region Generated Properties");
@@ -147,7 +145,7 @@ public class RegionParserTests
         generatedContent.AppendLine(@"");
         generatedContent.AppendLine(@"        #endregion");
 
-        generated.Content.Should().Be(generatedContent.ToString());
+        Assert.Equal(generatedContent.ToString(), generated.Content);
 
     }
 

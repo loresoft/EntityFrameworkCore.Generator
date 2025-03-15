@@ -1,7 +1,5 @@
 ﻿using System;
 
-using FluentAssertions;
-
 using Xunit;
 
 namespace EntityFrameworkCore.Generator.Core.Tests;
@@ -17,7 +15,7 @@ public class VariableDictionaryTests
         dictionary.Set("Project.Namespace", "{Database.Name}.Core");
 
         var result = dictionary.Get("Project.Namespace");
-        result.Should().Be("Tester.Core");
+        Assert.Equal("Tester.Core", result);
     }
 
     [Fact]
@@ -31,7 +29,7 @@ public class VariableDictionaryTests
         dictionary.Set("Entity.Namespace", "{Project.Namespace}.Data");
 
         var result = dictionary.Get("Entity.Namespace");
-        result.Should().Be("Tester.Core.Data");
+        Assert.Equal("Tester.Core.Data", result);
     }
 
     [Fact]
@@ -42,7 +40,7 @@ public class VariableDictionaryTests
         dictionary.Set("Project.Namespace", "{Database.Name}.Core");
 
         var result = dictionary.Get("Project.Namespace");
-        result.Should().Be(".Core");
+        Assert.Equal(".Core", result);
     }
 
     [Fact]
@@ -54,7 +52,7 @@ public class VariableDictionaryTests
         dictionary.Set("Project.Namespace", "{Database.Name.Core");
 
         Action action = () => dictionary.Get("Project.Namespace");
-        action.Should().Throw<FormatException>();
+        Assert.Throws<FormatException>(action);
     }
 
 
@@ -67,7 +65,7 @@ public class VariableDictionaryTests
         dictionary.Set("Project.Namespace", "{Database.Name}}.Core");
 
         Action action = () => dictionary.Get("Project.Namespace");
-        action.Should().Throw<FormatException>();
+        Assert.Throws<FormatException>(action);
     }
 
 
@@ -80,7 +78,7 @@ public class VariableDictionaryTests
         dictionary.Set("Project.Namespace", "{{{Database.Name}.Core}}");
 
         var result = dictionary.Get("Project.Namespace");
-        result.Should().Be("{Tester.Core}");
+        Assert.Equal("{Tester.Core}", result);
     }
 
     [Fact]
@@ -93,6 +91,6 @@ public class VariableDictionaryTests
         dictionary.Set("Project.Namespace", "{Database.Name}.Core");
 
         var result = dictionary.Get("Project.Namespace");
-        result.Should().Be(".Core");
+        Assert.Equal(".Core", result);
     }
 }

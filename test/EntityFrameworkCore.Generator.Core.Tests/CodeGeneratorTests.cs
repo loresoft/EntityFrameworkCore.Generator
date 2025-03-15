@@ -2,8 +2,6 @@ using System.IO;
 
 using EntityFrameworkCore.Generator.Options;
 
-using FluentAssertions;
-
 using FluentCommand.SqlServer.Tests;
 
 using Microsoft.Extensions.Logging.Abstractions;
@@ -29,7 +27,7 @@ public class CodeGeneratorTests : DatabaseTestBase
         var result = generator.Generate(generatorOptions);
 
 
-        result.Should().BeTrue();
+        Assert.True(result);
     }
 
 
@@ -43,7 +41,7 @@ public class CodeGeneratorTests : DatabaseTestBase
         var generator = new CodeGenerator(NullLoggerFactory.Instance);
         var result = generator.Generate(generatorOptions);
 
-        result.Should().BeTrue();
+        Assert.True(result);
     }
 
     [Fact]
@@ -55,7 +53,7 @@ public class CodeGeneratorTests : DatabaseTestBase
         var generator = new CodeGenerator(NullLoggerFactory.Instance);
         var result = generator.Generate(generatorOptions);
 
-        result.Should().BeTrue();
+        Assert.True(result);
 
         const string spatialTableName = "CitiesSpatial";
 
@@ -65,18 +63,18 @@ public class CodeGeneratorTests : DatabaseTestBase
         var citiesSpatialEntityContent = File.ReadAllText(citiesSpatialEntityFile);
         var citiesSpatialMappingContent = File.ReadAllText(citiesSpatialMappingFile);
 
-        citiesSpatialEntityContent.Contains("public NetTopologySuite.Geometries.Geometry GeometryField { get; set; }").Should().BeTrue();
-        citiesSpatialEntityContent.Contains("public NetTopologySuite.Geometries.Geometry GeographyField { get; set; }").Should().BeTrue();
+        Assert.Contains("public NetTopologySuite.Geometries.Geometry GeometryField { get; set; }", citiesSpatialEntityContent);
+        Assert.Contains("public NetTopologySuite.Geometries.Geometry GeographyField { get; set; }", citiesSpatialEntityContent);
 
-        citiesSpatialMappingContent.Contains("builder.Property(t => t.GeometryField)" + System.Environment.NewLine +
+        Assert.Contains("builder.Property(t => t.GeometryField)" + System.Environment.NewLine +
 "                .IsRequired()" + System.Environment.NewLine +
 "                .HasColumnName(\"GeometryField\")" + System.Environment.NewLine +
-"                .HasColumnType(\"geometry\");").Should().BeTrue();
+"                .HasColumnType(\"geometry\");", citiesSpatialMappingContent);
 
-        citiesSpatialMappingContent.Contains("builder.Property(t => t.GeographyField)" + System.Environment.NewLine +
+        Assert.Contains("builder.Property(t => t.GeographyField)" + System.Environment.NewLine +
 "                .IsRequired()" + System.Environment.NewLine +
 "                .HasColumnName(\"GeographyField\")" + System.Environment.NewLine +
-"                .HasColumnType(\"geography\");").Should().BeTrue();
+"                .HasColumnType(\"geography\");", citiesSpatialMappingContent);
 
     }
 
