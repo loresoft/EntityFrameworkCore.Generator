@@ -20,6 +20,15 @@ public class MappingClass : ClassBase
     }
 
     /// <summary>
+    /// Gets or sets a value indicating whether this option is generated.
+    /// </summary>
+    /// <value>
+    ///   <c>true</c> to generate; otherwise, <c>false</c>.
+    /// </value>
+    [DefaultValue(true)]
+    public bool Generate { get; set; } = true;
+
+    /// <summary>
     /// Gets or sets if temporal table mapping is enabled. Default true
     /// </summary>
     /// <value>

@@ -135,6 +135,7 @@ public static class OptionMapper
     {
         MapClassBase(option, mapping);
 
+        option.Generate = mapping.Generate;
         option.Temporal = mapping.Temporal;
         option.RowVersion = mapping.RowVersion;
     }

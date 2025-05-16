@@ -91,6 +91,9 @@ public class CodeGenerator : ICodeGenerator
 
     private void GenerateMappingClasses(EntityContext entityContext)
     {
+        if (!Options.Data.Mapping.Generate)
+            return;
+
         foreach (var entity in entityContext.Entities)
         {
             Options.Variables.Set(entity);
