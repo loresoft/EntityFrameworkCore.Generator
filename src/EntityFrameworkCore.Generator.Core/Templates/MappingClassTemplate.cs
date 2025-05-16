@@ -224,6 +224,30 @@ public class MappingClassTemplate : CodeTemplateBase
         }
         CodeBuilder.Append(")");
 
+        var primaryKeys = relationship.PrimaryProperties;
+        var nonPrimaryPrincipalKey = !primaryKeys
+            .Select(pp => relationship.PrimaryEntity.Properties.ByProperty(pp.PropertyName))
+            .All(p => p.IsPrimaryKey ?? true);
+
+        if (nonPrimaryPrincipalKey)
+        {
+            CodeBuilder.AppendLine();
+
+            CodeBuilder.Append(".HasPrincipalKey(t => ");
+            if (primaryKeys.Count > 1)
+            {
+                CodeBuilder.Append("new { ");
+                CodeBuilder.Append(string.Join(", ", primaryKeys.Select(pp => $"t.{pp.PropertyName.ToSafeName()}")));
+                CodeBuilder.Append(" }");
+            }
+            else
+            {
+                var propertyName = primaryKeys.First().PropertyName.ToSafeName();
+                CodeBuilder.Append($"t.{propertyName}");
+            }
+            CodeBuilder.Append(")");
+        }
+
         if (!string.IsNullOrEmpty(relationship.RelationshipName))
         {
             CodeBuilder.AppendLine();
