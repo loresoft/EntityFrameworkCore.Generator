@@ -30,7 +30,7 @@ public class CodeGenerator : ICodeGenerator
         _synchronizer = new SourceSynchronizer(loggerFactory);
     }
 
-    public GeneratorOptions Options { get; set; }
+    public GeneratorOptions Options { get; set; } = null!;
 
     public bool Generate(GeneratorOptions options)
     {
@@ -73,13 +73,14 @@ public class CodeGenerator : ICodeGenerator
         {
             Options.Variables.Set(entity);
 
-            var directory = Options.Data.Query.Directory;
+            var directory = Options.Data.Query.Directory ?? "Data\\Queries";
             var file = entity.EntityClass + "Extensions.cs";
             var path = Path.Combine(directory, file);
 
-            _logger.LogInformation(File.Exists(path)
-                ? "Updating query extensions class: {file}"
-                : "Creating query extensions class: {file}", file);
+            if (File.Exists(path))
+                _logger.LogInformation("Updating query extensions class: {file}", file);
+            else
+                _logger.LogInformation("Creating query extensions class: {file}", file);
 
             var template = new QueryExtensionTemplate(entity, Options);
             template.WriteCode(path);
@@ -94,13 +95,14 @@ public class CodeGenerator : ICodeGenerator
         {
             Options.Variables.Set(entity);
 
-            var directory = Options.Data.Mapping.Directory;
+            var directory = Options.Data.Mapping.Directory ?? "Data\\Mapping";
             var file = entity.MappingClass + ".cs";
             var path = Path.Combine(directory, file);
 
-            _logger.LogInformation(File.Exists(path)
-                ? "Updating mapping class: {file}"
-                : "Creating mapping class: {file}", file);
+            if (File.Exists(path))
+                _logger.LogInformation("Updating mapping class: {file}", file);
+            else
+                _logger.LogInformation("Creating mapping class: {file}", file);
 
             var template = new MappingClassTemplate(entity, Options);
             template.WriteCode(path);
@@ -115,13 +117,14 @@ public class CodeGenerator : ICodeGenerator
         {
             Options.Variables.Set(entity);
 
-            var directory = Options.Data.Entity.Directory;
+            var directory = Options.Data.Entity.Directory ?? "Data\\Entities";
             var file = entity.EntityClass + ".cs";
             var path = Path.Combine(directory, file);
 
-            _logger.LogInformation(File.Exists(path)
-                ? "Updating entity class: {file}"
-                : "Creating entity class: {file}", file);
+            if (File.Exists(path))
+                _logger.LogInformation("Updating entity class: {file}", file);
+            else
+                _logger.LogInformation("Creating entity class: {file}", file);
 
             var template = new EntityClassTemplate(entity, Options);
             template.WriteCode(path);
@@ -133,13 +136,14 @@ public class CodeGenerator : ICodeGenerator
     private void GenerateDataContext(EntityContext entityContext)
     {
 
-        var directory = Options.Data.Context.Directory;
+        var directory = Options.Data.Context.Directory ?? "Data";
         var file = entityContext.ContextClass + ".cs";
         var path = Path.Combine(directory, file);
 
-        _logger.LogInformation(File.Exists(path)
-            ? "Updating data context class: {file}"
-            : "Creating data context class: {file}", file);
+        if (File.Exists(path))
+            _logger.LogInformation("Updating data context class: {file}", file);
+        else
+            _logger.LogInformation("Creating data context class: {file}", file);
 
         var template = new DataContextTemplate(entityContext, Options);
         template.WriteCode(path);
@@ -150,7 +154,7 @@ public class CodeGenerator : ICodeGenerator
     {
         foreach (var entity in entityContext.Entities)
         {
-            if (entity.Models.Count <= 0)
+            if (entity.Models.Count == 0)
                 continue;
 
             Options.Variables.Set(entity);
@@ -170,14 +174,14 @@ public class CodeGenerator : ICodeGenerator
         {
             Options.Variables.Set(model);
 
-            var directory = GetModelDirectory(model);
+            var directory = GetModelDirectory(model) ?? "Data\\Models";
             var file = model.ModelClass + ".cs";
             var path = Path.Combine(directory, file);
 
-            _logger.LogInformation(File.Exists(path)
-                ? "Updating model class: {file}"
-                : "Creating model class: {file}", file);
-
+            if (File.Exists(path))
+                _logger.LogInformation("Updating model class: {file}", file);
+            else
+                _logger.LogInformation("Creating model class: {file}", file);
 
             var template = new ModelClassTemplate(model, Options);
             template.WriteCode(path);
@@ -187,17 +191,21 @@ public class CodeGenerator : ICodeGenerator
 
     }
 
-    private string GetModelDirectory(Model model)
+    private string? GetModelDirectory(Model model)
     {
         if (model.ModelType == ModelType.Create)
+        {
             return Options.Model.Create.Directory.HasValue()
                 ? Options.Model.Create.Directory
                 : Options.Model.Shared.Directory;
+        }
 
         if (model.ModelType == ModelType.Update)
+        {
             return Options.Model.Update.Directory.HasValue()
                 ? Options.Model.Update.Directory
                 : Options.Model.Shared.Directory;
+        }
 
         return Options.Model.Read.Directory.HasValue()
             ? Options.Model.Read.Directory
@@ -218,13 +226,14 @@ public class CodeGenerator : ICodeGenerator
             if (model.ModelType == ModelType.Read)
                 continue;
 
-            var directory = Options.Model.Validator.Directory;
+            var directory = Options.Model.Validator.Directory ?? "Data\\Validation";
             var file = model.ValidatorClass + ".cs";
             var path = Path.Combine(directory, file);
 
-            _logger.LogInformation(File.Exists(path)
-                ? "Updating validation class: {file}"
-                : "Creating validation class: {file}", file);
+            if (File.Exists(path))
+                _logger.LogInformation("Updating validation class: {file}", file);
+            else
+                _logger.LogInformation("Creating validation class: {file}", file);
 
             var template = new ValidatorClassTemplate(model, Options);
             template.WriteCode(path);
@@ -239,13 +248,14 @@ public class CodeGenerator : ICodeGenerator
         if (!Options.Model.Mapper.Generate)
             return;
 
-        var directory = Options.Model.Mapper.Directory;
+        var directory = Options.Model.Mapper.Directory ?? "Data\\Mapper";
         var file = entity.MapperClass + ".cs";
         var path = Path.Combine(directory, file);
 
-        _logger.LogInformation(File.Exists(path)
-            ? "Updating object mapper class: {file}"
-            : "Creating object mapper class: {file}", file);
+        if (File.Exists(path))
+            _logger.LogInformation("Updating mapper class: {file}", file);
+        else
+            _logger.LogInformation("Creating mapper class: {file}", file);
 
         var template = new MapperClassTemplate(entity, Options);
         template.WriteCode(path);
@@ -367,18 +377,20 @@ public class CodeGenerator : ICodeGenerator
         var database = Options.Database;
 
         var connectionString = ResolveConnectionString(database);
+        if (string.IsNullOrEmpty(connectionString))
+            throw new InvalidOperationException("Could not find connection string.");
 
         var options = new DatabaseModelFactoryOptions(database.Tables, database.Schemas);
 
         return factory.Create(connectionString, options);
     }
 
-    private string ResolveConnectionString(DatabaseOptions database)
+    private static string? ResolveConnectionString(DatabaseOptions database)
     {
         if (database.ConnectionString.HasValue())
             return database.ConnectionString;
 
-        if (database.UserSecretsId.HasValue())
+        if (database.UserSecretsId.HasValue() && database.ConnectionName.HasValue())
         {
             var secretsStore = new SecretsStore(database.UserSecretsId);
             if (secretsStore.ContainsKey(database.ConnectionName))
@@ -434,35 +446,35 @@ public class CodeGenerator : ICodeGenerator
     }
 
 
-    private void ConfigureMySqlServices(IServiceCollection services)
+    private static void ConfigureMySqlServices(IServiceCollection services)
     {
         var designTimeServices = new Pomelo.EntityFrameworkCore.MySql.Design.Internal.MySqlDesignTimeServices();
         designTimeServices.ConfigureDesignTimeServices(services);
             services.AddEntityFrameworkMySqlNetTopologySuite();
     }
 
-    private void ConfigurePostgresServices(IServiceCollection services)
+    private static void ConfigurePostgresServices(IServiceCollection services)
     {
         var designTimeServices = new Npgsql.EntityFrameworkCore.PostgreSQL.Design.Internal.NpgsqlDesignTimeServices();
         designTimeServices.ConfigureDesignTimeServices(services);
             services.AddEntityFrameworkNpgsqlNetTopologySuite();
     }
 
-    private void ConfigureSqlServerServices(IServiceCollection services)
+    private static void ConfigureSqlServerServices(IServiceCollection services)
     {
         var designTimeServices = new Microsoft.EntityFrameworkCore.SqlServer.Design.Internal.SqlServerDesignTimeServices();
         designTimeServices.ConfigureDesignTimeServices(services);
             services.AddEntityFrameworkSqlServerNetTopologySuite();
     }
 
-    private void ConfigureSqliteServices(IServiceCollection services)
+    private static void ConfigureSqliteServices(IServiceCollection services)
     {
         var designTimeServices = new Microsoft.EntityFrameworkCore.Sqlite.Design.Internal.SqliteDesignTimeServices();
         designTimeServices.ConfigureDesignTimeServices(services);
             services.AddEntityFrameworkSqliteNetTopologySuite();
     }
 
-    private void ConfigureOracleServices(IServiceCollection services)
+    private static void ConfigureOracleServices(IServiceCollection services)
     {
         var designTimeServices = new Oracle.EntityFrameworkCore.Design.Internal.OracleDesignTimeServices();
         designTimeServices.ConfigureDesignTimeServices(services);

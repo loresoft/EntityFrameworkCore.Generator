@@ -1,14 +1,17 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 
 using EntityFrameworkCore.Generator.Metadata.Generation;
+
+using static System.Net.Mime.MediaTypeNames;
 
 namespace EntityFrameworkCore.Generator.Extensions;
 
 public static class GenerationExtensions
 {
     #region Data
-    private static readonly HashSet<string> _csharpKeywords = new HashSet<string>(StringComparer.Ordinal)
+    private static readonly HashSet<string> _csharpKeywords = new(StringComparer.Ordinal)
     {
         "as", "do", "if", "in", "is",
         "for", "int", "new", "out", "ref", "try",
@@ -21,7 +24,7 @@ public static class GenerationExtensions
         "__refvalue", "stackalloc"
     };
 
-    private static readonly HashSet<string> _visualBasicKeywords = new HashSet<string>(StringComparer.OrdinalIgnoreCase)
+    private static readonly HashSet<string> _visualBasicKeywords = new(StringComparer.OrdinalIgnoreCase)
     {
         "as", "do", "if", "in", "is", "me", "of", "on", "or", "to",
         "and", "dim", "end", "for", "get", "let", "lib", "mod", "new", "not", "rem", "set", "sub", "try", "xor",
@@ -43,7 +46,7 @@ public static class GenerationExtensions
         "class_initialize"
     };
 
-    private static readonly Dictionary<string, string> _csharpTypeAlias = new Dictionary<string, string>(16)
+    private static readonly Dictionary<string, string> _csharpTypeAlias = new(16)
     {
         {"System.Int16", "short"},
         {"System.Int32", "int"},
@@ -66,11 +69,16 @@ public static class GenerationExtensions
 
     public static string ToFieldName(this string name)
     {
+        ArgumentException.ThrowIfNullOrEmpty(name);
+
         return "_" + name.ToCamelCase();
     }
 
     public static string MakeUnique(this string name, Func<string, bool> exists)
     {
+        ArgumentException.ThrowIfNullOrEmpty(name);
+        ArgumentNullException.ThrowIfNull(exists);
+
         string uniqueName = name;
         int count = 1;
 
@@ -82,13 +90,19 @@ public static class GenerationExtensions
 
     public static bool IsKeyword(this string text, CodeLanguage language = CodeLanguage.CSharp)
     {
+        ArgumentException.ThrowIfNullOrEmpty(text);
+
         return language == CodeLanguage.VisualBasic
             ? _visualBasicKeywords.Contains(text)
             : _csharpKeywords.Contains(text);
     }
 
-    public static string ToSafeName(this string name, CodeLanguage language = CodeLanguage.CSharp)
+    [return: NotNullIfNotNull(nameof(name))]
+    public static string? ToSafeName(this string? name, CodeLanguage language = CodeLanguage.CSharp)
     {
+        if (string.IsNullOrEmpty(name))
+            return name;
+
         if (!name.IsKeyword(language))
             return name;
 
@@ -99,32 +113,39 @@ public static class GenerationExtensions
 
     public static string ToType(this Type type, CodeLanguage language = CodeLanguage.CSharp)
     {
-        return ToType(type.FullName, language);
+        ArgumentNullException.ThrowIfNull(type);
+
+        return ToType(type.FullName ?? type.Name, language);
     }
 
     public static string ToType(this string type, CodeLanguage language = CodeLanguage.CSharp)
     {
+        ArgumentException.ThrowIfNullOrEmpty(type);
+
         if (type == "System.Xml.XmlDocument")
             type = "System.String";
 
-        if (language == CodeLanguage.CSharp && _csharpTypeAlias.TryGetValue(type, out string t))
+        if (language == CodeLanguage.CSharp && _csharpTypeAlias.TryGetValue(type, out var t))
             return t;
 
         // drop system from namespace
-        string[] parts = type.Split('.');
+        var parts = type.Split('.');
         if (parts.Length == 2 && parts[0] == "System")
             return parts[1];
 
         return type;
     }
 
-    public static string ToNullableType(this Type type, bool isNullable = false, CodeLanguage language = CodeLanguage.CSharp)
+    public static string? ToNullableType(this Type type, bool isNullable = false, CodeLanguage language = CodeLanguage.CSharp)
     {
         return ToNullableType(type.FullName, isNullable, language);
     }
 
-    public static string ToNullableType(this string type, bool isNullable = false, CodeLanguage language = CodeLanguage.CSharp)
+    public static string? ToNullableType(this string? type, bool isNullable = false, CodeLanguage language = CodeLanguage.CSharp)
     {
+        if (string.IsNullOrEmpty(type))
+            return null;
+
         bool isValueType = type.IsValueType();
 
         type = type.ToType(language);
@@ -137,8 +158,11 @@ public static class GenerationExtensions
             : type + "?";
     }
 
-    public static bool IsValueType(this string type)
+    public static bool IsValueType(this string? type)
     {
+        if (string.IsNullOrEmpty(type))
+            return false;
+
         if (!type.StartsWith("System."))
             return false;
 
@@ -148,6 +172,8 @@ public static class GenerationExtensions
 
     public static string ToLiteral(this string value)
     {
+        ArgumentException.ThrowIfNullOrEmpty(value);
+
         return value.Contains('\n') || value.Contains('\r')
             ? "@\"" + value.Replace("\"", "\"\"") + "\""
             : "\"" + value.Replace("\\", "\\\\").Replace("\"", "\\\"") + "\"";

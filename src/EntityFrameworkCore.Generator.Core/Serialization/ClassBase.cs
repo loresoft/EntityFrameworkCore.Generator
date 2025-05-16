@@ -13,7 +13,7 @@ public abstract class ClassBase
     /// <value>
     /// The class namespace.
     /// </value>
-    public string Namespace { get; set; }
+    public string? Namespace { get; set; }
 
     /// <summary>
     /// Gets or sets the output directory.  Default is the current working directory.
@@ -21,13 +21,13 @@ public abstract class ClassBase
     /// <value>
     /// The output directory.
     /// </value>
-    public string Directory { get; set; }
+    public string? Directory { get; set; }
 
     /// <summary>
-    /// Gets or sets a value indicating whether to create xml documentation.
+    /// Gets or sets a value indicating whether to create XML documentation.
     /// </summary>
     /// <value>
-    ///   <c>true</c> to create xml documentation; otherwise, <c>false</c>.
+    ///   <c>true</c> to create XML documentation; otherwise, <c>false</c>.
     /// </value>
     [DefaultValue(false)]
     public bool Document { get; set; }
@@ -38,7 +38,7 @@ public abstract class ClassBase
     /// <value>
     /// The class name template.
     /// </value>
-    public string Name { get; set; }
+    public string Name { get; set; } = null!;
 
     /// <summary>
     /// Gets or sets the base class to inherit from.
@@ -46,7 +46,7 @@ public abstract class ClassBase
     /// <value>
     /// The base class.
     /// </value>
-    public string BaseClass { get; set; }
+    public string? BaseClass { get; set; }
 
     /// <summary>
     /// Gets or sets the attributes to add to the class
@@ -54,5 +54,5 @@ public abstract class ClassBase
     /// <value>
     /// The attributes to add to the class
     /// </value>
-    public string Attributes { get; set; }
+    public string? Attributes { get; set; }
 }

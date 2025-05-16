@@ -22,15 +22,19 @@ public class MapperClassTemplate : CodeTemplateBase
         CodeBuilder.AppendLine("using System;");
         CodeBuilder.AppendLine("using AutoMapper;");
 
-        var imports = new SortedSet<string>();
-        imports.Add(_entity.EntityNamespace);
+        var imports = new SortedSet<string>
+        {
+            _entity.EntityNamespace
+        };
 
         foreach (var model in _entity.Models)
             imports.Add(model.ModelNamespace);
 
         foreach (var import in imports)
+        {
             if (_entity.MapperNamespace != import)
                 CodeBuilder.AppendLine($"using {import};");
+        }
 
         CodeBuilder.AppendLine();
 
@@ -109,8 +113,8 @@ public class MapperClassTemplate : CodeTemplateBase
         CodeBuilder.AppendLine($"public {mapperClass}()");
         CodeBuilder.AppendLine("{");
 
-        string readFullName = null;
-        string updateFullName = null;
+        string? readFullName = null;
+        string? updateFullName = null;
 
         using (CodeBuilder.Indent())
         {

@@ -10,7 +10,7 @@ public class DataOptions : OptionsBase
     /// </summary>
     /// <param name="variables">The shared variables dictionary.</param>
     /// <param name="prefix">The variable key prefix.</param>
-    public DataOptions(VariableDictionary variables, string prefix)
+    public DataOptions(VariableDictionary variables, string? prefix)
         : base(variables, AppendPrefix(prefix, "Data"))
     {
         Mapping = new MappingClassOptions(Variables, Prefix);

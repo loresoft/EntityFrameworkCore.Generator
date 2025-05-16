@@ -1,6 +1,4 @@
-using System.IO;
-using System.Linq;
-
+using EntityFrameworkCore.Generator.Extensions;
 using EntityFrameworkCore.Generator.Metadata.Generation;
 using EntityFrameworkCore.Generator.Metadata.Parsing;
 using EntityFrameworkCore.Generator.Options;
@@ -35,20 +33,23 @@ public class SourceSynchronizer
     }
 
 
-    private void UpdateFromContext(EntityContext generatedContext, string contextDirectory)
+    private void UpdateFromContext(EntityContext generatedContext, string? contextDirectory)
     {
         if (generatedContext == null
             || contextDirectory == null
             || !Directory.Exists(contextDirectory))
+        {
             return;
+        }
 
         var parser = new ContextParser(_loggerFactory);
 
         // search all cs files looking for DbContext.  need this in case of context class rename
-        ParsedContext parsedContext = null;
-        using (var files = Directory.EnumerateFiles(contextDirectory, "*.cs").GetEnumerator())
-            while (files.MoveNext() && parsedContext == null)
-                parsedContext = parser.ParseFile(files.Current);
+        ParsedContext? parsedContext = null;
+
+        using var files = Directory.EnumerateFiles(contextDirectory, "*.cs").GetEnumerator();
+        while (files.MoveNext() && parsedContext == null)
+            parsedContext = parser.ParseFile(files.Current);
 
         if (parsedContext == null)
             return;
@@ -56,7 +57,7 @@ public class SourceSynchronizer
         if (generatedContext.ContextClass != parsedContext.ContextClass)
         {
             _logger.LogInformation(
-                "Rename Context Class'{0}' to '{1}'.",
+                "Rename Context Class'{ContextClass}' to '{ContextClass}'.",
                 generatedContext.ContextClass,
                 parsedContext.ContextClass);
 
@@ -73,7 +74,7 @@ public class SourceSynchronizer
                 continue;
 
             _logger.LogInformation(
-                "Rename Context Property'{0}' to '{1}'.",
+                "Rename Context Property'{EntityProperty}' to '{ParsedProperty}'.",
                 entity.ContextProperty,
                 parsedProperty.ContextProperty);
 
@@ -81,12 +82,14 @@ public class SourceSynchronizer
         }
     }
 
-    private void UpdateFromMapping(EntityContext generatedContext, string mappingDirectory)
+    private void UpdateFromMapping(EntityContext generatedContext, string? mappingDirectory)
     {
         if (generatedContext == null
             || mappingDirectory == null
             || !Directory.Exists(mappingDirectory))
+        {
             return;
+        }
 
         var parser = new MappingParser(_loggerFactory);
 
@@ -100,6 +103,9 @@ public class SourceSynchronizer
         // update all entity and property names first because relationships are linked by property names
         foreach (var parsedEntity in parsedEntities)
         {
+            if (parsedEntity == null)
+                continue;
+
             // find entity by table name to support renaming entity
             var entity = generatedContext.Entities
                 .ByTable(parsedEntity.TableName, parsedEntity.TableSchema);
@@ -111,7 +117,7 @@ public class SourceSynchronizer
             if (entity.MappingClass != parsedEntity.MappingClass)
             {
                 _logger.LogInformation(
-                    "  Rename Mapping Class'{0}' to '{1}'.",
+                    "  Rename Mapping Class'{EntityClass}' to '{ParsedClass}'.",
                     entity.MappingClass,
                     parsedEntity.MappingClass);
 
@@ -135,7 +141,7 @@ public class SourceSynchronizer
                     parsedProperty.PropertyName);
             }
 
-            // sync releationships
+            // sync relationships
             foreach (var parsedRelationship in parsedEntity.Relationships)
             {
                 var relationship = entity.Relationships.FirstOrDefault(r => r.RelationshipName == parsedRelationship.RelationshipName && r.IsForeignKey);
@@ -154,7 +160,7 @@ public class SourceSynchronizer
         if (originalName == newName)
             return;
 
-        _logger.LogInformation("  Rename Entity '{0}' to '{1}'.", originalName, newName);
+        _logger.LogInformation("  Rename Entity '{OrginalName}' to '{NewName}'.", originalName, newName);
         foreach (var entity in generatedContext.Entities)
         {
             if (entity.EntityClass == originalName)
@@ -167,7 +173,7 @@ public class SourceSynchronizer
         if (originalName == newName)
             return;
 
-        _logger.LogInformation("  Rename Property '{0}' to '{1}' in Entity '{2}'.", originalName, newName, entityName);
+        _logger.LogInformation("  Rename Property '{OrginalName}' to '{NewName}' in Entity '{EntityName}'.", originalName, newName, entityName);
         foreach (var entity in generatedContext.Entities)
         {
             if (entity.EntityClass != entityName)
@@ -182,15 +188,15 @@ public class SourceSynchronizer
 
     private void RenameRelationship(ParsedRelationship parsedRelationship, Relationship relationship)
     {
-        if (relationship.PropertyName != parsedRelationship.PropertyName)
+        if (parsedRelationship.PropertyName.HasValue() && relationship.PropertyName != parsedRelationship.PropertyName)
         {
-            _logger.LogInformation("  Rename Property '{0}' to '{1}' in Entity '{2}'.", relationship.PropertyName, parsedRelationship.PropertyName, relationship.Entity.EntityClass);
+            _logger.LogInformation("  Rename Property '{OrginalName}' to '{NewName}' in Entity '{EntityName}'.", relationship.PropertyName, parsedRelationship.PropertyName, relationship.Entity.EntityClass);
             relationship.PropertyName = parsedRelationship.PropertyName;
         }
 
-        if (relationship.PrimaryPropertyName != parsedRelationship.PrimaryPropertyName)
+        if (parsedRelationship.PrimaryPropertyName.HasValue() && relationship.PrimaryPropertyName != parsedRelationship.PrimaryPropertyName)
         {
-            _logger.LogInformation("  Rename Property '{0}' to '{1}' in Entity '{2}'.", relationship.PrimaryPropertyName, parsedRelationship.PrimaryPropertyName, relationship.PrimaryEntity.EntityClass);
+            _logger.LogInformation("  Rename Property '{OrginalName}' to '{NewName}' in Entity '{EntityName}'.", relationship.PrimaryPropertyName, parsedRelationship.PrimaryPropertyName, relationship.PrimaryEntity.EntityClass);
             relationship.PrimaryPropertyName = parsedRelationship.PrimaryPropertyName;
         }
 
@@ -200,15 +206,15 @@ public class SourceSynchronizer
         if (primaryRelationship == null)
             return;
 
-        if (primaryRelationship.PropertyName != parsedRelationship.PrimaryPropertyName)
+        if (parsedRelationship.PrimaryPropertyName.HasValue() && primaryRelationship.PropertyName != parsedRelationship.PrimaryPropertyName)
         {
-            _logger.LogInformation("  Rename Property '{0}' to '{1}' in Entity '{2}'.", primaryRelationship.PropertyName, parsedRelationship.PrimaryPropertyName, primaryRelationship.Entity.EntityClass);
+            _logger.LogInformation("  Rename Property '{OrginalName}' to '{NewName}' in Entity '{EntityName}'.", primaryRelationship.PropertyName, parsedRelationship.PrimaryPropertyName, primaryRelationship.Entity.EntityClass);
             primaryRelationship.PropertyName = parsedRelationship.PrimaryPropertyName;
         }
 
-        if (primaryRelationship.PrimaryPropertyName != parsedRelationship.PropertyName)
+        if (parsedRelationship.PropertyName.HasValue() && primaryRelationship.PrimaryPropertyName != parsedRelationship.PropertyName)
         {
-            _logger.LogInformation("  Rename Property '{0}' to '{1}' in Entity '{2}'.", primaryRelationship.PrimaryPropertyName, parsedRelationship.PropertyName, primaryRelationship.PrimaryEntity.EntityClass);
+            _logger.LogInformation("  Rename Property '{OrginalName}' to '{NewName}' in Entity '{EntityName}'.", primaryRelationship.PrimaryPropertyName, parsedRelationship.PropertyName, primaryRelationship.PrimaryEntity.EntityClass);
             primaryRelationship.PrimaryPropertyName = parsedRelationship.PropertyName;
         }
     }

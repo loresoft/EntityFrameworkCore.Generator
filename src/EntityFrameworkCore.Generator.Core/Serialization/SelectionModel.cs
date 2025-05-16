@@ -13,7 +13,7 @@ public class SelectionModel
     /// <value>
     /// The list of regular expression of entities to select.
     /// </value>
-    public List<MatchModel> Entities { get; set; }
+    public List<MatchModel>? Entities { get; set; }
 
     /// <summary>
     /// Gets or sets a list of regular expression of properties to select.
@@ -21,6 +21,6 @@ public class SelectionModel
     /// <value>
     /// The list of regular expression of properties to select.
     /// </value>
-    public List<MatchModel> Properties { get; set; }
+    public List<MatchModel>? Properties { get; set; }
 
 }

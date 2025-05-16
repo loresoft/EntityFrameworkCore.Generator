@@ -24,7 +24,7 @@ public class GenerateCommand : OptionsCommandBase
     public DatabaseProviders? Provider { get; set; }
 
     [Option("-c <ConnectionString>", Description = "Database connection string to reverse engineer")]
-    public string ConnectionString { get; set; }
+    public string? ConnectionString { get; set; }
 
 
     [Option("--extensions", Description = "Include query extensions in generation")]

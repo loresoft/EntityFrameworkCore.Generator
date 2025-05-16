@@ -1,13 +1,5 @@
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-
 using EntityFrameworkCore.Generator.Options;
 using EntityFrameworkCore.Generator.Serialization;
-
-using Microsoft.CodeAnalysis.Options;
-
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace EntityFrameworkCore.Generator;
 
@@ -29,7 +21,7 @@ public static class OptionMapper
         return options;
     }
 
-    private static void MapScript(ScriptOptions option, ScriptModel script)
+    private static void MapScript(ScriptOptions option, ScriptModel? script)
     {
         if (script == null)
             return;
@@ -159,7 +151,7 @@ public static class OptionMapper
         MapSelection(option.Renaming, entity.Renaming);
     }
 
-    private static void MapSelection(SelectionOptions option, SelectionModel selection)
+    private static void MapSelection(SelectionOptions option, SelectionModel? selection)
     {
         if (selection == null)
             return;
@@ -210,16 +202,16 @@ public static class OptionMapper
     }
 
 
-    private static void MapList<T>(IList<T> targetList, IList<T> sourceList)
+    private static void MapList<T>(IList<T> targetList, IList<T>? sourceList)
     {
-        if (!(sourceList?.Count > 0))
+        if (sourceList == null || sourceList.Count == 0)
             return;
 
         foreach (var source in sourceList)
             targetList.Add(source);
     }
 
-    private static void MapList<TTarget, TSource>(IList<TTarget> targetList, IList<TSource> sourceList, Func<TSource, TTarget> factory)
+    private static void MapList<TTarget, TSource>(IList<TTarget> targetList, IList<TSource>? sourceList, Func<TSource, TTarget> factory)
     {
         if (sourceList == null || sourceList.Count == 0)
             return;
@@ -231,7 +223,7 @@ public static class OptionMapper
         }
     }
 
-    private static MatchOptions MapMatch(VariableDictionary variables, MatchModel match, string prefix)
+    private static MatchOptions MapMatch(VariableDictionary variables, MatchModel match, string? prefix)
     {
         return new MatchOptions(variables, prefix)
         {
@@ -240,7 +232,7 @@ public static class OptionMapper
         };
     }
 
-    private static TemplateOptions MapTemplate(VariableDictionary variables, TemplateModel template, string prefix)
+    private static TemplateOptions MapTemplate(VariableDictionary variables, TemplateModel template, string? prefix)
     {
         var option = new TemplateOptions(variables, prefix)
         {
@@ -261,5 +253,4 @@ public static class OptionMapper
 
         return option;
     }
-
 }

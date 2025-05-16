@@ -4,6 +4,8 @@ using System.IO;
 using System.Linq;
 using System.Text.Json;
 
+using EntityFrameworkCore.Generator.Extensions;
+
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Configuration.UserSecrets;
 
@@ -12,7 +14,7 @@ namespace EntityFrameworkCore.Generator;
 public class SecretsStore
 {
     private readonly string _secretsFilePath;
-    private readonly IDictionary<string, string> _secrets;
+    private readonly IDictionary<string, string?> _secrets;
 
     public SecretsStore(string userSecretsId)
     {
@@ -23,18 +25,19 @@ public class SecretsStore
 
         // workaround bug in configuration
         var secretDir = Path.GetDirectoryName(_secretsFilePath);
-        Directory.CreateDirectory(secretDir);
+        if (secretDir.HasValue() && !Directory.Exists(secretDir))
+            Directory.CreateDirectory(secretDir);
 
         _secrets = Load(userSecretsId);
     }
 
-    public string this[string key] => _secrets[key];
+    public string? this[string key] => _secrets[key];
 
     public int Count => _secrets.Count;
 
     public bool ContainsKey(string key) => _secrets.ContainsKey(key);
 
-    public IEnumerable<KeyValuePair<string, string>> AsEnumerable() => _secrets;
+    public IEnumerable<KeyValuePair<string, string?>> AsEnumerable() => _secrets;
 
     public void Clear() => _secrets.Clear();
 
@@ -42,16 +45,14 @@ public class SecretsStore
 
     public void Remove(string key)
     {
-        if (_secrets.ContainsKey(key))
-        {
-            _secrets.Remove(key);
-        }
+        _secrets.Remove(key);
     }
 
     public virtual void Save()
     {
         var secretDir = Path.GetDirectoryName(_secretsFilePath);
-        Directory.CreateDirectory(secretDir);
+        if (secretDir.HasValue() && !Directory.Exists(secretDir))
+            Directory.CreateDirectory(secretDir);
 
         var options = new JsonWriterOptions
         {
@@ -70,7 +71,7 @@ public class SecretsStore
         writer.Flush();
     }
 
-    protected virtual IDictionary<string, string> Load(string userSecretsId)
+    protected virtual IDictionary<string, string?> Load(string userSecretsId)
     {
         return new ConfigurationBuilder()
             .AddJsonFile(_secretsFilePath, optional: true)

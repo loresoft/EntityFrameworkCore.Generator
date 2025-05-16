@@ -1,7 +1,5 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using EntityFrameworkCore.Generator.Metadata.Parsing;
+
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -10,7 +8,7 @@ namespace EntityFrameworkCore.Generator.Parsing;
 
 public class RegionVisitor : CSharpSyntaxWalker
 {
-    private readonly Stack<CodeRegion> _stack = new Stack<CodeRegion>();
+    private readonly Stack<CodeRegion> _stack = new();
 
     public RegionVisitor() : base(SyntaxWalkerDepth.StructuredTrivia)
     {
@@ -21,6 +19,9 @@ public class RegionVisitor : CSharpSyntaxWalker
 
     public override void VisitRegionDirectiveTrivia(RegionDirectiveTriviaSyntax node)
     {
+        if (node == null)
+            return;
+
         var region = new CodeRegion
         {
             StartIndex = node.FullSpan.Start,
@@ -33,7 +34,7 @@ public class RegionVisitor : CSharpSyntaxWalker
 
     public override void VisitEndRegionDirectiveTrivia(EndRegionDirectiveTriviaSyntax node)
     {
-        if (_stack.Count == 0)
+        if (node == null || _stack.Count == 0)
             return;
 
         var region = _stack.Pop();
@@ -44,12 +45,11 @@ public class RegionVisitor : CSharpSyntaxWalker
         base.VisitEndRegionDirectiveTrivia(node);
     }
 
-    private string ParseRegionName(RegionDirectiveTriviaSyntax node)
+    private static string ParseRegionName(RegionDirectiveTriviaSyntax node)
     {
         var preprocessingMessage = node
             .DescendantTrivia()
             .FirstOrDefault(t => t.IsKind(SyntaxKind.PreprocessingMessageTrivia));
-
 
         return preprocessingMessage.ToString();
     }

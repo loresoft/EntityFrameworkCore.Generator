@@ -38,7 +38,7 @@ public class SharedModel
     /// <value>
     /// The include selection options.
     /// </value>
-    public SelectionModel Include { get; set; }
+    public SelectionModel? Include { get; set; }
 
     /// <summary>
     /// Gets or sets the exclude selection options.
@@ -46,5 +46,5 @@ public class SharedModel
     /// <value>
     /// The exclude selection options.
     /// </value>
-    public SelectionModel Exclude { get; set; }
+    public SelectionModel? Exclude { get; set; }
 }

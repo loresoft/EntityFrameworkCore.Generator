@@ -13,7 +13,7 @@ public class ContextClassOptions : ClassOptionsBase
     /// <summary>
     /// Initializes a new instance of the <see cref="ContextClassOptions"/> class.
     /// </summary>
-    public ContextClassOptions(VariableDictionary variables, string prefix)
+    public ContextClassOptions(VariableDictionary variables, string? prefix)
         : base(variables, AppendPrefix(prefix, "Context"))
     {
         Namespace = "{Project.Namespace}.Data";

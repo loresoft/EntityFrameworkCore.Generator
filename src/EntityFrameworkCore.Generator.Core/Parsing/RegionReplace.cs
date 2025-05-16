@@ -4,7 +4,7 @@ namespace EntityFrameworkCore.Generator.Parsing;
 
 public class RegionReplace
 {
-    public RegionReplace(RegionParser regionParser = null)
+    public RegionReplace(RegionParser? regionParser = null)
     {
         RegionParser = regionParser ?? new RegionParser();
     }
@@ -13,6 +13,9 @@ public class RegionReplace
 
     public void MergeFile(string fullPath, string outputContent)
     {
+        if (string.IsNullOrEmpty(fullPath) || string.IsNullOrEmpty(outputContent) || !Path.Exists(fullPath))
+            return;
+
         var originalContent = File.ReadAllText(fullPath);
 
         var finalContent = MergeContent(originalContent, outputContent);
@@ -22,6 +25,9 @@ public class RegionReplace
 
     public string MergeContent(string originalContent, string outputContent)
     {
+        if (string.IsNullOrEmpty(originalContent) || string.IsNullOrEmpty(outputContent))
+            return originalContent;
+
         var outputRegions = RegionParser.ParseRegions(outputContent);
 
         var originalRegions = RegionParser.ParseRegions(originalContent);

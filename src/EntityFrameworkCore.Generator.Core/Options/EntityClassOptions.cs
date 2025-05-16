@@ -11,7 +11,7 @@ public class EntityClassOptions : ClassOptionsBase
     /// <summary>
     /// Initializes a new instance of the <see cref="EntityClassOptions"/> class.
     /// </summary>
-    public EntityClassOptions(VariableDictionary variables, string prefix)
+    public EntityClassOptions(VariableDictionary variables, string? prefix)
         : base(variables, AppendPrefix(prefix, "Entity"))
     {
         Namespace = "{Project.Namespace}.Data.Entities";

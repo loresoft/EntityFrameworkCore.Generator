@@ -1,58 +1,42 @@
-using System.Text;
-
 namespace EntityFrameworkCore.Generator.Extensions;
 
-public static class EnumerableExtensions
+/// <summary>
+/// Provides extension methods for <see cref="IEnumerable{T}"/> to assist with string formatting and conversion.
+/// </summary>
+public static partial class EnumerableExtensions
 {
-    public static string ToDelimitedString<T>(this IEnumerable<T> values)
-    {
-        return values.ToDelimitedString(",");
-    }
+    /// <summary>
+    /// Concatenates the members of a sequence, using the specified delimiter between each member, and returns the resulting string.
+    /// </summary>
+    /// <typeparam name="T">
+    /// The type of the elements in the sequence.
+    /// </typeparam>
+    /// <param name="values">
+    /// The sequence of values to concatenate. Each value will be converted to a string using its <c>ToString()</c> method.
+    /// </param>
+    /// <param name="delimiter">
+    /// The string to use as a delimiter. If <c>null</c>, a comma (",") is used by default.
+    /// </param>
+    /// <returns>
+    /// A string that consists of the elements in <paramref name="values"/> delimited by the <paramref name="delimiter"/> string.
+    /// If <paramref name="values"/> is empty, returns <see cref="string.Empty"/>.
+    /// </returns>
+    public static string ToDelimitedString<T>(this IEnumerable<T?> values, string? delimiter = ",")
+        => string.Join(delimiter ?? ",", values);
 
-    public static string ToDelimitedString<T>(this IEnumerable<T> values, string delimiter)
-    {
-        if (values is null)
-            return null;
-
-        var sb = new StringBuilder();
-        foreach (var i in values)
-        {
-            if (sb.Length > 0)
-                sb.Append(delimiter ?? ",");
-            sb.Append(i.ToString());
-        }
-
-        return sb.ToString();
-    }
-
-    public static string ToDelimitedString(this IEnumerable<string> values)
-    {
-        return values.ToDelimitedString(",");
-    }
-
-    public static string ToDelimitedString(this IEnumerable<string> values, string delimiter)
-    {
-        return values.ToDelimitedString(delimiter, null);
-    }
-
-    public static string ToDelimitedString(this IEnumerable<string> values, string delimiter, Func<string, string> escapeDelimiter)
-    {
-        if (values is null)
-            return null;
-
-        var sb = new StringBuilder();
-        foreach (var value in values)
-        {
-            if (sb.Length > 0)
-                sb.Append(delimiter);
-
-            var v = escapeDelimiter != null
-                ? escapeDelimiter(value ?? string.Empty)
-                : value ?? string.Empty;
-
-            sb.Append(v);
-        }
-
-        return sb.ToString();
-    }
+    /// <summary>
+    /// Concatenates the members of a sequence of strings, using the specified delimiter between each member, and returns the resulting string.
+    /// </summary>
+    /// <param name="values">
+    /// The sequence of string values to concatenate. <c>null</c> values are treated as empty strings.
+    /// </param>
+    /// <param name="delimiter">
+    /// The string to use as a delimiter. If <c>null</c>, a comma (",") is used by default.
+    /// </param>
+    /// <returns>
+    /// A string that consists of the elements in <paramref name="values"/> delimited by the <paramref name="delimiter"/> string.
+    /// If <paramref name="values"/> is empty, returns <see cref="string.Empty"/>.
+    /// </returns>
+    public static string ToDelimitedString(this IEnumerable<string?> values, string? delimiter = ",")
+        => string.Join(delimiter ?? ",", values);
 }

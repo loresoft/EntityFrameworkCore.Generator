@@ -1,5 +1,5 @@
-﻿using System.IO;
 using EntityFrameworkCore.Generator.Metadata.Parsing;
+
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.Extensions.Logging;
@@ -15,20 +15,20 @@ public class MappingParser
         _logger = loggerFactory.CreateLogger<MappingParser>();
     }
 
-    public ParsedEntity ParseFile(string mappingFile)
+    public ParsedEntity? ParseFile(string mappingFile)
     {
         if (string.IsNullOrEmpty(mappingFile) || !File.Exists(mappingFile))
             return null;
 
         _logger.LogDebug(
-            "Parsing Mapping File: '{0}'",
+            "Parsing Mapping File: '{MappingFile}'",
             Path.GetFileName(mappingFile));
 
         var code = File.ReadAllText(mappingFile);
         return ParseCode(code);
     }
 
-    public ParsedEntity ParseCode(string code)
+    public ParsedEntity? ParseCode(string code)
     {
         if (string.IsNullOrWhiteSpace(code))
             return null;
@@ -45,7 +45,7 @@ public class MappingParser
             return null;
 
         _logger.LogDebug(
-            "Parsed Mapping Class: '{0}'; Properties: {1}; Relationships: {2}",
+            "Parsed Mapping Class: '{MappingClass}'; Properties: {Properties}; Relationships: {Relationships}",
             parsedEntity.MappingClass,
             parsedEntity.Properties.Count,
             parsedEntity.Relationships.Count);

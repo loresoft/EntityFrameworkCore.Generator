@@ -11,7 +11,7 @@ public class MappingClassOptions : ClassOptionsBase
     /// <summary>
     /// Initializes a new instance of the <see cref="MappingClassOptions"/> class.
     /// </summary>
-    public MappingClassOptions(VariableDictionary variables, string prefix)
+    public MappingClassOptions(VariableDictionary variables, string? prefix)
         : base(variables, AppendPrefix(prefix, "Mapping"))
     {
         Namespace = "{Project.Namespace}.Data.Mapping";

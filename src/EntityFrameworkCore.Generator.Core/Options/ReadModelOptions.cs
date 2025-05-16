@@ -1,4 +1,4 @@
-﻿namespace EntityFrameworkCore.Generator.Options;
+namespace EntityFrameworkCore.Generator.Options;
 
 /// <summary>
 /// Read model options
@@ -9,7 +9,7 @@ public class ReadModelOptions : ModelOptionsBase
     /// <summary>
     /// Initializes a new instance of the <see cref="ReadModelOptions"/> class.
     /// </summary>
-    public ReadModelOptions(VariableDictionary variables, string prefix)
+    public ReadModelOptions(VariableDictionary variables, string? prefix)
         : base(variables, AppendPrefix(prefix, "Read"))
     {
         Name = "{Entity.Name}ReadModel";

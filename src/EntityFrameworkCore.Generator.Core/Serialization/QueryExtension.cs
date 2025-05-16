@@ -1,3 +1,5 @@
+using System.ComponentModel;
+
 namespace EntityFrameworkCore.Generator.Serialization;
 
 /// <summary>
@@ -25,6 +27,7 @@ public class QueryExtension : ClassBase
     /// <value>
     ///   <c>true</c> to generate; otherwise, <c>false</c>.
     /// </value>
+    [DefaultValue(false)]
     public bool Generate { get; set; }
 
     /// <summary>

@@ -1,6 +1,3 @@
-using System.IO;
-using System.Text;
-
 using EntityFrameworkCore.Generator.Extensions;
 using EntityFrameworkCore.Generator.Options;
 using EntityFrameworkCore.Generator.Parsing;
@@ -17,7 +14,7 @@ namespace EntityFrameworkCore.Generator.Scripts;
 public abstract class ScriptTemplateBase<TVariable>
     where TVariable : ScriptVariablesBase
 {
-    private Script<string> _scriptTemplate;
+    private Script<string>? _scriptTemplate;
 
     protected ScriptTemplateBase(ILoggerFactory loggerFactory, GeneratorOptions generatorOptions, TemplateOptions templateOptions)
     {
@@ -51,12 +48,17 @@ public abstract class ScriptTemplateBase<TVariable>
 
         // save file
         var directory = TemplateOptions.Directory;
-        if (!Directory.Exists(directory))
+        if (directory.HasValue() && !Directory.Exists(directory))
             Directory.CreateDirectory(directory);
 
         var fileName = TemplateOptions.FileName;
-        var path = Path.Combine(directory, fileName);
+        if (directory.IsNullOrEmpty() || fileName.IsNullOrEmpty())
+        {
+            Logger.LogWarning("Template '{template}' could not resolve output file.", templatePath);
+            return;
+        }
 
+        var path = Path.Combine(directory, fileName);
         var exists = File.Exists(path);
 
         if (exists && !(TemplateOptions.Merge || TemplateOptions.Overwrite))
@@ -65,9 +67,10 @@ public abstract class ScriptTemplateBase<TVariable>
             return;
         }
 
-        Logger.LogInformation(exists
-            ? $"Updating template script file: {fileName}"
-            : $"Creating template script file: {fileName}");
+        if (File.Exists(path))
+            Logger.LogInformation("Updating template script file: {fileName}", fileName);
+        else
+            Logger.LogInformation("Creating template script file: {fileName}", fileName);
 
         // get content
         var content = ExecuteScript();
@@ -87,6 +90,12 @@ public abstract class ScriptTemplateBase<TVariable>
     protected virtual string ExecuteScript()
     {
         var templatePath = TemplateOptions.TemplatePath;
+        if (!File.Exists(templatePath))
+        {
+            Logger.LogWarning("Template '{template}' could not be found.", templatePath);
+            return string.Empty;
+        }
+
         var script = LoadScript(templatePath);
         var variables = CreateVariables();
 

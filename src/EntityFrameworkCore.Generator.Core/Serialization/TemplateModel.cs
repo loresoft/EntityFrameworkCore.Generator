@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.ComponentModel;
 
 namespace EntityFrameworkCore.Generator.Serialization;
 
@@ -13,7 +14,7 @@ public class TemplateModel
     /// <value>
     /// The template file path.
     /// </value>
-    public string TemplatePath { get; set; }
+    public string? TemplatePath { get; set; }
 
     /// <summary>
     /// Gets or sets the name of the class
@@ -21,7 +22,7 @@ public class TemplateModel
     /// <value>
     /// The name of the class.
     /// </value>
-    public string FileName { get; set; }
+    public string? FileName { get; set; }
 
     /// <summary>
     /// Gets or sets the class namespace.
@@ -29,7 +30,7 @@ public class TemplateModel
     /// <value>
     /// The class namespace.
     /// </value>
-    public string Namespace { get; set; }
+    public string? Namespace { get; set; }
 
     /// <summary>
     /// Gets or sets the base class.
@@ -37,7 +38,7 @@ public class TemplateModel
     /// <value>
     /// The base class.
     /// </value>
-    public string BaseClass { get; set; }
+    public string? BaseClass { get; set; }
 
 
     /// <summary>
@@ -46,7 +47,7 @@ public class TemplateModel
     /// <value>
     /// The output directory.
     /// </value>
-    public string Directory { get; set; }
+    public string? Directory { get; set; }
 
     /// <summary>
     /// Gets or sets a value indicating whether the generated file will be overwritten.
@@ -54,6 +55,7 @@ public class TemplateModel
     /// <value>
     ///   <c>true</c> to overwrite generated file; otherwise, <c>false</c>.
     /// </value>
+    [DefaultValue(false)]
     public bool Overwrite { get; set; }
 
     /// <summary>
@@ -62,6 +64,7 @@ public class TemplateModel
     /// <value>
     ///   <c>true</c> to merged via region replacement; otherwise, <c>false</c>.
     /// </value>
+    [DefaultValue(false)]
     public bool Merge { get; set; }
 
     /// <summary>
@@ -70,6 +73,6 @@ public class TemplateModel
     /// <value>
     /// The template parameters.
     /// </value>
-    public Dictionary<string, string> Parameters { get; set; }
+    public Dictionary<string, string>? Parameters { get; set; }
 
 }

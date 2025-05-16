@@ -1,4 +1,4 @@
-﻿namespace EntityFrameworkCore.Generator.Options;
+namespace EntityFrameworkCore.Generator.Options;
 
 /// <summary>
 /// Create model file generation options
@@ -9,7 +9,7 @@ public class CreateModelOptions : ModelOptionsBase
     /// <summary>
     /// Initializes a new instance of the <see cref="CreateModelOptions"/> class.
     /// </summary>
-    public CreateModelOptions(VariableDictionary variables, string prefix)
+    public CreateModelOptions(VariableDictionary variables, string? prefix)
         : base(variables, AppendPrefix(prefix, "Create"))
     {
         Name = "{Entity.Name}CreateModel";

@@ -9,7 +9,7 @@ public class MapperClassOptions : ClassOptionsBase
     /// <summary>
     /// Initializes a new instance of the <see cref="MapperClassOptions"/> class.
     /// </summary>
-    public MapperClassOptions(VariableDictionary variables, string prefix)
+    public MapperClassOptions(VariableDictionary variables, string? prefix)
         : base(variables, AppendPrefix(prefix, "Mapper"))
     {
         Generate = false;

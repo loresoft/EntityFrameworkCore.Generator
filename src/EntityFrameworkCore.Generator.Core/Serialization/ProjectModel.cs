@@ -13,7 +13,7 @@ public class ProjectModel
     /// <value>
     /// The project root namespace.
     /// </value>
-    public string Namespace { get; set; }
+    public string? Namespace { get; set; }
 
     /// <summary>
     /// Gets or sets the project directory.
@@ -21,7 +21,7 @@ public class ProjectModel
     /// <value>
     /// The project directory.
     /// </value>
-    public string Directory { get; set; }
+    public string? Directory { get; set; }
 
 
     /// <summary>

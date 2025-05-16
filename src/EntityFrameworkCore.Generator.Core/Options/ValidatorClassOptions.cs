@@ -9,14 +9,14 @@ public class ValidatorClassOptions : ClassOptionsBase
     /// <summary>
     /// Initializes a new instance of the <see cref="ValidatorClassOptions"/> class.
     /// </summary>
-    public ValidatorClassOptions(VariableDictionary variables, string prefix)
+    public ValidatorClassOptions(VariableDictionary variables, string? prefix)
         : base(variables, AppendPrefix(prefix, "Validator"))
     {
         Generate = false;
         Namespace = "{Project.Namespace}.Domain.Validation";
         Directory = @"{Project.Directory}\Domain\Validation";
 
-        BaseClass = "AbstractValidator<{Model.Name}>";
+        BaseClass = "FluentValidation.AbstractValidator<{Model.Name}>";
         Name = "{Model.Name}Validator";
     }
     /// <summary>

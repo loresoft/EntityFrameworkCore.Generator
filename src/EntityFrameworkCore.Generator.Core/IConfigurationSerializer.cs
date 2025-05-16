@@ -13,7 +13,7 @@ public interface IConfigurationSerializer
     /// <param name="directory">The directory where the file is located.</param>
     /// <param name="file">The name of the options file.</param>
     /// <returns>An instance of <see cref="Serialization.GeneratorModel"/> if the file exists; otherwise <c>null</c>.</returns>
-    Serialization.GeneratorModel Load(string directory = null, string file = ConfigurationSerializer.OptionsFileName);
+    Serialization.GeneratorModel? Load(string? directory = null, string file = ConfigurationSerializer.OptionsFileName);
 
     /// <summary>
     /// Loads the options using the specified <paramref name="reader" />
@@ -22,7 +22,7 @@ public interface IConfigurationSerializer
     /// <returns>
     /// An instance of <see cref="Generator" />.
     /// </returns>
-    Serialization.GeneratorModel Load(TextReader reader);
+    Serialization.GeneratorModel? Load(TextReader reader);
 
     /// <summary>
     /// Saves the generator options to the specified <paramref name="directory"/> and <paramref name="file"/>.
@@ -31,7 +31,7 @@ public interface IConfigurationSerializer
     /// <param name="directory">The directory where the file is located.</param>
     /// <param name="file">The name of the options file.</param>
     /// <returns>The full path of the options file.</returns>
-    string Save(Serialization.GeneratorModel generatorOptions, string directory = null, string file = ConfigurationSerializer.OptionsFileName);
+    string Save(Serialization.GeneratorModel generatorOptions, string? directory = null, string file = ConfigurationSerializer.OptionsFileName);
 
     /// <summary>
     /// Determines if the specified options file exists.
@@ -39,5 +39,5 @@ public interface IConfigurationSerializer
     /// <param name="directory">The directory where the file is located.</param>
     /// <param name="file">The name of the options file.</param>
     /// <returns><c>true</c> if options file exits; otherwise <c>false</c>.</returns>
-    bool Exists(string directory = null, string file = ConfigurationSerializer.OptionsFileName);
+    bool Exists(string? directory = null, string file = ConfigurationSerializer.OptionsFileName);
 }

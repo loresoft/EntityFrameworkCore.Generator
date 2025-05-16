@@ -9,7 +9,7 @@ public class QueryExtensionOptions : ClassOptionsBase
     /// <summary>
     /// Initializes a new instance of the <see cref="QueryExtensionOptions"/> class.
     /// </summary>
-    public QueryExtensionOptions(VariableDictionary variables, string prefix)
+    public QueryExtensionOptions(VariableDictionary variables, string? prefix)
         : base(variables, AppendPrefix(prefix, "Query"))
     {
         Namespace = "{Project.Namespace}.Data.Queries";
@@ -35,7 +35,7 @@ public class QueryExtensionOptions : ClassOptionsBase
     /// <value>
     /// The prefix of query method names
     /// </value>
-    public string IndexPrefix
+    public string? IndexPrefix
     {
         get => GetProperty();
         set => SetProperty(value);
@@ -47,7 +47,7 @@ public class QueryExtensionOptions : ClassOptionsBase
     /// <value>
     /// The prefix of unique query method names.
     /// </value>
-    public string UniquePrefix
+    public string? UniquePrefix
     {
         get => GetProperty();
         set => SetProperty(value);

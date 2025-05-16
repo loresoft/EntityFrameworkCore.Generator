@@ -14,10 +14,10 @@ public class Entity : ModelBase, IOptionVariable
     /// </summary>
     public Entity()
     {
-        Properties = new PropertyCollection();
-        Relationships = new RelationshipCollection();
-        Methods = new MethodCollection();
-        Models = new ModelCollection();
+        Properties = [];
+        Relationships = [];
+        Methods = [];
+        Models = [];
     }
 
     /// <summary>
@@ -26,7 +26,7 @@ public class Entity : ModelBase, IOptionVariable
     /// <value>
     /// The parent context this entity belongs to.
     /// </value>
-    public EntityContext Context { get; set; }
+    public EntityContext Context { get; set; } = null!;
 
     /// <summary>
     /// Gets or sets the property name for this entity on the data context.
@@ -34,7 +34,7 @@ public class Entity : ModelBase, IOptionVariable
     /// <value>
     /// The property name for this entity on the data context.
     /// </value>
-    public string ContextProperty { get; set; }
+    public string ContextProperty { get; set; } = null!;
 
 
     /// <summary>
@@ -43,7 +43,7 @@ public class Entity : ModelBase, IOptionVariable
     /// <value>
     /// The entity namespace.
     /// </value>
-    public string EntityNamespace { get; set; }
+    public string EntityNamespace { get; set; } = null!;
 
     /// <summary>
     /// Gets or sets the name of the entity class.
@@ -51,7 +51,7 @@ public class Entity : ModelBase, IOptionVariable
     /// <value>
     /// The name of the entity class.
     /// </value>
-    public string EntityClass { get; set; }
+    public string EntityClass { get; set; } = null!;
 
     /// <summary>
     /// Gets or sets the entity base class.
@@ -59,7 +59,7 @@ public class Entity : ModelBase, IOptionVariable
     /// <value>
     /// The entity base class.
     /// </value>
-    public string EntityBaseClass { get; set; }
+    public string? EntityBaseClass { get; set; }
 
 
     /// <summary>
@@ -68,7 +68,7 @@ public class Entity : ModelBase, IOptionVariable
     /// <value>
     /// The mapping namespace.
     /// </value>
-    public string MappingNamespace { get; set; }
+    public string MappingNamespace { get; set; } = null!;
 
     /// <summary>
     /// Gets or sets the name of the table mapping class.
@@ -76,7 +76,7 @@ public class Entity : ModelBase, IOptionVariable
     /// <value>
     /// The name of the table mapping class.
     /// </value>
-    public string MappingClass { get; set; }
+    public string MappingClass { get; set; } = null!;
 
 
     /// <summary>
@@ -85,7 +85,7 @@ public class Entity : ModelBase, IOptionVariable
     /// <value>
     /// The mapper class.
     /// </value>
-    public string MapperClass { get; set; }
+    public string MapperClass { get; set; } = null!;
 
     /// <summary>
     /// Gets or sets the mapper namespace.
@@ -93,7 +93,7 @@ public class Entity : ModelBase, IOptionVariable
     /// <value>
     /// The mapper namespace.
     /// </value>
-    public string MapperNamespace { get; set; }
+    public string MapperNamespace { get; set; } = null!;
 
     /// <summary>
     /// Gets or sets the mapper base class.
@@ -101,7 +101,7 @@ public class Entity : ModelBase, IOptionVariable
     /// <value>
     /// The mapper base class.
     /// </value>
-    public string MapperBaseClass { get; set; }
+    public string? MapperBaseClass { get; set; }
 
 
     /// <summary>
@@ -110,7 +110,7 @@ public class Entity : ModelBase, IOptionVariable
     /// <value>
     /// The table schema.
     /// </value>
-    public string TableSchema { get; set; }
+    public string? TableSchema { get; set; }
 
     /// <summary>
     /// Gets or sets the name of the table.
@@ -118,7 +118,7 @@ public class Entity : ModelBase, IOptionVariable
     /// <value>
     /// The name of the table.
     /// </value>
-    public string TableName { get; set; }
+    public string TableName { get; set; } = null!;
 
 
     /// <summary>
@@ -169,7 +169,7 @@ public class Entity : ModelBase, IOptionVariable
     /// <value>
     /// The name of the temporal table.
     /// </value>
-    public string TemporalTableName { get; set; }
+    public string? TemporalTableName { get; set; }
 
     /// <summary>
     /// Gets or sets the temporal table schema.
@@ -177,7 +177,7 @@ public class Entity : ModelBase, IOptionVariable
     /// <value>
     /// The temporal table schema.
     /// </value>
-    public string TemporalTableSchema { get; set; }
+    public string? TemporalTableSchema { get; set; }
 
     /// <summary>
     /// Gets or sets the temporal start property.
@@ -185,7 +185,7 @@ public class Entity : ModelBase, IOptionVariable
     /// <value>
     /// The temporal start property.
     /// </value>
-    public string TemporalStartProperty { get; set; }
+    public string? TemporalStartProperty { get; set; }
 
     /// <summary>
     /// Gets or sets the temporal start column.
@@ -193,7 +193,7 @@ public class Entity : ModelBase, IOptionVariable
     /// <value>
     /// The temporal start column.
     /// </value>
-    public string TemporalStartColumn { get; set; }
+    public string? TemporalStartColumn { get; set; }
 
     /// <summary>
     /// Gets or sets the temporal end property.
@@ -201,7 +201,7 @@ public class Entity : ModelBase, IOptionVariable
     /// <value>
     /// The temporal end property.
     /// </value>
-    public string TemporalEndProperty { get; set; }
+    public string? TemporalEndProperty { get; set; }
 
     /// <summary>
     /// Gets or sets the temporal end column.
@@ -209,7 +209,7 @@ public class Entity : ModelBase, IOptionVariable
     /// <value>
     /// The temporal end column.
     /// </value>
-    public string TemporalEndColumn { get; set; }
+    public string? TemporalEndColumn { get; set; }
 
     void IOptionVariable.Set(VariableDictionary variableDictionary)
     {

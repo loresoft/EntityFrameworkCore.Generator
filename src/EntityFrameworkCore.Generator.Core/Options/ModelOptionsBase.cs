@@ -9,7 +9,7 @@ public abstract class ModelOptionsBase : ClassOptionsBase
     /// <summary>
     /// Initializes a new instance of the <see cref="ModelOptionsBase"/> class.
     /// </summary>
-    protected ModelOptionsBase(VariableDictionary variables, string prefix)
+    protected ModelOptionsBase(VariableDictionary variables, string? prefix)
         : base(variables, prefix)
     {
         // null so shared option is used

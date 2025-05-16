@@ -22,13 +22,13 @@ public class InitializeCommand : OptionsCommandBase
     public DatabaseProviders? Provider { get; set; }
 
     [Option("-c <ConnectionString>", Description = "Database connection string to reverse engineer")]
-    public string ConnectionString { get; set; }
+    public string? ConnectionString { get; set; }
 
     [Option("--id <UserSecretsId>", Description = "The user secret ID to use")]
-    public string UserSecretsId { get; set; }
+    public string? UserSecretsId { get; set; }
 
     [Option("--name <ConnectionName>", Description = "The user secret configuration name")]
-    public string ConnectionName { get; set; }
+    public string? ConnectionName { get; set; }
 
     protected override int OnExecute(CommandLineApplication application)
     {
@@ -42,7 +42,7 @@ public class InitializeCommand : OptionsCommandBase
 
         var optionsFile = OptionsFile ?? ConfigurationSerializer.OptionsFileName;
 
-        Serialization.GeneratorModel options = null;
+        Serialization.GeneratorModel? options = null;
 
         if (Serializer.Exists(workingDirectory, optionsFile))
             options = Serializer.Load(workingDirectory, optionsFile);
@@ -62,7 +62,7 @@ public class InitializeCommand : OptionsCommandBase
         if (ConnectionString.HasValue())
         {
             if (UserSecretsId.HasValue())
-                options = CreateUserSecret(options);
+                options = CreateUserSecret(options, ConnectionString);
             else
                 options.Database.ConnectionString = ConnectionString;
         }
@@ -72,7 +72,7 @@ public class InitializeCommand : OptionsCommandBase
         return 0;
     }
 
-    private Serialization.GeneratorModel CreateUserSecret(Serialization.GeneratorModel options)
+    private Serialization.GeneratorModel CreateUserSecret(Serialization.GeneratorModel options, string connectionString)
     {
         if (options.Database.UserSecretsId.IsNullOrWhiteSpace())
             options.Database.UserSecretsId = Guid.NewGuid().ToString();
@@ -84,7 +84,7 @@ public class InitializeCommand : OptionsCommandBase
 
         // save connection string to user secrets file
         var secretsStore = new SecretsStore(options.Database.UserSecretsId);
-        secretsStore.Set(options.Database.ConnectionName, ConnectionString);
+        secretsStore.Set(options.Database.ConnectionName, connectionString);
         secretsStore.Save();
 
         return options;

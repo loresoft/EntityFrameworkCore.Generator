@@ -1,4 +1,5 @@
-using System.Collections.Generic;
+// Ignore Spelling: Schemas
+
 using System.ComponentModel;
 
 using EntityFrameworkCore.Generator.Options;
@@ -25,7 +26,7 @@ public class DatabaseModel
     /// <value>
     /// The connection string for reverse engineering the database
     /// </value>
-    public string ConnectionString { get; set; }
+    public string? ConnectionString { get; set; }
 
     /// <summary>
     /// Gets or sets the name of the connection in the user secret file.
@@ -33,7 +34,7 @@ public class DatabaseModel
     /// <value>
     /// The name of the connection.
     /// </value>
-    public string ConnectionName { get; set; }
+    public string? ConnectionName { get; set; }
 
     /// <summary>
     /// Gets or sets the user secrets identifier. A user secrets ID is unique value used to store and identify a collection of secret configuration values.
@@ -41,7 +42,7 @@ public class DatabaseModel
     /// <value>
     /// The user secrets identifier.
     /// </value>
-    public string UserSecretsId { get; set; }
+    public string? UserSecretsId { get; set; }
 
 
     /// <summary>
@@ -60,7 +61,7 @@ public class DatabaseModel
     /// <value>
     /// The tables to include in the model, or an empty enumerable to include all
     /// </value>
-    public List<string> Tables { get; set; }
+    public List<string>? Tables { get; set; }
 
     /// <summary>
     /// Gets or sets the schema to include in the model, or an empty enumerable to include all.
@@ -68,7 +69,7 @@ public class DatabaseModel
     /// <value>
     /// The schema to include in the model, or an empty enumerable to include all.
     /// </value>
-    public List<string> Schemas { get; set; }
+    public List<string>? Schemas { get; set; }
 
     /// <summary>
     /// Gets or sets the exclude table options.
@@ -76,6 +77,6 @@ public class DatabaseModel
     /// <value>
     /// The exclude table options.
     /// </value>
-    public List<MatchModel> Exclude { get; set; }
+    public List<MatchModel>? Exclude { get; set; }
 
 }

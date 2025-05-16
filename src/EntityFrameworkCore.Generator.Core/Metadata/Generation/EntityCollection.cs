@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace EntityFrameworkCore.Generator.Metadata.Generation;
@@ -48,8 +48,11 @@ public class EntityCollection
     /// <returns>
     /// The <see cref="Entity" /> with the specified table <paramref name="tableName" /> and <paramref name="tableSchema" />.
     /// </returns>
-    public Entity ByTable(string tableName, string tableSchema)
+    public Entity? ByTable(string? tableName, string? tableSchema)
     {
+        if (string.IsNullOrEmpty(tableName) && string.IsNullOrEmpty(tableSchema))
+            return null;
+
         return this.FirstOrDefault(x => x.TableName == tableName && x.TableSchema == tableSchema);
     }
 
@@ -60,8 +63,11 @@ public class EntityCollection
     /// <returns>
     /// The <see cref="Entity" /> with the specified <paramref name="className" />.
     /// </returns>
-    public Entity ByClass(string className)
+    public Entity? ByClass(string? className)
     {
+        if (string.IsNullOrEmpty(className))
+            return null;
+
         return this.FirstOrDefault(x => x.EntityClass == className);
     }
 }

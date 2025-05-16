@@ -53,7 +53,7 @@ public class EntityClass : ClassBase
     /// <value>
     /// The renaming expressions.
     /// </value>
-    public SelectionModel Renaming { get; set; }
+    public SelectionModel? Renaming { get; set; }
 
     /// <summary>
     /// Gets or sets if mapping attributes are included on the entity classes. Default false

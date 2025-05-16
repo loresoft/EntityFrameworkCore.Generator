@@ -30,6 +30,7 @@
     <DefaultLanguage>en-US</DefaultLanguage>
     <LangVersion>latest</LangVersion>
     <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
     <NoWarn>1591</NoWarn>
   </PropertyGroup>
 

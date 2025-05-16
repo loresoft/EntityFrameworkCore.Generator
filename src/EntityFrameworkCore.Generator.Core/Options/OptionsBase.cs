@@ -11,31 +11,39 @@ public class OptionsBase
     /// </summary>
     /// <param name="variables">The shared variables dictionary.</param>
     /// <param name="prefix">The variable key prefix.</param>
-    public OptionsBase(VariableDictionary variables, string prefix)
+    public OptionsBase(VariableDictionary variables, string? prefix)
     {
+        ArgumentNullException.ThrowIfNull(variables);
+
         Variables = variables;
         Prefix = prefix;
     }
 
     public VariableDictionary Variables { get; }
 
-    public string Prefix { get; }
+    public string? Prefix { get; }
 
 
-    protected string GetProperty([CallerMemberName] string propertyName = null)
+    protected string? GetProperty([CallerMemberName] string? propertyName = null)
     {
         var name = AppendPrefix(Prefix, propertyName);
+        if (name.IsNullOrWhiteSpace())
+            return null;
+
         return Variables.Get(name);
     }
 
-    protected void SetProperty(string value, [CallerMemberName] string propertyName = null)
+    protected void SetProperty(string? value, [CallerMemberName] string? propertyName = null)
     {
         var name = AppendPrefix(Prefix, propertyName);
+        if (name.IsNullOrWhiteSpace())
+            return;
+
         Variables.Set(name, value);
     }
 
 
-    public static string AppendPrefix(string root, string prefix)
+    public static string? AppendPrefix(string? root, string? prefix)
     {
         if (prefix.IsNullOrWhiteSpace())
             return root;

@@ -105,9 +105,9 @@ public class QueryExtensionTemplate : CodeTemplateBase
 
     private void GenerateMethod(Method method)
     {
-        string safeName = _entity.EntityNamespace + "." + _entity.EntityClass.ToSafeName();
-        string prefix = Options.Data.Query.IndexPrefix;
-        string suffix = method.NameSuffix;
+        var safeName = _entity.EntityNamespace + "." + _entity.EntityClass.ToSafeName();
+        var prefix = Options.Data.Query.IndexPrefix;
+        var suffix = method.NameSuffix;
 
         if (Options.Data.Query.Document)
         {
@@ -131,7 +131,7 @@ public class QueryExtensionTemplate : CodeTemplateBase
                 CodeBuilder.AppendLine("throw new ArgumentNullException(nameof(queryable));");
             CodeBuilder.AppendLine();
 
-            CodeBuilder.Append($"return queryable.Where(");
+            CodeBuilder.Append("return queryable.Where(");
             AppendLamba(method);
             CodeBuilder.AppendLine(");");
         }
@@ -142,15 +142,15 @@ public class QueryExtensionTemplate : CodeTemplateBase
 
     private void GenerateUniqueMethod(Method method, bool async = false)
     {
-        string safeName = _entity.EntityNamespace + "." + _entity.EntityClass.ToSafeName();
-        string uniquePrefix = Options.Data.Query.UniquePrefix;
-        string suffix = method.NameSuffix;
+        var safeName = _entity.EntityNamespace + "." + _entity.EntityClass.ToSafeName();
+        var uniquePrefix = Options.Data.Query.UniquePrefix;
+        var suffix = method.NameSuffix;
 
-        string asyncSuffix = async ? "Async" : string.Empty;
-        string asyncPrefix = async ? "async " : string.Empty;
-        string awaitPrefix = async ? "await " : string.Empty;
-        string nullableSuffix = Options.Project.Nullable ? "?" : "";
-        string returnType = async ? $"System.Threading.Tasks.Task<{safeName}{nullableSuffix}>" : safeName + nullableSuffix;
+        var asyncSuffix = async ? "Async" : string.Empty;
+        var asyncPrefix = async ? "async " : string.Empty;
+        var awaitPrefix = async ? "await " : string.Empty;
+        var nullableSuffix = Options.Project.Nullable ? "?" : "";
+        var returnType = async ? $"System.Threading.Tasks.Task<{safeName}{nullableSuffix}>" : safeName + nullableSuffix;
 
         if (Options.Data.Query.Document)
         {
@@ -199,14 +199,14 @@ public class QueryExtensionTemplate : CodeTemplateBase
 
     private void GenerateKeyMethod(Method method, bool async = false)
     {
-        string safeName = _entity.EntityNamespace + "." + _entity.EntityClass.ToSafeName();
-        string uniquePrefix = Options.Data.Query.UniquePrefix;
+        var safeName = _entity.EntityNamespace + "." + _entity.EntityClass.ToSafeName();
+        var uniquePrefix = Options.Data.Query.UniquePrefix;
 
-        string asyncSuffix = async ? "Async" : string.Empty;
-        string asyncPrefix = async ? "async " : string.Empty;
-        string awaitPrefix = async ? "await " : string.Empty;
-        string nullableSuffix = Options.Project.Nullable ? "?" : "";
-        string returnType = async ? $"System.Threading.Tasks.ValueTask<{safeName}{nullableSuffix}>" : safeName + nullableSuffix;
+        var asyncSuffix = async ? "Async" : string.Empty;
+        var asyncPrefix = async ? "async " : string.Empty;
+        var awaitPrefix = async ? "await " : string.Empty;
+        var nullableSuffix = Options.Project.Nullable ? "?" : "";
+        var returnType = async ? $"System.Threading.Tasks.ValueTask<{safeName}{nullableSuffix}>" : safeName + nullableSuffix;
 
         if (Options.Data.Query.Document)
         {
@@ -290,11 +290,11 @@ public class QueryExtensionTemplate : CodeTemplateBase
             if (wrote)
                 CodeBuilder.Append(", ");
 
-            string paramName = property.PropertyName
+            var paramName = property.PropertyName
                 .ToCamelCase()
                 .ToSafeName();
 
-            string paramType = property.SystemType
+            var paramType = property.SystemType
                 .ToNullableType(property.IsNullable == true);
 
             CodeBuilder.Append($"{paramType} {paramName}");

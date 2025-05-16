@@ -17,20 +17,20 @@ public class ContextParser
         _logger = loggerFactory.CreateLogger<ContextParser>();
     }
 
-    public ParsedContext ParseFile(string contextFile)
+    public ParsedContext? ParseFile(string contextFile)
     {
         if (string.IsNullOrEmpty(contextFile) || !File.Exists(contextFile))
             return null;
 
         _logger.LogDebug(
-            "Parsing Context File: '{0}'",
+            "Parsing Context File: '{ContextFile}'",
             Path.GetFileName(contextFile));
 
         var code = File.ReadAllText(contextFile);
         return ParseCode(code);
     }
 
-    public ParsedContext ParseCode(string code)
+    public ParsedContext? ParseCode(string code)
     {
         if (string.IsNullOrWhiteSpace(code))
             return null;
@@ -46,7 +46,7 @@ public class ContextParser
             return null;
 
         _logger.LogDebug(
-            "Parsed Context Class: {0}; Entities: {1}",
+            "Parsed Context Class: {ContextClass}; Entities: {Entities}",
             parsedContext.ContextClass,
             parsedContext.Properties.Count);
 

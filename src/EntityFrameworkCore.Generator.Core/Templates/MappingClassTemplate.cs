@@ -206,7 +206,7 @@ public class MappingClassTemplate : CodeTemplateBase
 
         if (keys.Count == 1)
         {
-            var propertyName = keys.First().PropertyName.ToSafeName();
+            var propertyName = keys[0].PropertyName.ToSafeName();
             CodeBuilder.Append($"d.{propertyName}");
         }
         else
@@ -344,7 +344,7 @@ public class MappingClassTemplate : CodeTemplateBase
 
         if (keys.Count == 1)
         {
-            var propertyName = keys.First().PropertyName.ToSafeName();
+            var propertyName = keys[0].PropertyName.ToSafeName();
             CodeBuilder.AppendLine($"t.{propertyName});");
             CodeBuilder.AppendLine();
 
