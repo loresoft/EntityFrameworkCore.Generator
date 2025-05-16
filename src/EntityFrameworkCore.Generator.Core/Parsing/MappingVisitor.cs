@@ -114,6 +114,46 @@ public class MappingVisitor : CSharpSyntaxWalker
         return propertyName;
     }
 
+    private List<string> ParseLambdaExpressionForAnonymousObject(InvocationExpressionSyntax node)
+    {
+        if (node == null)
+            return null;
+
+        var lambdaExpression = node
+            .ArgumentList
+            .DescendantNodes()
+            .OfType<LambdaExpressionSyntax>()
+            .FirstOrDefault();
+
+        if (lambdaExpression == null)
+            return null;
+
+        var anonymousObject = lambdaExpression
+            .ChildNodes()
+            .OfType<AnonymousObjectCreationExpressionSyntax>()
+            .FirstOrDefault();
+
+        if (anonymousObject == null)
+            return null;
+
+        var propertyNames = anonymousObject
+            .ChildNodes()
+            .OfType<AnonymousObjectMemberDeclaratorSyntax>()
+            .Select(declarator => declarator
+                .ChildNodes()
+                .OfType<MemberAccessExpressionSyntax>()
+                .FirstOrDefault())
+            .Where(memberAccess => memberAccess != null)
+            .Select(memberAccess => memberAccess
+                .ChildNodes()
+                .OfType<IdentifierNameSyntax>()
+                .Select(identifier => identifier.Identifier.ValueText)
+                .LastOrDefault())
+            .Where(propertyName => propertyName != null)
+            .ToList();
+
+        return propertyNames;
+    }
 
     private void ParseHasOne(InvocationExpressionSyntax node)
     {
@@ -151,13 +191,17 @@ public class MappingVisitor : CSharpSyntaxWalker
         if (node == null || ParsedEntity == null)
             return;
 
-        var propertyName = ParseLambaExpression(node);
+        List<string> propertyNames = null;
+        if (ParseLambaExpression(node) is string propertyName && !string.IsNullOrEmpty(propertyName))
+            propertyNames = new List<string> { propertyName };
+        else
+            propertyNames = ParseLambdaExpressionForAnonymousObject(node);
 
-        if (string.IsNullOrEmpty(propertyName))
+        if (propertyNames == null)
             return;
 
         _currentRelationship ??= new ParsedRelationship();
-        _currentRelationship.Properties.Add(propertyName);
+        _currentRelationship.Properties.AddRange(propertyNames);
     }
 
     private void ParseConstraintName(InvocationExpressionSyntax node)
