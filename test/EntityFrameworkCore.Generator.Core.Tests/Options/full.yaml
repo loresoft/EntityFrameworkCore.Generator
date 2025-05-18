@@ -16,20 +16,24 @@ database:
   schemas:
     - dbo
   exclude:
-    - exact: dbo.SchemaVersions
-    - regex: dbo\.SchemaVersions$
+    tables:
+      - exact: dbo.SchemaVersions
+      - regex: dbo\.SchemaVersions$
+    columns:
+      - exact: dbo.SchemaVersions\.Version
+      - regex: dbo\.SchemaVersions\.Version$
   tableNaming: Singular
 data:
   context:
     name: '{Database.Name}Context'
-    baseClass: DbContext          
-    namespace: '{Project.Namespace}.Data'  
-    directory: '{Project.Directory}\Data'  
+    baseClass: DbContext
+    namespace: '{Project.Namespace}.Data'
+    directory: '{Project.Directory}\Data'
     propertyNaming: Plural
     document: false
   entity:
-    namespace: '{Project.Namespace}.Data.Entities'  
-    directory: '{Project.Directory}\Data\Entities'  
+    namespace: '{Project.Namespace}.Data.Entities'
+    directory: '{Project.Directory}\Data\Entities'
     entityNaming: Singular
     relationshipNaming: Plural
     document: false
@@ -40,20 +44,20 @@ data:
       properties:
         - ^{Table.Name}(?=Id|Name)
   mapping:
-    namespace: '{Project.Namespace}.Data.Mapping'   
-    directory: '{Project.Directory}\Data\Mapping'   
+    namespace: '{Project.Namespace}.Data.Mapping'
+    directory: '{Project.Directory}\Data\Mapping'
     document: false
   query:
-    generate: true          
-    indexPrefix: By         
-    uniquePrefix: GetBy     
-    namespace: '{Project.Namespace}.Data.Queries'   
-    directory: '{Project.Directory}\Data\Queries'   
+    generate: true
+    indexPrefix: By
+    uniquePrefix: GetBy
+    namespace: '{Project.Namespace}.Data.Queries'
+    directory: '{Project.Directory}\Data\Queries'
     document: false
 model:
   shared:
-    namespace: '{Project.Namespace}.Domain.Models' 
-    directory: '{Project.Directory}\Domain\Models' 
+    namespace: '{Project.Namespace}.Domain.Models'
+    directory: '{Project.Directory}\Domain\Models'
     exclude:
       entities:
         - 'EmailDelivery'
@@ -62,27 +66,27 @@ model:
         - 'User\.PasswordHash$'
         - 'User\.ResetHash$'
   read:
-    generate: true                  
-    name: '{Entity.Name}ReadModel'  
-    baseClass: EntityReadModel      
+    generate: true
+    name: '{Entity.Name}ReadModel'
+    baseClass: EntityReadModel
     namespace: '{Project.Namespace}.Domain.Models'
     directory: '{Project.Directory}\Domain\Models'
     exclude:
       entities: []
       properties: []
   create:
-    generate: true                      
-    name: '{Entity.Name}CreateModel'    
-    baseClass: EntityCreateModel        
+    generate: true
+    name: '{Entity.Name}CreateModel'
+    baseClass: EntityCreateModel
     namespace: '{Project.Namespace}.Domain.Models'
     directory: '{Project.Directory}\Domain\Models'
     exclude:
       entities: []
       properties: []
   update:
-    generate: true                      
-    name: '{Entity.Name}UpdateModel'    
-    baseClass: EntityUpdateModel        
+    generate: true
+    name: '{Entity.Name}UpdateModel'
+    baseClass: EntityUpdateModel
     namespace: '{Project.Namespace}.Domain.Models'
     directory: '{Project.Directory}\Domain\Models'
     exclude:
@@ -101,30 +105,30 @@ model:
     namespace: '{Project.Namespace}.Domain.Validation'
     directory: '{Project.Directory}\Domain\Validation'
 script:
-  context:  
-    - templatePath: '.\templates\context.csx'          
-      fileName: 'ContextScript.cs'                     
-      directory: '{Project.Directory}\Domain\Context'  
-      namespace: '{Project.Namespace}.Domain.Context'  
+  context:
+    - templatePath: '.\templates\context.csx'
+      fileName: 'ContextScript.cs'
+      directory: '{Project.Directory}\Domain\Context'
+      namespace: '{Project.Namespace}.Domain.Context'
       baseClass: ContextScriptBase
-      overwrite: true                                  
+      overwrite: true
   entity:
-    - templatePath: '.\templates\entity.csx'           
-      fileName: '{Entity.Name}Script.cs'               
-      directory: '{Project.Directory}\Domain\Entity'   
-      namespace: '{Project.Namespace}.Domain.Entity'  
+    - templatePath: '.\templates\entity.csx'
+      fileName: '{Entity.Name}Script.cs'
+      directory: '{Project.Directory}\Domain\Entity'
+      namespace: '{Project.Namespace}.Domain.Entity'
       baseClass: EntityScriptBase
-      overwrite: true                                  
+      overwrite: true
   model:
-    - templatePath: '.\templates\model.csx'            
-      fileName: '{Model.Name}Script.cs'                
-      directory: '{Project.Directory}\Domain\Models'   
-      namespace: '{Project.Namespace}.Domain.Models'  
+    - templatePath: '.\templates\model.csx'
+      fileName: '{Model.Name}Script.cs'
+      directory: '{Project.Directory}\Domain\Models'
+      namespace: '{Project.Namespace}.Domain.Models'
       baseClass: ModelScriptBase
-      overwrite: true                                  
-    - templatePath: '.\templates\sample.csx'           
-      fileName: '{Model.Name}Sample.cs'                
-      directory: '{Project.Directory}\Domain\Models'   
-      namespace: '{Project.Namespace}.Domain.Models'  
+      overwrite: true
+    - templatePath: '.\templates\sample.csx'
+      fileName: '{Model.Name}Sample.cs'
+      directory: '{Project.Directory}\Domain\Models'
+      namespace: '{Project.Namespace}.Domain.Models'
       baseClass: ModelSampleBase
-      overwrite: true                                  
+      overwrite: true

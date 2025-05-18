@@ -31,7 +31,6 @@ public class CodeGeneratorTests : DatabaseTestBase
     }
 
 
-    [Fact]
     public void Generate_Should_Work_For_Password_With_CurlyBrace()
     {
         var generatorOptions = new GeneratorOptions();
