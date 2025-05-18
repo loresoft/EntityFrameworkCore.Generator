@@ -7,7 +7,8 @@ database:
   provider: SqlServer
   connectionString: Data Source=(local);Initial Catalog=Tracker;Integrated Security=True;TrustServerCertificate=True
   exclude:
-    - exact: 'dbo.SchemaVersions'
+    tables:
+      - exact: 'dbo.SchemaVersions'
 data:
   context:
     name: '{Database.Name}Context'

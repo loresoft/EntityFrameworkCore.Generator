@@ -155,6 +155,28 @@ Entity Framework Core Generator supports generating [Read](https://efg.loresoft.
 
 ## Change Log
 
+### Version 7.0
+
+- support for .net 9
+- update project to use nullable reference types
+- Breaking change to configuration file.  The `database.exclude` section now has a `database.exclude.tables` and `database.exclude.columns` section.  
+
+configuration file update example:
+
+```YAML
+database:
+  # exclude tables or columns
+  exclude:
+    # list of expressions for tables to exclude, source is Schema.TableName
+    tables:
+      - exact: dbo.SchemaVersions
+      - regex: dbo\.SchemaVersions$
+    # list of expressions for columns to exclude, source is Schema.TableName.ColumnName
+    columns:
+      - exact: dbo.User.Password
+      - regex: dbo\.User\.Password$
+```
+
 ### Version 6.0
 
 - upgrade to .net 8

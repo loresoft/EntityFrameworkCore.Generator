@@ -46,10 +46,17 @@ database:
   schemas:
     - dbo
   
-  # list of expressions for tables to exclude, source is Schema.TableName
+  # exclude tables or columns: Changed in v7.x
   exclude:
-    - exact: dbo.SchemaVersions
-    - regex: dbo\.SchemaVersions$
+    # list of expressions for tables to exclude, source is Schema.TableName
+    tables:
+      - exact: dbo.SchemaVersions
+      - regex: dbo\.SchemaVersions$
+    # list of expressions for columns to exclude, source is Schema.TableName.ColumnName
+    columns:
+      - exact: dbo.User.Password
+      - regex: dbo\.User\.Password$
+
 
   # table naming hint for how existing tables are named.  Default: Singular
   tableNaming: Mixed|Plural|Singular

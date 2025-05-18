@@ -72,11 +72,7 @@ public class DatabaseModel
     public List<string>? Schemas { get; set; }
 
     /// <summary>
-    /// Gets or sets the exclude table options.
+    /// Gets or sets the model that specifies which elements should be ignored during processing.
     /// </summary>
-    /// <value>
-    /// The exclude table options.
-    /// </value>
-    public List<MatchModel>? Exclude { get; set; }
-
+    public DatabaseMatchModel? Exclude { get; set; }
 }

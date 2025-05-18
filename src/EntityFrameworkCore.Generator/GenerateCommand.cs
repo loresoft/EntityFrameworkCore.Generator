@@ -76,7 +76,7 @@ public class GenerateCommand : OptionsCommandBase
         if (Validator.HasValue)
             configuration.Model.Validator.Generate = Validator.Value;
 
-        // conver to options format to support variables
+        // convert to options format to support variables
         var options = OptionMapper.Map(configuration);
 
         var result = _codeGenerator.Generate(options);

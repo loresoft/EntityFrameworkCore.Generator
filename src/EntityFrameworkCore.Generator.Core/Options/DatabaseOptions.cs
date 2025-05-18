@@ -1,4 +1,5 @@
-using System.Collections.Generic;
+// Ignore Spelling: Schemas
+
 using System.ComponentModel;
 
 namespace EntityFrameworkCore.Generator.Options;
@@ -20,7 +21,7 @@ public class DatabaseOptions : OptionsBase
         TableNaming = TableNaming.Singular;
         Tables = [];
         Schemas = [];
-        Exclude = [];
+        Exclude = new DatabaseMatchOptions(Variables, Prefix);
     }
 
     /// <summary>
@@ -104,6 +105,6 @@ public class DatabaseOptions : OptionsBase
     /// <value>
     /// The exclude table options.
     /// </value>
-    public List<MatchOptions> Exclude { get; }
+    public DatabaseMatchOptions Exclude { get; }
 
 }

@@ -463,8 +463,8 @@ create default abc0 as 0
     public void GenerateIgnoreTable()
     {
         var generatorOptions = new GeneratorOptions();
-        generatorOptions.Database.Exclude.Add(new MatchOptions(generatorOptions.Variables, "option0001") { Expression = @"dbo\.ExpressionTable$" });
-        generatorOptions.Database.Exclude.Add(new MatchOptions(generatorOptions.Variables, "option0002") { Exact = @"dbo.DirectTable" });
+        generatorOptions.Database.Exclude.Tables.Add(new MatchOptions(generatorOptions.Variables, "option0001") { Expression = @"dbo\.ExpressionTable$" });
+        generatorOptions.Database.Exclude.Tables.Add(new MatchOptions(generatorOptions.Variables, "option0002") { Exact = @"dbo.DirectTable" });
         generatorOptions.Model.Read.Generate = true;
         generatorOptions.Model.Create.Generate = true;
         generatorOptions.Model.Update.Generate = true;

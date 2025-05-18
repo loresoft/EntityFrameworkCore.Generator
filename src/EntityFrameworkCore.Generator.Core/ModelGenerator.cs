@@ -67,7 +67,7 @@ public partial class ModelGenerator
 
         foreach (var table in tables)
         {
-            if (IsIgnored(table, _options.Database.Exclude))
+            if (IsIgnored(table, _options.Database.Exclude.Tables))
             {
                 _logger.LogDebug("  Skipping Table : {schema}.{name}", table.Schema, table.Name);
                 continue;
@@ -175,6 +175,11 @@ public partial class ModelGenerator
         foreach (var column in columns)
         {
             var table = column.Table;
+            if (IsIgnored(column, _options.Database.Exclude.Columns))
+            {
+                _logger.LogDebug("  Skipping Column : {Schema}.{Table}.{Column}", table.Schema, table.Name, column.Name);
+                continue;
+            }
 
             var mapping = column.StoreType.HasValue() ? _typeMapper.FindMapping(column.StoreType) : null;
             if (mapping == null)
@@ -309,7 +314,7 @@ public partial class ModelGenerator
         foreach (var foreignKey in tableSchema.ForeignKeys)
         {
             // skip relationship if principal table is ignored
-            if (IsIgnored(foreignKey.PrincipalTable, _options.Database.Exclude))
+            if (IsIgnored(foreignKey.PrincipalTable, _options.Database.Exclude.Tables))
             {
                 _logger.LogDebug("  Skipping Relationship : {name}", foreignKey.Name);
                 continue;
@@ -722,6 +727,16 @@ public partial class ModelGenerator
     private static bool IsIgnored(DatabaseTable table, IEnumerable<MatchOptions> exclude)
     {
         var name = $"{table.Schema}.{table.Name}";
+        var includeExpressions = Enumerable.Empty<MatchOptions>();
+        var excludeExpressions = exclude ?? [];
+
+        return IsIgnored(name, excludeExpressions, includeExpressions);
+    }
+
+    private static bool IsIgnored(DatabaseColumn column, IEnumerable<MatchOptions> exclude)
+    {
+        var table = column.Table;
+        var name = $"{table.Schema}.{table.Name}.{column.Name}";
         var includeExpressions = Enumerable.Empty<MatchOptions>();
         var excludeExpressions = exclude ?? [];
 

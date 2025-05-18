@@ -186,11 +186,8 @@ public static class OptionMapper
 
         MapList(option.Tables, database.Tables);
         MapList(option.Schemas, database.Schemas);
-        MapList(option.Exclude, database.Exclude, (match) =>
-        {
-            var prefix = OptionsBase.AppendPrefix(option.Prefix, $"Exclude{option.Exclude.Count:0000}");
-            return MapMatch(option.Variables, match, prefix);
-        });
+
+        MapDatabaseMatch(option.Exclude, database.Exclude);
     }
 
     private static void MapProject(ProjectOptions option, ProjectModel project)
@@ -201,6 +198,23 @@ public static class OptionMapper
         option.FileScopedNamespace = project.FileScopedNamespace;
     }
 
+    private static void MapDatabaseMatch(DatabaseMatchOptions option, DatabaseMatchModel? match)
+    {
+        if (match == null)
+            return;
+
+        MapList(option.Tables, match.Tables, (match) =>
+        {
+            var prefix = OptionsBase.AppendPrefix(option.Prefix, $"Table{option.Tables?.Count:0000}");
+            return MapMatch(option.Variables, match, prefix);
+        });
+
+        MapList(option.Columns, match.Columns, (match) =>
+        {
+            var prefix = OptionsBase.AppendPrefix(option.Prefix, $"Column{option.Columns?.Count:0000}");
+            return MapMatch(option.Variables, match, prefix);
+        });
+    }
 
     private static void MapList<T>(IList<T> targetList, IList<T>? sourceList)
     {
