@@ -3,10 +3,10 @@ GO
 
 -- Database
 IF NOT EXISTS (SELECT name FROM sys.databases WHERE name = N'Tracker')
-CREATE DATABASE [Tracker];
+CREATE DATABASE [TrackerGenerator];
 GO
 
-USE [Tracker];
+USE [TrackerGenerator];
 GO
 
 IF NOT EXISTS (SELECT * FROM sys.schemas WHERE name = N'History')
@@ -92,14 +92,14 @@ CREATE TABLE [dbo].[Task] (
     [RowVersion] rowversion NOT NULL,
 
     [PeriodStart] DATETIME2 GENERATED ALWAYS AS ROW START NOT NULL CONSTRAINT [DF_Location_PeriodStart] DEFAULT (SYSUTCDATETIME()),
-    [PeriodEnd] DATETIME2 GENERATED ALWAYS AS ROW END NOT NULL CONSTRAINT [DF_Location_PeriodEnd] DEFAULT ('9999-12-31 23:59:59.9999999'), 
+    [PeriodEnd] DATETIME2 GENERATED ALWAYS AS ROW END NOT NULL CONSTRAINT [DF_Location_PeriodEnd] DEFAULT ('9999-12-31 23:59:59.9999999'),
     PERIOD FOR SYSTEM_TIME ([PeriodStart], [PeriodEnd]),
 
     CONSTRAINT [PK_Task] PRIMARY KEY ([Id]),
 )
-WITH 
+WITH
 (
-    SYSTEM_VERSIONING = ON 
+    SYSTEM_VERSIONING = ON
     (
         HISTORY_TABLE = [History].[Task],
         HISTORY_RETENTION_PERIOD = 1 YEARS,
