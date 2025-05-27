@@ -1,5 +1,9 @@
+using System;
+using System.Collections.Generic;
+using System.Diagnostics.Metrics;
 using System.IO;
 
+using EntityFrameworkCore.Generator.Extensions;
 using EntityFrameworkCore.Generator.Options;
 
 using FluentCommand.SqlServer.Tests;
@@ -26,19 +30,6 @@ public class CodeGeneratorTests : DatabaseTestBase
         var generator = new CodeGenerator(NullLoggerFactory.Instance);
         var result = generator.Generate(generatorOptions);
 
-
-        Assert.True(result);
-    }
-
-
-    public void Generate_Should_Work_For_Password_With_CurlyBrace()
-    {
-        var generatorOptions = new GeneratorOptions();
-        generatorOptions.Database.ConnectionString = Database.ConnectionString
-            .Replace("Integrated Security=True", @"User ID=testuser;Password=rglna{adQP123456");//This is the user specified in Script003.Tracker.User.sql
-
-        var generator = new CodeGenerator(NullLoggerFactory.Instance);
-        var result = generator.Generate(generatorOptions);
 
         Assert.True(result);
     }
@@ -77,5 +68,18 @@ public class CodeGeneratorTests : DatabaseTestBase
 
     }
 
+    [Theory]
+    [InlineData(typeof(int), "int")]
+    [InlineData(typeof(bool), "bool")]
+    [InlineData(typeof(byte), "byte")]
+    [InlineData(typeof(Guid), "Guid")]
+    [InlineData(typeof(DateTimeOffset), "DateTimeOffset")]
+    [InlineData(typeof(List<int>), "List<int>")]
+    [InlineData(typeof(Dictionary<int, string>), "Dictionary<int, string>")]
+    [InlineData(typeof(Dictionary<int, List<string>>), "Dictionary<int, List<string>>")]
+    [InlineData(typeof(List<List<string>>), "List<List<string>>")]
+    [InlineData(typeof(int[]), "int[]")]
+    [InlineData(typeof(string[][]), "string[][]")]
+    public void ConvertToTypeString(Type type, string expected)
+       => Assert.Equal(expected, type.ToType());
 }
-

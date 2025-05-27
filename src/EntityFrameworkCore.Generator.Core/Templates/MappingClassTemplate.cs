@@ -227,7 +227,7 @@ public class MappingClassTemplate : CodeTemplateBase
         var primaryKeys = relationship.PrimaryProperties;
         var nonPrimaryPrincipalKey = !primaryKeys
             .Select(pp => relationship.PrimaryEntity.Properties.ByProperty(pp.PropertyName))
-            .All(p => p.IsPrimaryKey ?? true);
+            .All(p => p?.IsPrimaryKey ?? true);
 
         if (nonPrimaryPrincipalKey)
         {
