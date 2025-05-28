@@ -33,6 +33,11 @@ public class SharedModel
     public string Directory { get; set; }
 
     /// <summary>
+    /// Gets or sets the file header.
+    /// </summary>
+    public string? Header { get; set; }
+
+    /// <summary>
     /// Gets or sets the include selection options.
     /// </summary>
     /// <value>

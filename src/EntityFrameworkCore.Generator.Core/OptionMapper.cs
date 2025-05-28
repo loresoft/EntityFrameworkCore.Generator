@@ -63,6 +63,7 @@ public static class OptionMapper
         option.Name = classBase.Name;
         option.BaseClass = classBase.BaseClass;
         option.Attributes = classBase.Attributes;
+        option.Header = classBase.Header;
     }
 
     private static void MapModelBase(ModelOptionsBase option, ModelBase modelBase)
@@ -109,6 +110,7 @@ public static class OptionMapper
     {
         option.Namespace = shared.Namespace;
         option.Directory = shared.Directory;
+        option.Header = shared.Header;
 
         MapSelection(option.Include, shared.Include);
         MapSelection(option.Exclude, shared.Exclude);

@@ -17,7 +17,11 @@ public class ValidatorClassTemplate : CodeTemplateBase
     {
         CodeBuilder.Clear();
 
+        if (Options.Model.Validator.Header.HasValue())
+            CodeBuilder.AppendLine(Options.Model.Validator.Header).AppendLine();
+
         CodeBuilder.AppendLine("using System;");
+        CodeBuilder.AppendLine();
         CodeBuilder.AppendLine("using FluentValidation;");
 
         if (_model.ModelNamespace != _model.ValidatorNamespace)

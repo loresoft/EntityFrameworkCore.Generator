@@ -19,11 +19,15 @@ public class QueryExtensionTemplate : CodeTemplateBase
     {
         CodeBuilder.Clear();
 
+        if (Options.Data.Query.Header.HasValue())
+            CodeBuilder.AppendLine(Options.Data.Query.Header).AppendLine();
+
         CodeBuilder.AppendLine("using System;");
         CodeBuilder.AppendLine("using System.Collections.Generic;");
         CodeBuilder.AppendLine("using System.Linq;");
         CodeBuilder.AppendLine("using System.Threading;");
         CodeBuilder.AppendLine("using System.Threading.Tasks;");
+        CodeBuilder.AppendLine();
         CodeBuilder.AppendLine("using Microsoft.EntityFrameworkCore;");
         CodeBuilder.AppendLine();
 

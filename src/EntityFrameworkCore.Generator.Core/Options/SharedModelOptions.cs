@@ -46,6 +46,15 @@ public class SharedModelOptions : OptionsBase
     }
 
     /// <summary>
+    /// Gets or sets the file header
+    /// </summary>
+    public string? Header
+    {
+        get => GetProperty();
+        set => SetProperty(value);
+    }
+
+    /// <summary>
     /// Gets or sets the include selection options.
     /// </summary>
     /// <value>
@@ -60,5 +69,4 @@ public class SharedModelOptions : OptionsBase
     /// The exclude selection options.
     /// </value>
     public SelectionOptions Exclude { get; }
-
 }

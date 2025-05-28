@@ -55,4 +55,9 @@ public abstract class ClassBase
     /// The attributes to add to the class
     /// </value>
     public string? Attributes { get; set; }
+
+    /// <summary>
+    /// Gets or sets the file header.
+    /// </summary>
+    public string? Header { get; set; }
 }

@@ -19,7 +19,11 @@ public class DataContextTemplate : CodeTemplateBase
     {
         CodeBuilder.Clear();
 
+        if (Options.Data.Context.Header.HasValue())
+            CodeBuilder.AppendLine(Options.Data.Context.Header).AppendLine();
+
         CodeBuilder.AppendLine("using System;");
+        CodeBuilder.AppendLine();
         CodeBuilder.AppendLine("using Microsoft.EntityFrameworkCore;");
         CodeBuilder.AppendLine("using Microsoft.EntityFrameworkCore.Metadata;");
         CodeBuilder.AppendLine();

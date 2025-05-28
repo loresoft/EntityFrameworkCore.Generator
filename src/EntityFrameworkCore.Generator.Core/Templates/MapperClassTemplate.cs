@@ -19,8 +19,13 @@ public class MapperClassTemplate : CodeTemplateBase
     {
         CodeBuilder.Clear();
 
+        if (Options.Model.Mapper.Header.HasValue())
+            CodeBuilder.AppendLine(Options.Model.Mapper.Header).AppendLine();
+
         CodeBuilder.AppendLine("using System;");
+        CodeBuilder.AppendLine();
         CodeBuilder.AppendLine("using AutoMapper;");
+        CodeBuilder.AppendLine();
 
         var imports = new SortedSet<string>
         {

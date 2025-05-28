@@ -538,6 +538,10 @@ public partial class ModelGenerator
             ? options.Namespace
             : _options.Model.Shared.Namespace;
 
+        var modelHeader = options.Header.HasValue()
+            ? options.Header
+            : _options.Model.Shared.Header;
+
         modelNamespace ??= "Data.Models";
 
         var modelClass = ToLegalName(options.Name);
@@ -551,6 +555,7 @@ public partial class ModelGenerator
             ModelNamespace = modelNamespace,
             ModelClass = modelClass,
             ModelAttributes = options.Attributes,
+            ModelHeader = modelHeader
         };
 
         foreach (var property in entity.Properties)

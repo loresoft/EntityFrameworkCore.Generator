@@ -21,6 +21,9 @@ public class EntityClassTemplate : CodeTemplateBase
     {
         CodeBuilder.Clear();
 
+        if (Options.Data.Entity.Header.HasValue())
+            CodeBuilder.AppendLine(Options.Data.Entity.Header).AppendLine();
+
         CodeBuilder.AppendLine("using System;");
         CodeBuilder.AppendLine("using System.Collections.Generic;");
         CodeBuilder.AppendLine();

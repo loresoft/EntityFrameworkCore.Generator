@@ -19,6 +19,8 @@ public class Model : ModelBase, IOptionVariable
 
     public string? ModelAttributes { get; set; }
 
+    public string? ModelHeader { get; internal set; }
+
 
     public string? ValidatorNamespace { get; set; }
 

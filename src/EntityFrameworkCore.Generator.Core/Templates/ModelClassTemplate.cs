@@ -17,6 +17,9 @@ public class ModelClassTemplate : CodeTemplateBase
     {
         CodeBuilder.Clear();
 
+        if (_model.ModelHeader.HasValue())
+            CodeBuilder.AppendLine(_model.ModelHeader).AppendLine();
+
         CodeBuilder.AppendLine("using System;");
         CodeBuilder.AppendLine("using System.Collections.Generic;");
         CodeBuilder.AppendLine();

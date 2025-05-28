@@ -87,4 +87,13 @@ public abstract class ClassOptionsBase : OptionsBase
         get => GetProperty();
         set => SetProperty(value);
     }
+
+    /// <summary>
+    /// Gets or sets the file header.
+    /// </summary>
+    public string? Header
+    {
+        get => GetProperty();
+        set => SetProperty(value);
+    }
 }

@@ -24,8 +24,12 @@ public class MappingClassTemplate : CodeTemplateBase
     {
         CodeBuilder.Clear();
 
+        if (Options.Data.Mapping.Header.HasValue())
+            CodeBuilder.AppendLine(Options.Data.Mapping.Header).AppendLine();
+
         CodeBuilder.AppendLine("using System;");
         CodeBuilder.AppendLine("using System.Collections.Generic;");
+        CodeBuilder.AppendLine();
         CodeBuilder.AppendLine("using Microsoft.EntityFrameworkCore;");
         CodeBuilder.AppendLine();
 
