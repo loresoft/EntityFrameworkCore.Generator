@@ -12,8 +12,6 @@ public class RegionParserTests
     [Fact]
     public void ParseRegions()
     {
-        var parser = new RegionParser();
-
         var source = new StringBuilder();
         source.AppendLine(@"using System;");
         source.AppendLine(@"using System.Collections.Generic;");
@@ -29,13 +27,13 @@ public class RegionParserTests
         source.AppendLine(@"}");
 
 
-        var result = parser.ParseRegions(source.ToString());
+        var result = RegionParser.ParseRegions(source.ToString());
         Assert.NotNull(result);
         Assert.Single(result);
 
-        var first = result.Values.First();
+        var first = result.First();
         Assert.NotNull(first);
-        Assert.Equal("Generated Properties", first.Name);
+        Assert.Equal("Generated Properties", first.RegionName);
 
         var content = new StringBuilder();
         content.AppendLine(@"#region Generated Properties");
@@ -49,8 +47,6 @@ public class RegionParserTests
     [Fact]
     public void ParseMultipleRegions()
     {
-        var parser = new RegionParser();
-
         var source = new StringBuilder();
         source.AppendLine(@"using System;");
         source.AppendLine(@"using System.Collections.Generic;");
@@ -82,20 +78,18 @@ public class RegionParserTests
         source.AppendLine(@"}");
 
 
-        var result = parser.ParseRegions(source.ToString());
+        var result = RegionParser.ParseRegions(source.ToString());
         Assert.NotNull(result);
         Assert.Equal(3, result.Count);
 
-        var first = result.Values.First();
+        var first = result.First();
         Assert.NotNull(first);
-        Assert.Equal("Generated Initializes", first.Name);
+        Assert.Equal("Generated Initializes", first.RegionName);
     }
 
     [Fact]
     public void ParseNestedRegions()
     {
-        var parser = new RegionParser();
-
         var source = new StringBuilder();
         source.AppendLine(@"using System;");
         source.AppendLine(@"using System.Collections.Generic;");
@@ -116,13 +110,13 @@ public class RegionParserTests
         source.AppendLine(@"}");
 
 
-        var result = parser.ParseRegions(source.ToString());
+        var result = RegionParser.ParseRegions(source.ToString());
         Assert.NotNull(result);
         Assert.Equal(2, result.Count);
 
-        var nested = result["Nested Properties"];
+        var nested = result.Find(p => p.RegionName == "Nested Properties");
         Assert.NotNull(nested);
-        Assert.Equal("Nested Properties", nested.Name);
+        Assert.Equal("Nested Properties", nested.RegionName);
 
         var nestedContent = new StringBuilder();
         nestedContent.AppendLine(@"#region Nested Properties");
@@ -131,9 +125,9 @@ public class RegionParserTests
 
         Assert.Equal(nestedContent.ToString(), nested.Content);
 
-        var generated = result["Generated Properties"];
+        var generated = result.Find(p => p.RegionName == "Generated Properties");
         Assert.NotNull(generated);
-        Assert.Equal("Generated Properties", generated.Name);
+        Assert.Equal("Generated Properties", generated.RegionName);
 
         var generatedContent = new StringBuilder();
         generatedContent.AppendLine(@"#region Generated Properties");
@@ -149,5 +143,43 @@ public class RegionParserTests
 
     }
 
+    [Fact]
+    public void ParseRegionsMultipleClasses()
+    {
+        var source = new StringBuilder();
+        source.AppendLine(@"using System;");
+        source.AppendLine(@"using System.Collections.Generic;");
+        source.AppendLine(@"");
+        source.AppendLine(@"namespace EntityFrameworkCore.Generator.Core.Tests;");
+        source.AppendLine(@"public partial class User");
+        source.AppendLine(@"{");
+        source.AppendLine(@"    #region Generated Properties");
+        source.AppendLine(@"    public Guid UserId { get; set; }");
+        source.AppendLine(@"    #endregion");
+        source.AppendLine(@"}");
+        source.AppendLine(@"public partial class Tester");
+        source.AppendLine(@"{");
+        source.AppendLine(@"    #region Generated Properties");
+        source.AppendLine(@"    public Guid TesterId { get; set; }");
+        source.AppendLine(@"    #endregion");
+        source.AppendLine(@"}");
+
+
+        var result = RegionParser.ParseRegions(source.ToString());
+        Assert.NotNull(result);
+        Assert.Equal(2, result.Count);
+
+        var first = result[0];
+        Assert.NotNull(first);
+        Assert.Equal("Generated Properties", first.RegionName);
+
+        var content = new StringBuilder();
+        content.AppendLine(@"#region Generated Properties");
+        content.AppendLine(@"        public Guid Id { get; set; }");
+        content.AppendLine(@"        #endregion");
+
+        Assert.Equal(content.ToString(), first.Content);
+
+    }
 
 }

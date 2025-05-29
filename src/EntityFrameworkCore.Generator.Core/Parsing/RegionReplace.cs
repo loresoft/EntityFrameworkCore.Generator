@@ -4,13 +4,6 @@ namespace EntityFrameworkCore.Generator.Parsing;
 
 public class RegionReplace
 {
-    public RegionReplace(RegionParser? regionParser = null)
-    {
-        RegionParser = regionParser ?? new RegionParser();
-    }
-
-    protected RegionParser RegionParser { get; }
-
     public void MergeFile(string fullPath, string outputContent)
     {
         if (string.IsNullOrEmpty(fullPath) || string.IsNullOrEmpty(outputContent) || !Path.Exists(fullPath))
@@ -34,10 +27,15 @@ public class RegionReplace
         var originalBuilder = new StringBuilder(originalContent);
 
         int offset = 0;
-        foreach (var pair in outputRegions)
+        foreach (var outputRegion in outputRegions)
         {
-            var outputRegion = pair.Value;
-            if (!originalRegions.TryGetValue(pair.Key, out var originalRegion))
+            var originalRegion = originalRegions
+                .Find(r =>
+                    string.Equals(r.RegionName, outputRegion.RegionName, StringComparison.OrdinalIgnoreCase)
+                    && r.ClassName == outputRegion.ClassName
+                );
+
+            if (originalRegion == null)
             {
                 // log error
                 continue;

@@ -1,13 +1,13 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using EntityFrameworkCore.Generator.Metadata.Parsing;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace EntityFrameworkCore.Generator.Parsing;
 
-public class RegionParser
+public static class RegionParser
 {
-    public Dictionary<string, CodeRegion> ParseRegions(string code)
+    public static List<CodeRegion> ParseRegions(string code)
     {
         var syntaxTree = CSharpSyntaxTree.ParseText(code);
         var root = (CompilationUnitSyntax)syntaxTree.GetRoot();
@@ -18,10 +18,8 @@ public class RegionParser
         var regions = visitor.Regions;
 
         // extract content using start and end indexes
-        foreach (var pair in regions)
+        foreach (var region in regions)
         {
-            var region = pair.Value;
-
             var start = region.StartIndex;
             var end = region.EndIndex;
             var length = end - start;
