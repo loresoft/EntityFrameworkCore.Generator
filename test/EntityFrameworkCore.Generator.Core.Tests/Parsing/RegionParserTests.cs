@@ -172,14 +172,26 @@ public class RegionParserTests
         var first = result[0];
         Assert.NotNull(first);
         Assert.Equal("Generated Properties", first.RegionName);
+        Assert.Equal("User", first.ClassName);
 
-        var content = new StringBuilder();
-        content.AppendLine(@"#region Generated Properties");
-        content.AppendLine(@"        public Guid Id { get; set; }");
-        content.AppendLine(@"        #endregion");
+        var firstContent = new StringBuilder();
+        firstContent.AppendLine(@"#region Generated Properties");
+        firstContent.AppendLine(@"    public Guid UserId { get; set; }");
+        firstContent.AppendLine(@"    #endregion");
 
-        Assert.Equal(content.ToString(), first.Content);
+        Assert.Equal(firstContent.ToString(), first.Content);
 
+        var second = result[1];
+        Assert.NotNull(second);
+        Assert.Equal("Generated Properties", second.RegionName);
+        Assert.Equal("Tester", second.ClassName);
+
+        var secondContent = new StringBuilder();
+        secondContent.AppendLine(@"#region Generated Properties");
+        secondContent.AppendLine(@"    public Guid TesterId { get; set; }");
+        secondContent.AppendLine(@"    #endregion");
+
+        Assert.Equal(secondContent.ToString(), second.Content);
     }
 
 }

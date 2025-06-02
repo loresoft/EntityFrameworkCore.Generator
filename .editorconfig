@@ -9,8 +9,8 @@ indent_style = space
 indent_size = 4
 insert_final_newline = true
 trim_trailing_whitespace = true
-vsspell_section_id = 41b65011239a40959ccaae2a4ec7044a
-vsspell_ignored_words_41b65011239a40959ccaae2a4ec7044a = accessor|awaitable|app|clr|inline|middleware|mvc|validator|deconstruct|nullable|serializer|deserializer|serialization|deserialization|queryable
+vsspell_section_id = main
+vsspell_ignored_words_main = accessor|app|awaitable|cacheable|clr|deconstruct|deserialization|deserializer|inline|json|middleware|mvc|nullable|queryable|serialization|serializer|upsert|validator
 
 # XML Configuration Files
 [*.{xml,config,props,targets,nuspec,resx,ruleset,vsixmanifest,vsct,refactorlog,runsettings}]

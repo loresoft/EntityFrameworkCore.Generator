@@ -48,10 +48,8 @@ public abstract class ScriptTemplateBase<TVariable>
 
         // save file
         var directory = TemplateOptions.Directory;
-        if (directory.HasValue() && !Directory.Exists(directory))
-            Directory.CreateDirectory(directory);
-
         var fileName = TemplateOptions.FileName;
+
         if (directory.IsNullOrEmpty() || fileName.IsNullOrEmpty())
         {
             Logger.LogWarning("Template '{template}' could not resolve output file.", templatePath);
@@ -80,6 +78,9 @@ public abstract class ScriptTemplateBase<TVariable>
             Logger.LogDebug("Skipping template '{template}' because it didn't return any text.", templatePath);
             return;
         }
+
+        if (directory.HasValue() && !Directory.Exists(directory))
+            Directory.CreateDirectory(directory);
 
         if (exists && TemplateOptions.Merge && !TemplateOptions.Overwrite)
             RegionReplace.MergeFile(path, content);
