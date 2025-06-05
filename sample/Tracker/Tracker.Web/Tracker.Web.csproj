@@ -11,8 +11,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Scrutor" Version="6.0.1" />
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="8.1.2" />
+    <PackageReference Include="Scrutor" Version="6.1.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="8.1.4" />
   </ItemGroup>
 
   <ItemGroup>
