@@ -80,6 +80,8 @@ public class CodeGeneratorTests : DatabaseTestBase
     [InlineData(typeof(List<List<string>>), "List<List<string>>")]
     [InlineData(typeof(int[]), "int[]")]
     [InlineData(typeof(string[][]), "string[][]")]
+    [InlineData(typeof(System.Net.IPAddress[]), "System.Net.IPAddress[]")]
+    [InlineData(typeof(System.ComponentModel.BindingList<int>), "System.ComponentModel.BindingList<int>")]
     public void ConvertToTypeString(Type type, string expected)
        => Assert.Equal(expected, type.ToType());
 }
