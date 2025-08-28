@@ -190,10 +190,22 @@ public static class GenerationExtensions
         var genericPartIndex = type.Name.IndexOf('`');
         if (genericPartIndex <= 0)
         {
-            builder.Append(type.Name);
+            if (type.Namespace.HasValue() && _defaultNamespaces.Contains(type.Namespace))
+            {
+                builder.Append(type.Name);
+            }
+            else
+            {
+                builder.Append(type.FullName ?? type.Name);
+            }
             return;
         }
 
+        if (type.Namespace.HasValue() && !_defaultNamespaces.Contains(type.Namespace))
+        {
+            builder.Append(type.Namespace);
+            builder.Append(".");
+        }
         builder.Append(type.Name, 0, genericPartIndex);
         builder.Append('<');
 
