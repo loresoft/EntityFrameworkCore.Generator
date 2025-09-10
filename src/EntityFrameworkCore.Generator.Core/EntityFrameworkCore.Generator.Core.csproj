@@ -8,16 +8,16 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Scripting" Version="[4.8.0]" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.8" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="9.0.8" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="9.0.8" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer.NetTopologySuite" Version="9.0.8" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="9.0.8" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite.NetTopologySuite" Version="9.0.8" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="9.0.8" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="9.0.9" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="9.0.9" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer.NetTopologySuite" Version="9.0.9" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="9.0.9" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite.NetTopologySuite" Version="9.0.9" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="9.0.9" />
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="9.0.4" />
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL.NetTopologySuite" Version="9.0.4" />
     <PackageReference Include="Oracle.EntityFrameworkCore" Version="9.23.80" />
-    <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="9.0.0-preview.3.efcore.9.0.0" />
+    <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="9.0.0" />
     <PackageReference Include="Pomelo.EntityFrameworkCore.MySql.NetTopologySuite" Version="9.0.0-preview.3.efcore.9.0.0" />
     <PackageReference Include="YamlDotNet" Version="16.3.0" />
   </ItemGroup>
