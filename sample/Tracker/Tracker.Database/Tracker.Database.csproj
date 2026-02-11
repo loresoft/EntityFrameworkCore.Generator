@@ -16,8 +16,8 @@
 
   <ItemGroup>
     <PackageReference Include="dbup-sqlserver" Version="6.0.16" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="10.0.2" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="10.0.2" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="10.0.3" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="10.0.3" />
   </ItemGroup>
 
   <ItemGroup>
