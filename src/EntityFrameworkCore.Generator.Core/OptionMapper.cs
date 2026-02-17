@@ -216,6 +216,12 @@ public static class OptionMapper
             var prefix = OptionsBase.AppendPrefix(option.Prefix, $"Column{option.Columns?.Count:0000}");
             return MapMatch(option.Variables, match, prefix);
         });
+
+        MapList(option.Relationships, match.Relationships, (match) =>
+        {
+            var prefix = OptionsBase.AppendPrefix(option.Prefix, $"Relationship{option.Relationships?.Count:0000}");
+            return MapMatch(option.Variables, match, prefix);
+        });
     }
 
     private static void MapList<T>(IList<T> targetList, IList<T>? sourceList)

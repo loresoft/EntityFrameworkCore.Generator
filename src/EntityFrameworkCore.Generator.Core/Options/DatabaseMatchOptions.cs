@@ -17,6 +17,7 @@ public class DatabaseMatchOptions : OptionsBase
     {
         Tables = [];
         Columns = [];
+        Relationships = [];
     }
 
     /// <summary>
@@ -34,4 +35,12 @@ public class DatabaseMatchOptions : OptionsBase
     /// The list of regular expression of columns to ignore.
     /// </value>
     public List<MatchOptions> Columns { get; set; }
+
+    /// <summary>
+    /// Gets or sets a list of regular expression of relationships to ignore.
+    /// </summary>
+    /// <value>
+    /// The list of regular expression of relationships to ignore.
+    /// </value>
+    public List<MatchOptions> Relationships { get; set; }
 }

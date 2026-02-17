@@ -311,10 +311,16 @@ public partial class ModelGenerator
 
     private void CreateRelationships(EntityContext entityContext, Entity entity, DatabaseTable tableSchema)
     {
-        foreach (var foreignKey in tableSchema.ForeignKeys)
+        foreach (var foreignKey in tableSchema.ForeignKeys.OrderBy(fk => fk.Name))
         {
             // skip relationship if principal table is ignored
             if (IsIgnored(foreignKey.PrincipalTable, _options.Database.Exclude.Tables))
+            {
+                _logger.LogDebug("  Skipping Relationship : {name}", foreignKey.Name);
+                continue;
+            }
+
+            if (IsIgnored(foreignKey, _options.Database.Exclude.Relationships))
             {
                 _logger.LogDebug("  Skipping Relationship : {name}", foreignKey.Name);
                 continue;
@@ -742,6 +748,16 @@ public partial class ModelGenerator
     {
         var table = column.Table;
         var name = $"{table.Schema}.{table.Name}.{column.Name}";
+        var includeExpressions = Enumerable.Empty<MatchOptions>();
+        var excludeExpressions = exclude ?? [];
+
+        return IsIgnored(name, excludeExpressions, includeExpressions);
+    }
+
+    private static bool IsIgnored(DatabaseForeignKey relationship, IEnumerable<MatchOptions> exclude)
+    {
+        var table = relationship.Table;
+        var name = $"{table.Schema}.{table.Name}.{relationship.Name}";
         var includeExpressions = Enumerable.Empty<MatchOptions>();
         var excludeExpressions = exclude ?? [];
 

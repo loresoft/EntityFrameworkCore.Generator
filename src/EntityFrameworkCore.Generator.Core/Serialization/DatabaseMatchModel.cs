@@ -20,4 +20,12 @@ public class DatabaseMatchModel
     /// The list of regular expression of columns to ignore.
     /// </value>
     public List<MatchModel>? Columns { get; set; }
+
+    /// <summary>
+    /// Gets or sets a list of regular expression of relationships to ignore.
+    /// </summary>
+    /// <value>
+    /// The list of regular expression of relationships to ignore.
+    /// </value>
+    public List<MatchModel>? Relationships { get; set; }
 }
