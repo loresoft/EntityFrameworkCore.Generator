@@ -21,6 +21,8 @@ public class EntityClass : ClassBase
         RelationshipNaming = RelationshipNaming.Plural;
         EntityNaming = EntityNaming.Singular;
         PrefixWithSchemaName = false;
+        ProcessRelationships = true;
+        ProcessMethods = true;
     }
 
     /// <summary>
@@ -46,6 +48,18 @@ public class EntityClass : ClassBase
     /// </summary>
     [DefaultValue(false)]
     public bool PrefixWithSchemaName { get; set; }
+
+    /// <summary>
+    /// Gets or sets if table relationships are processed for entity generation. Default true
+    /// </summary>
+    [DefaultValue(true)]
+    public bool ProcessRelationships { get; set; }
+
+    /// <summary>
+    /// Gets or sets if index and key helper methods are processed for entity generation. Default true
+    /// </summary>
+    [DefaultValue(true)]
+    public bool ProcessMethods { get; set; }
 
     /// <summary>
     /// Gets or sets the renaming expressions.

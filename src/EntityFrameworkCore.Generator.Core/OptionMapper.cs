@@ -148,6 +148,8 @@ public static class OptionMapper
         option.EntityNaming = entity.EntityNaming;
         option.RelationshipNaming = entity.RelationshipNaming;
         option.PrefixWithSchemaName = entity.PrefixWithSchemaName;
+        option.ProcessRelationships = entity.ProcessRelationships;
+        option.ProcessMethods = entity.ProcessMethods;
         option.MappingAttributes = entity.MappingAttributes;
 
         MapSelection(option.Renaming, entity.Renaming);

@@ -58,6 +58,8 @@ data:
     entityNaming: Singular
     relationshipNaming: Plural
     prefixWithSchemaName: false
+    processRelationships: true
+    processMethods: true
     renaming:
       entities:
         - ^(sp|tbl|udf|vw)_
@@ -106,6 +108,14 @@ Include XML documentation for the generated class. Default: `false`
 ### mappingAttributes
 
 Include mapping attributes on the entity classes. Default: `false`
+
+### processRelationships
+
+Control if relationship navigation properties are generated. Default: `true`
+
+### processMethods
+
+Control if key and index helper methods are generated. Default: `true`
 
 ### renaming
 

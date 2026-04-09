@@ -94,6 +94,10 @@ public partial class ModelGenerator
         var entity = entityContext.Entities.ByTable(tableSchema.Name, tableSchema.Schema)
             ?? CreateEntity(entityContext, tableSchema);
 
+        // combine per-call flags with global configuration controls
+        processRelationships = processRelationships && _options.Data.Entity.ProcessRelationships;
+        processMethods = processMethods && _options.Data.Entity.ProcessMethods;
+
         if (!entity.Properties.IsProcessed)
             CreateProperties(entity, tableSchema);
 

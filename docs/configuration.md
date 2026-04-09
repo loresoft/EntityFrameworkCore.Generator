@@ -95,6 +95,10 @@ data:
     mappingAttributes: true
     # Generate class names with prefixed schema name eg. dbo.MyTable = DboMyTable
     prefixWithSchemaName: false
+    # process relationship navigation properties. Default: true
+    processRelationships: true
+    # process key/index helper methods. Default: true
+    processMethods: true
     # file header
     header: // Entity header
 

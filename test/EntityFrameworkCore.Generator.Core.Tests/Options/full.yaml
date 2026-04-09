@@ -38,6 +38,8 @@ data:
     relationshipNaming: Plural
     document: false
     prefixWithSchemaName: false
+    processRelationships: true
+    processMethods: true
     renaming:
       entities:
         - ^(sp|tbl|udf|vw)_
