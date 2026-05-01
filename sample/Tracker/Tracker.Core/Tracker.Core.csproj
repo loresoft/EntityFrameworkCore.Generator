@@ -9,7 +9,7 @@
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="16.1.1" />
     <PackageReference Include="FluentValidation" Version="12.1.1" />
-    <PackageReference Include="Injectio" Version="5.2.1" PrivateAssets="all" />
+    <PackageReference Include="Injectio" Version="5.2.2" PrivateAssets="all" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="9.0.15" />
   </ItemGroup>
 
