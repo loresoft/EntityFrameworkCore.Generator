@@ -512,9 +512,9 @@ public partial class ModelGenerator
 
         if (_options.Model.Read.Generate)
             CreateModel(entity, _options.Model.Read, ModelType.Read);
-        if (_options.Model.Create.Generate)
+        if (!entity.IsView && _options.Model.Create.Generate)
             CreateModel(entity, _options.Model.Create, ModelType.Create);
-        if (_options.Model.Update.Generate)
+        if (!entity.IsView && _options.Model.Update.Generate)
             CreateModel(entity, _options.Model.Update, ModelType.Update);
 
         if (entity.Models.Count > 0)

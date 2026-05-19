@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+using AutoMapper;
 using FluentValidation;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.OpenApi.Models;
+using Microsoft.OpenApi;
 using Tracker.Core.Data;
 
 namespace Tracker.Web
@@ -28,7 +28,7 @@ namespace Tracker.Web
             services.AddDbContext<TrackerContext>(options => options.UseSqlServer(connectionString));
 
             // register AutoMapper profiles
-            services.AddAutoMapper(typeof(TrackerContext));
+            services.AddAutoMapper(cfg => { }, typeof(TrackerContext).Assembly);
 
             // register validation
             services.Scan(x =>
