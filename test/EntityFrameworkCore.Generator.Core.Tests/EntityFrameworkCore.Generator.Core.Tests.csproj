@@ -23,7 +23,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="dbup-sqlserver" Version="6.0.0" />
+    <PackageReference Include="dbup-sqlserver" Version="7.2.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="10.0.8" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="10.0.8" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="18.5.1" />
