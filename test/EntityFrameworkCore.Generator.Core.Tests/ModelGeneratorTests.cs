@@ -1,6 +1,7 @@
 using System;
 using System.Data;
 
+using EntityFrameworkCore.Generator.Metadata.Generation;
 using EntityFrameworkCore.Generator.Options;
 
 using Microsoft.Extensions.Logging.Abstractions;
@@ -92,6 +93,57 @@ public class ModelGeneratorTests
         Assert.EndsWith("Validator", firstModel.ValidatorClass);
         Assert.Equal("TestDatabase.Domain.Validation", firstModel.ValidatorNamespace);
 
+    }
+
+    [Fact]
+    public void GenerateViewModelsSkipsCreateAndUpdateModels()
+    {
+        var generatorOptions = new GeneratorOptions();
+        generatorOptions.Model.Read.Generate = true;
+        generatorOptions.Model.Create.Generate = true;
+        generatorOptions.Model.Update.Generate = true;
+
+        var databaseModel = new DatabaseModel
+        {
+            DatabaseName = "TestDatabase",
+            DefaultSchema = "dbo"
+        };
+        var testView = new DatabaseView
+        {
+            Database = databaseModel,
+            Name = "TestView",
+            Schema = "dbo"
+        };
+        databaseModel.Tables.Add(testView);
+
+        var identifierColumn = new DatabaseColumn
+        {
+            Table = testView,
+            Name = "Id",
+            IsNullable = false,
+            StoreType = "int"
+        };
+        testView.Columns.Add(identifierColumn);
+
+        var nameColumn = new DatabaseColumn
+        {
+            Table = testView,
+            Name = "Name",
+            IsNullable = true,
+            StoreType = "varchar(50)"
+        };
+        testView.Columns.Add(nameColumn);
+        var generator = new ModelGenerator(NullLoggerFactory.Instance);
+
+        var typeMappingSource = CreateTypeMappingSource();
+
+        var result = generator.Generate(generatorOptions, databaseModel, typeMappingSource);
+        Assert.Single(result.Entities);
+
+        var firstEntity = result.Entities[0];
+        Assert.True(firstEntity.IsView);
+        Assert.Single(firstEntity.Models);
+        Assert.Equal(ModelType.Read, firstEntity.Models[0].ModelType);
     }
 
     [Fact]

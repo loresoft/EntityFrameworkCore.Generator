@@ -34,7 +34,7 @@ jobs:
 
       - name: Upload Documentation
         if: success()
-        uses: actions/upload-pages-artifact@v4
+        uses: actions/upload-pages-artifact@v5
         with:
           name: github-pages
           path: "site/"
@@ -51,7 +51,7 @@ jobs:
     steps:
       - name: Deploy Documentation
         id: deployment
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@v5
 
     environment:
       name: github-pages
