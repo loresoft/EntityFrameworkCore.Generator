@@ -1,8 +1,6 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Text;
 
-using EntityFrameworkCore.Generator.Metadata.Generation;
-
 namespace EntityFrameworkCore.Generator.Extensions;
 
 public static class GenerationExtensions

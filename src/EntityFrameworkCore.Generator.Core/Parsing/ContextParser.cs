@@ -1,5 +1,3 @@
-using System.IO;
-
 using EntityFrameworkCore.Generator.Metadata.Parsing;
 
 using Microsoft.CodeAnalysis.CSharp;

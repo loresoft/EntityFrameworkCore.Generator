@@ -1,5 +1,4 @@
-using System.Collections.Generic;
-using System.Linq;
+using SchemaSaurus.Metadata;
 
 namespace EntityFrameworkCore.Generator.Metadata.Generation;
 
@@ -57,6 +56,21 @@ public class EntityCollection
     }
 
     /// <summary>
+    /// Get <see cref="Entity" /> with the specified <paramref name="tableSchema" />.
+    /// </summary>
+    /// <param name="tableSchema">The table schema.</param>
+    /// <returns>
+    /// The <see cref="Entity" /> with the specified <paramref name="tableSchema" />.
+    /// </returns>
+    public Entity? ByTable(Table tableSchema)
+    {
+        return ByTable(
+            tableName: tableSchema.QualifiedName.Name,
+            tableSchema: tableSchema.QualifiedName.Schema
+        );
+    }
+
+    /// <summary>
     /// Get <see cref="Entity" /> with the specified <paramref name="className" />.
     /// </summary>
     /// <param name="className">Name of the class.</param>
@@ -70,4 +84,5 @@ public class EntityCollection
 
         return this.FirstOrDefault(x => x.EntityClass == className);
     }
+
 }

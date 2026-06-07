@@ -106,13 +106,14 @@ public class ValidatorClassTemplate : CodeTemplateBase
             CodeBuilder.AppendLine("#region Generated Constructor");
             foreach (var property in _model.Properties)
             {
-                if (property.ValueGenerated.HasValue)
+                if (property.IsComputed == true || property.IsIdentity == true || property.IsRowVersion == true)
                     continue;
 
                 var propertyName = property.PropertyName.ToSafeName();
 
                 if (property.IsRequired && property.SystemType == typeof(string))
                     CodeBuilder.AppendLine($"RuleFor(p => p.{propertyName}).NotEmpty();");
+
                 if (property.Size.HasValue && property.SystemType == typeof(string) && property.Size > 0)
                     CodeBuilder.AppendLine($"RuleFor(p => p.{propertyName}).MaximumLength({property.Size});");
 

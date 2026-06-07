@@ -5,9 +5,6 @@ using EntityFrameworkCore.Generator.Extensions;
 using EntityFrameworkCore.Generator.Metadata.Generation;
 using EntityFrameworkCore.Generator.Options;
 
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
-
 namespace EntityFrameworkCore.Generator.Templates;
 
 public class MappingClassTemplate : CodeTemplateBase
@@ -310,10 +307,10 @@ public class MappingClassTemplate : CodeTemplateBase
         CodeBuilder.AppendLine();
         CodeBuilder.Append($".HasColumnName({property.ColumnName.ToLiteral()})");
 
-        if (!string.IsNullOrEmpty(property.StoreType))
+        if (!string.IsNullOrEmpty(property.NativeType))
         {
             CodeBuilder.AppendLine();
-            CodeBuilder.Append($".HasColumnType({property.StoreType.ToLiteral()})");
+            CodeBuilder.Append($".HasColumnType({property.NativeType.ToLiteral()})");
         }
 
         if ((isString || isByteArray) && property.Size > 0)
@@ -334,21 +331,17 @@ public class MappingClassTemplate : CodeTemplateBase
             CodeBuilder.Append($".HasDefaultValueSql({property.Default.ToLiteral()})");
         }
 
-        switch (property.ValueGenerated)
+        if (property.IsIdentity == true)
         {
-            case ValueGenerated.OnAdd:
-                CodeBuilder.AppendLine();
-                CodeBuilder.Append(".ValueGeneratedOnAdd()");
-                break;
-            case ValueGenerated.OnAddOrUpdate:
-                CodeBuilder.AppendLine();
-                CodeBuilder.Append(".ValueGeneratedOnAddOrUpdate()");
-                break;
-            case ValueGenerated.OnUpdate:
-                CodeBuilder.AppendLine();
-                CodeBuilder.Append(".ValueGeneratedOnUpdate()");
-                break;
+            CodeBuilder.AppendLine();
+            CodeBuilder.Append(".ValueGeneratedOnAdd()");
         }
+        else if (property.IsComputed == true || property.IsRowVersion == true)
+        {
+            CodeBuilder.AppendLine();
+            CodeBuilder.Append(".ValueGeneratedOnAddOrUpdate()");
+        }
+
         CodeBuilder.DecrementIndent();
 
         CodeBuilder.AppendLine(";");
@@ -400,9 +393,7 @@ public class MappingClassTemplate : CodeTemplateBase
     {
         CodeBuilder.AppendLine("// table");
 
-        var method = _entity.IsView
-            ? nameof(RelationalEntityTypeBuilderExtensions.ToView)
-            : nameof(RelationalEntityTypeBuilderExtensions.ToTable);
+        var method = _entity.IsView ? "ToView" : "ToTable";
 
         CodeBuilder.AppendLine(_entity.TableSchema.HasValue()
             ? $"builder.{method}(\"{_entity.TableName}\", \"{_entity.TableSchema}\");"

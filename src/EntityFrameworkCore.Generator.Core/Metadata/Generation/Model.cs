@@ -31,6 +31,7 @@ public class Model : ModelBase, IOptionVariable
 
     public PropertyCollection Properties { get; set; }
 
+
     void IOptionVariable.Set(VariableDictionary variableDictionary)
     {
         variableDictionary.Set(VariableConstants.ModelName, ModelClass);

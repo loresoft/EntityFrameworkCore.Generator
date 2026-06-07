@@ -1,11 +1,9 @@
 using System.Data;
 using System.Diagnostics;
 
-using Microsoft.EntityFrameworkCore.Metadata;
-
 namespace EntityFrameworkCore.Generator.Metadata.Generation;
 
-[DebuggerDisplay("Property: {PropertyName}, Column: {ColumnName}, Type: {StoreType}")]
+[DebuggerDisplay("Property: {PropertyName}, Column: {ColumnName}, Type: {NativeType}")]
 public class Property : ModelBase
 {
     public Entity Entity { get; set; } = null!;
@@ -13,8 +11,6 @@ public class Property : ModelBase
     public string PropertyName { get; set; } = null!;
 
     public string ColumnName { get; set; } = null!;
-
-    public string? StoreType { get; set; }
 
     public string? NativeType { get; set; }
 
@@ -40,11 +36,17 @@ public class Property : ModelBase
 
     public bool? IsUnique { get; set; }
 
+    public bool? IsComputed { get; set; }
+
+    public bool? IsIdentity { get; set; }
+
     public int? Size { get; set; }
 
     public object? DefaultValue { get; set; }
 
     public string? Default { get; set; }
 
-    public ValueGenerated? ValueGenerated { get; set; }
+    public bool? AllowInsert { get; set; }
+
+    public bool? AllowUpdate { get; set; }
 }

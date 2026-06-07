@@ -26,7 +26,7 @@ public partial class UserRole
     /// The property value representing column 'UserId'.
     /// </value>
     [System.ComponentModel.DataAnnotations.Key()]
-    [System.ComponentModel.DataAnnotations.Schema.Column("UserId", TypeName = "uniqueidentifier")]
+    [System.ComponentModel.DataAnnotations.Schema.Column("UserId", TypeName = "UNIQUEIDENTIFIER")]
     public Guid UserId { get; set; }
 
     /// <summary>
@@ -36,7 +36,7 @@ public partial class UserRole
     /// The property value representing column 'RoleId'.
     /// </value>
     [System.ComponentModel.DataAnnotations.Key()]
-    [System.ComponentModel.DataAnnotations.Schema.Column("RoleId", TypeName = "uniqueidentifier")]
+    [System.ComponentModel.DataAnnotations.Schema.Column("RoleId", TypeName = "UNIQUEIDENTIFIER")]
     public Guid RoleId { get; set; }
 
     #endregion

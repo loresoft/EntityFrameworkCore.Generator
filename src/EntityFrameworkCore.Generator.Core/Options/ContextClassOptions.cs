@@ -1,11 +1,9 @@
 using System.ComponentModel;
 
-using Microsoft.EntityFrameworkCore;
-
 namespace EntityFrameworkCore.Generator.Options;
 
 /// <summary>
-/// EntityFramework <see cref="DbContext"/> generation options
+/// EntityFramework <c>DbContext</c> generation options
 /// </summary>
 /// <seealso cref="ClassOptionsBase" />
 public class ContextClassOptions : ClassOptionsBase

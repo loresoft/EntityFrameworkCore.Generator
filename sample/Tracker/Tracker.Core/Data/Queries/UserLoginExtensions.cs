@@ -18,7 +18,7 @@ public static partial class UserLoginExtensions
     /// <param name="queryable">An <see cref="T:System.Linq.IQueryable`1" /> to filter.</param>
     /// <param name="emailAddress">The value to filter by.</param>
     /// <returns>An <see cref="T: System.Linq.IQueryable`1" /> that contains elements from the input sequence that satisfy the condition specified.</returns>
-    public static System.Linq.IQueryable<Tracker.Core.Data.Entities.UserLogin> ByEmailAddress(this System.Linq.IQueryable<Tracker.Core.Data.Entities.UserLogin> queryable, string emailAddress)
+    public static System.Linq.IQueryable<TrackerGenerator.Core.Data.Entities.UserLogin> ByEmailAddress(this System.Linq.IQueryable<TrackerGenerator.Core.Data.Entities.UserLogin> queryable, string emailAddress)
     {
         if (queryable is null)
             throw new ArgumentNullException(nameof(queryable));
@@ -31,13 +31,13 @@ public static partial class UserLoginExtensions
     /// </summary>
     /// <param name="queryable">An <see cref="T:System.Linq.IQueryable`1" /> to filter.</param>
     /// <param name="id">The value to filter by.</param>
-    /// <returns>An instance of <see cref="T:Tracker.Core.Data.Entities.UserLogin"/> or null if not found.</returns>
-    public static Tracker.Core.Data.Entities.UserLogin? GetByKey(this System.Linq.IQueryable<Tracker.Core.Data.Entities.UserLogin> queryable, Guid id)
+    /// <returns>An instance of <see cref="T:TrackerGenerator.Core.Data.Entities.UserLogin"/> or null if not found.</returns>
+    public static TrackerGenerator.Core.Data.Entities.UserLogin? GetByKey(this System.Linq.IQueryable<TrackerGenerator.Core.Data.Entities.UserLogin> queryable, Guid id)
     {
         if (queryable is null)
             throw new ArgumentNullException(nameof(queryable));
 
-        if (queryable is DbSet<Tracker.Core.Data.Entities.UserLogin> dbSet)
+        if (queryable is DbSet<TrackerGenerator.Core.Data.Entities.UserLogin> dbSet)
             return dbSet.Find(id);
 
         return queryable.FirstOrDefault(q => q.Id == id);
@@ -49,13 +49,13 @@ public static partial class UserLoginExtensions
     /// <param name="queryable">An <see cref="T:System.Linq.IQueryable`1" /> to filter.</param>
     /// <param name="id">The value to filter by.</param>
     /// <param name="cancellationToken">A <see cref="System.Threading.CancellationToken" /> to observe while waiting for the task to complete.</param>
-    /// <returns>An instance of <see cref="T:Tracker.Core.Data.Entities.UserLogin"/> or null if not found.</returns>
-    public static async System.Threading.Tasks.ValueTask<Tracker.Core.Data.Entities.UserLogin?> GetByKeyAsync(this System.Linq.IQueryable<Tracker.Core.Data.Entities.UserLogin> queryable, Guid id, System.Threading.CancellationToken cancellationToken = default)
+    /// <returns>An instance of <see cref="T:TrackerGenerator.Core.Data.Entities.UserLogin"/> or null if not found.</returns>
+    public static async System.Threading.Tasks.ValueTask<TrackerGenerator.Core.Data.Entities.UserLogin?> GetByKeyAsync(this System.Linq.IQueryable<TrackerGenerator.Core.Data.Entities.UserLogin> queryable, Guid id, System.Threading.CancellationToken cancellationToken = default)
     {
         if (queryable is null)
             throw new ArgumentNullException(nameof(queryable));
 
-        if (queryable is DbSet<Tracker.Core.Data.Entities.UserLogin> dbSet)
+        if (queryable is DbSet<TrackerGenerator.Core.Data.Entities.UserLogin> dbSet)
             return await dbSet.FindAsync(new object[] { id }, cancellationToken);
 
         return await queryable.FirstOrDefaultAsync(q => q.Id == id, cancellationToken);
@@ -67,7 +67,7 @@ public static partial class UserLoginExtensions
     /// <param name="queryable">An <see cref="T:System.Linq.IQueryable`1" /> to filter.</param>
     /// <param name="userId">The value to filter by.</param>
     /// <returns>An <see cref="T: System.Linq.IQueryable`1" /> that contains elements from the input sequence that satisfy the condition specified.</returns>
-    public static System.Linq.IQueryable<Tracker.Core.Data.Entities.UserLogin> ByUserId(this System.Linq.IQueryable<Tracker.Core.Data.Entities.UserLogin> queryable, Guid? userId)
+    public static System.Linq.IQueryable<TrackerGenerator.Core.Data.Entities.UserLogin> ByUserId(this System.Linq.IQueryable<TrackerGenerator.Core.Data.Entities.UserLogin> queryable, Guid? userId)
     {
         if (queryable is null)
             throw new ArgumentNullException(nameof(queryable));

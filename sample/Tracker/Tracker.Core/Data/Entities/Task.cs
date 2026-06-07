@@ -27,7 +27,7 @@ public partial class Task : IHaveIdentifier, ITrackCreated, ITrackUpdated
     /// The property value representing column 'Id'.
     /// </value>
     [System.ComponentModel.DataAnnotations.Key()]
-    [System.ComponentModel.DataAnnotations.Schema.Column("Id", TypeName = "uniqueidentifier")]
+    [System.ComponentModel.DataAnnotations.Schema.Column("Id", TypeName = "UNIQUEIDENTIFIER")]
     public Guid Id { get; set; }
 
     /// <summary>
@@ -36,7 +36,7 @@ public partial class Task : IHaveIdentifier, ITrackCreated, ITrackUpdated
     /// <value>
     /// The property value representing column 'StatusId'.
     /// </value>
-    [System.ComponentModel.DataAnnotations.Schema.Column("StatusId", TypeName = "uniqueidentifier")]
+    [System.ComponentModel.DataAnnotations.Schema.Column("StatusId", TypeName = "UNIQUEIDENTIFIER")]
     public Guid StatusId { get; set; }
 
     /// <summary>
@@ -45,7 +45,7 @@ public partial class Task : IHaveIdentifier, ITrackCreated, ITrackUpdated
     /// <value>
     /// The property value representing column 'PriorityId'.
     /// </value>
-    [System.ComponentModel.DataAnnotations.Schema.Column("PriorityId", TypeName = "uniqueidentifier")]
+    [System.ComponentModel.DataAnnotations.Schema.Column("PriorityId", TypeName = "UNIQUEIDENTIFIER")]
     public Guid? PriorityId { get; set; }
 
     /// <summary>
@@ -54,7 +54,7 @@ public partial class Task : IHaveIdentifier, ITrackCreated, ITrackUpdated
     /// <value>
     /// The property value representing column 'Title'.
     /// </value>
-    [System.ComponentModel.DataAnnotations.Schema.Column("Title", TypeName = "nvarchar(255)")]
+    [System.ComponentModel.DataAnnotations.Schema.Column("Title", TypeName = "NVARCHAR(255)")]
     public string Title { get; set; } = null!;
 
     /// <summary>
@@ -63,7 +63,7 @@ public partial class Task : IHaveIdentifier, ITrackCreated, ITrackUpdated
     /// <value>
     /// The property value representing column 'Description'.
     /// </value>
-    [System.ComponentModel.DataAnnotations.Schema.Column("Description", TypeName = "nvarchar(max)")]
+    [System.ComponentModel.DataAnnotations.Schema.Column("Description", TypeName = "NVARCHAR(MAX)")]
     public string? Description { get; set; }
 
     /// <summary>
@@ -72,7 +72,7 @@ public partial class Task : IHaveIdentifier, ITrackCreated, ITrackUpdated
     /// <value>
     /// The property value representing column 'StartDate'.
     /// </value>
-    [System.ComponentModel.DataAnnotations.Schema.Column("StartDate", TypeName = "datetimeoffset")]
+    [System.ComponentModel.DataAnnotations.Schema.Column("StartDate", TypeName = "DATETIMEOFFSET")]
     public DateTimeOffset? StartDate { get; set; }
 
     /// <summary>
@@ -81,7 +81,7 @@ public partial class Task : IHaveIdentifier, ITrackCreated, ITrackUpdated
     /// <value>
     /// The property value representing column 'DueDate'.
     /// </value>
-    [System.ComponentModel.DataAnnotations.Schema.Column("DueDate", TypeName = "datetimeoffset")]
+    [System.ComponentModel.DataAnnotations.Schema.Column("DueDate", TypeName = "DATETIMEOFFSET")]
     public DateTimeOffset? DueDate { get; set; }
 
     /// <summary>
@@ -90,7 +90,7 @@ public partial class Task : IHaveIdentifier, ITrackCreated, ITrackUpdated
     /// <value>
     /// The property value representing column 'CompleteDate'.
     /// </value>
-    [System.ComponentModel.DataAnnotations.Schema.Column("CompleteDate", TypeName = "datetimeoffset")]
+    [System.ComponentModel.DataAnnotations.Schema.Column("CompleteDate", TypeName = "DATETIMEOFFSET")]
     public DateTimeOffset? CompleteDate { get; set; }
 
     /// <summary>
@@ -99,7 +99,7 @@ public partial class Task : IHaveIdentifier, ITrackCreated, ITrackUpdated
     /// <value>
     /// The property value representing column 'AssignedId'.
     /// </value>
-    [System.ComponentModel.DataAnnotations.Schema.Column("AssignedId", TypeName = "uniqueidentifier")]
+    [System.ComponentModel.DataAnnotations.Schema.Column("AssignedId", TypeName = "UNIQUEIDENTIFIER")]
     public Guid? AssignedId { get; set; }
 
     /// <summary>
@@ -108,7 +108,7 @@ public partial class Task : IHaveIdentifier, ITrackCreated, ITrackUpdated
     /// <value>
     /// The property value representing column 'TenantId'.
     /// </value>
-    [System.ComponentModel.DataAnnotations.Schema.Column("TenantId", TypeName = "uniqueidentifier")]
+    [System.ComponentModel.DataAnnotations.Schema.Column("TenantId", TypeName = "UNIQUEIDENTIFIER")]
     public Guid TenantId { get; set; }
 
     /// <summary>
@@ -117,7 +117,7 @@ public partial class Task : IHaveIdentifier, ITrackCreated, ITrackUpdated
     /// <value>
     /// The property value representing column 'Created'.
     /// </value>
-    [System.ComponentModel.DataAnnotations.Schema.Column("Created", TypeName = "datetimeoffset")]
+    [System.ComponentModel.DataAnnotations.Schema.Column("Created", TypeName = "DATETIMEOFFSET")]
     public DateTimeOffset Created { get; set; }
 
     /// <summary>
@@ -126,7 +126,7 @@ public partial class Task : IHaveIdentifier, ITrackCreated, ITrackUpdated
     /// <value>
     /// The property value representing column 'CreatedBy'.
     /// </value>
-    [System.ComponentModel.DataAnnotations.Schema.Column("CreatedBy", TypeName = "nvarchar(100)")]
+    [System.ComponentModel.DataAnnotations.Schema.Column("CreatedBy", TypeName = "NVARCHAR(100)")]
     public string? CreatedBy { get; set; }
 
     /// <summary>
@@ -135,7 +135,7 @@ public partial class Task : IHaveIdentifier, ITrackCreated, ITrackUpdated
     /// <value>
     /// The property value representing column 'Updated'.
     /// </value>
-    [System.ComponentModel.DataAnnotations.Schema.Column("Updated", TypeName = "datetimeoffset")]
+    [System.ComponentModel.DataAnnotations.Schema.Column("Updated", TypeName = "DATETIMEOFFSET")]
     public DateTimeOffset Updated { get; set; }
 
     /// <summary>
@@ -144,7 +144,7 @@ public partial class Task : IHaveIdentifier, ITrackCreated, ITrackUpdated
     /// <value>
     /// The property value representing column 'UpdatedBy'.
     /// </value>
-    [System.ComponentModel.DataAnnotations.Schema.Column("UpdatedBy", TypeName = "nvarchar(100)")]
+    [System.ComponentModel.DataAnnotations.Schema.Column("UpdatedBy", TypeName = "NVARCHAR(100)")]
     public string? UpdatedBy { get; set; }
 
     /// <summary>
@@ -154,9 +154,27 @@ public partial class Task : IHaveIdentifier, ITrackCreated, ITrackUpdated
     /// The property value representing column 'RowVersion'.
     /// </value>
     [System.ComponentModel.DataAnnotations.ConcurrencyCheck()]
-    [System.ComponentModel.DataAnnotations.Schema.Column("RowVersion", TypeName = "rowversion")]
+    [System.ComponentModel.DataAnnotations.Schema.Column("RowVersion", TypeName = "TIMESTAMP")]
     [System.ComponentModel.DataAnnotations.Schema.DatabaseGenerated(System.ComponentModel.DataAnnotations.Schema.DatabaseGeneratedOption.Computed)]
-    public Byte[] RowVersion { get; set; } = null!;
+    public byte[] RowVersion { get; set; } = null!;
+
+    /// <summary>
+    /// Gets or sets the property value representing column 'PeriodStart'.
+    /// </summary>
+    /// <value>
+    /// The property value representing column 'PeriodStart'.
+    /// </value>
+    [System.ComponentModel.DataAnnotations.Schema.Column("PeriodStart", TypeName = "DATETIME2")]
+    public DateTime PeriodStart1 { get; set; }
+
+    /// <summary>
+    /// Gets or sets the property value representing column 'PeriodEnd'.
+    /// </summary>
+    /// <value>
+    /// The property value representing column 'PeriodEnd'.
+    /// </value>
+    [System.ComponentModel.DataAnnotations.Schema.Column("PeriodEnd", TypeName = "DATETIME2")]
+    public DateTime PeriodEnd1 { get; set; }
 
     #endregion
 

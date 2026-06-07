@@ -1,10 +1,6 @@
-using System.Linq;
-
 using EntityFrameworkCore.Generator.Extensions;
 using EntityFrameworkCore.Generator.Metadata.Generation;
 using EntityFrameworkCore.Generator.Options;
-
-using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace EntityFrameworkCore.Generator.Templates;
 
@@ -160,15 +156,15 @@ public class EntityClassTemplate : CodeTemplateBase
                     CodeBuilder.AppendLine("[System.ComponentModel.DataAnnotations.ConcurrencyCheck()]");
                 }
 
-                CodeBuilder.AppendLine($"[System.ComponentModel.DataAnnotations.Schema.Column(\"{property.ColumnName}\", TypeName = \"{property.StoreType}\")]");
+                CodeBuilder.AppendLine($"[System.ComponentModel.DataAnnotations.Schema.Column(\"{property.ColumnName}\", TypeName = \"{property.NativeType}\")]");
 
-                if (property.IsRowVersion == true || property.ValueGenerated == ValueGenerated.OnAddOrUpdate)
-                {
-                    CodeBuilder.AppendLine("[System.ComponentModel.DataAnnotations.Schema.DatabaseGenerated(System.ComponentModel.DataAnnotations.Schema.DatabaseGeneratedOption.Computed)]");
-                }
-                else if (property.ValueGenerated == ValueGenerated.OnAdd)
+                if (property.IsIdentity == true)
                 {
                     CodeBuilder.AppendLine("[System.ComponentModel.DataAnnotations.Schema.DatabaseGenerated(System.ComponentModel.DataAnnotations.Schema.DatabaseGeneratedOption.Identity)]");
+                }
+                else if (property.IsRowVersion == true || property.IsComputed == true)
+                {
+                    CodeBuilder.AppendLine("[System.ComponentModel.DataAnnotations.Schema.DatabaseGenerated(System.ComponentModel.DataAnnotations.Schema.DatabaseGeneratedOption.Computed)]");
                 }
             }
 

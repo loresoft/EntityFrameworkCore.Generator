@@ -1,5 +1,3 @@
-using EntityFrameworkCore.Generator.Serialization;
-
 namespace EntityFrameworkCore.Generator.Options;
 
 /// <summary>

@@ -30,7 +30,7 @@ public partial class User : IHaveIdentifier, ITrackCreated, ITrackUpdated
     /// The property value representing column 'Id'.
     /// </value>
     [System.ComponentModel.DataAnnotations.Key()]
-    [System.ComponentModel.DataAnnotations.Schema.Column("Id", TypeName = "uniqueidentifier")]
+    [System.ComponentModel.DataAnnotations.Schema.Column("Id", TypeName = "UNIQUEIDENTIFIER")]
     public Guid Id { get; set; }
 
     /// <summary>
@@ -39,7 +39,7 @@ public partial class User : IHaveIdentifier, ITrackCreated, ITrackUpdated
     /// <value>
     /// The property value representing column 'EmailAddress'.
     /// </value>
-    [System.ComponentModel.DataAnnotations.Schema.Column("EmailAddress", TypeName = "nvarchar(256)")]
+    [System.ComponentModel.DataAnnotations.Schema.Column("EmailAddress", TypeName = "NVARCHAR(256)")]
     public string EmailAddress { get; set; } = null!;
 
     /// <summary>
@@ -48,7 +48,7 @@ public partial class User : IHaveIdentifier, ITrackCreated, ITrackUpdated
     /// <value>
     /// The property value representing column 'IsEmailAddressConfirmed'.
     /// </value>
-    [System.ComponentModel.DataAnnotations.Schema.Column("IsEmailAddressConfirmed", TypeName = "bit")]
+    [System.ComponentModel.DataAnnotations.Schema.Column("IsEmailAddressConfirmed", TypeName = "BIT")]
     public bool IsEmailAddressConfirmed { get; set; }
 
     /// <summary>
@@ -57,7 +57,7 @@ public partial class User : IHaveIdentifier, ITrackCreated, ITrackUpdated
     /// <value>
     /// The property value representing column 'DisplayName'.
     /// </value>
-    [System.ComponentModel.DataAnnotations.Schema.Column("DisplayName", TypeName = "nvarchar(256)")]
+    [System.ComponentModel.DataAnnotations.Schema.Column("DisplayName", TypeName = "NVARCHAR(256)")]
     public string DisplayName { get; set; } = null!;
 
     /// <summary>
@@ -66,7 +66,7 @@ public partial class User : IHaveIdentifier, ITrackCreated, ITrackUpdated
     /// <value>
     /// The property value representing column 'PasswordHash'.
     /// </value>
-    [System.ComponentModel.DataAnnotations.Schema.Column("PasswordHash", TypeName = "nvarchar(max)")]
+    [System.ComponentModel.DataAnnotations.Schema.Column("PasswordHash", TypeName = "NVARCHAR(MAX)")]
     public string? PasswordHash { get; set; }
 
     /// <summary>
@@ -75,7 +75,7 @@ public partial class User : IHaveIdentifier, ITrackCreated, ITrackUpdated
     /// <value>
     /// The property value representing column 'ResetHash'.
     /// </value>
-    [System.ComponentModel.DataAnnotations.Schema.Column("ResetHash", TypeName = "nvarchar(max)")]
+    [System.ComponentModel.DataAnnotations.Schema.Column("ResetHash", TypeName = "NVARCHAR(MAX)")]
     public string? ResetHash { get; set; }
 
     /// <summary>
@@ -84,7 +84,7 @@ public partial class User : IHaveIdentifier, ITrackCreated, ITrackUpdated
     /// <value>
     /// The property value representing column 'InviteHash'.
     /// </value>
-    [System.ComponentModel.DataAnnotations.Schema.Column("InviteHash", TypeName = "nvarchar(max)")]
+    [System.ComponentModel.DataAnnotations.Schema.Column("InviteHash", TypeName = "NVARCHAR(MAX)")]
     public string? InviteHash { get; set; }
 
     /// <summary>
@@ -93,7 +93,7 @@ public partial class User : IHaveIdentifier, ITrackCreated, ITrackUpdated
     /// <value>
     /// The property value representing column 'AccessFailedCount'.
     /// </value>
-    [System.ComponentModel.DataAnnotations.Schema.Column("AccessFailedCount", TypeName = "int")]
+    [System.ComponentModel.DataAnnotations.Schema.Column("AccessFailedCount", TypeName = "INT")]
     public int AccessFailedCount { get; set; }
 
     /// <summary>
@@ -102,7 +102,7 @@ public partial class User : IHaveIdentifier, ITrackCreated, ITrackUpdated
     /// <value>
     /// The property value representing column 'LockoutEnabled'.
     /// </value>
-    [System.ComponentModel.DataAnnotations.Schema.Column("LockoutEnabled", TypeName = "bit")]
+    [System.ComponentModel.DataAnnotations.Schema.Column("LockoutEnabled", TypeName = "BIT")]
     public bool LockoutEnabled { get; set; }
 
     /// <summary>
@@ -111,7 +111,7 @@ public partial class User : IHaveIdentifier, ITrackCreated, ITrackUpdated
     /// <value>
     /// The property value representing column 'LockoutEnd'.
     /// </value>
-    [System.ComponentModel.DataAnnotations.Schema.Column("LockoutEnd", TypeName = "datetimeoffset")]
+    [System.ComponentModel.DataAnnotations.Schema.Column("LockoutEnd", TypeName = "DATETIMEOFFSET")]
     public DateTimeOffset? LockoutEnd { get; set; }
 
     /// <summary>
@@ -120,7 +120,7 @@ public partial class User : IHaveIdentifier, ITrackCreated, ITrackUpdated
     /// <value>
     /// The property value representing column 'LastLogin'.
     /// </value>
-    [System.ComponentModel.DataAnnotations.Schema.Column("LastLogin", TypeName = "datetimeoffset")]
+    [System.ComponentModel.DataAnnotations.Schema.Column("LastLogin", TypeName = "DATETIMEOFFSET")]
     public DateTimeOffset? LastLogin { get; set; }
 
     /// <summary>
@@ -129,7 +129,7 @@ public partial class User : IHaveIdentifier, ITrackCreated, ITrackUpdated
     /// <value>
     /// The property value representing column 'IsDeleted'.
     /// </value>
-    [System.ComponentModel.DataAnnotations.Schema.Column("IsDeleted", TypeName = "bit")]
+    [System.ComponentModel.DataAnnotations.Schema.Column("IsDeleted", TypeName = "BIT")]
     public bool IsDeleted { get; set; }
 
     /// <summary>
@@ -138,7 +138,7 @@ public partial class User : IHaveIdentifier, ITrackCreated, ITrackUpdated
     /// <value>
     /// The property value representing column 'Created'.
     /// </value>
-    [System.ComponentModel.DataAnnotations.Schema.Column("Created", TypeName = "datetimeoffset")]
+    [System.ComponentModel.DataAnnotations.Schema.Column("Created", TypeName = "DATETIMEOFFSET")]
     public DateTimeOffset Created { get; set; }
 
     /// <summary>
@@ -147,7 +147,7 @@ public partial class User : IHaveIdentifier, ITrackCreated, ITrackUpdated
     /// <value>
     /// The property value representing column 'CreatedBy'.
     /// </value>
-    [System.ComponentModel.DataAnnotations.Schema.Column("CreatedBy", TypeName = "nvarchar(100)")]
+    [System.ComponentModel.DataAnnotations.Schema.Column("CreatedBy", TypeName = "NVARCHAR(100)")]
     public string? CreatedBy { get; set; }
 
     /// <summary>
@@ -156,7 +156,7 @@ public partial class User : IHaveIdentifier, ITrackCreated, ITrackUpdated
     /// <value>
     /// The property value representing column 'Updated'.
     /// </value>
-    [System.ComponentModel.DataAnnotations.Schema.Column("Updated", TypeName = "datetimeoffset")]
+    [System.ComponentModel.DataAnnotations.Schema.Column("Updated", TypeName = "DATETIMEOFFSET")]
     public DateTimeOffset Updated { get; set; }
 
     /// <summary>
@@ -165,7 +165,7 @@ public partial class User : IHaveIdentifier, ITrackCreated, ITrackUpdated
     /// <value>
     /// The property value representing column 'UpdatedBy'.
     /// </value>
-    [System.ComponentModel.DataAnnotations.Schema.Column("UpdatedBy", TypeName = "nvarchar(100)")]
+    [System.ComponentModel.DataAnnotations.Schema.Column("UpdatedBy", TypeName = "NVARCHAR(100)")]
     public string? UpdatedBy { get; set; }
 
     /// <summary>
@@ -175,9 +175,9 @@ public partial class User : IHaveIdentifier, ITrackCreated, ITrackUpdated
     /// The property value representing column 'RowVersion'.
     /// </value>
     [System.ComponentModel.DataAnnotations.ConcurrencyCheck()]
-    [System.ComponentModel.DataAnnotations.Schema.Column("RowVersion", TypeName = "rowversion")]
+    [System.ComponentModel.DataAnnotations.Schema.Column("RowVersion", TypeName = "TIMESTAMP")]
     [System.ComponentModel.DataAnnotations.Schema.DatabaseGenerated(System.ComponentModel.DataAnnotations.Schema.DatabaseGeneratedOption.Computed)]
-    public Byte[] RowVersion { get; set; } = null!;
+    public byte[] RowVersion { get; set; } = null!;
 
     #endregion
 

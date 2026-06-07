@@ -1,13 +1,12 @@
-using System.Linq;
+using System;
+using System.Data;
 
 using EntityFrameworkCore.Generator.Options;
 
-using Microsoft.EntityFrameworkCore.Scaffolding.Metadata;
-using Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal;
-using Microsoft.EntityFrameworkCore.Storage;
-using Microsoft.EntityFrameworkCore.Storage.Json;
-using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Microsoft.Extensions.Logging.Abstractions;
+
+using SchemaSaurus.Metadata;
+using SchemaSaurus.Metadata.Builders;
 
 using Xunit;
 
@@ -19,41 +18,14 @@ public class ModelGeneratorTests
     public void GenerateCheckNames()
     {
         var generatorOptions = new GeneratorOptions();
-        var databaseModel = new DatabaseModel
-        {
-            DatabaseName = "TestDatabase",
-            DefaultSchema = "dbo"
-        };
-        var testTable = new DatabaseTable
-        {
-            Database = databaseModel,
-            Name = "TestTable",
-            Schema = "dbo"
-        };
-        databaseModel.Tables.Add(testTable);
+        var databaseModel = CreateDatabaseModel("TestDatabase",
+            table => ConfigureTable(table, "dbo", "TestTable",
+                column => ConfigureColumn(column, "Id", false, "int", 1),
+                column => ConfigureColumn(column, "Name", true, "varchar(50)", 2)));
 
-        var identifierColumn = new DatabaseColumn
-        {
-            Table = testTable,
-            Name = "Id",
-            IsNullable = false,
-            StoreType = "int"
-        };
-        testTable.Columns.Add(identifierColumn);
-
-        var nameColumn = new DatabaseColumn
-        {
-            Table = testTable,
-            Name = "Name",
-            IsNullable = true,
-            StoreType = "varchar(50)"
-        };
-        testTable.Columns.Add(nameColumn);
         var generator = new ModelGenerator(NullLoggerFactory.Instance);
 
-        var typeMappingSource = CreateTypeMappingSource();
-
-        var result = generator.Generate(generatorOptions, databaseModel, typeMappingSource);
+        var result = generator.Generate(generatorOptions, databaseModel);
         Assert.Equal("TestDatabaseContext", result.ContextClass);
         Assert.Equal("TestDatabase.Data", result.ContextNamespace);
         Assert.Single(result.Entities);
@@ -87,41 +59,14 @@ public class ModelGeneratorTests
         generatorOptions.Model.Validator.Generate = true;
         generatorOptions.Model.Mapper.Generate = true;
 
-        var databaseModel = new DatabaseModel
-        {
-            DatabaseName = "TestDatabase",
-            DefaultSchema = "dbo"
-        };
-        var testTable = new DatabaseTable
-        {
-            Database = databaseModel,
-            Name = "TestTable",
-            Schema = "dbo"
-        };
-        databaseModel.Tables.Add(testTable);
+        var databaseModel = CreateDatabaseModel("TestDatabase",
+            table => ConfigureTable(table, "dbo", "TestTable",
+                column => ConfigureColumn(column, "Id", false, "int", 1),
+                column => ConfigureColumn(column, "Name", true, "varchar(50)", 2)));
 
-        var identifierColumn = new DatabaseColumn
-        {
-            Table = testTable,
-            Name = "Id",
-            IsNullable = false,
-            StoreType = "int"
-        };
-        testTable.Columns.Add(identifierColumn);
-
-        var nameColumn = new DatabaseColumn
-        {
-            Table = testTable,
-            Name = "Name",
-            IsNullable = true,
-            StoreType = "varchar(50)"
-        };
-        testTable.Columns.Add(nameColumn);
         var generator = new ModelGenerator(NullLoggerFactory.Instance);
 
-        var typeMappingSource = CreateTypeMappingSource();
-
-        var result = generator.Generate(generatorOptions, databaseModel, typeMappingSource);
+        var result = generator.Generate(generatorOptions, databaseModel);
         Assert.Equal("TestDatabaseContext", result.ContextClass);
         Assert.Equal("TestDatabase.Data", result.ContextNamespace);
         Assert.Single(result.Entities);
@@ -153,32 +98,13 @@ public class ModelGeneratorTests
     public void GenerateWithSymbolInDatabaseName()
     {
         var generatorOptions = new GeneratorOptions();
-        var databaseModel = new DatabaseModel
-        {
-            DatabaseName = "Test+Symbol",
-            DefaultSchema = "dbo"
-        };
-        var databaseTable = new DatabaseTable
-        {
-            Database = databaseModel,
-            Name = "Test+Error",
-            Schema = "dbo"
-        };
-        databaseModel.Tables.Add(databaseTable);
-
-        var databaseColumn = new DatabaseColumn
-        {
-            Table = databaseTable,
-            Name = "Id",
-            IsNullable = false,
-            StoreType = "int"
-        };
-        databaseTable.Columns.Add(databaseColumn);
+        var databaseModel = CreateDatabaseModel("Test+Symbol",
+            table => ConfigureTable(table, "dbo", "Test+Error",
+                column => ConfigureColumn(column, "Id", false, "int", 1)));
 
         var generator = new ModelGenerator(NullLoggerFactory.Instance);
-        var typeMappingSource = CreateTypeMappingSource();
 
-        var result = generator.Generate(generatorOptions, databaseModel, typeMappingSource);
+        var result = generator.Generate(generatorOptions, databaseModel);
         Assert.Equal("TestSymbolContext", result.ContextClass);
         Assert.Equal("TestSymbol.Data", result.ContextNamespace);
 
@@ -191,41 +117,14 @@ public class ModelGeneratorTests
     public void GenerateWithAllNumberColumnName()
     {
         var generatorOptions = new GeneratorOptions();
-        var databaseModel = new DatabaseModel
-        {
-            DatabaseName = "TestDatabase",
-            DefaultSchema = "dbo"
-        };
-        var testTable = new DatabaseTable
-        {
-            Database = databaseModel,
-            Name = "TestTable",
-            Schema = "dbo"
-        };
-        databaseModel.Tables.Add(testTable);
+        var databaseModel = CreateDatabaseModel("TestDatabase",
+            table => ConfigureTable(table, "dbo", "TestTable",
+                column => ConfigureColumn(column, "Id", false, "int", 1),
+                column => ConfigureColumn(column, "404", true, "int", 2)));
 
-        var identifierColumn = new DatabaseColumn
-        {
-            Table = testTable,
-            Name = "Id",
-            IsNullable = false,
-            StoreType = "int"
-        };
-        testTable.Columns.Add(identifierColumn);
-
-        var numberColumn = new DatabaseColumn
-        {
-            Table = testTable,
-            Name = "404",
-            IsNullable = true,
-            StoreType = "int"
-        };
-        testTable.Columns.Add(numberColumn);
         var generator = new ModelGenerator(NullLoggerFactory.Instance);
 
-        var typeMappingSource = CreateTypeMappingSource();
-
-        var result = generator.Generate(generatorOptions, databaseModel, typeMappingSource);
+        var result = generator.Generate(generatorOptions, databaseModel);
         Assert.Equal("TestDatabaseContext", result.ContextClass);
         Assert.Equal("TestDatabase.Data", result.ContextNamespace);
         Assert.Single(result.Entities);
@@ -248,44 +147,19 @@ public class ModelGeneratorTests
     public void GenerateWithComplexDefaultValue()
     {
         var generatorOptions = new GeneratorOptions();
-        var databaseModel = new DatabaseModel
-        {
-            DatabaseName = "TestDatabase",
-            DefaultSchema = "dbo"
-        };
-        var testTable = new DatabaseTable
-        {
-            Database = databaseModel,
-            Name = "TestTable",
-            Schema = "dbo"
-        };
-        databaseModel.Tables.Add(testTable);
+        var databaseModel = CreateDatabaseModel("TestDatabase",
+            table => ConfigureTable(table, "dbo", "TestTable",
+                column => ConfigureColumn(column, "Id", false, "int", 1),
+                column => ConfigureColumn(column, "Name", true, "varchar(50)", 2)
+                    .WithDefaultValueSql(
+                """
+                /****** Object:  Default dbo.abc0    Script Date: 4/11/99 12:35:41 PM ******/
+                create default abc0 as 0
+                """)));
 
-        var identifierColumn = new DatabaseColumn
-        {
-            Table = testTable,
-            Name = "Id",
-            IsNullable = false,
-            StoreType = "int"
-        };
-        testTable.Columns.Add(identifierColumn);
-
-        var nameColumn = new DatabaseColumn
-        {
-            Table = testTable,
-            Name = "Name",
-            IsNullable = true,
-            StoreType = "varchar(50)",
-            DefaultValueSql = @"/****** Object:  Default dbo.abc0    Script Date: 4/11/99 12:35:41 PM ******/
-create default abc0 as 0
-"
-        };
-        testTable.Columns.Add(nameColumn);
         var generator = new ModelGenerator(NullLoggerFactory.Instance);
 
-        var typeMappingSource = CreateTypeMappingSource();
-
-        var result = generator.Generate(generatorOptions, databaseModel, typeMappingSource);
+        var result = generator.Generate(generatorOptions, databaseModel);
         Assert.Equal("TestDatabaseContext", result.ContextClass);
         Assert.Equal("TestDatabase.Data", result.ContextNamespace);
         Assert.Single(result.Entities);
@@ -313,41 +187,14 @@ create default abc0 as 0
     public void GenerateCheckNameCase()
     {
         var generatorOptions = new GeneratorOptions();
-        var databaseModel = new DatabaseModel
-        {
-            DatabaseName = "TestDatabase",
-            DefaultSchema = "dbo"
-        };
-        var testTable = new DatabaseTable
-        {
-            Database = databaseModel,
-            Name = "aammstest",
-            Schema = "dbo"
-        };
-        databaseModel.Tables.Add(testTable);
+        var databaseModel = CreateDatabaseModel("TestDatabase",
+            table => ConfigureTable(table, "dbo", "aammstest",
+                column => ConfigureColumn(column, "Id", false, "int", 1),
+                column => ConfigureColumn(column, "Name", true, "varchar(50)", 2)));
 
-        var identifierColumn = new DatabaseColumn
-        {
-            Table = testTable,
-            Name = "Id",
-            IsNullable = false,
-            StoreType = "int"
-        };
-        testTable.Columns.Add(identifierColumn);
-
-        var nameColumn = new DatabaseColumn
-        {
-            Table = testTable,
-            Name = "Name",
-            IsNullable = true,
-            StoreType = "varchar(50)"
-        };
-        testTable.Columns.Add(nameColumn);
         var generator = new ModelGenerator(NullLoggerFactory.Instance);
 
-        var typeMappingSource = CreateTypeMappingSource();
-
-        var result = generator.Generate(generatorOptions, databaseModel, typeMappingSource);
+        var result = generator.Generate(generatorOptions, databaseModel);
         Assert.Equal("TestDatabaseContext", result.ContextClass);
         Assert.Equal("TestDatabase.Data", result.ContextNamespace);
         Assert.Single(result.Entities);
@@ -377,65 +224,17 @@ create default abc0 as 0
 
         var generatorOptions = new GeneratorOptions();
         generatorOptions.Data.Entity.PrefixWithSchemaName = true;
-        var databaseModel = new DatabaseModel
-        {
-            DatabaseName = "TestDatabase",
-            DefaultSchema = "dbo"
-        };
-        var testTableDbo = new DatabaseTable
-        {
-            Database = databaseModel,
-            Name = "TestTable",
-            Schema = "dbo"
-        };
-        var testTableTst = new DatabaseTable
-        {
-            Database = databaseModel,
-            Name = "TestTable",
-            Schema = "tst"
-        };
-        databaseModel.Tables.Add(testTableDbo);
-        databaseModel.Tables.Add(testTableTst);
-
-        var identifierColumnDbo = new DatabaseColumn
-        {
-            Table = testTableDbo,
-            Name = "Id",
-            IsNullable = false,
-            StoreType = "int"
-        };
-        var identifierColumnTst = new DatabaseColumn
-        {
-            Table = testTableTst,
-            Name = "Id",
-            IsNullable = false,
-            StoreType = "int"
-        };
-        testTableDbo.Columns.Add(identifierColumnDbo);
-        testTableDbo.Columns.Add(identifierColumnTst);
-
-        var nameColumnDbo = new DatabaseColumn
-        {
-            Table = testTableDbo,
-            Name = "Name",
-            IsNullable = true,
-            StoreType = "varchar(50)"
-        };
-        var nameColumnTst = new DatabaseColumn
-        {
-            Table = testTableTst,
-            Name = "Name",
-            IsNullable = true,
-            StoreType = "varchar(50)"
-        };
-        testTableDbo.Columns.Add(nameColumnDbo);
-        testTableDbo.Columns.Add(nameColumnTst);
+        var databaseModel = CreateDatabaseModel("TestDatabase",
+            table => ConfigureTable(table, "dbo", "TestTable",
+                column => ConfigureColumn(column, "Id", false, "int", 1),
+                column => ConfigureColumn(column, "Name", true, "varchar(50)", 2)),
+            table => ConfigureTable(table, "tst", "TestTable",
+                column => ConfigureColumn(column, "Id", false, "int", 1),
+                column => ConfigureColumn(column, "Name", true, "varchar(50)", 2)));
 
         var generator = new ModelGenerator(NullLoggerFactory.Instance);
 
-        var typeMappingSource = CreateTypeMappingSource();
-
-        var result = generator.Generate(generatorOptions, databaseModel, typeMappingSource);
+        var result = generator.Generate(generatorOptions, databaseModel);
 
         Assert.Equal("TestDatabaseContext", result.ContextClass);
         Assert.Equal("TestDatabase.Data", result.ContextNamespace);
@@ -471,72 +270,18 @@ create default abc0 as 0
         generatorOptions.Model.Validator.Generate = true;
         generatorOptions.Model.Mapper.Generate = true;
 
-        var databaseModel = new DatabaseModel
-        {
-            DatabaseName = "TestDatabase",
-            DefaultSchema = "dbo"
-        };
-        var testTable = new DatabaseTable
-        {
-            Database = databaseModel,
-            Name = "TestTable",
-            Schema = "dbo"
-        };
-        databaseModel.Tables.Add(testTable);
-
-        var identifierColumn = new DatabaseColumn
-        {
-            Table = testTable,
-            Name = "Id",
-            IsNullable = false,
-            StoreType = "int"
-        };
-        testTable.Columns.Add(identifierColumn);
-
-        var nameColumn = new DatabaseColumn
-        {
-            Table = testTable,
-            Name = "Name",
-            IsNullable = true,
-            StoreType = "varchar(50)"
-        };
-        testTable.Columns.Add(nameColumn);
-
-        var expressionTable = new DatabaseTable
-        {
-            Database = databaseModel,
-            Name = "ExpressionTable",
-            Schema = "dbo"
-        };
-        expressionTable.Columns.Add(new DatabaseColumn
-        {
-            Table = testTable,
-            Name = "Id",
-            IsNullable = false,
-            StoreType = "int"
-        });
-        databaseModel.Tables.Add(expressionTable);
-
-        var directTable = new DatabaseTable
-        {
-            Database = databaseModel,
-            Name = "DirectTable",
-            Schema = "dbo"
-        };
-        directTable.Columns.Add(new DatabaseColumn
-        {
-            Table = testTable,
-            Name = "Id",
-            IsNullable = false,
-            StoreType = "int"
-        });
-        databaseModel.Tables.Add(directTable);
+        var databaseModel = CreateDatabaseModel("TestDatabase",
+            table => ConfigureTable(table, "dbo", "TestTable",
+                column => ConfigureColumn(column, "Id", false, "int", 1),
+                column => ConfigureColumn(column, "Name", true, "varchar(50)", 2)),
+            table => ConfigureTable(table, "dbo", "ExpressionTable",
+                column => ConfigureColumn(column, "Id", false, "int", 1)),
+            table => ConfigureTable(table, "dbo", "DirectTable",
+                column => ConfigureColumn(column, "Id", false, "int", 1)));
 
         var generator = new ModelGenerator(NullLoggerFactory.Instance);
 
-        var typeMappingSource = CreateTypeMappingSource();
-
-        var result = generator.Generate(generatorOptions, databaseModel, typeMappingSource);
+        var result = generator.Generate(generatorOptions, databaseModel);
         Assert.Equal("TestDatabaseContext", result.ContextClass);
         Assert.Equal("TestDatabase.Data", result.ContextNamespace);
         Assert.Single(result.Entities);
@@ -564,19 +309,59 @@ create default abc0 as 0
 
     }
 
-    private static SqlServerTypeMappingSource CreateTypeMappingSource()
+    private static DatabaseModel CreateDatabaseModel(string databaseName, params Action<TableBuilder>[] configureTables)
     {
-#pragma warning disable EF1001 // Internal EF Core API usage.
-        var sqlServerTypeMappingSource = new SqlServerTypeMappingSource(
-            new TypeMappingSourceDependencies(
-                new ValueConverterSelector(new ValueConverterSelectorDependencies()),
-                new JsonValueReaderWriterSource(new JsonValueReaderWriterSourceDependencies()),
-                Enumerable.Empty<ITypeMappingSourcePlugin>()
-            ),
-            new RelationalTypeMappingSourceDependencies(Enumerable.Empty<IRelationalTypeMappingSourcePlugin>())
-        );
-#pragma warning restore EF1001 // Internal EF Core API usage.
-        return sqlServerTypeMappingSource;
+        var builder = new DatabaseModelBuilder()
+            .WithProvider("SqlServer")
+            .WithDatabaseName(databaseName)
+            .WithDefaultSchemaName("dbo");
+
+        foreach (var configureTable in configureTables)
+            builder.AddTable(configureTable);
+
+        return builder.Build();
+    }
+
+    private static TableBuilder ConfigureTable(
+        TableBuilder builder,
+        string schema,
+        string tableName,
+        params Func<ColumnBuilder, ColumnBuilder>[] configureColumns)
+    {
+        builder.WithQualifiedName(schema, tableName);
+
+        foreach (var configureColumn in configureColumns)
+            builder.AddColumn(column => configureColumn(column));
+
+        return builder;
+    }
+
+    private static ColumnBuilder ConfigureColumn(
+        ColumnBuilder builder,
+        string name,
+        bool isNullable,
+        string nativeTypeName,
+        int ordinalPosition)
+    {
+        var (dbType, systemType) = GetTypeMapping(nativeTypeName);
+
+        return builder
+            .WithName(name)
+            .WithOrdinalPosition(ordinalPosition)
+            .WithIsNullable(isNullable)
+            .WithDbType(dbType)
+            .WithNativeTypeName(nativeTypeName)
+            .WithSystemType(systemType);
+    }
+
+    private static (DbType DbType, Type SystemType) GetTypeMapping(string nativeTypeName)
+    {
+        return nativeTypeName switch
+        {
+            "int" => (DbType.Int32, typeof(int)),
+            "varchar(50)" => (DbType.String, typeof(string)),
+            _ => throw new ArgumentOutOfRangeException(nameof(nativeTypeName), nativeTypeName, "Unsupported test column type.")
+        };
     }
 
 }

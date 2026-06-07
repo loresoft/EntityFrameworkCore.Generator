@@ -1,6 +1,3 @@
-using System;
-using System.IO;
-
 using EntityFrameworkCore.Generator.Serialization;
 
 using Microsoft.Extensions.Logging;

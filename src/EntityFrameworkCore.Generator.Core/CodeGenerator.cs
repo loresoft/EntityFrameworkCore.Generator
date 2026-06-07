@@ -1,17 +1,14 @@
-using System;
-using System.IO;
 using EntityFrameworkCore.Generator.Extensions;
 using EntityFrameworkCore.Generator.Metadata.Generation;
 using EntityFrameworkCore.Generator.Options;
 using EntityFrameworkCore.Generator.Parsing;
 using EntityFrameworkCore.Generator.Scripts;
 using EntityFrameworkCore.Generator.Templates;
-using Microsoft.EntityFrameworkCore.Design;
-using Microsoft.EntityFrameworkCore.Scaffolding;
-using Microsoft.EntityFrameworkCore.Scaffolding.Metadata;
-using Microsoft.EntityFrameworkCore.Storage;
-using Microsoft.Extensions.DependencyInjection;
+
 using Microsoft.Extensions.Logging;
+
+using SchemaSaurus.Metadata;
+using SchemaSaurus.Metadata.Provider;
 
 namespace EntityFrameworkCore.Generator;
 
@@ -32,19 +29,19 @@ public class CodeGenerator : ICodeGenerator
 
     public GeneratorOptions Options { get; set; } = null!;
 
-    public bool Generate(GeneratorOptions options)
+    public async Task<bool> GenerateAsync(GeneratorOptions options)
     {
         Options = options ?? throw new ArgumentNullException(nameof(options));
 
-        var databaseProviders = GetDatabaseProviders();
-        var databaseModel = GetDatabaseModel(databaseProviders.factory);
+        var databaseProvider = GetDatabaseProvider();
+        var databaseModel = await GetDatabaseModel(databaseProvider);
 
         if (databaseModel == null)
             throw new InvalidOperationException("Failed to create database model");
 
         _logger.LogInformation("Loaded database model for: {databaseName}", databaseModel.DatabaseName);
 
-        var context = _modelGenerator.Generate(Options, databaseModel, databaseProviders.mapping);
+        var context = _modelGenerator.Generate(Options, databaseModel);
 
         _synchronizer.UpdateFromSource(context, options);
 
@@ -338,7 +335,7 @@ public class CodeGenerator : ICodeGenerator
 
     private void GenerateContextScriptTemplates(EntityContext entityContext)
     {
-        if (Options?.Script?.Context == null || Options.Script.Context.Count !< 0)
+        if (Options?.Script?.Context == null || Options.Script.Context.Count! < 0)
             return;
 
         foreach (var templateOption in Options.Script.Context)
@@ -370,7 +367,7 @@ public class CodeGenerator : ICodeGenerator
     }
 
 
-    private DatabaseModel GetDatabaseModel(IDatabaseModelFactory factory)
+    private async Task<DatabaseModel> GetDatabaseModel(IDatabaseSchemaReader factory)
     {
         _logger.LogInformation("Loading database model ...");
 
@@ -380,9 +377,13 @@ public class CodeGenerator : ICodeGenerator
         if (string.IsNullOrEmpty(connectionString))
             throw new InvalidOperationException("Could not find connection string.");
 
-        var options = new DatabaseModelFactoryOptions(database.Tables, database.Schemas);
+        var options = new SchemaReaderOptions
+        {
+            Schemas = Options.Database.Schemas,
+            Tables = Options.Database.Tables
+        };
 
-        return factory.Create(connectionString, options);
+        return await factory.ReadAsync(connectionString, options);
     }
 
     private static string? ResolveConnectionString(DatabaseOptions database)
@@ -401,82 +402,20 @@ public class CodeGenerator : ICodeGenerator
     }
 
 
-    private (IDatabaseModelFactory factory, IRelationalTypeMappingSource mapping) GetDatabaseProviders()
+    private IDatabaseSchemaReader GetDatabaseProvider()
     {
         var provider = Options.Database.Provider;
 
         _logger.LogDebug("Creating database model factory for: {provider}", provider);
 
-        // start a new service container to create the database model factory
-        var services = new ServiceCollection()
-            .AddSingleton(_loggerFactory)
-            .AddEntityFrameworkDesignTimeServices();
-
-        switch (provider)
+        return provider switch
         {
-            case DatabaseProviders.SqlServer:
-                ConfigureSqlServerServices(services);
-                break;
-            case DatabaseProviders.PostgreSQL:
-                ConfigurePostgresServices(services);
-                break;
-            case DatabaseProviders.MySQL:
-                ConfigureMySqlServices(services);
-                break;
-            case DatabaseProviders.Sqlite:
-                ConfigureSqliteServices(services);
-                break;
-            case DatabaseProviders.Oracle:
-                ConfigureOracleServices(services);
-                break;
-            default:
-                throw new NotSupportedException($"The specified provider '{provider}' is not supported.");
-        }
-
-        var serviceProvider = services
-            .BuildServiceProvider();
-
-        var databaseModelFactory = serviceProvider
-            .GetRequiredService<IDatabaseModelFactory>();
-
-        var typeMappingSource = serviceProvider
-            .GetRequiredService<IRelationalTypeMappingSource>();
-
-        return (databaseModelFactory, typeMappingSource);
-    }
-
-
-    private static void ConfigureMySqlServices(IServiceCollection services)
-    {
-        var designTimeServices = new Pomelo.EntityFrameworkCore.MySql.Design.Internal.MySqlDesignTimeServices();
-        designTimeServices.ConfigureDesignTimeServices(services);
-            services.AddEntityFrameworkMySqlNetTopologySuite();
-    }
-
-    private static void ConfigurePostgresServices(IServiceCollection services)
-    {
-        var designTimeServices = new Npgsql.EntityFrameworkCore.PostgreSQL.Design.Internal.NpgsqlDesignTimeServices();
-        designTimeServices.ConfigureDesignTimeServices(services);
-            services.AddEntityFrameworkNpgsqlNetTopologySuite();
-    }
-
-    private static void ConfigureSqlServerServices(IServiceCollection services)
-    {
-        var designTimeServices = new Microsoft.EntityFrameworkCore.SqlServer.Design.Internal.SqlServerDesignTimeServices();
-        designTimeServices.ConfigureDesignTimeServices(services);
-            services.AddEntityFrameworkSqlServerNetTopologySuite();
-    }
-
-    private static void ConfigureSqliteServices(IServiceCollection services)
-    {
-        var designTimeServices = new Microsoft.EntityFrameworkCore.Sqlite.Design.Internal.SqliteDesignTimeServices();
-        designTimeServices.ConfigureDesignTimeServices(services);
-            services.AddEntityFrameworkSqliteNetTopologySuite();
-    }
-
-    private static void ConfigureOracleServices(IServiceCollection services)
-    {
-        var designTimeServices = new Oracle.EntityFrameworkCore.Design.Internal.OracleDesignTimeServices();
-        designTimeServices.ConfigureDesignTimeServices(services);
+            DatabaseProviders.SqlServer => new SchemaSaurus.SqlServer.SqlServerSchemaReader(),
+            DatabaseProviders.PostgreSQL => new SchemaSaurus.PostgreSql.PostgreSqlSchemaReader(),
+            DatabaseProviders.MySQL => new SchemaSaurus.MySql.MySqlSchemaReader(),
+            DatabaseProviders.Sqlite => new SchemaSaurus.Sqlite.SqliteSchemaReader(),
+            DatabaseProviders.Oracle => new SchemaSaurus.Oracle.OracleSchemaReader(),
+            _ => throw new NotSupportedException($"The specified provider '{provider}' is not supported."),
+        };
     }
 }

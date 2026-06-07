@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-
 namespace EntityFrameworkCore.Generator.Options;
 
 public class ScriptOptions : OptionsBase

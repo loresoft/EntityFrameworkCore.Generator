@@ -27,7 +27,7 @@ public partial class Audit : IHaveIdentifier
     /// The property value representing column 'Id'.
     /// </value>
     [System.ComponentModel.DataAnnotations.Key()]
-    [System.ComponentModel.DataAnnotations.Schema.Column("Id", TypeName = "uniqueidentifier")]
+    [System.ComponentModel.DataAnnotations.Schema.Column("Id", TypeName = "UNIQUEIDENTIFIER")]
     public Guid Id { get; set; }
 
     /// <summary>
@@ -36,7 +36,7 @@ public partial class Audit : IHaveIdentifier
     /// <value>
     /// The property value representing column 'Date'.
     /// </value>
-    [System.ComponentModel.DataAnnotations.Schema.Column("Date", TypeName = "datetime")]
+    [System.ComponentModel.DataAnnotations.Schema.Column("Date", TypeName = "DATETIME")]
     public DateTime Date { get; set; }
 
     /// <summary>
@@ -45,7 +45,7 @@ public partial class Audit : IHaveIdentifier
     /// <value>
     /// The property value representing column 'UserId'.
     /// </value>
-    [System.ComponentModel.DataAnnotations.Schema.Column("UserId", TypeName = "uniqueidentifier")]
+    [System.ComponentModel.DataAnnotations.Schema.Column("UserId", TypeName = "UNIQUEIDENTIFIER")]
     public Guid? UserId { get; set; }
 
     /// <summary>
@@ -54,7 +54,7 @@ public partial class Audit : IHaveIdentifier
     /// <value>
     /// The property value representing column 'TaskId'.
     /// </value>
-    [System.ComponentModel.DataAnnotations.Schema.Column("TaskId", TypeName = "uniqueidentifier")]
+    [System.ComponentModel.DataAnnotations.Schema.Column("TaskId", TypeName = "UNIQUEIDENTIFIER")]
     public Guid? TaskId { get; set; }
 
     /// <summary>
@@ -63,7 +63,7 @@ public partial class Audit : IHaveIdentifier
     /// <value>
     /// The property value representing column 'Content'.
     /// </value>
-    [System.ComponentModel.DataAnnotations.Schema.Column("Content", TypeName = "nvarchar(max)")]
+    [System.ComponentModel.DataAnnotations.Schema.Column("Content", TypeName = "NVARCHAR(MAX)")]
     public string Content { get; set; } = null!;
 
     /// <summary>
@@ -72,7 +72,7 @@ public partial class Audit : IHaveIdentifier
     /// <value>
     /// The property value representing column 'Username'.
     /// </value>
-    [System.ComponentModel.DataAnnotations.Schema.Column("Username", TypeName = "nvarchar(50)")]
+    [System.ComponentModel.DataAnnotations.Schema.Column("Username", TypeName = "NVARCHAR(50)")]
     public string Username { get; set; } = null!;
 
     /// <summary>
@@ -81,7 +81,7 @@ public partial class Audit : IHaveIdentifier
     /// <value>
     /// The property value representing column 'Created'.
     /// </value>
-    [System.ComponentModel.DataAnnotations.Schema.Column("Created", TypeName = "datetimeoffset")]
+    [System.ComponentModel.DataAnnotations.Schema.Column("Created", TypeName = "DATETIMEOFFSET")]
     public DateTimeOffset Created { get; set; }
 
     /// <summary>
@@ -90,7 +90,7 @@ public partial class Audit : IHaveIdentifier
     /// <value>
     /// The property value representing column 'CreatedBy'.
     /// </value>
-    [System.ComponentModel.DataAnnotations.Schema.Column("CreatedBy", TypeName = "nvarchar(100)")]
+    [System.ComponentModel.DataAnnotations.Schema.Column("CreatedBy", TypeName = "NVARCHAR(100)")]
     public string? CreatedBy { get; set; }
 
     /// <summary>
@@ -99,7 +99,7 @@ public partial class Audit : IHaveIdentifier
     /// <value>
     /// The property value representing column 'Updated'.
     /// </value>
-    [System.ComponentModel.DataAnnotations.Schema.Column("Updated", TypeName = "datetimeoffset")]
+    [System.ComponentModel.DataAnnotations.Schema.Column("Updated", TypeName = "DATETIMEOFFSET")]
     public DateTimeOffset Updated { get; set; }
 
     /// <summary>
@@ -108,7 +108,7 @@ public partial class Audit : IHaveIdentifier
     /// <value>
     /// The property value representing column 'UpdatedBy'.
     /// </value>
-    [System.ComponentModel.DataAnnotations.Schema.Column("UpdatedBy", TypeName = "nvarchar(100)")]
+    [System.ComponentModel.DataAnnotations.Schema.Column("UpdatedBy", TypeName = "NVARCHAR(100)")]
     public string? UpdatedBy { get; set; }
 
     /// <summary>
@@ -118,9 +118,9 @@ public partial class Audit : IHaveIdentifier
     /// The property value representing column 'RowVersion'.
     /// </value>
     [System.ComponentModel.DataAnnotations.ConcurrencyCheck()]
-    [System.ComponentModel.DataAnnotations.Schema.Column("RowVersion", TypeName = "rowversion")]
+    [System.ComponentModel.DataAnnotations.Schema.Column("RowVersion", TypeName = "TIMESTAMP")]
     [System.ComponentModel.DataAnnotations.Schema.DatabaseGenerated(System.ComponentModel.DataAnnotations.Schema.DatabaseGeneratedOption.Computed)]
-    public Byte[] RowVersion { get; set; } = null!;
+    public byte[] RowVersion { get; set; } = null!;
 
     #endregion
 

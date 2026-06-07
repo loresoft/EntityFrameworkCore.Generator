@@ -1,5 +1,6 @@
+using System.Text;
+
 using EntityFrameworkCore.Generator.Options;
-using Microsoft.EntityFrameworkCore.Infrastructure;
 
 namespace EntityFrameworkCore.Generator.Scripts;
 

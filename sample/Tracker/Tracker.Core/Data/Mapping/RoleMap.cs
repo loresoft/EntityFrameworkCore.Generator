@@ -27,39 +27,39 @@ public partial class RoleMap
         builder.Property(t => t.Id)
             .IsRequired()
             .HasColumnName("Id")
-            .HasColumnType("uniqueidentifier")
+            .HasColumnType("UNIQUEIDENTIFIER")
             .HasDefaultValueSql("(newsequentialid())");
 
         builder.Property(t => t.Name)
             .IsRequired()
             .HasColumnName("Name")
-            .HasColumnType("nvarchar(256)")
+            .HasColumnType("NVARCHAR(256)")
             .HasMaxLength(256);
 
         builder.Property(t => t.Description)
             .HasColumnName("Description")
-            .HasColumnType("nvarchar(max)");
+            .HasColumnType("NVARCHAR(MAX)");
 
         builder.Property(t => t.Created)
             .IsRequired()
             .HasColumnName("Created")
-            .HasColumnType("datetimeoffset")
+            .HasColumnType("DATETIMEOFFSET")
             .HasDefaultValueSql("(sysutcdatetime())");
 
         builder.Property(t => t.CreatedBy)
             .HasColumnName("CreatedBy")
-            .HasColumnType("nvarchar(100)")
+            .HasColumnType("NVARCHAR(100)")
             .HasMaxLength(100);
 
         builder.Property(t => t.Updated)
             .IsRequired()
             .HasColumnName("Updated")
-            .HasColumnType("datetimeoffset")
+            .HasColumnType("DATETIMEOFFSET")
             .HasDefaultValueSql("(sysutcdatetime())");
 
         builder.Property(t => t.UpdatedBy)
             .HasColumnName("UpdatedBy")
-            .HasColumnType("nvarchar(100)")
+            .HasColumnType("NVARCHAR(100)")
             .HasMaxLength(100);
 
         builder.Property(t => t.RowVersion)
@@ -67,8 +67,7 @@ public partial class RoleMap
             .IsRowVersion()
             .IsConcurrencyToken()
             .HasColumnName("RowVersion")
-            .HasColumnType("rowversion")
-            .HasMaxLength(8)
+            .HasColumnType("TIMESTAMP")
             .ValueGeneratedOnAddOrUpdate();
 
         // relationships
@@ -78,29 +77,29 @@ public partial class RoleMap
     #region Generated Constants
     public readonly struct Table
     {
-        /// <summary>Table Schema name constant for entity <see cref="Tracker.Core.Data.Entities.Role" /></summary>
+        /// <summary>Table Schema name constant for entity <see cref="TrackerGenerator.Core.Data.Entities.Role" /></summary>
         public const string Schema = "dbo";
-        /// <summary>Table Name constant for entity <see cref="Tracker.Core.Data.Entities.Role" /></summary>
+        /// <summary>Table Name constant for entity <see cref="TrackerGenerator.Core.Data.Entities.Role" /></summary>
         public const string Name = "Role";
     }
 
     public readonly struct Columns
     {
-        /// <summary>Column Name constant for property <see cref="Tracker.Core.Data.Entities.Role.Id" /></summary>
+        /// <summary>Column Name constant for property <see cref="TrackerGenerator.Core.Data.Entities.Role.Id" /></summary>
         public const string Id = "Id";
-        /// <summary>Column Name constant for property <see cref="Tracker.Core.Data.Entities.Role.Name" /></summary>
+        /// <summary>Column Name constant for property <see cref="TrackerGenerator.Core.Data.Entities.Role.Name" /></summary>
         public const string Name = "Name";
-        /// <summary>Column Name constant for property <see cref="Tracker.Core.Data.Entities.Role.Description" /></summary>
+        /// <summary>Column Name constant for property <see cref="TrackerGenerator.Core.Data.Entities.Role.Description" /></summary>
         public const string Description = "Description";
-        /// <summary>Column Name constant for property <see cref="Tracker.Core.Data.Entities.Role.Created" /></summary>
+        /// <summary>Column Name constant for property <see cref="TrackerGenerator.Core.Data.Entities.Role.Created" /></summary>
         public const string Created = "Created";
-        /// <summary>Column Name constant for property <see cref="Tracker.Core.Data.Entities.Role.CreatedBy" /></summary>
+        /// <summary>Column Name constant for property <see cref="TrackerGenerator.Core.Data.Entities.Role.CreatedBy" /></summary>
         public const string CreatedBy = "CreatedBy";
-        /// <summary>Column Name constant for property <see cref="Tracker.Core.Data.Entities.Role.Updated" /></summary>
+        /// <summary>Column Name constant for property <see cref="TrackerGenerator.Core.Data.Entities.Role.Updated" /></summary>
         public const string Updated = "Updated";
-        /// <summary>Column Name constant for property <see cref="Tracker.Core.Data.Entities.Role.UpdatedBy" /></summary>
+        /// <summary>Column Name constant for property <see cref="TrackerGenerator.Core.Data.Entities.Role.UpdatedBy" /></summary>
         public const string UpdatedBy = "UpdatedBy";
-        /// <summary>Column Name constant for property <see cref="Tracker.Core.Data.Entities.Role.RowVersion" /></summary>
+        /// <summary>Column Name constant for property <see cref="TrackerGenerator.Core.Data.Entities.Role.RowVersion" /></summary>
         public const string RowVersion = "RowVersion";
     }
     #endregion

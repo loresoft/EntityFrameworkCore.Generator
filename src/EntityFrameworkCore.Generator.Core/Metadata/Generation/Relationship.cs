@@ -33,7 +33,9 @@ public class Relationship : ModelBase
 
 
     public bool? CascadeDelete { get; set; }
+
     public bool IsForeignKey { get; set; }
+
     public bool IsMapped { get; set; }
 
     public bool IsOneToOne => Cardinality != Cardinality.Many && PrimaryCardinality != Cardinality.Many;

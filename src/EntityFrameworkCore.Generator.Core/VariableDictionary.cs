@@ -1,6 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.IO;
 using System.Text;
 
 namespace EntityFrameworkCore.Generator;
@@ -138,7 +135,7 @@ public class VariableDictionary
                                 state = State.OnCloseBracket;
                                 break;
                             default:
-                                result.Append((char) c);
+                                result.Append((char)c);
                                 break;
                         }
 
@@ -154,7 +151,7 @@ public class VariableDictionary
                                 state = State.OutsideExpression;
                                 break;
                             default:
-                                variable.Append((char) c);
+                                variable.Append((char)c);
                                 state = State.InsideExpression;
                                 break;
                         }
@@ -179,7 +176,7 @@ public class VariableDictionary
                                 state = State.OutsideExpression;
                                 break;
                             default:
-                                variable.Append((char) c);
+                                variable.Append((char)c);
                                 break;
                         }
 

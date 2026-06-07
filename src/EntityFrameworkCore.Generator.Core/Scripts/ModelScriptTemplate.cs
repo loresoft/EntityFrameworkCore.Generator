@@ -1,5 +1,6 @@
 using EntityFrameworkCore.Generator.Metadata.Generation;
 using EntityFrameworkCore.Generator.Options;
+
 using Microsoft.Extensions.Logging;
 
 namespace EntityFrameworkCore.Generator.Scripts;

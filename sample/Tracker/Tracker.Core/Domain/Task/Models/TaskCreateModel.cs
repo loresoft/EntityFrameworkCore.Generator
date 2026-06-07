@@ -83,6 +83,22 @@ public partial class TaskCreateModel
     /// </value>
     public Guid TenantId { get; set; }
 
+    /// <summary>
+    /// Gets or sets the property value for 'PeriodStart1'.
+    /// </summary>
+    /// <value>
+    /// The property value for 'PeriodStart1'.
+    /// </value>
+    public DateTime PeriodStart1 { get; set; }
+
+    /// <summary>
+    /// Gets or sets the property value for 'PeriodEnd1'.
+    /// </summary>
+    /// <value>
+    /// The property value for 'PeriodEnd1'.
+    /// </value>
+    public DateTime PeriodEnd1 { get; set; }
+
     #endregion
 
 }

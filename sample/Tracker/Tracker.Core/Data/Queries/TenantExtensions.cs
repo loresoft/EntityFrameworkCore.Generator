@@ -17,13 +17,13 @@ public static partial class TenantExtensions
     /// </summary>
     /// <param name="queryable">An <see cref="T:System.Linq.IQueryable`1" /> to filter.</param>
     /// <param name="id">The value to filter by.</param>
-    /// <returns>An instance of <see cref="T:Tracker.Core.Data.Entities.Tenant"/> or null if not found.</returns>
-    public static Tracker.Core.Data.Entities.Tenant? GetByKey(this System.Linq.IQueryable<Tracker.Core.Data.Entities.Tenant> queryable, Guid id)
+    /// <returns>An instance of <see cref="T:TrackerGenerator.Core.Data.Entities.Tenant"/> or null if not found.</returns>
+    public static TrackerGenerator.Core.Data.Entities.Tenant? GetByKey(this System.Linq.IQueryable<TrackerGenerator.Core.Data.Entities.Tenant> queryable, Guid id)
     {
         if (queryable is null)
             throw new ArgumentNullException(nameof(queryable));
 
-        if (queryable is DbSet<Tracker.Core.Data.Entities.Tenant> dbSet)
+        if (queryable is DbSet<TrackerGenerator.Core.Data.Entities.Tenant> dbSet)
             return dbSet.Find(id);
 
         return queryable.FirstOrDefault(q => q.Id == id);
@@ -35,13 +35,13 @@ public static partial class TenantExtensions
     /// <param name="queryable">An <see cref="T:System.Linq.IQueryable`1" /> to filter.</param>
     /// <param name="id">The value to filter by.</param>
     /// <param name="cancellationToken">A <see cref="System.Threading.CancellationToken" /> to observe while waiting for the task to complete.</param>
-    /// <returns>An instance of <see cref="T:Tracker.Core.Data.Entities.Tenant"/> or null if not found.</returns>
-    public static async System.Threading.Tasks.ValueTask<Tracker.Core.Data.Entities.Tenant?> GetByKeyAsync(this System.Linq.IQueryable<Tracker.Core.Data.Entities.Tenant> queryable, Guid id, System.Threading.CancellationToken cancellationToken = default)
+    /// <returns>An instance of <see cref="T:TrackerGenerator.Core.Data.Entities.Tenant"/> or null if not found.</returns>
+    public static async System.Threading.Tasks.ValueTask<TrackerGenerator.Core.Data.Entities.Tenant?> GetByKeyAsync(this System.Linq.IQueryable<TrackerGenerator.Core.Data.Entities.Tenant> queryable, Guid id, System.Threading.CancellationToken cancellationToken = default)
     {
         if (queryable is null)
             throw new ArgumentNullException(nameof(queryable));
 
-        if (queryable is DbSet<Tracker.Core.Data.Entities.Tenant> dbSet)
+        if (queryable is DbSet<TrackerGenerator.Core.Data.Entities.Tenant> dbSet)
             return await dbSet.FindAsync(new object[] { id }, cancellationToken);
 
         return await queryable.FirstOrDefaultAsync(q => q.Id == id, cancellationToken);

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics.Metrics;
 using System.IO;
+using System.Threading.Tasks;
 
 using EntityFrameworkCore.Generator.Extensions;
 using EntityFrameworkCore.Generator.Options;
@@ -22,26 +23,26 @@ public class CodeGeneratorTests : DatabaseTestBase
     }
 
     [Fact]
-    public void Generate()
+    public async Task Generate()
     {
         var generatorOptions = new GeneratorOptions();
         generatorOptions.Database.ConnectionString = Database.ConnectionString;
 
         var generator = new CodeGenerator(NullLoggerFactory.Instance);
-        var result = generator.Generate(generatorOptions);
+        var result = await generator.GenerateAsync(generatorOptions);
 
 
         Assert.True(result);
     }
 
     [Fact]
-    public void GenerateSpatial()
+    public async Task GenerateSpatial()
     {
         var generatorOptions = new GeneratorOptions();
         generatorOptions.Database.ConnectionString = Database.ConnectionString;
 
         var generator = new CodeGenerator(NullLoggerFactory.Instance);
-        var result = generator.Generate(generatorOptions);
+        var result = await generator.GenerateAsync(generatorOptions);
 
         Assert.True(result);
 

@@ -8,17 +8,12 @@ using EntityFrameworkCore.Generator.Options;
 
 using Humanizer;
 
-using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using Microsoft.EntityFrameworkCore.Scaffolding.Metadata;
-using Microsoft.EntityFrameworkCore.Scaffolding.Metadata.Internal;
-using Microsoft.EntityFrameworkCore.SqlServer.Metadata.Internal;
-using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.Extensions.Logging;
+
+using SchemaSaurus.Metadata;
 
 using Model = EntityFrameworkCore.Generator.Metadata.Generation.Model;
 using Property = EntityFrameworkCore.Generator.Metadata.Generation.Property;
-using PropertyCollection = EntityFrameworkCore.Generator.Metadata.Generation.PropertyCollection;
 
 namespace EntityFrameworkCore.Generator;
 
@@ -27,7 +22,6 @@ public partial class ModelGenerator
     private readonly UniqueNamer _namer;
     private readonly ILogger _logger;
     private GeneratorOptions _options = null!;
-    private IRelationalTypeMappingSource _typeMapper = null!;
 
     public ModelGenerator(ILoggerFactory logger)
     {
@@ -35,16 +29,14 @@ public partial class ModelGenerator
         _namer = new UniqueNamer();
     }
 
-    public EntityContext Generate(GeneratorOptions options, DatabaseModel databaseModel, IRelationalTypeMappingSource typeMappingSource)
+    public EntityContext Generate(GeneratorOptions options, DatabaseModel databaseModel)
     {
         ArgumentNullException.ThrowIfNull(options);
         ArgumentNullException.ThrowIfNull(databaseModel);
-        ArgumentNullException.ThrowIfNull(typeMappingSource);
 
         _logger.LogInformation("Building code generation model from database: {databaseName}", databaseModel.DatabaseName);
 
         _options = options;
-        _typeMapper = typeMappingSource;
 
         var entityContext = new EntityContext();
         entityContext.DatabaseName = databaseModel.DatabaseName;
@@ -89,9 +81,9 @@ public partial class ModelGenerator
     }
 
 
-    private Entity GetEntity(EntityContext entityContext, DatabaseTable tableSchema, bool processRelationships = true, bool processMethods = true)
+    private Entity GetEntity(EntityContext entityContext, Table tableSchema, bool processRelationships = true, bool processMethods = true)
     {
-        var entity = entityContext.Entities.ByTable(tableSchema.Name, tableSchema.Schema)
+        var entity = entityContext.Entities.ByTable(tableSchema)
             ?? CreateEntity(entityContext, tableSchema);
 
         if (!entity.Properties.IsProcessed)
@@ -107,24 +99,26 @@ public partial class ModelGenerator
         return entity;
     }
 
-    private Entity CreateEntity(EntityContext entityContext, DatabaseTable tableSchema)
+    private Entity CreateEntity(EntityContext entityContext, RelationBase relationSchema)
     {
         var entity = new Entity
         {
             Context = entityContext,
-            TableName = tableSchema.Name,
-            TableSchema = tableSchema.Schema
+            TableName = relationSchema.Name,
+            TableSchema = relationSchema.Schema
         };
+
+        // add to context
+        entityContext.Entities.Add(entity);
 
         var entityClass = _options.Data.Entity.Name;
         if (entityClass.IsNullOrEmpty())
-            entityClass = ToClassName(tableSchema.Name, tableSchema.Schema);
+            entityClass = ToClassName(relationSchema);
 
         entityClass = _namer.UniqueClassName(entityClass);
 
         var entityNamespace = _options.Data.Entity.Namespace ?? "Data.Entities";
         var entiyBaseClass = _options.Data.Entity.BaseClass;
-
 
         var mappingName = entityClass + "Map";
         mappingName = _namer.UniqueClassName(mappingName);
@@ -144,47 +138,51 @@ public partial class ModelGenerator
 
         entity.ContextProperty = contextName;
 
-        entity.IsView = tableSchema is DatabaseView;
+        entity.IsView = relationSchema is View;
 
-        bool? isTemporal = tableSchema[SqlServerAnnotationNames.IsTemporal] as bool?;
-        if (isTemporal == true && _options.Data.Mapping.Temporal)
+        if (relationSchema is not Table tableSchema)
+            return entity;
+
+        var isTemporal = tableSchema.Options.IsTemporalTable
+            && tableSchema.Options.HistoryTable != null
+            && tableSchema.Options.PeriodStartColumnName.HasValue()
+            && tableSchema.Options.PeriodEndColumnName.HasValue();
+
+        if (isTemporal && _options.Data.Mapping.Temporal)
         {
-            entity.TemporalTableName = tableSchema[SqlServerAnnotationNames.TemporalHistoryTableName] as string;
-            entity.TemporalTableSchema = tableSchema[SqlServerAnnotationNames.TemporalHistoryTableSchema] as string;
+            entity.TemporalTableName = tableSchema.Options.HistoryTable?.Name;
+            entity.TemporalTableSchema = tableSchema.Options.HistoryTable?.Schema;
 
-            entity.TemporalStartProperty = tableSchema[SqlServerAnnotationNames.TemporalPeriodStartPropertyName] as string;
+            var periodStartColumnName = tableSchema.Options.PeriodStartColumnName;
+            var periodEndColumnName = tableSchema.Options.PeriodEndColumnName;
 
-            entity.TemporalStartColumn = tableSchema[SqlServerAnnotationNames.TemporalPeriodStartColumnName] as string
-                ?? entity.TemporalStartProperty;
+            entity.TemporalStartColumn = periodStartColumnName;
+            entity.TemporalEndColumn = periodEndColumnName;
 
-            entity.TemporalEndProperty = tableSchema[SqlServerAnnotationNames.TemporalPeriodEndPropertyName] as string;
+            var temporalStartProperty = ToPropertyName(entity.EntityClass, periodStartColumnName!);
+            temporalStartProperty = _namer.UniqueName(entity.EntityClass, temporalStartProperty);
 
-            entity.TemporalEndColumn = tableSchema[SqlServerAnnotationNames.TemporalPeriodEndColumnName] as string
-                ?? entity.TemporalEndProperty;
+            entity.TemporalStartProperty = temporalStartProperty;
+
+            var temporalEndProperty = ToPropertyName(entity.EntityClass, periodEndColumnName!);
+            temporalEndProperty = _namer.UniqueName(entity.EntityClass, temporalEndProperty);
+
+            entity.TemporalEndProperty = temporalEndProperty;
         }
-
-        entityContext.Entities.Add(entity);
 
         return entity;
     }
 
 
-    private void CreateProperties(Entity entity, DatabaseTable tableSchema)
+    private void CreateProperties(Entity entity, RelationBase relationSchema)
     {
-        var columns = tableSchema.Columns;
+        var columns = relationSchema.Columns;
         foreach (var column in columns)
         {
-            var table = column.Table;
-            if (IsIgnored(column, _options.Database.Exclude.Columns))
+            var parentRelation = column.Parent;
+            if (parentRelation is null || IsIgnored(column, _options.Database.Exclude.Columns))
             {
-                _logger.LogDebug("  Skipping Column : {Schema}.{Table}.{Column}", table.Schema, table.Name, column.Name);
-                continue;
-            }
-
-            var mapping = column.StoreType.HasValue() ? _typeMapper.FindMapping(column.StoreType) : null;
-            if (mapping == null)
-            {
-                _logger.LogWarning("Failed to map type {storeType} for {column}.", column.StoreType, column.Name);
+                _logger.LogDebug("  Skipping Column : {Schema}.{Table}.{Column}", parentRelation?.Schema, parentRelation?.Name, column.Name);
                 continue;
             }
 
@@ -218,34 +216,15 @@ public partial class ModelGenerator
             propertyName = _namer.UniqueName(entity.EntityClass, propertyName);
 
             property.PropertyName = propertyName;
-
-            property.IsNullable = column.IsNullable;
-
-            property.IsRowVersion = column.IsRowVersion();
-            property.IsConcurrencyToken = (bool?)column[ScaffoldingAnnotationNames.ConcurrencyToken] == true;
-
-            property.IsPrimaryKey = table.PrimaryKey?.Columns.Contains(column) == true;
-            property.IsForeignKey = table.ForeignKeys.Any(c => c.Columns.Contains(column));
-
-            property.IsUnique = table.UniqueConstraints.Any(c => c.Columns.Contains(column))
-                                || table.Indexes.Where(i => i.IsUnique).Any(c => c.Columns.Contains(column));
-
-            property.DefaultValue = column.DefaultValue;
-            property.Default = column.DefaultValueSql;
-
-            property.ValueGenerated = column.ValueGenerated;
-
-            if (property.ValueGenerated == null && !string.IsNullOrWhiteSpace(column.ComputedColumnSql))
-                property.ValueGenerated = ValueGenerated.OnAddOrUpdate;
-
-            property.StoreType = mapping.StoreType;
-            property.NativeType = mapping.StoreTypeNameBase;
-            property.DataType = mapping.DbType ?? DbType.AnsiString;
-            property.SystemType = mapping.ClrType;
-            property.Size = mapping.Size;
+            property.NativeType = column.NativeTypeName;
+            property.DataType = column.DbType;
+            property.SystemType = column.SystemType;
+            property.Size = column.MaxLength;
 
             // overwrite row version type
-            if (property.IsRowVersion == true && _options.Data.Mapping.RowVersion != RowVersionMapping.ByteArray && property.SystemType == typeof(byte[]))
+            if (property.IsRowVersion == true
+                && _options.Data.Mapping.RowVersion != RowVersionMapping.ByteArray
+                && property.SystemType == typeof(byte[]))
             {
                 property.SystemType = _options.Data.Mapping.RowVersion switch
                 {
@@ -256,21 +235,44 @@ public partial class ModelGenerator
                 };
             }
 
+            //property.DefaultValue = column.DefaultValue;
+            property.Default = column.DefaultValueSql;
+
+            property.IsComputed = column.IsComputed;
+            property.IsIdentity = column.IsIdentity;
+            property.IsNullable = column.IsNullable;
+            property.IsRowVersion = column.IsRowVersion;
+            property.IsConcurrencyToken = column.IsConcurrencyToken;
+
+            var parentTable = parentRelation as Table;
+            if (parentTable != null)
+            {
+                property.IsPrimaryKey = parentTable.PrimaryKey?.Columns
+                    .Any(c => c.ColumnName == column.Name) == true;
+
+                property.IsForeignKey = parentTable.ForeignKeys
+                    .Any(c => c.ColumnMappings.Any(col => col.DependentColumnName == column.Name));
+
+                property.IsUnique = parentTable.UniqueConstraints.Any(c => c.Columns.Any(col => col.ColumnName == column.Name))
+                                    || parentTable.Indexes.Where(i => i.IsUnique).Any(c => c.Columns.Any(col => col.ColumnName == column.Name));
+            }
+
             property.IsProcessed = true;
         }
 
         entity.Properties.IsProcessed = true;
 
-        bool? isTemporal = tableSchema[SqlServerAnnotationNames.IsTemporal] as bool?;
+        var table = relationSchema as Table;
+        if (table is null)
+            return;
+
+        bool? isTemporal =   table.Options.IsTemporalTable;
         if (isTemporal != true || _options.Data.Mapping.Temporal)
             return;
 
         // add temporal period columns
-        var temporalStartColumn = tableSchema[SqlServerAnnotationNames.TemporalPeriodStartColumnName] as string
-            ?? tableSchema[SqlServerAnnotationNames.TemporalPeriodStartPropertyName] as string;
-
-        var temporalEndColumn = tableSchema[SqlServerAnnotationNames.TemporalPeriodEndColumnName] as string
-            ?? tableSchema[SqlServerAnnotationNames.TemporalPeriodEndPropertyName] as string;
+        var temporalStartColumn = table.Options.PeriodStartColumnName;
+        var temporalEndColumn = table.Options.PeriodEndColumnName;
 
         if (temporalStartColumn.IsNullOrEmpty() || temporalEndColumn.IsNullOrEmpty())
             return;
@@ -284,8 +286,8 @@ public partial class ModelGenerator
         }
 
         temporalStart.PropertyName = ToPropertyName(entity.EntityClass, temporalStartColumn);
-        temporalStart.ValueGenerated = ValueGenerated.OnAddOrUpdate;
-        temporalStart.StoreType = "datetime2";
+        temporalStart.IsComputed = true;
+        temporalStart.NativeType = "datetime2";
         temporalStart.DataType = DbType.DateTime2;
         temporalStart.SystemType = typeof(DateTime);
 
@@ -300,8 +302,8 @@ public partial class ModelGenerator
         }
 
         temporalEnd.PropertyName = ToPropertyName(entity.EntityClass, temporalEndColumn);
-        temporalEnd.ValueGenerated = ValueGenerated.OnAddOrUpdate;
-        temporalEnd.StoreType = "datetime2";
+        temporalEnd.IsComputed = true;
+        temporalEnd.NativeType = "datetime2";
         temporalEnd.DataType = DbType.DateTime2;
         temporalEnd.SystemType = typeof(DateTime);
 
@@ -309,7 +311,7 @@ public partial class ModelGenerator
     }
 
 
-    private void CreateRelationships(EntityContext entityContext, Entity entity, DatabaseTable tableSchema)
+    private void CreateRelationships(EntityContext entityContext, Entity entity, Table tableSchema)
     {
         foreach (var foreignKey in tableSchema.ForeignKeys.OrderBy(fk => fk.Name))
         {
@@ -332,17 +334,17 @@ public partial class ModelGenerator
         entity.Relationships.IsProcessed = true;
     }
 
-    private void CreateRelationship(EntityContext entityContext, Entity foreignEntity, DatabaseForeignKey tableKeySchema)
+    private void CreateRelationship(EntityContext entityContext, Entity foreignEntity, ForeignKey tableKeySchema)
     {
         Entity primaryEntity = GetEntity(entityContext, tableKeySchema.PrincipalTable, false, false);
 
         var primaryName = primaryEntity.EntityClass;
         var foreignName = foreignEntity.EntityClass;
 
-        var foreignMembers = GetKeyMembers(foreignEntity, tableKeySchema.Columns, tableKeySchema.Name);
+        var foreignMembers = GetKeyMembers(foreignEntity, tableKeySchema.ColumnMappings.Select(c => c.DependentColumn), tableKeySchema.Name);
         bool foreignMembersRequired = foreignMembers.Any(c => c.IsRequired);
 
-        var primaryMembers = GetKeyMembers(primaryEntity, tableKeySchema.PrincipalColumns, tableKeySchema.Name);
+        var primaryMembers = GetKeyMembers(primaryEntity, tableKeySchema.ColumnMappings.Select(c => c.PrincipalColumn), tableKeySchema.Name);
         bool primaryMembersRequired = primaryMembers.Any(c => c.IsRequired);
 
         // skip invalid fkeys
@@ -426,11 +428,11 @@ public partial class ModelGenerator
     }
 
 
-    private static void CreateMethods(Entity entity, DatabaseTable tableSchema)
+    private static void CreateMethods(Entity entity, Table tableSchema)
     {
         if (tableSchema.PrimaryKey != null)
         {
-            var method = GetMethodFromColumns(entity, tableSchema.PrimaryKey.Columns);
+            var method = GetMethodFromColumns(entity, tableSchema.PrimaryKey.Columns.Select(c => c.Column));
             if (method != null)
             {
                 method.IsKey = true;
@@ -447,11 +449,11 @@ public partial class ModelGenerator
         entity.Methods.IsProcessed = true;
     }
 
-    private static void GetForeignKeyMethods(Entity entity, DatabaseTable table)
+    private static void GetForeignKeyMethods(Entity entity, Table table)
     {
-        var columns = new List<DatabaseColumn>();
+        var columns = new List<Column>();
 
-        foreach (var column in table.ForeignKeys.SelectMany(c => c.Columns))
+        foreach (var column in table.ForeignKeys.SelectMany(c => c.ColumnMappings.Select(m => m.DependentColumn)))
         {
             columns.Add(column);
 
@@ -463,11 +465,11 @@ public partial class ModelGenerator
         }
     }
 
-    private static void GetIndexMethods(Entity entity, DatabaseTable table)
+    private static void GetIndexMethods(Entity entity, Table table)
     {
         foreach (var index in table.Indexes)
         {
-            var method = GetMethodFromColumns(entity, index.Columns);
+            var method = GetMethodFromColumns(entity, index.Columns.Select(c => c.Column));
             if (method == null)
                 continue;
 
@@ -480,7 +482,7 @@ public partial class ModelGenerator
         }
     }
 
-    private static Method? GetMethodFromColumns(Entity entity, IEnumerable<DatabaseColumn> columns)
+    private static Method? GetMethodFromColumns(Entity entity, IEnumerable<Column> columns)
     {
         var method = new Method { Entity = entity };
         var methodName = new StringBuilder();
@@ -588,7 +590,7 @@ public partial class ModelGenerator
     }
 
 
-    private List<Property> GetKeyMembers(Entity entity, IEnumerable<DatabaseColumn> members, string? relationshipName)
+    private List<Property> GetKeyMembers(Entity entity, IEnumerable<Column> members, string? relationshipName)
     {
         var keyMembers = new List<Property>();
 
@@ -631,16 +633,16 @@ public partial class ModelGenerator
         return prefix;
     }
 
-    private static bool IsOneToOne(DatabaseForeignKey tableKeySchema, Relationship foreignRelationship)
+    private static bool IsOneToOne(ForeignKey tableKeySchema, Relationship foreignRelationship)
     {
         var foreignColumn = foreignRelationship.Properties
             .Select(p => p.ColumnName)
             .FirstOrDefault();
 
         return tableKeySchema.PrincipalTable.PrimaryKey != null
-            && tableKeySchema.Table.PrimaryKey != null
-            && tableKeySchema.Table.PrimaryKey.Columns.Count == 1
-            && tableKeySchema.Table.PrimaryKey.Columns.Any(c => c.Name == foreignColumn);
+            && tableKeySchema.DependentTable.PrimaryKey != null
+            && tableKeySchema.DependentTable.PrimaryKey.Columns.Count == 1
+            && tableKeySchema.DependentTable.PrimaryKey.Columns.Any(c => c.ColumnName == foreignColumn);
 
         // if f.key is unique
         //return tableKeySchema.ForeignKeyMemberColumns.All(column => column.IsUnique);
@@ -694,6 +696,13 @@ public partial class ModelGenerator
         return rename.HasValue() ? rename : name;
     }
 
+    private string ToClassName(RelationBase tableSchema)
+    {
+        return ToClassName(
+            tableSchema.QualifiedName.Name,
+            tableSchema.QualifiedName.Schema
+        );
+    }
 
     private string ToClassName(string tableName, string? tableSchema)
     {
@@ -735,18 +744,21 @@ public partial class ModelGenerator
     }
 
 
-    private static bool IsIgnored(DatabaseTable table, IEnumerable<MatchOptions> exclude)
+    private static bool IsIgnored(Table table, IEnumerable<MatchOptions> exclude)
     {
-        var name = $"{table.Schema}.{table.Name}";
+        var name = table.QualifiedName;
         var includeExpressions = Enumerable.Empty<MatchOptions>();
         var excludeExpressions = exclude ?? [];
 
         return IsIgnored(name, excludeExpressions, includeExpressions);
     }
 
-    private static bool IsIgnored(DatabaseColumn column, IEnumerable<MatchOptions> exclude)
+    private static bool IsIgnored(Column column, IEnumerable<MatchOptions> exclude)
     {
-        var table = column.Table;
+        var table = column.Parent;
+        if (table == null)
+            return true;
+
         var name = $"{table.Schema}.{table.Name}.{column.Name}";
         var includeExpressions = Enumerable.Empty<MatchOptions>();
         var excludeExpressions = exclude ?? [];
@@ -754,9 +766,12 @@ public partial class ModelGenerator
         return IsIgnored(name, excludeExpressions, includeExpressions);
     }
 
-    private static bool IsIgnored(DatabaseForeignKey relationship, IEnumerable<MatchOptions> exclude)
+    private static bool IsIgnored(ForeignKey relationship, IEnumerable<MatchOptions> exclude)
     {
-        var table = relationship.Table;
+        var table = relationship.PrincipalTable;
+        if (table == null)
+            return true;
+
         var name = $"{table.Schema}.{table.Name}.{relationship.Name}";
         var includeExpressions = Enumerable.Empty<MatchOptions>();
         var excludeExpressions = exclude ?? [];

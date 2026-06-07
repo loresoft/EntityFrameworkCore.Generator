@@ -39,7 +39,6 @@ public class GenerateCommand : OptionsCommandBase
     [Option("--validator", Description = "Include model validation in generation")]
     public bool? Validator { get; set; }
 
-
     protected override int OnExecute(CommandLineApplication application)
     {
         var workingDirectory = WorkingDirectory ?? Environment.CurrentDirectory;
@@ -79,7 +78,7 @@ public class GenerateCommand : OptionsCommandBase
         // convert to options format to support variables
         var options = OptionMapper.Map(configuration);
 
-        var result = _codeGenerator.Generate(options);
+        var result = _codeGenerator.GenerateAsync(options).GetAwaiter().GetResult();
 
         return result ? 0 : 1;
     }

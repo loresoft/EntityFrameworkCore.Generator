@@ -27,7 +27,7 @@ public partial class TaskExtended : ITrackCreated, ITrackUpdated
     /// The property value representing column 'TaskId'.
     /// </value>
     [System.ComponentModel.DataAnnotations.Key()]
-    [System.ComponentModel.DataAnnotations.Schema.Column("TaskId", TypeName = "uniqueidentifier")]
+    [System.ComponentModel.DataAnnotations.Schema.Column("TaskId", TypeName = "UNIQUEIDENTIFIER")]
     public Guid TaskId { get; set; }
 
     /// <summary>
@@ -36,7 +36,7 @@ public partial class TaskExtended : ITrackCreated, ITrackUpdated
     /// <value>
     /// The property value representing column 'UserAgent'.
     /// </value>
-    [System.ComponentModel.DataAnnotations.Schema.Column("UserAgent", TypeName = "nvarchar(max)")]
+    [System.ComponentModel.DataAnnotations.Schema.Column("UserAgent", TypeName = "NVARCHAR(MAX)")]
     public string? UserAgent { get; set; }
 
     /// <summary>
@@ -45,7 +45,7 @@ public partial class TaskExtended : ITrackCreated, ITrackUpdated
     /// <value>
     /// The property value representing column 'Browser'.
     /// </value>
-    [System.ComponentModel.DataAnnotations.Schema.Column("Browser", TypeName = "nvarchar(256)")]
+    [System.ComponentModel.DataAnnotations.Schema.Column("Browser", TypeName = "NVARCHAR(256)")]
     public string? Browser { get; set; }
 
     /// <summary>
@@ -54,7 +54,7 @@ public partial class TaskExtended : ITrackCreated, ITrackUpdated
     /// <value>
     /// The property value representing column 'OperatingSystem'.
     /// </value>
-    [System.ComponentModel.DataAnnotations.Schema.Column("OperatingSystem", TypeName = "nvarchar(256)")]
+    [System.ComponentModel.DataAnnotations.Schema.Column("OperatingSystem", TypeName = "NVARCHAR(256)")]
     public string? OperatingSystem { get; set; }
 
     /// <summary>
@@ -63,7 +63,7 @@ public partial class TaskExtended : ITrackCreated, ITrackUpdated
     /// <value>
     /// The property value representing column 'Created'.
     /// </value>
-    [System.ComponentModel.DataAnnotations.Schema.Column("Created", TypeName = "datetimeoffset")]
+    [System.ComponentModel.DataAnnotations.Schema.Column("Created", TypeName = "DATETIMEOFFSET")]
     public DateTimeOffset Created { get; set; }
 
     /// <summary>
@@ -72,7 +72,7 @@ public partial class TaskExtended : ITrackCreated, ITrackUpdated
     /// <value>
     /// The property value representing column 'CreatedBy'.
     /// </value>
-    [System.ComponentModel.DataAnnotations.Schema.Column("CreatedBy", TypeName = "nvarchar(100)")]
+    [System.ComponentModel.DataAnnotations.Schema.Column("CreatedBy", TypeName = "NVARCHAR(100)")]
     public string? CreatedBy { get; set; }
 
     /// <summary>
@@ -81,7 +81,7 @@ public partial class TaskExtended : ITrackCreated, ITrackUpdated
     /// <value>
     /// The property value representing column 'Updated'.
     /// </value>
-    [System.ComponentModel.DataAnnotations.Schema.Column("Updated", TypeName = "datetimeoffset")]
+    [System.ComponentModel.DataAnnotations.Schema.Column("Updated", TypeName = "DATETIMEOFFSET")]
     public DateTimeOffset Updated { get; set; }
 
     /// <summary>
@@ -90,7 +90,7 @@ public partial class TaskExtended : ITrackCreated, ITrackUpdated
     /// <value>
     /// The property value representing column 'UpdatedBy'.
     /// </value>
-    [System.ComponentModel.DataAnnotations.Schema.Column("UpdatedBy", TypeName = "nvarchar(100)")]
+    [System.ComponentModel.DataAnnotations.Schema.Column("UpdatedBy", TypeName = "NVARCHAR(100)")]
     public string? UpdatedBy { get; set; }
 
     /// <summary>
@@ -100,9 +100,9 @@ public partial class TaskExtended : ITrackCreated, ITrackUpdated
     /// The property value representing column 'RowVersion'.
     /// </value>
     [System.ComponentModel.DataAnnotations.ConcurrencyCheck()]
-    [System.ComponentModel.DataAnnotations.Schema.Column("RowVersion", TypeName = "rowversion")]
+    [System.ComponentModel.DataAnnotations.Schema.Column("RowVersion", TypeName = "TIMESTAMP")]
     [System.ComponentModel.DataAnnotations.Schema.DatabaseGenerated(System.ComponentModel.DataAnnotations.Schema.DatabaseGeneratedOption.Computed)]
-    public Byte[] RowVersion { get; set; } = null!;
+    public byte[] RowVersion { get; set; } = null!;
 
     #endregion
 

@@ -1,8 +1,9 @@
-﻿using System;
+using System;
+using System.Text;
+
 using EntityFrameworkCore.Generator.Extensions;
 using EntityFrameworkCore.Generator.Metadata.Generation;
 using EntityFrameworkCore.Generator.Options;
-using Microsoft.EntityFrameworkCore.Infrastructure;
 
 namespace EntityFrameworkCore.Generator.Core.Tests.Templates;
 
@@ -87,32 +88,14 @@ public class TypescriptScript
     {
         var t = type.FullName;
 
-        switch (t)
+        return t switch
         {
-            case "System.Int16":
-            case "System.Int32":
-            case "System.Byte":
-            case "System.Double":
-            case "System.SByte":
-            case "System.Single":
-            case "System.UInt16":
-            case "System.UInt32":
-                return "number";
-            case "System.Decimal":
-            case "System.Int64":
-            case "System.UInt64":
-                return "number";
-            case "System.Boolean":
-                return "boolean";
-            case "System.DateTime":
-            case "System.DateTimeOffset":
-                return "Date";
-            case "System.String":
-            case "System.Guid":
-            case "System.TimeSpan":
-                return "string";
-            default:
-                return "any";
-        }
+            "System.Int16" or "System.Int32" or "System.Byte" or "System.Double" or "System.SByte" or "System.Single" or "System.UInt16" or "System.UInt32" => "number",
+            "System.Decimal" or "System.Int64" or "System.UInt64" => "number",
+            "System.Boolean" => "boolean",
+            "System.DateTime" or "System.DateTimeOffset" => "Date",
+            "System.String" or "System.Guid" or "System.TimeSpan" => "string",
+            _ => "any",
+        };
     }
 }
