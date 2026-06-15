@@ -84,6 +84,10 @@ public partial class AuditMap
             .HasColumnType("TIMESTAMP")
             .ValueGeneratedOnAddOrUpdate();
 
+        builder.Property(t => t.Attributes)
+            .HasColumnName("Attributes")
+            .HasColumnType("StringList");
+
         // relationships
         #endregion
     }
@@ -121,6 +125,8 @@ public partial class AuditMap
         public const string UpdatedBy = "UpdatedBy";
         /// <summary>Column Name constant for property <see cref="TrackerGenerator.Core.Data.Entities.Audit.RowVersion" /></summary>
         public const string RowVersion = "RowVersion";
+        /// <summary>Column Name constant for property <see cref="TrackerGenerator.Core.Data.Entities.Audit.Attributes" /></summary>
+        public const string Attributes = "Attributes";
     }
     #endregion
 }

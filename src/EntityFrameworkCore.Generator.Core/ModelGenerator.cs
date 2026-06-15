@@ -55,9 +55,7 @@ public partial class ModelGenerator
         entityContext.ContextNamespace = contextNamespace;
         entityContext.ContextBaseClass = contextBaseClass;
 
-        var tables = databaseModel.Tables;
-
-        foreach (var table in tables)
+        foreach (var table in databaseModel.Tables)
         {
             if (IsIgnored(table, _options.Database.Exclude.Tables))
             {
@@ -74,6 +72,23 @@ public partial class ModelGenerator
             GetModels(entity);
         }
 
+        foreach (var view in databaseModel.Views)
+        {
+            if (IsIgnored(view, _options.Database.Exclude.Tables))
+            {
+                _logger.LogDebug("  Skipping View : {schema}.{name}", view.Schema, view.Name);
+                continue;
+            }
+
+            _logger.LogDebug("  Processing View : {schema}.{name}", view.Schema, view.Name);
+
+            _options.Variables.Set(VariableConstants.TableSchema, ToLegalName(view.Schema));
+            _options.Variables.Set(VariableConstants.TableName, ToLegalName(view.Name));
+
+            var entity = GetEntity(entityContext, view);
+            GetModels(entity);
+        }
+
         _options.Variables.Remove(VariableConstants.TableName);
         _options.Variables.Remove(VariableConstants.TableSchema);
 
@@ -81,13 +96,16 @@ public partial class ModelGenerator
     }
 
 
-    private Entity GetEntity(EntityContext entityContext, Table tableSchema, bool processRelationships = true, bool processMethods = true)
+    private Entity GetEntity(EntityContext entityContext, RelationBase relationSchema, bool processRelationships = true, bool processMethods = true)
     {
-        var entity = entityContext.Entities.ByTable(tableSchema)
-            ?? CreateEntity(entityContext, tableSchema);
+        var entity = entityContext.Entities.ByTable(relationSchema.Name, relationSchema.Schema)
+            ?? CreateEntity(entityContext, relationSchema);
 
         if (!entity.Properties.IsProcessed)
-            CreateProperties(entity, tableSchema);
+            CreateProperties(entity, relationSchema);
+
+        if (relationSchema is not Table tableSchema)
+            return entity;
 
         if (processRelationships && !entity.Relationships.IsProcessed)
             CreateRelationships(entityContext, entity, tableSchema);
@@ -744,9 +762,12 @@ public partial class ModelGenerator
     }
 
 
-    private static bool IsIgnored(Table table, IEnumerable<MatchOptions> exclude)
+    private static bool IsIgnored(RelationBase? relation, IEnumerable<MatchOptions> exclude)
     {
-        var name = table.QualifiedName;
+        if (relation is null)
+            return true;
+
+        var name = relation.QualifiedName;
         var includeExpressions = Enumerable.Empty<MatchOptions>();
         var excludeExpressions = exclude ?? [];
 

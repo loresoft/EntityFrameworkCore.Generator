@@ -122,6 +122,15 @@ public partial class Audit : IHaveIdentifier
     [System.ComponentModel.DataAnnotations.Schema.DatabaseGenerated(System.ComponentModel.DataAnnotations.Schema.DatabaseGeneratedOption.Computed)]
     public byte[] RowVersion { get; set; } = null!;
 
+    /// <summary>
+    /// Gets or sets the property value representing column 'Attributes'.
+    /// </summary>
+    /// <value>
+    /// The property value representing column 'Attributes'.
+    /// </value>
+    [System.ComponentModel.DataAnnotations.Schema.Column("Attributes", TypeName = "StringList")]
+    public string? Attributes { get; set; }
+
     #endregion
 
     #region Generated Relationships

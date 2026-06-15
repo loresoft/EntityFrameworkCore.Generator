@@ -10,13 +10,14 @@ The `initialize` command is used to create the configuration yaml file and optio
 Usage: efg initialize [options]
 
 Options:
-  --help                   Show help information
-  -p <Provider>            Database provider to reverse engineer
-  -c <ConnectionString>    Database connection string to reverse engineer
-  --id <UserSecretsId>     The user secret ID to use.
-  --name <ConnectionName>  The user secret configuration name.
-  -d <directory>           The root working directory
-  -f <file>                The options file name
+  -h, --help                              Show help information
+  -p, --provider <PROVIDER>               Database provider to reverse engineer
+  -c, --connection-string <CONNECTION_STRING>
+                                          Database connection string to reverse engineer
+  --id <USER_SECRETS_ID>                  The user secret ID to use.
+  --name <CONNECTION_NAME>                The user secret configuration name.
+  -d, --directory <DIRECTORY>             The root working directory
+  -f, --file <FILE>                       The options file name
 
 Example:
 
@@ -31,15 +32,16 @@ The `generate` command creates source code files from a database schema.  Runnin
 Usage: efg generate [options]
 
 Options:
-  --help                 Show help information
-  -p <Provider>          Database provider to reverse engineer
-  -c <ConnectionString>  Database connection string to reverse engineer
-  --extensions           Include query extensions in generation
-  --models               Include view models in generation
-  --mapper               Include object mapper in generation
-  --validator            Include model validation in generation
-  -d <directory>         The root working directory
-  -f <file>              The options file name
+  -h, --help                            Show help information
+  -p, --provider <PROVIDER>             Database provider to reverse engineer
+  -c, --connection-string <CONNECTION_STRING>
+                                        Database connection string to reverse engineer
+  --extensions                          Include query extensions in generation
+  --models                              Include view models in generation
+  --mapper                              Include object mapper in generation
+  --validator                           Include model validation in generation
+  -d, --directory <DIRECTORY>           The root working directory
+  -f, --file <FILE>                     The options file name
 
 Example:
 

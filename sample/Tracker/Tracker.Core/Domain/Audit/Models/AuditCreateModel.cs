@@ -51,6 +51,14 @@ public partial class AuditCreateModel
     /// </value>
     public string Username { get; set; } = null!;
 
+    /// <summary>
+    /// Gets or sets the property value for 'Attributes'.
+    /// </summary>
+    /// <value>
+    /// The property value for 'Attributes'.
+    /// </value>
+    public string? Attributes { get; set; }
+
     #endregion
 
 }

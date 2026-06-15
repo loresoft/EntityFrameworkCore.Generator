@@ -1,75 +1,63 @@
-using System;
-using System.IO;
-
 using EntityFrameworkCore.Generator.Extensions;
 using EntityFrameworkCore.Generator.Options;
 
-using McMaster.Extensions.CommandLineUtils;
-
 using Microsoft.Extensions.Logging;
+
+using Spectre.Console.Cli;
 
 namespace EntityFrameworkCore.Generator;
 
-[Command("initialize", "init")]
-public class InitializeCommand : OptionsCommandBase
+public class InitializeCommand : AsyncCommand<InitializeSettings>
 {
-    public InitializeCommand(ILoggerFactory logger, IConsole console, IConfigurationSerializer serializer)
-        : base(logger, console, serializer)
+    private readonly ILogger<InitializeCommand> _logger;
+    private readonly IConfigurationSerializer _serializer;
+
+    public InitializeCommand(ILogger<InitializeCommand> logger, IConfigurationSerializer serializer)
     {
+        _logger = logger;
+        _serializer = serializer;
     }
 
-    [Option("-p <Provider>", Description = "Database provider to reverse engineer")]
-    public DatabaseProviders? Provider { get; set; }
-
-    [Option("-c <ConnectionString>", Description = "Database connection string to reverse engineer")]
-    public string? ConnectionString { get; set; }
-
-    [Option("--id <UserSecretsId>", Description = "The user secret ID to use")]
-    public string? UserSecretsId { get; set; }
-
-    [Option("--name <ConnectionName>", Description = "The user secret configuration name")]
-    public string? ConnectionName { get; set; }
-
-    protected override int OnExecute(CommandLineApplication application)
+    protected override Task<int> ExecuteAsync(CommandContext context, InitializeSettings settings, CancellationToken cancellationToken)
     {
-        var workingDirectory = WorkingDirectory ?? Environment.CurrentDirectory;
+        var workingDirectory = settings.WorkingDirectory ?? Environment.CurrentDirectory;
 
         if (!Directory.Exists(workingDirectory))
         {
-            Logger.LogTrace($"Creating directory: {workingDirectory}");
+            _logger.LogTrace("Creating directory: {Directory}", workingDirectory);
             Directory.CreateDirectory(workingDirectory);
         }
 
-        var optionsFile = OptionsFile ?? ConfigurationSerializer.OptionsFileName;
+        var optionsFile = settings.OptionsFile ?? ConfigurationSerializer.OptionsFileName;
 
         Serialization.GeneratorModel? options = null;
 
-        if (Serializer.Exists(workingDirectory, optionsFile))
-            options = Serializer.Load(workingDirectory, optionsFile);
+        if (_serializer.Exists(workingDirectory, optionsFile))
+            options = _serializer.Load(workingDirectory, optionsFile);
 
         if (options == null)
             options = CreateOptionsFile(optionsFile);
 
-        if (UserSecretsId.HasValue())
-            options.Database.UserSecretsId = UserSecretsId;
+        if (settings.UserSecretsId.HasValue())
+            options.Database.UserSecretsId = settings.UserSecretsId;
 
-        if (ConnectionName.HasValue())
-            options.Database.ConnectionName = ConnectionName;
+        if (settings.ConnectionName.HasValue())
+            options.Database.ConnectionName = settings.ConnectionName;
 
-        if (Provider.HasValue)
-            options.Database.Provider = Provider.Value;
+        if (settings.Provider.HasValue)
+            options.Database.Provider = settings.Provider.Value;
 
-        if (ConnectionString.HasValue())
+        if (settings.ConnectionString.HasValue())
         {
-            if (UserSecretsId.HasValue())
-                options = CreateUserSecret(options, ConnectionString);
+            if (settings.UserSecretsId.HasValue())
+                options = CreateUserSecret(options, settings.ConnectionString);
             else
-                options.Database.ConnectionString = ConnectionString;
+                options.Database.ConnectionString = settings.ConnectionString;
         }
 
-        Serializer.Save(options, workingDirectory, optionsFile);
+        _serializer.Save(options, workingDirectory, optionsFile);
 
-        return 0;
+        return Task.FromResult(0);
     }
 
     private Serialization.GeneratorModel CreateUserSecret(Serialization.GeneratorModel options, string connectionString)
@@ -80,7 +68,7 @@ public class InitializeCommand : OptionsCommandBase
         if (options.Database.ConnectionName.IsNullOrWhiteSpace())
             options.Database.ConnectionName = "ConnectionStrings:Generator";
 
-        Logger.LogInformation("Adding Connection String to User Secrets file");
+        _logger.LogInformation("Adding Connection String to User Secrets file");
 
         // save connection string to user secrets file
         var secretsStore = new SecretsStore(options.Database.UserSecretsId);
@@ -109,7 +97,7 @@ public class InitializeCommand : OptionsCommandBase
         options.Model.Validator.Generate = true;
         options.Model.Mapper.Generate = true;
 
-        Logger.LogInformation($"Creating options file: {optionsFile}");
+        _logger.LogInformation("Creating options file: {OptionsFile}", optionsFile);
 
         return options;
     }

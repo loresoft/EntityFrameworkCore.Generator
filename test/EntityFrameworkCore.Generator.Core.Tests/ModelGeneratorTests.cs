@@ -103,41 +103,18 @@ public class ModelGeneratorTests
         generatorOptions.Model.Create.Generate = true;
         generatorOptions.Model.Update.Generate = true;
 
-        var databaseModel = new DatabaseModel
-        {
-            DatabaseName = "TestDatabase",
-            DefaultSchema = "dbo"
-        };
-        var testView = new DatabaseView
-        {
-            Database = databaseModel,
-            Name = "TestView",
-            Schema = "dbo"
-        };
-        databaseModel.Tables.Add(testView);
+        var databaseModel = new DatabaseModelBuilder()
+            .WithProvider("SqlServer")
+            .WithDatabaseName("TestDatabase")
+            .WithDefaultSchemaName("dbo")
+            .AddView(view => ConfigureView(view, "dbo", "TestView",
+                column => ConfigureColumn(column, "Id", false, "int", 1),
+                column => ConfigureColumn(column, "Name", true, "varchar(50)", 2)))
+            .Build();
 
-        var identifierColumn = new DatabaseColumn
-        {
-            Table = testView,
-            Name = "Id",
-            IsNullable = false,
-            StoreType = "int"
-        };
-        testView.Columns.Add(identifierColumn);
-
-        var nameColumn = new DatabaseColumn
-        {
-            Table = testView,
-            Name = "Name",
-            IsNullable = true,
-            StoreType = "varchar(50)"
-        };
-        testView.Columns.Add(nameColumn);
         var generator = new ModelGenerator(NullLoggerFactory.Instance);
 
-        var typeMappingSource = CreateTypeMappingSource();
-
-        var result = generator.Generate(generatorOptions, databaseModel, typeMappingSource);
+        var result = generator.Generate(generatorOptions, databaseModel);
         Assert.Single(result.Entities);
 
         var firstEntity = result.Entities[0];
@@ -381,6 +358,20 @@ public class ModelGeneratorTests
         params Func<ColumnBuilder, ColumnBuilder>[] configureColumns)
     {
         builder.WithQualifiedName(schema, tableName);
+
+        foreach (var configureColumn in configureColumns)
+            builder.AddColumn(column => configureColumn(column));
+
+        return builder;
+    }
+
+    private static ViewBuilder ConfigureView(
+        ViewBuilder builder,
+        string schema,
+        string viewName,
+        params Func<ColumnBuilder, ColumnBuilder>[] configureColumns)
+    {
+        builder.WithQualifiedName(schema, viewName);
 
         foreach (var configureColumn in configureColumns)
             builder.AddColumn(column => configureColumn(column));
