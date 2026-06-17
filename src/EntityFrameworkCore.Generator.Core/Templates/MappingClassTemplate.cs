@@ -28,6 +28,7 @@ public class MappingClassTemplate : CodeTemplateBase
         CodeBuilder.AppendLine("using System.Collections.Generic;");
         CodeBuilder.AppendLine();
         CodeBuilder.AppendLine("using Microsoft.EntityFrameworkCore;");
+        CodeBuilder.AppendLine("using Microsoft.EntityFrameworkCore.Metadata.Builders;");
         CodeBuilder.AppendLine();
 
         CodeBuilder.Append($"namespace {_entity.MappingNamespace}");
@@ -143,7 +144,7 @@ public class MappingClassTemplate : CodeTemplateBase
             CodeBuilder.AppendLine("/// <param name=\"builder\">The builder to be used to configure the entity type.</param>");
         }
 
-        CodeBuilder.AppendLine($"public void Configure(Microsoft.EntityFrameworkCore.Metadata.Builders.EntityTypeBuilder<{entityFullName}> builder)");
+        CodeBuilder.AppendLine($"public void Configure(EntityTypeBuilder<{entityFullName}> builder)");
         CodeBuilder.AppendLine("{");
 
         using (CodeBuilder.Indent())

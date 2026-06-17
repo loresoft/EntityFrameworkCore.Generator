@@ -58,6 +58,11 @@ data:
     entityNaming: Singular
     relationshipNaming: Plural
     prefixWithSchemaName: false
+    typeMapping:
+      - nativeType: geometry
+        systemType: NetTopologySuite.Geometries.Geometry
+      - nativeType: dbo.StringList
+        systemType: List<string?>
     renaming:
       entities:
         - ^(sp|tbl|udf|vw)_
@@ -106,6 +111,21 @@ Include XML documentation for the generated class. Default: `false`
 ### mappingAttributes
 
 Include mapping attributes on the entity classes. Default: `false`
+
+### typeMapping
+
+Map a native database type to the generated .NET system type used for entity and model properties.
+Native type matching is case-insensitive.
+
+```YAML
+data:
+  entity:
+    typeMapping:
+      - nativeType: geometry
+        systemType: NetTopologySuite.Geometries.Geometry
+      - nativeType: dbo.StringList
+        systemType: List<string?>
+```
 
 ### renaming
 

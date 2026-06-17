@@ -22,8 +22,11 @@ public sealed class IndentedStringBuilder
     /// </summary>
     /// <param name="value">The string to append.</param>
     /// <returns>This builder so that additional calls can be chained.</returns>
-    public IndentedStringBuilder Append(string value)
+    public IndentedStringBuilder Append(string? value)
     {
+        if (string.IsNullOrEmpty(value))
+            return this;
+
         DoIndent();
 
         _stringBuilder.Append(value);
@@ -50,12 +53,13 @@ public sealed class IndentedStringBuilder
     /// </summary>
     /// <param name="value">The strings to append.</param>
     /// <returns>This builder so that additional calls can be chained.</returns>
-    public IndentedStringBuilder Append(IEnumerable<string> value)
+    public IndentedStringBuilder Append(IEnumerable<string?>? value)
     {
-        DoIndent();
+        if (value is null)
+            return this;
 
         foreach (var str in value)
-            _stringBuilder.Append(str);
+            Append(str);
 
         return this;
     }
@@ -65,12 +69,13 @@ public sealed class IndentedStringBuilder
     /// </summary>
     /// <param name="value">The chars to append.</param>
     /// <returns>This builder so that additional calls can be chained.</returns>
-    public IndentedStringBuilder Append(IEnumerable<char> value)
+    public IndentedStringBuilder Append(IEnumerable<char>? value)
     {
-        DoIndent();
+        if (value is null)
+            return this;
 
         foreach (var chr in value)
-            _stringBuilder.Append(chr);
+            Append(chr);
 
         return this;
     }
@@ -78,9 +83,24 @@ public sealed class IndentedStringBuilder
     /// <summary>
     /// Appends the current indent and then the string representation of the given value to the string being built.
     /// </summary>
-    public IndentedStringBuilder Append<T>(T value, string? format = null, IFormatProvider? formatProvider = null) where T : IFormattable
+    public IndentedStringBuilder Append<T>(T? value, string? format = null, IFormatProvider? formatProvider = null)
+        where T : struct, IFormattable
     {
-        string text = value.ToString(format, formatProvider ?? Globalization.CultureInfo.InvariantCulture);
+        Append(value?.ToString(format, formatProvider ?? Globalization.CultureInfo.InvariantCulture));
+
+        return this;
+    }
+
+    /// <summary>
+    /// Appends the current indent and then the string representation of the given value to the string being built.
+    /// </summary>
+    public IndentedStringBuilder Append<T>(T? value, string? format = null, IFormatProvider? formatProvider = null)
+        where T : IFormattable
+    {
+        if (value is null)
+            return this;
+
+        var text = value.ToString(format, formatProvider ?? Globalization.CultureInfo.InvariantCulture);
         Append(text);
 
         return this;
@@ -108,9 +128,9 @@ public sealed class IndentedStringBuilder
     /// </summary>
     /// <param name="value">The string to append.</param>
     /// <returns>This builder so that additional calls can be chained.</returns>
-    public IndentedStringBuilder AppendLine(string value)
+    public IndentedStringBuilder AppendLine(string? value)
     {
-        if (value.Length != 0)
+        if (!string.IsNullOrEmpty(value))
             DoIndent();
 
         _stringBuilder.AppendLine(value);
@@ -123,9 +143,22 @@ public sealed class IndentedStringBuilder
     /// <summary>
     /// Appends the current indent and then the string representation of the given value to the string being built.
     /// </summary>
-    public IndentedStringBuilder AppendLine<T>(T value, string? format = null, IFormatProvider? formatProvider = null) where T : IFormattable
+    public IndentedStringBuilder AppendLine<T>(T? value, string? format = null, IFormatProvider? formatProvider = null) where T : struct, IFormattable
     {
-        string text = value.ToString(format, formatProvider ?? Globalization.CultureInfo.InvariantCulture);
+        AppendLine(value?.ToString(format, formatProvider ?? Globalization.CultureInfo.InvariantCulture));
+
+        return this;
+    }
+
+    /// <summary>
+    /// Appends the current indent and then the string representation of the given value to the string being built.
+    /// </summary>
+    public IndentedStringBuilder AppendLine<T>(T? value, string? format = null, IFormatProvider? formatProvider = null) where T : IFormattable
+    {
+        if (value is null)
+            return AppendLine((string?)null);
+
+        var text = value.ToString(format, formatProvider ?? Globalization.CultureInfo.InvariantCulture);
         AppendLine(text);
 
         return this;
@@ -137,7 +170,7 @@ public sealed class IndentedStringBuilder
     /// </summary>
     /// <param name="text">The string to append.</param>
     /// <param name="condition">The condition delegate to evaluate. If condition is null, String.IsNullOrWhiteSpace method will be used.</param>
-    public IndentedStringBuilder AppendIf(string text, Func<string, bool>? condition = null)
+    public IndentedStringBuilder AppendIf(string? text, Func<string?, bool>? condition = null)
     {
         var c = condition ?? (s => !string.IsNullOrEmpty(s));
 
@@ -152,7 +185,7 @@ public sealed class IndentedStringBuilder
     /// </summary>
     /// <param name="text">The string to append.</param>
     /// <param name="condition">The condition delegate to evaluate. If condition is null, String.IsNullOrWhiteSpace method will be used.</param>
-    public IndentedStringBuilder AppendIf(string text, bool condition)
+    public IndentedStringBuilder AppendIf(string? text, bool condition)
     {
         if (condition)
             Append(text);
@@ -165,7 +198,7 @@ public sealed class IndentedStringBuilder
     /// </summary>
     /// <param name="text">The string to append.</param>
     /// <param name="condition">The condition delegate to evaluate. If condition is null, String.IsNullOrWhiteSpace method will be used.</param>
-    public IndentedStringBuilder AppendLineIf(string text, Func<string, bool>? condition = null)
+    public IndentedStringBuilder AppendLineIf(string? text, Func<string?, bool>? condition = null)
     {
         var c = condition ?? (s => !string.IsNullOrEmpty(s));
 

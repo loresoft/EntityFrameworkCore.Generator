@@ -43,10 +43,6 @@ updates:
         patterns:
           - "Serilog"
           - "Serilog.*"
-      Hangfire:
-        patterns:
-          - "Hangfire"
-          - "Hangfire.*"
       Testcontainers:
         patterns:
           - "Testcontainers.*"

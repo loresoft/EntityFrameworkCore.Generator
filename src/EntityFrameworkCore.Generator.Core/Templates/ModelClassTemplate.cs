@@ -89,21 +89,21 @@ public class ModelClassTemplate : CodeTemplateBase
         CodeBuilder.AppendLine("#region Generated Properties");
         foreach (var property in _model.Properties)
         {
-            var propertyType = property.SystemType.ToType();
+            var propertyType = GetPropertyType(property);
             var propertyName = property.PropertyName.ToSafeName();
 
             if (ShouldDocument())
             {
                 CodeBuilder.AppendLine("/// <summary>");
-                CodeBuilder.AppendLine($"/// Gets or sets the property value for '{property.PropertyName}'.");
+                CodeBuilder.AppendLine($"/// Gets or sets the property value for <c>{property.PropertyName}</c>.");
                 CodeBuilder.AppendLine("/// </summary>");
                 CodeBuilder.AppendLine("/// <value>");
-                CodeBuilder.AppendLine($"/// The property value for '{property.PropertyName}'.");
+                CodeBuilder.AppendLine($"/// The property value for <c>{property.PropertyName}</c>.");
                 CodeBuilder.AppendLine("/// </value>");
             }
 
             if (property.IsNullable == true && (property.SystemType.IsValueType || Options.Project.Nullable))
-                CodeBuilder.AppendLine($"public {propertyType}? {propertyName} {{ get; set; }}");
+                CodeBuilder.AppendLine($"public {ToNullablePropertyType(propertyType)} {propertyName} {{ get; set; }}");
             else if (Options.Project.Nullable && !property.SystemType.IsValueType)
                 CodeBuilder.AppendLine($"public {propertyType} {propertyName} {{ get; set; }} = null!;");
             else
@@ -113,6 +113,20 @@ public class ModelClassTemplate : CodeTemplateBase
         }
         CodeBuilder.AppendLine("#endregion");
         CodeBuilder.AppendLine();
+    }
+
+    private static string GetPropertyType(Property property)
+    {
+        return property.SystemTypeName.HasValue()
+            ? property.SystemTypeName
+            : property.SystemType.ToType();
+    }
+
+    private static string ToNullablePropertyType(string propertyType)
+    {
+        return propertyType.EndsWith('?')
+            ? propertyType
+            : propertyType + "?";
     }
 
 

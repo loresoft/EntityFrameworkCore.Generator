@@ -22,6 +22,7 @@ public class EntityClassOptions : ClassOptionsBase
         PrefixWithSchemaName = false;
 
         Renaming = new SelectionOptions(variables, AppendPrefix(prefix, "Naming"));
+        TypeMapping = [];
     }
 
     /// <summary>
@@ -64,4 +65,9 @@ public class EntityClassOptions : ClassOptionsBase
     /// </value>
     [DefaultValue(false)]
     public bool MappingAttributes { get; set; }
+
+    /// <summary>
+    /// Gets the native type to system type mappings.
+    /// </summary>
+    public IList<TypeMappingOptions> TypeMapping { get; }
 }

@@ -18,6 +18,8 @@ public class Property : ModelBase
 
     public Type SystemType { get; set; } = null!;
 
+    public string SystemTypeName { get; set; } = null!;
+
     public bool? IsNullable { get; set; }
 
     public bool IsRequired => IsNullable == false;

@@ -1,5 +1,3 @@
-using System;
-using System.IO;
 using System.Reflection;
 using System.Text;
 
@@ -7,8 +5,6 @@ using DbUp;
 using DbUp.Engine.Output;
 
 using Microsoft.Extensions.Configuration;
-
-using Xunit.Abstractions;
 
 namespace FluentCommand.SqlServer.Tests;
 
@@ -28,7 +24,7 @@ public class DatabaseFixture : IUpgradeLog, IDisposable
     }
 
 
-    public string ConnectionString { get; set; }
+    public string? ConnectionString { get; set; }
 
     public string ConnectionName { get; set; } = "Tracker";
 
@@ -64,9 +60,7 @@ public class DatabaseFixture : IUpgradeLog, IDisposable
 
         var configuration = builder.Build();
 
-        var connectionString = configuration.GetConnectionString(ConnectionName);
-
-        ConnectionString = connectionString;
+        ConnectionString = configuration.GetConnectionString(ConnectionName);
     }
 
 

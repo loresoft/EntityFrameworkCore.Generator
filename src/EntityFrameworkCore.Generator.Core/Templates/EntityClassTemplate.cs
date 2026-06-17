@@ -22,6 +22,11 @@ public class EntityClassTemplate : CodeTemplateBase
 
         CodeBuilder.AppendLine("using System;");
         CodeBuilder.AppendLine("using System.Collections.Generic;");
+        if (Options.Data.Entity.MappingAttributes)
+        {
+            CodeBuilder.AppendLine("using System.ComponentModel.DataAnnotations;");
+            CodeBuilder.AppendLine("using System.ComponentModel.DataAnnotations.Schema;");
+        }
         CodeBuilder.AppendLine();
 
         CodeBuilder.Append($"namespace {_entity.EntityNamespace}");
@@ -55,12 +60,12 @@ public class EntityClassTemplate : CodeTemplateBase
         if (Options.Data.Entity.Document)
         {
             CodeBuilder.AppendLine("/// <summary>");
-            CodeBuilder.AppendLine($"/// Entity class representing data for table '{_entity.TableName}'.");
+            CodeBuilder.AppendLine($"/// Entity class representing data for table <c>{_entity.TableName}</c>.");
             CodeBuilder.AppendLine("/// </summary>");
         }
         if (Options.Data.Entity.MappingAttributes)
         {
-            CodeBuilder.AppendLine($"[System.ComponentModel.DataAnnotations.Schema.Table(\"{_entity.TableName}\", Schema = \"{_entity.TableSchema}\")]");
+            CodeBuilder.AppendLine($"[Table(\"{_entity.TableName}\", Schema = \"{_entity.TableSchema}\")]");
         }
         CodeBuilder.AppendLine($"public partial class {entityClass}");
 
@@ -131,16 +136,16 @@ public class EntityClassTemplate : CodeTemplateBase
         CodeBuilder.AppendLine("#region Generated Properties");
         foreach (var property in _entity.Properties)
         {
-            var propertyType = property.SystemType.ToType();
+            var propertyType = GetPropertyType(property);
             var propertyName = property.PropertyName.ToSafeName();
 
             if (Options.Data.Entity.Document)
             {
                 CodeBuilder.AppendLine("/// <summary>");
-                CodeBuilder.AppendLine($"/// Gets or sets the property value representing column '{property.ColumnName}'.");
+                CodeBuilder.AppendLine($"/// Gets or sets the property value representing column <c>{property.ColumnName}</c>.");
                 CodeBuilder.AppendLine("/// </summary>");
                 CodeBuilder.AppendLine("/// <value>");
-                CodeBuilder.AppendLine($"/// The property value representing column '{property.ColumnName}'.");
+                CodeBuilder.AppendLine($"/// The property value representing column <c>{property.ColumnName}</c>.");
                 CodeBuilder.AppendLine("/// </value>");
             }
 
@@ -148,28 +153,28 @@ public class EntityClassTemplate : CodeTemplateBase
             {
                 if (property.IsPrimaryKey == true)
                 {
-                    CodeBuilder.AppendLine("[System.ComponentModel.DataAnnotations.Key()]");
+                    CodeBuilder.AppendLine("[Key]");
                 }
 
                 if (property.IsConcurrencyToken == true)
                 {
-                    CodeBuilder.AppendLine("[System.ComponentModel.DataAnnotations.ConcurrencyCheck()]");
+                    CodeBuilder.AppendLine("[ConcurrencyCheck]");
                 }
 
-                CodeBuilder.AppendLine($"[System.ComponentModel.DataAnnotations.Schema.Column(\"{property.ColumnName}\", TypeName = \"{property.NativeType}\")]");
+                CodeBuilder.AppendLine($"[Column(\"{property.ColumnName}\", TypeName = \"{property.NativeType}\")]");
 
                 if (property.IsIdentity == true)
                 {
-                    CodeBuilder.AppendLine("[System.ComponentModel.DataAnnotations.Schema.DatabaseGenerated(System.ComponentModel.DataAnnotations.Schema.DatabaseGeneratedOption.Identity)]");
+                    CodeBuilder.AppendLine("[DatabaseGenerated(DatabaseGeneratedOption.Identity)]");
                 }
                 else if (property.IsRowVersion == true || property.IsComputed == true)
                 {
-                    CodeBuilder.AppendLine("[System.ComponentModel.DataAnnotations.Schema.DatabaseGenerated(System.ComponentModel.DataAnnotations.Schema.DatabaseGeneratedOption.Computed)]");
+                    CodeBuilder.AppendLine("[DatabaseGenerated(DatabaseGeneratedOption.Computed)]");
                 }
             }
 
             if (property.IsNullable == true && (property.SystemType.IsValueType || Options.Project.Nullable))
-                CodeBuilder.AppendLine($"public {propertyType}? {propertyName} {{ get; set; }}");
+                CodeBuilder.AppendLine($"public {ToNullablePropertyType(propertyType)} {propertyName} {{ get; set; }}");
             else if (Options.Project.Nullable && !property.SystemType.IsValueType)
                 CodeBuilder.AppendLine($"public {propertyType} {propertyName} {{ get; set; }} = null!;");
             else
@@ -179,6 +184,20 @@ public class EntityClassTemplate : CodeTemplateBase
         }
         CodeBuilder.AppendLine("#endregion");
         CodeBuilder.AppendLine();
+    }
+
+    private static string GetPropertyType(Property property)
+    {
+        return property.SystemTypeName.HasValue()
+            ? property.SystemTypeName
+            : property.SystemType.ToType();
+    }
+
+    private static string ToNullablePropertyType(string propertyType)
+    {
+        return propertyType.EndsWith('?')
+            ? propertyType
+            : propertyType + "?";
     }
 
     private void GenerateRelationshipProperties()

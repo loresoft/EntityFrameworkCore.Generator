@@ -237,6 +237,7 @@ public partial class ModelGenerator
             property.NativeType = column.NativeTypeName;
             property.DataType = column.DbType;
             property.SystemType = column.SystemType;
+            property.SystemTypeName = GetSystemTypeName(column.NativeTypeName, column.SystemType);
             property.Size = column.MaxLength;
 
             // overwrite row version type
@@ -251,6 +252,7 @@ public partial class ModelGenerator
                     RowVersionMapping.ULong => typeof(ulong),
                     _ => typeof(byte[])
                 };
+                property.SystemTypeName = property.SystemType.ToType();
             }
 
             //property.DefaultValue = column.DefaultValue;
@@ -308,6 +310,7 @@ public partial class ModelGenerator
         temporalStart.NativeType = "datetime2";
         temporalStart.DataType = DbType.DateTime2;
         temporalStart.SystemType = typeof(DateTime);
+        temporalStart.SystemTypeName = typeof(DateTime).ToType();
 
         temporalStart.IsProcessed = true;
 
@@ -324,6 +327,7 @@ public partial class ModelGenerator
         temporalEnd.NativeType = "datetime2";
         temporalEnd.DataType = DbType.DateTime2;
         temporalEnd.SystemType = typeof(DateTime);
+        temporalEnd.SystemTypeName = typeof(DateTime).ToType();
 
         temporalEnd.IsProcessed = true;
     }
@@ -623,6 +627,17 @@ public partial class ModelGenerator
         }
 
         return keyMembers;
+    }
+
+    private string GetSystemTypeName(string? nativeType, Type systemType)
+    {
+        var mapping = _options.Data.Entity.TypeMapping
+            .FirstOrDefault(m => string.Equals(m.NativeType, nativeType, StringComparison.OrdinalIgnoreCase));
+
+        if (mapping?.SystemType.HasValue() == true)
+            return mapping.SystemType;
+
+        return systemType.ToType();
     }
 
     private static string GetMemberPrefix(Relationship relationship, string primaryClass, string foreignClass)

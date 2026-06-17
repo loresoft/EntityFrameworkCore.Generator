@@ -8,14 +8,13 @@ namespace EntityFrameworkCore.Generator.Core.Tests.Templates;
 public class EntityYamlScript
 {
     // simulate global script variables
-    public TemplateOptions TemplateOptions { get; set; }
+    public TemplateOptions TemplateOptions { get; set; } = null!;
 
-    public GeneratorOptions GeneratorOptions { get; set; }
+    public GeneratorOptions GeneratorOptions { get; set; } = null!;
 
-    public IndentedStringBuilder CodeBuilder { get; set; }
+    public IndentedStringBuilder CodeBuilder { get; set; } = null!;
 
-    public Entity Entity { get; set; }
-
+    public Entity Entity { get; set; } = null!;
 
 
     public string WriteCode()

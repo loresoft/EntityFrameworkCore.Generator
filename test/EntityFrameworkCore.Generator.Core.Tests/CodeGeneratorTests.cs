@@ -1,18 +1,9 @@
-using System;
-using System.Collections.Generic;
-using System.Diagnostics.Metrics;
-using System.IO;
-using System.Threading.Tasks;
-
 using EntityFrameworkCore.Generator.Extensions;
 using EntityFrameworkCore.Generator.Options;
 
 using FluentCommand.SqlServer.Tests;
 
 using Microsoft.Extensions.Logging.Abstractions;
-
-using Xunit;
-using Xunit.Abstractions;
 
 namespace EntityFrameworkCore.Generator.Core.Tests;
 
@@ -40,6 +31,20 @@ public class CodeGeneratorTests : DatabaseTestBase
     {
         var generatorOptions = new GeneratorOptions();
         generatorOptions.Database.ConnectionString = Database.ConnectionString;
+        generatorOptions.Data.Entity.TypeMapping.Add(
+            new TypeMappingOptions
+            {
+                SystemType = "NetTopologySuite.Geometries.Geometry",
+                NativeType = "geometry"
+            }
+        );
+        generatorOptions.Data.Entity.TypeMapping.Add(
+            new TypeMappingOptions
+            {
+                SystemType = "NetTopologySuite.Geometries.Geometry",
+                NativeType = "geography"
+            }
+        );
 
         var generator = new CodeGenerator(NullLoggerFactory.Instance);
         var result = await generator.GenerateAsync(generatorOptions);
@@ -48,8 +53,14 @@ public class CodeGeneratorTests : DatabaseTestBase
 
         const string spatialTableName = "CitiesSpatial";
 
-        var citiesSpatialEntityFile = Path.Combine(generatorOptions.Data.Entity.Directory, spatialTableName + ".cs");
-        var citiesSpatialMappingFile = Path.Combine(generatorOptions.Data.Mapping.Directory, spatialTableName + "Map.cs");
+        var entityDirectory = generatorOptions.Data.Entity.Directory;
+        var mappingDirectory = generatorOptions.Data.Mapping.Directory;
+
+        Assert.NotNull(entityDirectory);
+        Assert.NotNull(mappingDirectory);
+
+        var citiesSpatialEntityFile = Path.Combine(entityDirectory, spatialTableName + ".cs");
+        var citiesSpatialMappingFile = Path.Combine(mappingDirectory, spatialTableName + "Map.cs");
 
         var citiesSpatialEntityContent = File.ReadAllText(citiesSpatialEntityFile);
         var citiesSpatialMappingContent = File.ReadAllText(citiesSpatialMappingFile);

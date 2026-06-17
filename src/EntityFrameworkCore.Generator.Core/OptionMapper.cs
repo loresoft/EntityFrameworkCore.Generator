@@ -151,6 +151,17 @@ public static class OptionMapper
         option.MappingAttributes = entity.MappingAttributes;
 
         MapSelection(option.Renaming, entity.Renaming);
+
+        MapList(option.TypeMapping, entity.TypeMapping, MapTypeMapping);
+    }
+
+    private static TypeMappingOptions MapTypeMapping(Serialization.TypeMapping typeMapping)
+    {
+        return new TypeMappingOptions
+        {
+            NativeType = typeMapping.NativeType,
+            SystemType = typeMapping.SystemType
+        };
     }
 
     private static void MapSelection(SelectionOptions option, SelectionModel? selection)

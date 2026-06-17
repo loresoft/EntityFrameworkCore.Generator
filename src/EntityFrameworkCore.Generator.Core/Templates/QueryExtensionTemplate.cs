@@ -116,12 +116,12 @@ public class QueryExtensionTemplate : CodeTemplateBase
             CodeBuilder.AppendLine("/// <summary>");
             CodeBuilder.AppendLine("/// Filters a sequence of values based on a predicate.");
             CodeBuilder.AppendLine("/// </summary>");
-            CodeBuilder.AppendLine("/// <param name=\"queryable\">An <see cref=\"T:System.Linq.IQueryable`1\" /> to filter.</param>");
+            CodeBuilder.AppendLine("/// <param name=\"queryable\">An <see cref=\"IQueryable`1\" /> to filter.</param>");
             AppendDocumentation(method);
-            CodeBuilder.AppendLine("/// <returns>An <see cref=\"T: System.Linq.IQueryable`1\" /> that contains elements from the input sequence that satisfy the condition specified.</returns>");
+            CodeBuilder.AppendLine("/// <returns>An <see cref=\"IQueryable`1\" /> that contains elements from the input sequence that satisfy the condition specified.</returns>");
         }
 
-        CodeBuilder.Append($"public static System.Linq.IQueryable<{safeName}> {prefix}{suffix}(this System.Linq.IQueryable<{safeName}> queryable, ");
+        CodeBuilder.Append($"public static IQueryable<{safeName}> {prefix}{suffix}(this IQueryable<{safeName}> queryable, ");
         AppendParameters(method);
         CodeBuilder.AppendLine(")");
         CodeBuilder.AppendLine("{");
@@ -159,20 +159,20 @@ public class QueryExtensionTemplate : CodeTemplateBase
             CodeBuilder.AppendLine("/// <summary>");
             CodeBuilder.AppendLine($"/// Gets an instance of <see cref=\"T:{safeName}\"/> by using a unique index.");
             CodeBuilder.AppendLine("/// </summary>");
-            CodeBuilder.AppendLine("/// <param name=\"queryable\">An <see cref=\"T:System.Linq.IQueryable`1\" /> to filter.</param>");
+            CodeBuilder.AppendLine("/// <param name=\"queryable\">An <see cref=\"IQueryable`1\" /> to filter.</param>");
             AppendDocumentation(method);
 
             if (async)
-                CodeBuilder.AppendLine("/// <param name=\"cancellationToken\">A <see cref=\"System.Threading.CancellationToken\" /> to observe while waiting for the task to complete.</param>");
+                CodeBuilder.AppendLine("/// <param name=\"cancellationToken\">A <see cref=\"CancellationToken\" /> to observe while waiting for the task to complete.</param>");
 
             CodeBuilder.AppendLine($"/// <returns>An instance of <see cref=\"T:{safeName}\"/> or null if not found.</returns>");
         }
 
-        CodeBuilder.Append($"public static {asyncPrefix}{returnType} {uniquePrefix}{suffix}{asyncSuffix}(this System.Linq.IQueryable<{safeName}> queryable, ");
+        CodeBuilder.Append($"public static {asyncPrefix}{returnType} {uniquePrefix}{suffix}{asyncSuffix}(this IQueryable<{safeName}> queryable, ");
         AppendParameters(method);
 
         if (async)
-            CodeBuilder.Append(", System.Threading.CancellationToken cancellationToken = default");
+            CodeBuilder.Append(", CancellationToken cancellationToken = default");
 
         CodeBuilder.AppendLine(")");
         CodeBuilder.AppendLine("{");
@@ -215,20 +215,20 @@ public class QueryExtensionTemplate : CodeTemplateBase
             CodeBuilder.AppendLine("/// <summary>");
             CodeBuilder.AppendLine("/// Gets an instance by the primary key.");
             CodeBuilder.AppendLine("/// </summary>");
-            CodeBuilder.AppendLine("/// <param name=\"queryable\">An <see cref=\"T:System.Linq.IQueryable`1\" /> to filter.</param>");
+            CodeBuilder.AppendLine("/// <param name=\"queryable\">An <see cref=\"IQueryable`1\" /> to filter.</param>");
             AppendDocumentation(method);
 
             if (async)
-                CodeBuilder.AppendLine("/// <param name=\"cancellationToken\">A <see cref=\"System.Threading.CancellationToken\" /> to observe while waiting for the task to complete.</param>");
+                CodeBuilder.AppendLine("/// <param name=\"cancellationToken\">A <see cref=\"CancellationToken\" /> to observe while waiting for the task to complete.</param>");
 
             CodeBuilder.AppendLine($"/// <returns>An instance of <see cref=\"T:{safeName}\"/> or null if not found.</returns>");
         }
 
-        CodeBuilder.Append($"public static {asyncPrefix}{returnType} {uniquePrefix}Key{asyncSuffix}(this System.Linq.IQueryable<{safeName}> queryable, ");
+        CodeBuilder.Append($"public static {asyncPrefix}{returnType} {uniquePrefix}Key{asyncSuffix}(this IQueryable<{safeName}> queryable, ");
         AppendParameters(method);
 
         if (async)
-            CodeBuilder.Append(", System.Threading.CancellationToken cancellationToken = default");
+            CodeBuilder.Append(", CancellationToken cancellationToken = default");
 
         CodeBuilder.AppendLine(")");
         CodeBuilder.AppendLine("{");

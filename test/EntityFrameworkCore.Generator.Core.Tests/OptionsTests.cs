@@ -1,14 +1,8 @@
-using System;
-using System.IO;
 using System.Reflection;
 
-using EntityFrameworkCore.Generator.Options;
 using EntityFrameworkCore.Generator.Serialization;
 
 using Microsoft.Extensions.Logging.Abstractions;
-
-using Xunit;
-using Xunit.Abstractions;
 
 using YamlDotNet.Serialization;
 using YamlDotNet.Serialization.NamingConventions;
@@ -60,10 +54,44 @@ public class OptionsTests
         var assembly = Assembly.GetExecutingAssembly();
 
         using var stream = assembly.GetManifestResourceStream(resourcePath);
+        Assert.NotNull(stream);
+
         using var reader = new StreamReader(stream);
 
         var options = serializer.Load(reader);
         Assert.NotNull(options);
+    }
+
+    [Fact]
+    public void LoadTypeMapping()
+    {
+        const string yaml =
+            """
+            data:
+              entity:
+                typeMapping:
+                  - nativeType: geometry
+                    systemType: NetTopologySuite.Geometries.Geometry
+                  - nativeType: dbo.StringList
+                    systemType: List<string?>
+            """;
+
+        var serializer = new ConfigurationSerializer(NullLogger<ConfigurationSerializer>.Instance);
+        using var reader = new StringReader(yaml);
+
+        var model = serializer.Load(reader);
+
+        Assert.NotNull(model);
+        Assert.NotNull(model.Data.Entity.TypeMapping);
+        Assert.Equal(2, model.Data.Entity.TypeMapping.Count);
+
+        var options = OptionMapper.Map(model);
+
+        Assert.Equal(2, options.Data.Entity.TypeMapping.Count);
+        Assert.Equal("geometry", options.Data.Entity.TypeMapping[0].NativeType);
+        Assert.Equal("NetTopologySuite.Geometries.Geometry", options.Data.Entity.TypeMapping[0].SystemType);
+        Assert.Equal("dbo.StringList", options.Data.Entity.TypeMapping[1].NativeType);
+        Assert.Equal("List<string?>", options.Data.Entity.TypeMapping[1].SystemType);
     }
 
 }

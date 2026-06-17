@@ -38,6 +38,11 @@ data:
     relationshipNaming: Plural
     document: false
     prefixWithSchemaName: false
+    typeMapping:
+      - nativeType: geometry
+        systemType: NetTopologySuite.Geometries.Geometry
+      - nativeType: dbo.StringList
+        systemType: List<string?>
     renaming:
       entities:
         - ^(sp|tbl|udf|vw)_

@@ -3,6 +3,7 @@ using System.Data;
 
 using EntityFrameworkCore.Generator.Metadata.Generation;
 using EntityFrameworkCore.Generator.Options;
+using EntityFrameworkCore.Generator.Templates;
 
 using Microsoft.Extensions.Logging.Abstractions;
 
@@ -338,6 +339,52 @@ public class ModelGeneratorTests
 
     }
 
+    [Fact]
+    public void GenerateWithTypeMapping()
+    {
+        var generatorOptions = new GeneratorOptions();
+        generatorOptions.Project.Nullable = true;
+        generatorOptions.Model.Read.Generate = true;
+        generatorOptions.Data.Entity.TypeMapping.Add(new TypeMappingOptions
+        {
+            NativeType = "geometry",
+            SystemType = "NetTopologySuite.Geometries.Geometry"
+        });
+        generatorOptions.Data.Entity.TypeMapping.Add(new TypeMappingOptions
+        {
+            NativeType = "dbo.StringList",
+            SystemType = "List<string?>"
+        });
+
+        var databaseModel = CreateDatabaseModel("TestDatabase",
+            table => ConfigureTable(table, "dbo", "TestTable",
+                column => ConfigureColumn(column, "Id", false, "int", 1),
+                column => ConfigureColumn(column, "Geometry", false, "geometry", 2),
+                column => ConfigureColumn(column, "Tags", true, "dbo.StringList", 3)));
+
+        var generator = new ModelGenerator(NullLoggerFactory.Instance);
+
+        var result = generator.Generate(generatorOptions, databaseModel);
+        var entity = Assert.Single(result.Entities);
+
+        var geometryProperty = entity.Properties.ByColumn("Geometry");
+        Assert.NotNull(geometryProperty);
+        Assert.Equal("NetTopologySuite.Geometries.Geometry", geometryProperty.SystemTypeName);
+
+        var tagsProperty = entity.Properties.ByColumn("Tags");
+        Assert.NotNull(tagsProperty);
+        Assert.Equal("List<string?>", tagsProperty.SystemTypeName);
+
+        var entityCode = new EntityClassTemplate(entity, generatorOptions).WriteCode();
+        Assert.Contains("public NetTopologySuite.Geometries.Geometry Geometry { get; set; } = null!;", entityCode);
+        Assert.Contains("public List<string?>? Tags { get; set; }", entityCode);
+
+        var model = Assert.Single(entity.Models);
+        var modelCode = new ModelClassTemplate(model, generatorOptions).WriteCode();
+        Assert.Contains("public NetTopologySuite.Geometries.Geometry Geometry { get; set; } = null!;", modelCode);
+        Assert.Contains("public List<string?>? Tags { get; set; }", modelCode);
+    }
+
     private static DatabaseModel CreateDatabaseModel(string databaseName, params Action<TableBuilder>[] configureTables)
     {
         var builder = new DatabaseModelBuilder()
@@ -403,6 +450,8 @@ public class ModelGeneratorTests
         {
             "int" => (DbType.Int32, typeof(int)),
             "varchar(50)" => (DbType.String, typeof(string)),
+            "geometry" => (DbType.Object, typeof(object)),
+            "dbo.StringList" => (DbType.Object, typeof(object)),
             _ => throw new ArgumentOutOfRangeException(nameof(nativeTypeName), nativeTypeName, "Unsupported test column type.")
         };
     }
