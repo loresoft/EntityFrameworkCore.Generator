@@ -21,159 +21,159 @@ public partial class Task : IHaveIdentifier, ITrackCreated, ITrackUpdated
 
     #region Generated Properties
     /// <summary>
-    /// Gets or sets the property value representing column 'Id'.
+    /// Gets or sets the property value representing column <c>Id</c>.
     /// </summary>
     /// <value>
-    /// The property value representing column 'Id'.
+    /// The property value representing column <c>Id</c>.
     /// </value>
-    [System.ComponentModel.DataAnnotations.Key()]
-    [System.ComponentModel.DataAnnotations.Schema.Column("Id", TypeName = "UNIQUEIDENTIFIER")]
+    [Key]
+    [Column("Id", TypeName = "uniqueidentifier")]
     public Guid Id { get; set; }
 
     /// <summary>
-    /// Gets or sets the property value representing column 'StatusId'.
+    /// Gets or sets the property value representing column <c>StatusId</c>.
     /// </summary>
     /// <value>
-    /// The property value representing column 'StatusId'.
+    /// The property value representing column <c>StatusId</c>.
     /// </value>
-    [System.ComponentModel.DataAnnotations.Schema.Column("StatusId", TypeName = "UNIQUEIDENTIFIER")]
+    [Column("StatusId", TypeName = "uniqueidentifier")]
     public Guid StatusId { get; set; }
 
     /// <summary>
-    /// Gets or sets the property value representing column 'PriorityId'.
+    /// Gets or sets the property value representing column <c>PriorityId</c>.
     /// </summary>
     /// <value>
-    /// The property value representing column 'PriorityId'.
+    /// The property value representing column <c>PriorityId</c>.
     /// </value>
-    [System.ComponentModel.DataAnnotations.Schema.Column("PriorityId", TypeName = "UNIQUEIDENTIFIER")]
+    [Column("PriorityId", TypeName = "uniqueidentifier")]
     public Guid? PriorityId { get; set; }
 
     /// <summary>
-    /// Gets or sets the property value representing column 'Title'.
+    /// Gets or sets the property value representing column <c>Title</c>.
     /// </summary>
     /// <value>
-    /// The property value representing column 'Title'.
+    /// The property value representing column <c>Title</c>.
     /// </value>
-    [System.ComponentModel.DataAnnotations.Schema.Column("Title", TypeName = "NVARCHAR(255)")]
+    [Column("Title", TypeName = "nvarchar(255)")]
     public string Title { get; set; } = null!;
 
     /// <summary>
-    /// Gets or sets the property value representing column 'Description'.
+    /// Gets or sets the property value representing column <c>Description</c>.
     /// </summary>
     /// <value>
-    /// The property value representing column 'Description'.
+    /// The property value representing column <c>Description</c>.
     /// </value>
-    [System.ComponentModel.DataAnnotations.Schema.Column("Description", TypeName = "NVARCHAR(MAX)")]
+    [Column("Description", TypeName = "nvarchar(max)")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// Gets or sets the property value representing column 'StartDate'.
+    /// Gets or sets the property value representing column <c>StartDate</c>.
     /// </summary>
     /// <value>
-    /// The property value representing column 'StartDate'.
+    /// The property value representing column <c>StartDate</c>.
     /// </value>
-    [System.ComponentModel.DataAnnotations.Schema.Column("StartDate", TypeName = "DATETIMEOFFSET")]
+    [Column("StartDate", TypeName = "datetimeoffset")]
     public DateTimeOffset? StartDate { get; set; }
 
     /// <summary>
-    /// Gets or sets the property value representing column 'DueDate'.
+    /// Gets or sets the property value representing column <c>DueDate</c>.
     /// </summary>
     /// <value>
-    /// The property value representing column 'DueDate'.
+    /// The property value representing column <c>DueDate</c>.
     /// </value>
-    [System.ComponentModel.DataAnnotations.Schema.Column("DueDate", TypeName = "DATETIMEOFFSET")]
+    [Column("DueDate", TypeName = "datetimeoffset")]
     public DateTimeOffset? DueDate { get; set; }
 
     /// <summary>
-    /// Gets or sets the property value representing column 'CompleteDate'.
+    /// Gets or sets the property value representing column <c>CompleteDate</c>.
     /// </summary>
     /// <value>
-    /// The property value representing column 'CompleteDate'.
+    /// The property value representing column <c>CompleteDate</c>.
     /// </value>
-    [System.ComponentModel.DataAnnotations.Schema.Column("CompleteDate", TypeName = "DATETIMEOFFSET")]
+    [Column("CompleteDate", TypeName = "datetimeoffset")]
     public DateTimeOffset? CompleteDate { get; set; }
 
     /// <summary>
-    /// Gets or sets the property value representing column 'AssignedId'.
+    /// Gets or sets the property value representing column <c>AssignedId</c>.
     /// </summary>
     /// <value>
-    /// The property value representing column 'AssignedId'.
+    /// The property value representing column <c>AssignedId</c>.
     /// </value>
-    [System.ComponentModel.DataAnnotations.Schema.Column("AssignedId", TypeName = "UNIQUEIDENTIFIER")]
+    [Column("AssignedId", TypeName = "uniqueidentifier")]
     public Guid? AssignedId { get; set; }
 
     /// <summary>
-    /// Gets or sets the property value representing column 'TenantId'.
+    /// Gets or sets the property value representing column <c>TenantId</c>.
     /// </summary>
     /// <value>
-    /// The property value representing column 'TenantId'.
+    /// The property value representing column <c>TenantId</c>.
     /// </value>
-    [System.ComponentModel.DataAnnotations.Schema.Column("TenantId", TypeName = "UNIQUEIDENTIFIER")]
+    [Column("TenantId", TypeName = "uniqueidentifier")]
     public Guid TenantId { get; set; }
 
     /// <summary>
-    /// Gets or sets the property value representing column 'Created'.
+    /// Gets or sets the property value representing column <c>Created</c>.
     /// </summary>
     /// <value>
-    /// The property value representing column 'Created'.
+    /// The property value representing column <c>Created</c>.
     /// </value>
-    [System.ComponentModel.DataAnnotations.Schema.Column("Created", TypeName = "DATETIMEOFFSET")]
+    [Column("Created", TypeName = "datetimeoffset")]
     public DateTimeOffset Created { get; set; }
 
     /// <summary>
-    /// Gets or sets the property value representing column 'CreatedBy'.
+    /// Gets or sets the property value representing column <c>CreatedBy</c>.
     /// </summary>
     /// <value>
-    /// The property value representing column 'CreatedBy'.
+    /// The property value representing column <c>CreatedBy</c>.
     /// </value>
-    [System.ComponentModel.DataAnnotations.Schema.Column("CreatedBy", TypeName = "NVARCHAR(100)")]
+    [Column("CreatedBy", TypeName = "nvarchar(100)")]
     public string? CreatedBy { get; set; }
 
     /// <summary>
-    /// Gets or sets the property value representing column 'Updated'.
+    /// Gets or sets the property value representing column <c>Updated</c>.
     /// </summary>
     /// <value>
-    /// The property value representing column 'Updated'.
+    /// The property value representing column <c>Updated</c>.
     /// </value>
-    [System.ComponentModel.DataAnnotations.Schema.Column("Updated", TypeName = "DATETIMEOFFSET")]
+    [Column("Updated", TypeName = "datetimeoffset")]
     public DateTimeOffset Updated { get; set; }
 
     /// <summary>
-    /// Gets or sets the property value representing column 'UpdatedBy'.
+    /// Gets or sets the property value representing column <c>UpdatedBy</c>.
     /// </summary>
     /// <value>
-    /// The property value representing column 'UpdatedBy'.
+    /// The property value representing column <c>UpdatedBy</c>.
     /// </value>
-    [System.ComponentModel.DataAnnotations.Schema.Column("UpdatedBy", TypeName = "NVARCHAR(100)")]
+    [Column("UpdatedBy", TypeName = "nvarchar(100)")]
     public string? UpdatedBy { get; set; }
 
     /// <summary>
-    /// Gets or sets the property value representing column 'RowVersion'.
+    /// Gets or sets the property value representing column <c>RowVersion</c>.
     /// </summary>
     /// <value>
-    /// The property value representing column 'RowVersion'.
+    /// The property value representing column <c>RowVersion</c>.
     /// </value>
-    [System.ComponentModel.DataAnnotations.ConcurrencyCheck()]
-    [System.ComponentModel.DataAnnotations.Schema.Column("RowVersion", TypeName = "TIMESTAMP")]
-    [System.ComponentModel.DataAnnotations.Schema.DatabaseGenerated(System.ComponentModel.DataAnnotations.Schema.DatabaseGeneratedOption.Computed)]
+    [ConcurrencyCheck]
+    [Column("RowVersion", TypeName = "rowversion")]
+    [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
     public byte[] RowVersion { get; set; } = null!;
 
     /// <summary>
-    /// Gets or sets the property value representing column 'PeriodStart'.
+    /// Gets or sets the property value representing column <c>PeriodStart</c>.
     /// </summary>
     /// <value>
-    /// The property value representing column 'PeriodStart'.
+    /// The property value representing column <c>PeriodStart</c>.
     /// </value>
-    [System.ComponentModel.DataAnnotations.Schema.Column("PeriodStart", TypeName = "DATETIME2")]
+    [Column("PeriodStart", TypeName = "datetime2")]
     public DateTime PeriodStart1 { get; set; }
 
     /// <summary>
-    /// Gets or sets the property value representing column 'PeriodEnd'.
+    /// Gets or sets the property value representing column <c>PeriodEnd</c>.
     /// </summary>
     /// <value>
-    /// The property value representing column 'PeriodEnd'.
+    /// The property value representing column <c>PeriodEnd</c>.
     /// </value>
-    [System.ComponentModel.DataAnnotations.Schema.Column("PeriodEnd", TypeName = "DATETIME2")]
+    [Column("PeriodEnd", TypeName = "datetime2")]
     public DateTime PeriodEnd1 { get; set; }
 
     #endregion

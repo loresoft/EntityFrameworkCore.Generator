@@ -27,45 +27,45 @@ public partial class TenantMap
         builder.Property(t => t.Id)
             .IsRequired()
             .HasColumnName("Id")
-            .HasColumnType("UNIQUEIDENTIFIER")
+            .HasColumnType("uniqueidentifier")
             .HasDefaultValueSql("(newsequentialid())");
 
         builder.Property(t => t.Name)
             .IsRequired()
             .HasColumnName("Name")
-            .HasColumnType("NVARCHAR(256)")
+            .HasColumnType("nvarchar(256)")
             .HasMaxLength(256);
 
         builder.Property(t => t.Description)
             .HasColumnName("Description")
-            .HasColumnType("NVARCHAR(MAX)");
+            .HasColumnType("nvarchar(max)");
 
         builder.Property(t => t.IsActive)
             .IsRequired()
             .HasColumnName("IsActive")
-            .HasColumnType("BIT")
+            .HasColumnType("bit")
             .HasDefaultValueSql("((1))");
 
         builder.Property(t => t.Created)
             .IsRequired()
             .HasColumnName("Created")
-            .HasColumnType("DATETIMEOFFSET")
+            .HasColumnType("datetimeoffset")
             .HasDefaultValueSql("(sysutcdatetime())");
 
         builder.Property(t => t.CreatedBy)
             .HasColumnName("CreatedBy")
-            .HasColumnType("NVARCHAR(100)")
+            .HasColumnType("nvarchar(100)")
             .HasMaxLength(100);
 
         builder.Property(t => t.Updated)
             .IsRequired()
             .HasColumnName("Updated")
-            .HasColumnType("DATETIMEOFFSET")
+            .HasColumnType("datetimeoffset")
             .HasDefaultValueSql("(sysutcdatetime())");
 
         builder.Property(t => t.UpdatedBy)
             .HasColumnName("UpdatedBy")
-            .HasColumnType("NVARCHAR(100)")
+            .HasColumnType("nvarchar(100)")
             .HasMaxLength(100);
 
         builder.Property(t => t.RowVersion)
@@ -73,7 +73,7 @@ public partial class TenantMap
             .IsRowVersion()
             .IsConcurrencyToken()
             .HasColumnName("RowVersion")
-            .HasColumnType("TIMESTAMP")
+            .HasColumnType("rowversion")
             .ValueGeneratedOnAddOrUpdate();
 
         // relationships

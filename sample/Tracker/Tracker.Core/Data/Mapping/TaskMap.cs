@@ -40,69 +40,69 @@ public partial class TaskMap
         builder.Property(t => t.Id)
             .IsRequired()
             .HasColumnName("Id")
-            .HasColumnType("UNIQUEIDENTIFIER")
+            .HasColumnType("uniqueidentifier")
             .HasDefaultValueSql("(newsequentialid())");
 
         builder.Property(t => t.StatusId)
             .IsRequired()
             .HasColumnName("StatusId")
-            .HasColumnType("UNIQUEIDENTIFIER");
+            .HasColumnType("uniqueidentifier");
 
         builder.Property(t => t.PriorityId)
             .HasColumnName("PriorityId")
-            .HasColumnType("UNIQUEIDENTIFIER");
+            .HasColumnType("uniqueidentifier");
 
         builder.Property(t => t.Title)
             .IsRequired()
             .HasColumnName("Title")
-            .HasColumnType("NVARCHAR(255)")
+            .HasColumnType("nvarchar(255)")
             .HasMaxLength(255);
 
         builder.Property(t => t.Description)
             .HasColumnName("Description")
-            .HasColumnType("NVARCHAR(MAX)");
+            .HasColumnType("nvarchar(max)");
 
         builder.Property(t => t.StartDate)
             .HasColumnName("StartDate")
-            .HasColumnType("DATETIMEOFFSET");
+            .HasColumnType("datetimeoffset");
 
         builder.Property(t => t.DueDate)
             .HasColumnName("DueDate")
-            .HasColumnType("DATETIMEOFFSET");
+            .HasColumnType("datetimeoffset");
 
         builder.Property(t => t.CompleteDate)
             .HasColumnName("CompleteDate")
-            .HasColumnType("DATETIMEOFFSET");
+            .HasColumnType("datetimeoffset");
 
         builder.Property(t => t.AssignedId)
             .HasColumnName("AssignedId")
-            .HasColumnType("UNIQUEIDENTIFIER");
+            .HasColumnType("uniqueidentifier");
 
         builder.Property(t => t.TenantId)
             .IsRequired()
             .HasColumnName("TenantId")
-            .HasColumnType("UNIQUEIDENTIFIER");
+            .HasColumnType("uniqueidentifier");
 
         builder.Property(t => t.Created)
             .IsRequired()
             .HasColumnName("Created")
-            .HasColumnType("DATETIMEOFFSET")
+            .HasColumnType("datetimeoffset")
             .HasDefaultValueSql("(sysutcdatetime())");
 
         builder.Property(t => t.CreatedBy)
             .HasColumnName("CreatedBy")
-            .HasColumnType("NVARCHAR(100)")
+            .HasColumnType("nvarchar(100)")
             .HasMaxLength(100);
 
         builder.Property(t => t.Updated)
             .IsRequired()
             .HasColumnName("Updated")
-            .HasColumnType("DATETIMEOFFSET")
+            .HasColumnType("datetimeoffset")
             .HasDefaultValueSql("(sysutcdatetime())");
 
         builder.Property(t => t.UpdatedBy)
             .HasColumnName("UpdatedBy")
-            .HasColumnType("NVARCHAR(100)")
+            .HasColumnType("nvarchar(100)")
             .HasMaxLength(100);
 
         builder.Property(t => t.RowVersion)
@@ -110,19 +110,19 @@ public partial class TaskMap
             .IsRowVersion()
             .IsConcurrencyToken()
             .HasColumnName("RowVersion")
-            .HasColumnType("TIMESTAMP")
+            .HasColumnType("rowversion")
             .ValueGeneratedOnAddOrUpdate();
 
         builder.Property(t => t.PeriodStart1)
             .IsRequired()
             .HasColumnName("PeriodStart")
-            .HasColumnType("DATETIME2")
+            .HasColumnType("datetime2")
             .HasDefaultValueSql("(sysutcdatetime())");
 
         builder.Property(t => t.PeriodEnd1)
             .IsRequired()
             .HasColumnName("PeriodEnd")
-            .HasColumnType("DATETIME2")
+            .HasColumnType("datetime2")
             .HasDefaultValueSql("('9999-12-31 23:59:59.9999999')");
 
         // relationships

@@ -12,34 +12,34 @@ public partial class StatusReadModel
 {
     #region Generated Properties
     /// <summary>
-    /// Gets or sets the property value for 'Name'.
+    /// Gets or sets the property value for <c>Name</c>.
     /// </summary>
     /// <value>
-    /// The property value for 'Name'.
+    /// The property value for <c>Name</c>.
     /// </value>
     public string Name { get; set; } = null!;
 
     /// <summary>
-    /// Gets or sets the property value for 'Description'.
+    /// Gets or sets the property value for <c>Description</c>.
     /// </summary>
     /// <value>
-    /// The property value for 'Description'.
+    /// The property value for <c>Description</c>.
     /// </value>
     public string? Description { get; set; }
 
     /// <summary>
-    /// Gets or sets the property value for 'DisplayOrder'.
+    /// Gets or sets the property value for <c>DisplayOrder</c>.
     /// </summary>
     /// <value>
-    /// The property value for 'DisplayOrder'.
+    /// The property value for <c>DisplayOrder</c>.
     /// </value>
     public int DisplayOrder { get; set; }
 
     /// <summary>
-    /// Gets or sets the property value for 'IsActive'.
+    /// Gets or sets the property value for <c>IsActive</c>.
     /// </summary>
     /// <value>
-    /// The property value for 'IsActive'.
+    /// The property value for <c>IsActive</c>.
     /// </value>
     public bool IsActive { get; set; }
 

@@ -12,90 +12,90 @@ public partial class UserLoginReadModel
 {
     #region Generated Properties
     /// <summary>
-    /// Gets or sets the property value for 'EmailAddress'.
+    /// Gets or sets the property value for <c>EmailAddress</c>.
     /// </summary>
     /// <value>
-    /// The property value for 'EmailAddress'.
+    /// The property value for <c>EmailAddress</c>.
     /// </value>
     public string EmailAddress { get; set; } = null!;
 
     /// <summary>
-    /// Gets or sets the property value for 'UserId'.
+    /// Gets or sets the property value for <c>UserId</c>.
     /// </summary>
     /// <value>
-    /// The property value for 'UserId'.
+    /// The property value for <c>UserId</c>.
     /// </value>
     public Guid? UserId { get; set; }
 
     /// <summary>
-    /// Gets or sets the property value for 'UserAgent'.
+    /// Gets or sets the property value for <c>UserAgent</c>.
     /// </summary>
     /// <value>
-    /// The property value for 'UserAgent'.
+    /// The property value for <c>UserAgent</c>.
     /// </value>
     public string? UserAgent { get; set; }
 
     /// <summary>
-    /// Gets or sets the property value for 'Browser'.
+    /// Gets or sets the property value for <c>Browser</c>.
     /// </summary>
     /// <value>
-    /// The property value for 'Browser'.
+    /// The property value for <c>Browser</c>.
     /// </value>
     public string? Browser { get; set; }
 
     /// <summary>
-    /// Gets or sets the property value for 'OperatingSystem'.
+    /// Gets or sets the property value for <c>OperatingSystem</c>.
     /// </summary>
     /// <value>
-    /// The property value for 'OperatingSystem'.
+    /// The property value for <c>OperatingSystem</c>.
     /// </value>
     public string? OperatingSystem { get; set; }
 
     /// <summary>
-    /// Gets or sets the property value for 'DeviceFamily'.
+    /// Gets or sets the property value for <c>DeviceFamily</c>.
     /// </summary>
     /// <value>
-    /// The property value for 'DeviceFamily'.
+    /// The property value for <c>DeviceFamily</c>.
     /// </value>
     public string? DeviceFamily { get; set; }
 
     /// <summary>
-    /// Gets or sets the property value for 'DeviceBrand'.
+    /// Gets or sets the property value for <c>DeviceBrand</c>.
     /// </summary>
     /// <value>
-    /// The property value for 'DeviceBrand'.
+    /// The property value for <c>DeviceBrand</c>.
     /// </value>
     public string? DeviceBrand { get; set; }
 
     /// <summary>
-    /// Gets or sets the property value for 'DeviceModel'.
+    /// Gets or sets the property value for <c>DeviceModel</c>.
     /// </summary>
     /// <value>
-    /// The property value for 'DeviceModel'.
+    /// The property value for <c>DeviceModel</c>.
     /// </value>
     public string? DeviceModel { get; set; }
 
     /// <summary>
-    /// Gets or sets the property value for 'IpAddress'.
+    /// Gets or sets the property value for <c>IpAddress</c>.
     /// </summary>
     /// <value>
-    /// The property value for 'IpAddress'.
+    /// The property value for <c>IpAddress</c>.
     /// </value>
     public string? IpAddress { get; set; }
 
     /// <summary>
-    /// Gets or sets the property value for 'IsSuccessful'.
+    /// Gets or sets the property value for <c>IsSuccessful</c>.
     /// </summary>
     /// <value>
-    /// The property value for 'IsSuccessful'.
+    /// The property value for <c>IsSuccessful</c>.
     /// </value>
     public bool IsSuccessful { get; set; }
 
     /// <summary>
-    /// Gets or sets the property value for 'FailureMessage'.
+    /// Gets or sets the property value for <c>FailureMessage</c>.
     /// </summary>
     /// <value>
-    /// The property value for 'FailureMessage'.
+    /// The property value for <c>FailureMessage</c>.
     /// </value>
     public string? FailureMessage { get; set; }
 

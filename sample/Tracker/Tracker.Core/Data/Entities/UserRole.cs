@@ -20,23 +20,23 @@ public partial class UserRole
 
     #region Generated Properties
     /// <summary>
-    /// Gets or sets the property value representing column 'UserId'.
+    /// Gets or sets the property value representing column <c>UserId</c>.
     /// </summary>
     /// <value>
-    /// The property value representing column 'UserId'.
+    /// The property value representing column <c>UserId</c>.
     /// </value>
-    [System.ComponentModel.DataAnnotations.Key()]
-    [System.ComponentModel.DataAnnotations.Schema.Column("UserId", TypeName = "UNIQUEIDENTIFIER")]
+    [Key]
+    [Column("UserId", TypeName = "uniqueidentifier")]
     public Guid UserId { get; set; }
 
     /// <summary>
-    /// Gets or sets the property value representing column 'RoleId'.
+    /// Gets or sets the property value representing column <c>RoleId</c>.
     /// </summary>
     /// <value>
-    /// The property value representing column 'RoleId'.
+    /// The property value representing column <c>RoleId</c>.
     /// </value>
-    [System.ComponentModel.DataAnnotations.Key()]
-    [System.ComponentModel.DataAnnotations.Schema.Column("RoleId", TypeName = "UNIQUEIDENTIFIER")]
+    [Key]
+    [Column("RoleId", TypeName = "uniqueidentifier")]
     public Guid RoleId { get; set; }
 
     #endregion

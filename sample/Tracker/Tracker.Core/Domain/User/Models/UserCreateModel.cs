@@ -12,66 +12,66 @@ public partial class UserCreateModel
 {
     #region Generated Properties
     /// <summary>
-    /// Gets or sets the property value for 'EmailAddress'.
+    /// Gets or sets the property value for <c>EmailAddress</c>.
     /// </summary>
     /// <value>
-    /// The property value for 'EmailAddress'.
+    /// The property value for <c>EmailAddress</c>.
     /// </value>
     public string EmailAddress { get; set; } = null!;
 
     /// <summary>
-    /// Gets or sets the property value for 'IsEmailAddressConfirmed'.
+    /// Gets or sets the property value for <c>IsEmailAddressConfirmed</c>.
     /// </summary>
     /// <value>
-    /// The property value for 'IsEmailAddressConfirmed'.
+    /// The property value for <c>IsEmailAddressConfirmed</c>.
     /// </value>
     public bool IsEmailAddressConfirmed { get; set; }
 
     /// <summary>
-    /// Gets or sets the property value for 'DisplayName'.
+    /// Gets or sets the property value for <c>DisplayName</c>.
     /// </summary>
     /// <value>
-    /// The property value for 'DisplayName'.
+    /// The property value for <c>DisplayName</c>.
     /// </value>
     public string DisplayName { get; set; } = null!;
 
     /// <summary>
-    /// Gets or sets the property value for 'AccessFailedCount'.
+    /// Gets or sets the property value for <c>AccessFailedCount</c>.
     /// </summary>
     /// <value>
-    /// The property value for 'AccessFailedCount'.
+    /// The property value for <c>AccessFailedCount</c>.
     /// </value>
     public int AccessFailedCount { get; set; }
 
     /// <summary>
-    /// Gets or sets the property value for 'LockoutEnabled'.
+    /// Gets or sets the property value for <c>LockoutEnabled</c>.
     /// </summary>
     /// <value>
-    /// The property value for 'LockoutEnabled'.
+    /// The property value for <c>LockoutEnabled</c>.
     /// </value>
     public bool LockoutEnabled { get; set; }
 
     /// <summary>
-    /// Gets or sets the property value for 'LockoutEnd'.
+    /// Gets or sets the property value for <c>LockoutEnd</c>.
     /// </summary>
     /// <value>
-    /// The property value for 'LockoutEnd'.
+    /// The property value for <c>LockoutEnd</c>.
     /// </value>
     public DateTimeOffset? LockoutEnd { get; set; }
 
     /// <summary>
-    /// Gets or sets the property value for 'LastLogin'.
+    /// Gets or sets the property value for <c>LastLogin</c>.
     /// </summary>
     /// <value>
-    /// The property value for 'LastLogin'.
+    /// The property value for <c>LastLogin</c>.
     /// </value>
     public DateTimeOffset? LastLogin { get; set; }
 
     /// <summary>
-    /// Gets or sets the property value for 'IsDeleted'.
+    /// Gets or sets the property value for <c>IsDeleted</c>.
     /// </summary>
     /// <value>
-    /// The property value for 'IsDeleted'.
+    /// The property value for <c>IsDeleted</c>.
     /// </value>
     public bool IsDeleted { get; set; }
 

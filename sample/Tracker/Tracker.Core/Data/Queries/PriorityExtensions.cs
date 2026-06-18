@@ -15,10 +15,10 @@ public static partial class PriorityExtensions
     /// <summary>
     /// Gets an instance by the primary key.
     /// </summary>
-    /// <param name="queryable">An <see cref="T:System.Linq.IQueryable`1" /> to filter.</param>
+    /// <param name="queryable">An <see cref="IQueryable`1" /> to filter.</param>
     /// <param name="id">The value to filter by.</param>
     /// <returns>An instance of <see cref="T:Tracker.Core.Data.Entities.Priority"/> or null if not found.</returns>
-    public static Tracker.Core.Data.Entities.Priority? GetByKey(this System.Linq.IQueryable<Tracker.Core.Data.Entities.Priority> queryable, Guid id)
+    public static Tracker.Core.Data.Entities.Priority? GetByKey(this IQueryable<Tracker.Core.Data.Entities.Priority> queryable, Guid id)
     {
         if (queryable is null)
             throw new ArgumentNullException(nameof(queryable));
@@ -32,11 +32,11 @@ public static partial class PriorityExtensions
     /// <summary>
     /// Gets an instance by the primary key.
     /// </summary>
-    /// <param name="queryable">An <see cref="T:System.Linq.IQueryable`1" /> to filter.</param>
+    /// <param name="queryable">An <see cref="IQueryable`1" /> to filter.</param>
     /// <param name="id">The value to filter by.</param>
-    /// <param name="cancellationToken">A <see cref="System.Threading.CancellationToken" /> to observe while waiting for the task to complete.</param>
+    /// <param name="cancellationToken">A <see cref="CancellationToken" /> to observe while waiting for the task to complete.</param>
     /// <returns>An instance of <see cref="T:Tracker.Core.Data.Entities.Priority"/> or null if not found.</returns>
-    public static async System.Threading.Tasks.ValueTask<Tracker.Core.Data.Entities.Priority?> GetByKeyAsync(this System.Linq.IQueryable<Tracker.Core.Data.Entities.Priority> queryable, Guid id, System.Threading.CancellationToken cancellationToken = default)
+    public static async System.Threading.Tasks.ValueTask<Tracker.Core.Data.Entities.Priority?> GetByKeyAsync(this IQueryable<Tracker.Core.Data.Entities.Priority> queryable, Guid id, CancellationToken cancellationToken = default)
     {
         if (queryable is null)
             throw new ArgumentNullException(nameof(queryable));

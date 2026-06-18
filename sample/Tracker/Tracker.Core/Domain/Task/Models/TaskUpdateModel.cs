@@ -12,90 +12,90 @@ public partial class TaskUpdateModel
 {
     #region Generated Properties
     /// <summary>
-    /// Gets or sets the property value for 'StatusId'.
+    /// Gets or sets the property value for <c>StatusId</c>.
     /// </summary>
     /// <value>
-    /// The property value for 'StatusId'.
+    /// The property value for <c>StatusId</c>.
     /// </value>
     public Guid StatusId { get; set; }
 
     /// <summary>
-    /// Gets or sets the property value for 'PriorityId'.
+    /// Gets or sets the property value for <c>PriorityId</c>.
     /// </summary>
     /// <value>
-    /// The property value for 'PriorityId'.
+    /// The property value for <c>PriorityId</c>.
     /// </value>
     public Guid? PriorityId { get; set; }
 
     /// <summary>
-    /// Gets or sets the property value for 'Title'.
+    /// Gets or sets the property value for <c>Title</c>.
     /// </summary>
     /// <value>
-    /// The property value for 'Title'.
+    /// The property value for <c>Title</c>.
     /// </value>
     public string Title { get; set; } = null!;
 
     /// <summary>
-    /// Gets or sets the property value for 'Description'.
+    /// Gets or sets the property value for <c>Description</c>.
     /// </summary>
     /// <value>
-    /// The property value for 'Description'.
+    /// The property value for <c>Description</c>.
     /// </value>
     public string? Description { get; set; }
 
     /// <summary>
-    /// Gets or sets the property value for 'StartDate'.
+    /// Gets or sets the property value for <c>StartDate</c>.
     /// </summary>
     /// <value>
-    /// The property value for 'StartDate'.
+    /// The property value for <c>StartDate</c>.
     /// </value>
     public DateTimeOffset? StartDate { get; set; }
 
     /// <summary>
-    /// Gets or sets the property value for 'DueDate'.
+    /// Gets or sets the property value for <c>DueDate</c>.
     /// </summary>
     /// <value>
-    /// The property value for 'DueDate'.
+    /// The property value for <c>DueDate</c>.
     /// </value>
     public DateTimeOffset? DueDate { get; set; }
 
     /// <summary>
-    /// Gets or sets the property value for 'CompleteDate'.
+    /// Gets or sets the property value for <c>CompleteDate</c>.
     /// </summary>
     /// <value>
-    /// The property value for 'CompleteDate'.
+    /// The property value for <c>CompleteDate</c>.
     /// </value>
     public DateTimeOffset? CompleteDate { get; set; }
 
     /// <summary>
-    /// Gets or sets the property value for 'AssignedId'.
+    /// Gets or sets the property value for <c>AssignedId</c>.
     /// </summary>
     /// <value>
-    /// The property value for 'AssignedId'.
+    /// The property value for <c>AssignedId</c>.
     /// </value>
     public Guid? AssignedId { get; set; }
 
     /// <summary>
-    /// Gets or sets the property value for 'TenantId'.
+    /// Gets or sets the property value for <c>TenantId</c>.
     /// </summary>
     /// <value>
-    /// The property value for 'TenantId'.
+    /// The property value for <c>TenantId</c>.
     /// </value>
     public Guid TenantId { get; set; }
 
     /// <summary>
-    /// Gets or sets the property value for 'PeriodStart1'.
+    /// Gets or sets the property value for <c>PeriodStart1</c>.
     /// </summary>
     /// <value>
-    /// The property value for 'PeriodStart1'.
+    /// The property value for <c>PeriodStart1</c>.
     /// </value>
     public DateTime PeriodStart1 { get; set; }
 
     /// <summary>
-    /// Gets or sets the property value for 'PeriodEnd1'.
+    /// Gets or sets the property value for <c>PeriodEnd1</c>.
     /// </summary>
     /// <value>
-    /// The property value for 'PeriodEnd1'.
+    /// The property value for <c>PeriodEnd1</c>.
     /// </value>
     public DateTime PeriodEnd1 { get; set; }
 

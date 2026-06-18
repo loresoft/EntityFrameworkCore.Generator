@@ -27,12 +27,12 @@ public partial class UserRoleMap
         builder.Property(t => t.UserId)
             .IsRequired()
             .HasColumnName("UserId")
-            .HasColumnType("UNIQUEIDENTIFIER");
+            .HasColumnType("uniqueidentifier");
 
         builder.Property(t => t.RoleId)
             .IsRequired()
             .HasColumnName("RoleId")
-            .HasColumnType("UNIQUEIDENTIFIER");
+            .HasColumnType("uniqueidentifier");
 
         // relationships
         builder.HasOne(t => t.Role)

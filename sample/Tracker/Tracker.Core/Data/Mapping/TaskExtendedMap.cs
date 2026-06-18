@@ -27,42 +27,42 @@ public partial class TaskExtendedMap
         builder.Property(t => t.TaskId)
             .IsRequired()
             .HasColumnName("TaskId")
-            .HasColumnType("UNIQUEIDENTIFIER");
+            .HasColumnType("uniqueidentifier");
 
         builder.Property(t => t.UserAgent)
             .HasColumnName("UserAgent")
-            .HasColumnType("NVARCHAR(MAX)");
+            .HasColumnType("nvarchar(max)");
 
         builder.Property(t => t.Browser)
             .HasColumnName("Browser")
-            .HasColumnType("NVARCHAR(256)")
+            .HasColumnType("nvarchar(256)")
             .HasMaxLength(256);
 
         builder.Property(t => t.OperatingSystem)
             .HasColumnName("OperatingSystem")
-            .HasColumnType("NVARCHAR(256)")
+            .HasColumnType("nvarchar(256)")
             .HasMaxLength(256);
 
         builder.Property(t => t.Created)
             .IsRequired()
             .HasColumnName("Created")
-            .HasColumnType("DATETIMEOFFSET")
+            .HasColumnType("datetimeoffset")
             .HasDefaultValueSql("(sysutcdatetime())");
 
         builder.Property(t => t.CreatedBy)
             .HasColumnName("CreatedBy")
-            .HasColumnType("NVARCHAR(100)")
+            .HasColumnType("nvarchar(100)")
             .HasMaxLength(100);
 
         builder.Property(t => t.Updated)
             .IsRequired()
             .HasColumnName("Updated")
-            .HasColumnType("DATETIMEOFFSET")
+            .HasColumnType("datetimeoffset")
             .HasDefaultValueSql("(sysutcdatetime())");
 
         builder.Property(t => t.UpdatedBy)
             .HasColumnName("UpdatedBy")
-            .HasColumnType("NVARCHAR(100)")
+            .HasColumnType("nvarchar(100)")
             .HasMaxLength(100);
 
         builder.Property(t => t.RowVersion)
@@ -70,7 +70,7 @@ public partial class TaskExtendedMap
             .IsRowVersion()
             .IsConcurrencyToken()
             .HasColumnName("RowVersion")
-            .HasColumnType("TIMESTAMP")
+            .HasColumnType("rowversion")
             .ValueGeneratedOnAddOrUpdate();
 
         // relationships

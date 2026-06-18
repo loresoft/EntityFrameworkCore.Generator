@@ -15,10 +15,10 @@ public static partial class TaskExtensions
     /// <summary>
     /// Filters a sequence of values based on a predicate.
     /// </summary>
-    /// <param name="queryable">An <see cref="T:System.Linq.IQueryable`1" /> to filter.</param>
+    /// <param name="queryable">An <see cref="IQueryable`1" /> to filter.</param>
     /// <param name="assignedId">The value to filter by.</param>
-    /// <returns>An <see cref="T: System.Linq.IQueryable`1" /> that contains elements from the input sequence that satisfy the condition specified.</returns>
-    public static System.Linq.IQueryable<Tracker.Core.Data.Entities.Task> ByAssignedId(this System.Linq.IQueryable<Tracker.Core.Data.Entities.Task> queryable, Guid? assignedId)
+    /// <returns>An <see cref="IQueryable`1" /> that contains elements from the input sequence that satisfy the condition specified.</returns>
+    public static IQueryable<Tracker.Core.Data.Entities.Task> ByAssignedId(this IQueryable<Tracker.Core.Data.Entities.Task> queryable, Guid? assignedId)
     {
         if (queryable is null)
             throw new ArgumentNullException(nameof(queryable));
@@ -29,10 +29,10 @@ public static partial class TaskExtensions
     /// <summary>
     /// Gets an instance by the primary key.
     /// </summary>
-    /// <param name="queryable">An <see cref="T:System.Linq.IQueryable`1" /> to filter.</param>
+    /// <param name="queryable">An <see cref="IQueryable`1" /> to filter.</param>
     /// <param name="id">The value to filter by.</param>
     /// <returns>An instance of <see cref="T:Tracker.Core.Data.Entities.Task"/> or null if not found.</returns>
-    public static Tracker.Core.Data.Entities.Task? GetByKey(this System.Linq.IQueryable<Tracker.Core.Data.Entities.Task> queryable, Guid id)
+    public static Tracker.Core.Data.Entities.Task? GetByKey(this IQueryable<Tracker.Core.Data.Entities.Task> queryable, Guid id)
     {
         if (queryable is null)
             throw new ArgumentNullException(nameof(queryable));
@@ -46,11 +46,11 @@ public static partial class TaskExtensions
     /// <summary>
     /// Gets an instance by the primary key.
     /// </summary>
-    /// <param name="queryable">An <see cref="T:System.Linq.IQueryable`1" /> to filter.</param>
+    /// <param name="queryable">An <see cref="IQueryable`1" /> to filter.</param>
     /// <param name="id">The value to filter by.</param>
-    /// <param name="cancellationToken">A <see cref="System.Threading.CancellationToken" /> to observe while waiting for the task to complete.</param>
+    /// <param name="cancellationToken">A <see cref="CancellationToken" /> to observe while waiting for the task to complete.</param>
     /// <returns>An instance of <see cref="T:Tracker.Core.Data.Entities.Task"/> or null if not found.</returns>
-    public static async System.Threading.Tasks.ValueTask<Tracker.Core.Data.Entities.Task?> GetByKeyAsync(this System.Linq.IQueryable<Tracker.Core.Data.Entities.Task> queryable, Guid id, System.Threading.CancellationToken cancellationToken = default)
+    public static async System.Threading.Tasks.ValueTask<Tracker.Core.Data.Entities.Task?> GetByKeyAsync(this IQueryable<Tracker.Core.Data.Entities.Task> queryable, Guid id, CancellationToken cancellationToken = default)
     {
         if (queryable is null)
             throw new ArgumentNullException(nameof(queryable));
@@ -64,10 +64,10 @@ public static partial class TaskExtensions
     /// <summary>
     /// Filters a sequence of values based on a predicate.
     /// </summary>
-    /// <param name="queryable">An <see cref="T:System.Linq.IQueryable`1" /> to filter.</param>
+    /// <param name="queryable">An <see cref="IQueryable`1" /> to filter.</param>
     /// <param name="priorityId">The value to filter by.</param>
-    /// <returns>An <see cref="T: System.Linq.IQueryable`1" /> that contains elements from the input sequence that satisfy the condition specified.</returns>
-    public static System.Linq.IQueryable<Tracker.Core.Data.Entities.Task> ByPriorityId(this System.Linq.IQueryable<Tracker.Core.Data.Entities.Task> queryable, Guid? priorityId)
+    /// <returns>An <see cref="IQueryable`1" /> that contains elements from the input sequence that satisfy the condition specified.</returns>
+    public static IQueryable<Tracker.Core.Data.Entities.Task> ByPriorityId(this IQueryable<Tracker.Core.Data.Entities.Task> queryable, Guid? priorityId)
     {
         if (queryable is null)
             throw new ArgumentNullException(nameof(queryable));
@@ -78,10 +78,10 @@ public static partial class TaskExtensions
     /// <summary>
     /// Filters a sequence of values based on a predicate.
     /// </summary>
-    /// <param name="queryable">An <see cref="T:System.Linq.IQueryable`1" /> to filter.</param>
+    /// <param name="queryable">An <see cref="IQueryable`1" /> to filter.</param>
     /// <param name="statusId">The value to filter by.</param>
-    /// <returns>An <see cref="T: System.Linq.IQueryable`1" /> that contains elements from the input sequence that satisfy the condition specified.</returns>
-    public static System.Linq.IQueryable<Tracker.Core.Data.Entities.Task> ByStatusId(this System.Linq.IQueryable<Tracker.Core.Data.Entities.Task> queryable, Guid statusId)
+    /// <returns>An <see cref="IQueryable`1" /> that contains elements from the input sequence that satisfy the condition specified.</returns>
+    public static IQueryable<Tracker.Core.Data.Entities.Task> ByStatusId(this IQueryable<Tracker.Core.Data.Entities.Task> queryable, Guid statusId)
     {
         if (queryable is null)
             throw new ArgumentNullException(nameof(queryable));
@@ -92,10 +92,10 @@ public static partial class TaskExtensions
     /// <summary>
     /// Filters a sequence of values based on a predicate.
     /// </summary>
-    /// <param name="queryable">An <see cref="T:System.Linq.IQueryable`1" /> to filter.</param>
+    /// <param name="queryable">An <see cref="IQueryable`1" /> to filter.</param>
     /// <param name="tenantId">The value to filter by.</param>
-    /// <returns>An <see cref="T: System.Linq.IQueryable`1" /> that contains elements from the input sequence that satisfy the condition specified.</returns>
-    public static System.Linq.IQueryable<Tracker.Core.Data.Entities.Task> ByTenantId(this System.Linq.IQueryable<Tracker.Core.Data.Entities.Task> queryable, Guid tenantId)
+    /// <returns>An <see cref="IQueryable`1" /> that contains elements from the input sequence that satisfy the condition specified.</returns>
+    public static IQueryable<Tracker.Core.Data.Entities.Task> ByTenantId(this IQueryable<Tracker.Core.Data.Entities.Task> queryable, Guid tenantId)
     {
         if (queryable is null)
             throw new ArgumentNullException(nameof(queryable));

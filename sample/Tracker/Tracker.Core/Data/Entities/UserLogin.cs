@@ -21,159 +21,159 @@ public partial class UserLogin : IHaveIdentifier, ITrackCreated, ITrackUpdated
 
     #region Generated Properties
     /// <summary>
-    /// Gets or sets the property value representing column 'Id'.
+    /// Gets or sets the property value representing column <c>Id</c>.
     /// </summary>
     /// <value>
-    /// The property value representing column 'Id'.
+    /// The property value representing column <c>Id</c>.
     /// </value>
-    [System.ComponentModel.DataAnnotations.Key()]
-    [System.ComponentModel.DataAnnotations.Schema.Column("Id", TypeName = "UNIQUEIDENTIFIER")]
+    [Key]
+    [Column("Id", TypeName = "uniqueidentifier")]
     public Guid Id { get; set; }
 
     /// <summary>
-    /// Gets or sets the property value representing column 'EmailAddress'.
+    /// Gets or sets the property value representing column <c>EmailAddress</c>.
     /// </summary>
     /// <value>
-    /// The property value representing column 'EmailAddress'.
+    /// The property value representing column <c>EmailAddress</c>.
     /// </value>
-    [System.ComponentModel.DataAnnotations.Schema.Column("EmailAddress", TypeName = "NVARCHAR(256)")]
+    [Column("EmailAddress", TypeName = "nvarchar(256)")]
     public string EmailAddress { get; set; } = null!;
 
     /// <summary>
-    /// Gets or sets the property value representing column 'UserId'.
+    /// Gets or sets the property value representing column <c>UserId</c>.
     /// </summary>
     /// <value>
-    /// The property value representing column 'UserId'.
+    /// The property value representing column <c>UserId</c>.
     /// </value>
-    [System.ComponentModel.DataAnnotations.Schema.Column("UserId", TypeName = "UNIQUEIDENTIFIER")]
+    [Column("UserId", TypeName = "uniqueidentifier")]
     public Guid? UserId { get; set; }
 
     /// <summary>
-    /// Gets or sets the property value representing column 'UserAgent'.
+    /// Gets or sets the property value representing column <c>UserAgent</c>.
     /// </summary>
     /// <value>
-    /// The property value representing column 'UserAgent'.
+    /// The property value representing column <c>UserAgent</c>.
     /// </value>
-    [System.ComponentModel.DataAnnotations.Schema.Column("UserAgent", TypeName = "NVARCHAR(MAX)")]
+    [Column("UserAgent", TypeName = "nvarchar(max)")]
     public string? UserAgent { get; set; }
 
     /// <summary>
-    /// Gets or sets the property value representing column 'Browser'.
+    /// Gets or sets the property value representing column <c>Browser</c>.
     /// </summary>
     /// <value>
-    /// The property value representing column 'Browser'.
+    /// The property value representing column <c>Browser</c>.
     /// </value>
-    [System.ComponentModel.DataAnnotations.Schema.Column("Browser", TypeName = "NVARCHAR(256)")]
+    [Column("Browser", TypeName = "nvarchar(256)")]
     public string? Browser { get; set; }
 
     /// <summary>
-    /// Gets or sets the property value representing column 'OperatingSystem'.
+    /// Gets or sets the property value representing column <c>OperatingSystem</c>.
     /// </summary>
     /// <value>
-    /// The property value representing column 'OperatingSystem'.
+    /// The property value representing column <c>OperatingSystem</c>.
     /// </value>
-    [System.ComponentModel.DataAnnotations.Schema.Column("OperatingSystem", TypeName = "NVARCHAR(256)")]
+    [Column("OperatingSystem", TypeName = "nvarchar(256)")]
     public string? OperatingSystem { get; set; }
 
     /// <summary>
-    /// Gets or sets the property value representing column 'DeviceFamily'.
+    /// Gets or sets the property value representing column <c>DeviceFamily</c>.
     /// </summary>
     /// <value>
-    /// The property value representing column 'DeviceFamily'.
+    /// The property value representing column <c>DeviceFamily</c>.
     /// </value>
-    [System.ComponentModel.DataAnnotations.Schema.Column("DeviceFamily", TypeName = "NVARCHAR(256)")]
+    [Column("DeviceFamily", TypeName = "nvarchar(256)")]
     public string? DeviceFamily { get; set; }
 
     /// <summary>
-    /// Gets or sets the property value representing column 'DeviceBrand'.
+    /// Gets or sets the property value representing column <c>DeviceBrand</c>.
     /// </summary>
     /// <value>
-    /// The property value representing column 'DeviceBrand'.
+    /// The property value representing column <c>DeviceBrand</c>.
     /// </value>
-    [System.ComponentModel.DataAnnotations.Schema.Column("DeviceBrand", TypeName = "NVARCHAR(256)")]
+    [Column("DeviceBrand", TypeName = "nvarchar(256)")]
     public string? DeviceBrand { get; set; }
 
     /// <summary>
-    /// Gets or sets the property value representing column 'DeviceModel'.
+    /// Gets or sets the property value representing column <c>DeviceModel</c>.
     /// </summary>
     /// <value>
-    /// The property value representing column 'DeviceModel'.
+    /// The property value representing column <c>DeviceModel</c>.
     /// </value>
-    [System.ComponentModel.DataAnnotations.Schema.Column("DeviceModel", TypeName = "NVARCHAR(256)")]
+    [Column("DeviceModel", TypeName = "nvarchar(256)")]
     public string? DeviceModel { get; set; }
 
     /// <summary>
-    /// Gets or sets the property value representing column 'IpAddress'.
+    /// Gets or sets the property value representing column <c>IpAddress</c>.
     /// </summary>
     /// <value>
-    /// The property value representing column 'IpAddress'.
+    /// The property value representing column <c>IpAddress</c>.
     /// </value>
-    [System.ComponentModel.DataAnnotations.Schema.Column("IpAddress", TypeName = "NVARCHAR(50)")]
+    [Column("IpAddress", TypeName = "nvarchar(50)")]
     public string? IpAddress { get; set; }
 
     /// <summary>
-    /// Gets or sets the property value representing column 'IsSuccessful'.
+    /// Gets or sets the property value representing column <c>IsSuccessful</c>.
     /// </summary>
     /// <value>
-    /// The property value representing column 'IsSuccessful'.
+    /// The property value representing column <c>IsSuccessful</c>.
     /// </value>
-    [System.ComponentModel.DataAnnotations.Schema.Column("IsSuccessful", TypeName = "BIT")]
+    [Column("IsSuccessful", TypeName = "bit")]
     public bool IsSuccessful { get; set; }
 
     /// <summary>
-    /// Gets or sets the property value representing column 'FailureMessage'.
+    /// Gets or sets the property value representing column <c>FailureMessage</c>.
     /// </summary>
     /// <value>
-    /// The property value representing column 'FailureMessage'.
+    /// The property value representing column <c>FailureMessage</c>.
     /// </value>
-    [System.ComponentModel.DataAnnotations.Schema.Column("FailureMessage", TypeName = "NVARCHAR(256)")]
+    [Column("FailureMessage", TypeName = "nvarchar(256)")]
     public string? FailureMessage { get; set; }
 
     /// <summary>
-    /// Gets or sets the property value representing column 'Created'.
+    /// Gets or sets the property value representing column <c>Created</c>.
     /// </summary>
     /// <value>
-    /// The property value representing column 'Created'.
+    /// The property value representing column <c>Created</c>.
     /// </value>
-    [System.ComponentModel.DataAnnotations.Schema.Column("Created", TypeName = "DATETIMEOFFSET")]
+    [Column("Created", TypeName = "datetimeoffset")]
     public DateTimeOffset Created { get; set; }
 
     /// <summary>
-    /// Gets or sets the property value representing column 'CreatedBy'.
+    /// Gets or sets the property value representing column <c>CreatedBy</c>.
     /// </summary>
     /// <value>
-    /// The property value representing column 'CreatedBy'.
+    /// The property value representing column <c>CreatedBy</c>.
     /// </value>
-    [System.ComponentModel.DataAnnotations.Schema.Column("CreatedBy", TypeName = "NVARCHAR(100)")]
+    [Column("CreatedBy", TypeName = "nvarchar(100)")]
     public string? CreatedBy { get; set; }
 
     /// <summary>
-    /// Gets or sets the property value representing column 'Updated'.
+    /// Gets or sets the property value representing column <c>Updated</c>.
     /// </summary>
     /// <value>
-    /// The property value representing column 'Updated'.
+    /// The property value representing column <c>Updated</c>.
     /// </value>
-    [System.ComponentModel.DataAnnotations.Schema.Column("Updated", TypeName = "DATETIMEOFFSET")]
+    [Column("Updated", TypeName = "datetimeoffset")]
     public DateTimeOffset Updated { get; set; }
 
     /// <summary>
-    /// Gets or sets the property value representing column 'UpdatedBy'.
+    /// Gets or sets the property value representing column <c>UpdatedBy</c>.
     /// </summary>
     /// <value>
-    /// The property value representing column 'UpdatedBy'.
+    /// The property value representing column <c>UpdatedBy</c>.
     /// </value>
-    [System.ComponentModel.DataAnnotations.Schema.Column("UpdatedBy", TypeName = "NVARCHAR(100)")]
+    [Column("UpdatedBy", TypeName = "nvarchar(100)")]
     public string? UpdatedBy { get; set; }
 
     /// <summary>
-    /// Gets or sets the property value representing column 'RowVersion'.
+    /// Gets or sets the property value representing column <c>RowVersion</c>.
     /// </summary>
     /// <value>
-    /// The property value representing column 'RowVersion'.
+    /// The property value representing column <c>RowVersion</c>.
     /// </value>
-    [System.ComponentModel.DataAnnotations.ConcurrencyCheck()]
-    [System.ComponentModel.DataAnnotations.Schema.Column("RowVersion", TypeName = "TIMESTAMP")]
-    [System.ComponentModel.DataAnnotations.Schema.DatabaseGenerated(System.ComponentModel.DataAnnotations.Schema.DatabaseGeneratedOption.Computed)]
+    [ConcurrencyCheck]
+    [Column("RowVersion", TypeName = "rowversion")]
+    [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
     public byte[] RowVersion { get; set; } = null!;
 
     #endregion

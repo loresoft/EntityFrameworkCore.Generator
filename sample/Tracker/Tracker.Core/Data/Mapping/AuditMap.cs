@@ -27,53 +27,53 @@ public partial class AuditMap
         builder.Property(t => t.Id)
             .IsRequired()
             .HasColumnName("Id")
-            .HasColumnType("UNIQUEIDENTIFIER")
+            .HasColumnType("uniqueidentifier")
             .HasDefaultValueSql("(newsequentialid())");
 
         builder.Property(t => t.Date)
             .IsRequired()
             .HasColumnName("Date")
-            .HasColumnType("DATETIME");
+            .HasColumnType("datetime");
 
         builder.Property(t => t.UserId)
             .HasColumnName("UserId")
-            .HasColumnType("UNIQUEIDENTIFIER");
+            .HasColumnType("uniqueidentifier");
 
         builder.Property(t => t.TaskId)
             .HasColumnName("TaskId")
-            .HasColumnType("UNIQUEIDENTIFIER");
+            .HasColumnType("uniqueidentifier");
 
         builder.Property(t => t.Content)
             .IsRequired()
             .HasColumnName("Content")
-            .HasColumnType("NVARCHAR(MAX)");
+            .HasColumnType("nvarchar(max)");
 
         builder.Property(t => t.Username)
             .IsRequired()
             .HasColumnName("Username")
-            .HasColumnType("NVARCHAR(50)")
+            .HasColumnType("nvarchar(50)")
             .HasMaxLength(50);
 
         builder.Property(t => t.Created)
             .IsRequired()
             .HasColumnName("Created")
-            .HasColumnType("DATETIMEOFFSET")
+            .HasColumnType("datetimeoffset")
             .HasDefaultValueSql("(sysutcdatetime())");
 
         builder.Property(t => t.CreatedBy)
             .HasColumnName("CreatedBy")
-            .HasColumnType("NVARCHAR(100)")
+            .HasColumnType("nvarchar(100)")
             .HasMaxLength(100);
 
         builder.Property(t => t.Updated)
             .IsRequired()
             .HasColumnName("Updated")
-            .HasColumnType("DATETIMEOFFSET")
+            .HasColumnType("datetimeoffset")
             .HasDefaultValueSql("(sysutcdatetime())");
 
         builder.Property(t => t.UpdatedBy)
             .HasColumnName("UpdatedBy")
-            .HasColumnType("NVARCHAR(100)")
+            .HasColumnType("nvarchar(100)")
             .HasMaxLength(100);
 
         builder.Property(t => t.RowVersion)
@@ -81,7 +81,7 @@ public partial class AuditMap
             .IsRowVersion()
             .IsConcurrencyToken()
             .HasColumnName("RowVersion")
-            .HasColumnType("TIMESTAMP")
+            .HasColumnType("rowversion")
             .ValueGeneratedOnAddOrUpdate();
 
         builder.Property(t => t.Attributes)

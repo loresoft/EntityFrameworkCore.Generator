@@ -12,34 +12,34 @@ public partial class TaskExtendedReadModel
 {
     #region Generated Properties
     /// <summary>
-    /// Gets or sets the property value for 'TaskId'.
+    /// Gets or sets the property value for <c>TaskId</c>.
     /// </summary>
     /// <value>
-    /// The property value for 'TaskId'.
+    /// The property value for <c>TaskId</c>.
     /// </value>
     public Guid TaskId { get; set; }
 
     /// <summary>
-    /// Gets or sets the property value for 'UserAgent'.
+    /// Gets or sets the property value for <c>UserAgent</c>.
     /// </summary>
     /// <value>
-    /// The property value for 'UserAgent'.
+    /// The property value for <c>UserAgent</c>.
     /// </value>
     public string? UserAgent { get; set; }
 
     /// <summary>
-    /// Gets or sets the property value for 'Browser'.
+    /// Gets or sets the property value for <c>Browser</c>.
     /// </summary>
     /// <value>
-    /// The property value for 'Browser'.
+    /// The property value for <c>Browser</c>.
     /// </value>
     public string? Browser { get; set; }
 
     /// <summary>
-    /// Gets or sets the property value for 'OperatingSystem'.
+    /// Gets or sets the property value for <c>OperatingSystem</c>.
     /// </summary>
     /// <value>
-    /// The property value for 'OperatingSystem'.
+    /// The property value for <c>OperatingSystem</c>.
     /// </value>
     public string? OperatingSystem { get; set; }
 

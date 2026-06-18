@@ -12,50 +12,50 @@ public partial class AuditCreateModel
 {
     #region Generated Properties
     /// <summary>
-    /// Gets or sets the property value for 'Date'.
+    /// Gets or sets the property value for <c>Date</c>.
     /// </summary>
     /// <value>
-    /// The property value for 'Date'.
+    /// The property value for <c>Date</c>.
     /// </value>
     public DateTime Date { get; set; }
 
     /// <summary>
-    /// Gets or sets the property value for 'UserId'.
+    /// Gets or sets the property value for <c>UserId</c>.
     /// </summary>
     /// <value>
-    /// The property value for 'UserId'.
+    /// The property value for <c>UserId</c>.
     /// </value>
     public Guid? UserId { get; set; }
 
     /// <summary>
-    /// Gets or sets the property value for 'TaskId'.
+    /// Gets or sets the property value for <c>TaskId</c>.
     /// </summary>
     /// <value>
-    /// The property value for 'TaskId'.
+    /// The property value for <c>TaskId</c>.
     /// </value>
     public Guid? TaskId { get; set; }
 
     /// <summary>
-    /// Gets or sets the property value for 'Content'.
+    /// Gets or sets the property value for <c>Content</c>.
     /// </summary>
     /// <value>
-    /// The property value for 'Content'.
+    /// The property value for <c>Content</c>.
     /// </value>
     public string Content { get; set; } = null!;
 
     /// <summary>
-    /// Gets or sets the property value for 'Username'.
+    /// Gets or sets the property value for <c>Username</c>.
     /// </summary>
     /// <value>
-    /// The property value for 'Username'.
+    /// The property value for <c>Username</c>.
     /// </value>
     public string Username { get; set; } = null!;
 
     /// <summary>
-    /// Gets or sets the property value for 'Attributes'.
+    /// Gets or sets the property value for <c>Attributes</c>.
     /// </summary>
     /// <value>
-    /// The property value for 'Attributes'.
+    /// The property value for <c>Attributes</c>.
     /// </value>
     public string? Attributes { get; set; }
 

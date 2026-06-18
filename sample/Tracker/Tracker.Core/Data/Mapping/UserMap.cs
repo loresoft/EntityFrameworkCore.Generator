@@ -27,85 +27,85 @@ public partial class UserMap
         builder.Property(t => t.Id)
             .IsRequired()
             .HasColumnName("Id")
-            .HasColumnType("UNIQUEIDENTIFIER")
+            .HasColumnType("uniqueidentifier")
             .HasDefaultValueSql("(newsequentialid())");
 
         builder.Property(t => t.EmailAddress)
             .IsRequired()
             .HasColumnName("EmailAddress")
-            .HasColumnType("NVARCHAR(256)")
+            .HasColumnType("nvarchar(256)")
             .HasMaxLength(256);
 
         builder.Property(t => t.IsEmailAddressConfirmed)
             .IsRequired()
             .HasColumnName("IsEmailAddressConfirmed")
-            .HasColumnType("BIT")
+            .HasColumnType("bit")
             .HasDefaultValueSql("((0))");
 
         builder.Property(t => t.DisplayName)
             .IsRequired()
             .HasColumnName("DisplayName")
-            .HasColumnType("NVARCHAR(256)")
+            .HasColumnType("nvarchar(256)")
             .HasMaxLength(256);
 
         builder.Property(t => t.PasswordHash)
             .HasColumnName("PasswordHash")
-            .HasColumnType("NVARCHAR(MAX)");
+            .HasColumnType("nvarchar(max)");
 
         builder.Property(t => t.ResetHash)
             .HasColumnName("ResetHash")
-            .HasColumnType("NVARCHAR(MAX)");
+            .HasColumnType("nvarchar(max)");
 
         builder.Property(t => t.InviteHash)
             .HasColumnName("InviteHash")
-            .HasColumnType("NVARCHAR(MAX)");
+            .HasColumnType("nvarchar(max)");
 
         builder.Property(t => t.AccessFailedCount)
             .IsRequired()
             .HasColumnName("AccessFailedCount")
-            .HasColumnType("INT")
+            .HasColumnType("int")
             .HasDefaultValueSql("((0))");
 
         builder.Property(t => t.LockoutEnabled)
             .IsRequired()
             .HasColumnName("LockoutEnabled")
-            .HasColumnType("BIT")
+            .HasColumnType("bit")
             .HasDefaultValueSql("((0))");
 
         builder.Property(t => t.LockoutEnd)
             .HasColumnName("LockoutEnd")
-            .HasColumnType("DATETIMEOFFSET");
+            .HasColumnType("datetimeoffset");
 
         builder.Property(t => t.LastLogin)
             .HasColumnName("LastLogin")
-            .HasColumnType("DATETIMEOFFSET");
+            .HasColumnType("datetimeoffset");
 
         builder.Property(t => t.IsDeleted)
             .IsRequired()
             .HasColumnName("IsDeleted")
-            .HasColumnType("BIT")
+            .HasColumnType("bit")
             .HasDefaultValueSql("((0))");
 
         builder.Property(t => t.Created)
             .IsRequired()
             .HasColumnName("Created")
-            .HasColumnType("DATETIMEOFFSET")
+            .HasColumnType("datetimeoffset")
             .HasDefaultValueSql("(sysutcdatetime())");
 
         builder.Property(t => t.CreatedBy)
             .HasColumnName("CreatedBy")
-            .HasColumnType("NVARCHAR(100)")
+            .HasColumnType("nvarchar(100)")
             .HasMaxLength(100);
 
         builder.Property(t => t.Updated)
             .IsRequired()
             .HasColumnName("Updated")
-            .HasColumnType("DATETIMEOFFSET")
+            .HasColumnType("datetimeoffset")
             .HasDefaultValueSql("(sysutcdatetime())");
 
         builder.Property(t => t.UpdatedBy)
             .HasColumnName("UpdatedBy")
-            .HasColumnType("NVARCHAR(100)")
+            .HasColumnType("nvarchar(100)")
             .HasMaxLength(100);
 
         builder.Property(t => t.RowVersion)
@@ -113,7 +113,7 @@ public partial class UserMap
             .IsRowVersion()
             .IsConcurrencyToken()
             .HasColumnName("RowVersion")
-            .HasColumnType("TIMESTAMP")
+            .HasColumnType("rowversion")
             .ValueGeneratedOnAddOrUpdate();
 
         // relationships

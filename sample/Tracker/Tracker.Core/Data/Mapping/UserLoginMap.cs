@@ -27,84 +27,84 @@ public partial class UserLoginMap
         builder.Property(t => t.Id)
             .IsRequired()
             .HasColumnName("Id")
-            .HasColumnType("UNIQUEIDENTIFIER")
+            .HasColumnType("uniqueidentifier")
             .HasDefaultValueSql("(newsequentialid())");
 
         builder.Property(t => t.EmailAddress)
             .IsRequired()
             .HasColumnName("EmailAddress")
-            .HasColumnType("NVARCHAR(256)")
+            .HasColumnType("nvarchar(256)")
             .HasMaxLength(256);
 
         builder.Property(t => t.UserId)
             .HasColumnName("UserId")
-            .HasColumnType("UNIQUEIDENTIFIER");
+            .HasColumnType("uniqueidentifier");
 
         builder.Property(t => t.UserAgent)
             .HasColumnName("UserAgent")
-            .HasColumnType("NVARCHAR(MAX)");
+            .HasColumnType("nvarchar(max)");
 
         builder.Property(t => t.Browser)
             .HasColumnName("Browser")
-            .HasColumnType("NVARCHAR(256)")
+            .HasColumnType("nvarchar(256)")
             .HasMaxLength(256);
 
         builder.Property(t => t.OperatingSystem)
             .HasColumnName("OperatingSystem")
-            .HasColumnType("NVARCHAR(256)")
+            .HasColumnType("nvarchar(256)")
             .HasMaxLength(256);
 
         builder.Property(t => t.DeviceFamily)
             .HasColumnName("DeviceFamily")
-            .HasColumnType("NVARCHAR(256)")
+            .HasColumnType("nvarchar(256)")
             .HasMaxLength(256);
 
         builder.Property(t => t.DeviceBrand)
             .HasColumnName("DeviceBrand")
-            .HasColumnType("NVARCHAR(256)")
+            .HasColumnType("nvarchar(256)")
             .HasMaxLength(256);
 
         builder.Property(t => t.DeviceModel)
             .HasColumnName("DeviceModel")
-            .HasColumnType("NVARCHAR(256)")
+            .HasColumnType("nvarchar(256)")
             .HasMaxLength(256);
 
         builder.Property(t => t.IpAddress)
             .HasColumnName("IpAddress")
-            .HasColumnType("NVARCHAR(50)")
+            .HasColumnType("nvarchar(50)")
             .HasMaxLength(50);
 
         builder.Property(t => t.IsSuccessful)
             .IsRequired()
             .HasColumnName("IsSuccessful")
-            .HasColumnType("BIT")
+            .HasColumnType("bit")
             .HasDefaultValueSql("((0))");
 
         builder.Property(t => t.FailureMessage)
             .HasColumnName("FailureMessage")
-            .HasColumnType("NVARCHAR(256)")
+            .HasColumnType("nvarchar(256)")
             .HasMaxLength(256);
 
         builder.Property(t => t.Created)
             .IsRequired()
             .HasColumnName("Created")
-            .HasColumnType("DATETIMEOFFSET")
+            .HasColumnType("datetimeoffset")
             .HasDefaultValueSql("(sysutcdatetime())");
 
         builder.Property(t => t.CreatedBy)
             .HasColumnName("CreatedBy")
-            .HasColumnType("NVARCHAR(100)")
+            .HasColumnType("nvarchar(100)")
             .HasMaxLength(100);
 
         builder.Property(t => t.Updated)
             .IsRequired()
             .HasColumnName("Updated")
-            .HasColumnType("DATETIMEOFFSET")
+            .HasColumnType("datetimeoffset")
             .HasDefaultValueSql("(sysutcdatetime())");
 
         builder.Property(t => t.UpdatedBy)
             .HasColumnName("UpdatedBy")
-            .HasColumnType("NVARCHAR(100)")
+            .HasColumnType("nvarchar(100)")
             .HasMaxLength(100);
 
         builder.Property(t => t.RowVersion)
@@ -112,7 +112,7 @@ public partial class UserLoginMap
             .IsRowVersion()
             .IsConcurrencyToken()
             .HasColumnName("RowVersion")
-            .HasColumnType("TIMESTAMP")
+            .HasColumnType("rowversion")
             .ValueGeneratedOnAddOrUpdate();
 
         // relationships

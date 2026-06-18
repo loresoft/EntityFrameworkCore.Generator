@@ -12,18 +12,18 @@ public partial class UserRoleCreateModel
 {
     #region Generated Properties
     /// <summary>
-    /// Gets or sets the property value for 'UserId'.
+    /// Gets or sets the property value for <c>UserId</c>.
     /// </summary>
     /// <value>
-    /// The property value for 'UserId'.
+    /// The property value for <c>UserId</c>.
     /// </value>
     public Guid UserId { get; set; }
 
     /// <summary>
-    /// Gets or sets the property value for 'RoleId'.
+    /// Gets or sets the property value for <c>RoleId</c>.
     /// </summary>
     /// <value>
-    /// The property value for 'RoleId'.
+    /// The property value for <c>RoleId</c>.
     /// </value>
     public Guid RoleId { get; set; }
 

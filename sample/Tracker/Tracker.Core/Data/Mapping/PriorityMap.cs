@@ -27,52 +27,52 @@ public partial class PriorityMap
         builder.Property(t => t.Id)
             .IsRequired()
             .HasColumnName("Id")
-            .HasColumnType("UNIQUEIDENTIFIER")
+            .HasColumnType("uniqueidentifier")
             .HasDefaultValueSql("(newsequentialid())");
 
         builder.Property(t => t.Name)
             .IsRequired()
             .HasColumnName("Name")
-            .HasColumnType("NVARCHAR(100)")
+            .HasColumnType("nvarchar(100)")
             .HasMaxLength(100);
 
         builder.Property(t => t.Description)
             .HasColumnName("Description")
-            .HasColumnType("NVARCHAR(255)")
+            .HasColumnType("nvarchar(255)")
             .HasMaxLength(255);
 
         builder.Property(t => t.DisplayOrder)
             .IsRequired()
             .HasColumnName("DisplayOrder")
-            .HasColumnType("INT")
+            .HasColumnType("int")
             .HasDefaultValueSql("((0))");
 
         builder.Property(t => t.IsActive)
             .IsRequired()
             .HasColumnName("IsActive")
-            .HasColumnType("BIT")
+            .HasColumnType("bit")
             .HasDefaultValueSql("((1))");
 
         builder.Property(t => t.Created)
             .IsRequired()
             .HasColumnName("Created")
-            .HasColumnType("DATETIMEOFFSET")
+            .HasColumnType("datetimeoffset")
             .HasDefaultValueSql("(sysutcdatetime())");
 
         builder.Property(t => t.CreatedBy)
             .HasColumnName("CreatedBy")
-            .HasColumnType("NVARCHAR(100)")
+            .HasColumnType("nvarchar(100)")
             .HasMaxLength(100);
 
         builder.Property(t => t.Updated)
             .IsRequired()
             .HasColumnName("Updated")
-            .HasColumnType("DATETIMEOFFSET")
+            .HasColumnType("datetimeoffset")
             .HasDefaultValueSql("(sysutcdatetime())");
 
         builder.Property(t => t.UpdatedBy)
             .HasColumnName("UpdatedBy")
-            .HasColumnType("NVARCHAR(100)")
+            .HasColumnType("nvarchar(100)")
             .HasMaxLength(100);
 
         builder.Property(t => t.RowVersion)
@@ -80,7 +80,7 @@ public partial class PriorityMap
             .IsRowVersion()
             .IsConcurrencyToken()
             .HasColumnName("RowVersion")
-            .HasColumnType("TIMESTAMP")
+            .HasColumnType("rowversion")
             .ValueGeneratedOnAddOrUpdate();
 
         // relationships
