@@ -6,6 +6,8 @@
 
 [![NuGet Version](https://img.shields.io/nuget/v/EntityFrameworkCore.Generator.svg?style=flat-square)](https://www.nuget.org/packages/EntityFrameworkCore.Generator/)
 
+[![Coverage Status](https://coveralls.io/repos/github/loresoft/EntityFrameworkCore.Generator/badge.svg)](https://coveralls.io/github/loresoft/EntityFrameworkCore.Generator)
+
 ## Features
 
 - Entity Framework Core database first model generation
