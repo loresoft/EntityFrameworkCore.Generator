@@ -68,13 +68,12 @@ public class MapperClassTemplate : CodeTemplateBase
     private void GenerateClass()
     {
         var entityClass = _entity.EntityClass.ToSafeName();
+        var entityFullName = $"{_entity.EntityNamespace}.{entityClass}";
         var mapperClass = _entity.MapperClass.ToSafeName();
 
         if (Options.Model.Mapper.Document)
         {
-            CodeBuilder.AppendLine("/// <summary>");
-            CodeBuilder.AppendLine($"/// Mapper class for entity <see cref=\"{entityClass}\"/> .");
-            CodeBuilder.AppendLine("/// </summary>");
+            GenerateClassDocumentation(entityFullName);
         }
         if (Options.Model.Mapper.Attributes.HasValue())
         {
@@ -102,15 +101,14 @@ public class MapperClassTemplate : CodeTemplateBase
     private void GenerateConstructor()
     {
         var mapperClass = _entity.MapperClass.ToSafeName();
+        var mapperFullName = $"{_entity.MapperNamespace}.{mapperClass}";
 
         var entityClass = _entity.EntityClass.ToSafeName();
         var entityFullName = $"{_entity.EntityNamespace}.{entityClass}";
 
         if (Options.Model.Mapper.Document)
         {
-            CodeBuilder.AppendLine("/// <summary>");
-            CodeBuilder.AppendLine($"/// Initializes a new instance of the <see cref=\"{mapperClass}\"/> class.");
-            CodeBuilder.AppendLine("/// </summary>");
+            GenerateConstructorDocumentation(mapperFullName, entityFullName);
         }
 
         CodeBuilder.AppendLine($"public {mapperClass}()");
@@ -152,6 +150,68 @@ public class MapperClassTemplate : CodeTemplateBase
 
         CodeBuilder.AppendLine("}");
         CodeBuilder.AppendLine();
+    }
+
+    private void GenerateClassDocumentation(string entityClass)
+    {
+        var sourceName = ToXmlText(GetQualifiedTableName());
+        var sourceType = _entity.IsView ? "view" : "table";
+        var modelDescription = GetModelDescription();
+
+        CodeBuilder.AppendLine("/// <summary>");
+
+        if (sourceName.HasValue())
+            CodeBuilder.AppendLine($"/// Configures AutoMapper mappings for the <see cref=\"{entityClass}\" /> entity mapped to the <c>{sourceName}</c> {sourceType}{modelDescription}.");
+        else
+            CodeBuilder.AppendLine($"/// Configures AutoMapper mappings for the <see cref=\"{entityClass}\" /> entity{modelDescription}.");
+
+        CodeBuilder.AppendLine("/// </summary>");
+    }
+
+    private void GenerateConstructorDocumentation(string mapperClass, string entityClass)
+    {
+        CodeBuilder.AppendLine("/// <summary>");
+        CodeBuilder.AppendLine($"/// Initializes a new instance of the <see cref=\"{mapperClass}\"/> class and creates mappings for <see cref=\"{entityClass}\" />.");
+        CodeBuilder.AppendLine("/// </summary>");
+    }
+
+    private string GetModelDescription()
+    {
+        var modelTypes = _entity.Models
+            .Select(model => model.ModelType switch
+            {
+                ModelType.Create => "create",
+                ModelType.Update => "update",
+                _ => "read"
+            })
+            .Distinct(StringComparer.Ordinal)
+            .OrderBy(value => value, StringComparer.Ordinal)
+            .ToList();
+
+        return modelTypes.Count == 0
+            ? string.Empty
+            : $" and its generated {FormatList(modelTypes)} models";
+    }
+
+    private static string FormatList(IReadOnlyList<string> values)
+    {
+        return values.Count switch
+        {
+            0 => string.Empty,
+            1 => values[0],
+            2 => $"{values[0]} and {values[1]}",
+            _ => $"{string.Join(", ", values.Take(values.Count - 1))}, and {values[^1]}"
+        };
+    }
+
+    private string? GetQualifiedTableName()
+    {
+        if (_entity.TableName.IsNullOrEmpty())
+            return _entity.TableName;
+
+        return _entity.TableSchema.HasValue()
+            ? $"{_entity.TableSchema}.{_entity.TableName}"
+            : _entity.TableName;
     }
 
 }

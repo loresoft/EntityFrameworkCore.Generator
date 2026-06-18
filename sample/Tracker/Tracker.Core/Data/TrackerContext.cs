@@ -1,18 +1,19 @@
 using System;
+
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace Tracker.Core.Data;
 
 /// <summary>
-/// A <see cref="DbContext" /> instance represents a session with the database and can be used to query and save instances of entities.
+/// Represents a session with the <c>TrackerGenerator</c> database and provides access to generated entity sets.
 /// </summary>
 public partial class TrackerContext : DbContext
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="TrackerContext"/> class.
     /// </summary>
-    /// <param name="options">The options to be used by this <see cref="DbContext" />.</param>
+    /// <param name="options">The options used to configure this <see cref="DbContext" /> instance.</param>
     public TrackerContext(DbContextOptions<TrackerContext> options)
         : base(options)
     {
@@ -20,91 +21,91 @@ public partial class TrackerContext : DbContext
 
     #region Generated Properties
     /// <summary>
-    /// Gets or sets the <see cref="T:Microsoft.EntityFrameworkCore.DbSet`1" /> that can be used to query and save instances of <see cref="Tracker.Core.Data.Entities.Audit"/>.
+    /// Gets or sets the <see cref="DbSet{TEntity}" /> for <see cref="Tracker.Core.Data.Entities.Audit" /> entities mapped to the <c>dbo.Audit</c> table.
     /// </summary>
     /// <value>
-    /// The <see cref="T:Microsoft.EntityFrameworkCore.DbSet`1" /> that can be used to query and save instances of <see cref="Tracker.Core.Data.Entities.Audit"/>.
+    /// The <c>Audits</c> entity set.
     /// </value>
     public virtual DbSet<Tracker.Core.Data.Entities.Audit> Audits { get; set; } = null!;
 
     /// <summary>
-    /// Gets or sets the <see cref="T:Microsoft.EntityFrameworkCore.DbSet`1" /> that can be used to query and save instances of <see cref="Tracker.Core.Data.Entities.Priority"/>.
+    /// Gets or sets the <see cref="DbSet{TEntity}" /> for <see cref="Tracker.Core.Data.Entities.Priority" /> entities mapped to the <c>dbo.Priority</c> table.
     /// </summary>
     /// <value>
-    /// The <see cref="T:Microsoft.EntityFrameworkCore.DbSet`1" /> that can be used to query and save instances of <see cref="Tracker.Core.Data.Entities.Priority"/>.
+    /// The <c>Priorities</c> entity set.
     /// </value>
     public virtual DbSet<Tracker.Core.Data.Entities.Priority> Priorities { get; set; } = null!;
 
     /// <summary>
-    /// Gets or sets the <see cref="T:Microsoft.EntityFrameworkCore.DbSet`1" /> that can be used to query and save instances of <see cref="Tracker.Core.Data.Entities.Role"/>.
+    /// Gets or sets the <see cref="DbSet{TEntity}" /> for <see cref="Tracker.Core.Data.Entities.Role" /> entities mapped to the <c>dbo.Role</c> table.
     /// </summary>
     /// <value>
-    /// The <see cref="T:Microsoft.EntityFrameworkCore.DbSet`1" /> that can be used to query and save instances of <see cref="Tracker.Core.Data.Entities.Role"/>.
+    /// The <c>Roles</c> entity set.
     /// </value>
     public virtual DbSet<Tracker.Core.Data.Entities.Role> Roles { get; set; } = null!;
 
     /// <summary>
-    /// Gets or sets the <see cref="T:Microsoft.EntityFrameworkCore.DbSet`1" /> that can be used to query and save instances of <see cref="Tracker.Core.Data.Entities.Status"/>.
+    /// Gets or sets the <see cref="DbSet{TEntity}" /> for <see cref="Tracker.Core.Data.Entities.Status" /> entities mapped to the <c>dbo.Status</c> table.
     /// </summary>
     /// <value>
-    /// The <see cref="T:Microsoft.EntityFrameworkCore.DbSet`1" /> that can be used to query and save instances of <see cref="Tracker.Core.Data.Entities.Status"/>.
+    /// The <c>Statuses</c> entity set.
     /// </value>
     public virtual DbSet<Tracker.Core.Data.Entities.Status> Statuses { get; set; } = null!;
 
     /// <summary>
-    /// Gets or sets the <see cref="T:Microsoft.EntityFrameworkCore.DbSet`1" /> that can be used to query and save instances of <see cref="Tracker.Core.Data.Entities.TaskExtended"/>.
+    /// Gets or sets the <see cref="DbSet{TEntity}" /> for <see cref="Tracker.Core.Data.Entities.TaskExtended" /> entities mapped to the <c>dbo.TaskExtended</c> table.
     /// </summary>
     /// <value>
-    /// The <see cref="T:Microsoft.EntityFrameworkCore.DbSet`1" /> that can be used to query and save instances of <see cref="Tracker.Core.Data.Entities.TaskExtended"/>.
+    /// The <c>TaskExtendeds</c> entity set.
     /// </value>
-    public virtual DbSet<Tracker.Core.Data.Entities.TaskExtended> TaskExtended { get; set; } = null!;
+    public virtual DbSet<Tracker.Core.Data.Entities.TaskExtended> TaskExtendeds { get; set; } = null!;
 
     /// <summary>
-    /// Gets or sets the <see cref="T:Microsoft.EntityFrameworkCore.DbSet`1" /> that can be used to query and save instances of <see cref="Tracker.Core.Data.Entities.Task"/>.
+    /// Gets or sets the <see cref="DbSet{TEntity}" /> for <see cref="Tracker.Core.Data.Entities.Task" /> entities mapped to the <c>dbo.Task</c> table.
     /// </summary>
     /// <value>
-    /// The <see cref="T:Microsoft.EntityFrameworkCore.DbSet`1" /> that can be used to query and save instances of <see cref="Tracker.Core.Data.Entities.Task"/>.
+    /// The <c>Tasks</c> entity set.
     /// </value>
     public virtual DbSet<Tracker.Core.Data.Entities.Task> Tasks { get; set; } = null!;
 
     /// <summary>
-    /// Gets or sets the <see cref="T:Microsoft.EntityFrameworkCore.DbSet`1" /> that can be used to query and save instances of <see cref="Tracker.Core.Data.Entities.Tenant"/>.
+    /// Gets or sets the <see cref="DbSet{TEntity}" /> for <see cref="Tracker.Core.Data.Entities.Tenant" /> entities mapped to the <c>dbo.Tenant</c> table.
     /// </summary>
     /// <value>
-    /// The <see cref="T:Microsoft.EntityFrameworkCore.DbSet`1" /> that can be used to query and save instances of <see cref="Tracker.Core.Data.Entities.Tenant"/>.
+    /// The <c>Tenants</c> entity set.
     /// </value>
     public virtual DbSet<Tracker.Core.Data.Entities.Tenant> Tenants { get; set; } = null!;
 
     /// <summary>
-    /// Gets or sets the <see cref="T:Microsoft.EntityFrameworkCore.DbSet`1" /> that can be used to query and save instances of <see cref="Tracker.Core.Data.Entities.UserLogin"/>.
+    /// Gets or sets the <see cref="DbSet{TEntity}" /> for <see cref="Tracker.Core.Data.Entities.UserLogin" /> entities mapped to the <c>dbo.UserLogin</c> table.
     /// </summary>
     /// <value>
-    /// The <see cref="T:Microsoft.EntityFrameworkCore.DbSet`1" /> that can be used to query and save instances of <see cref="Tracker.Core.Data.Entities.UserLogin"/>.
+    /// The <c>UserLogins</c> entity set.
     /// </value>
     public virtual DbSet<Tracker.Core.Data.Entities.UserLogin> UserLogins { get; set; } = null!;
 
     /// <summary>
-    /// Gets or sets the <see cref="T:Microsoft.EntityFrameworkCore.DbSet`1" /> that can be used to query and save instances of <see cref="Tracker.Core.Data.Entities.UserRole"/>.
+    /// Gets or sets the <see cref="DbSet{TEntity}" /> for <see cref="Tracker.Core.Data.Entities.UserRole" /> entities mapped to the <c>dbo.UserRole</c> table.
     /// </summary>
     /// <value>
-    /// The <see cref="T:Microsoft.EntityFrameworkCore.DbSet`1" /> that can be used to query and save instances of <see cref="Tracker.Core.Data.Entities.UserRole"/>.
+    /// The <c>UserRoles</c> entity set.
     /// </value>
     public virtual DbSet<Tracker.Core.Data.Entities.UserRole> UserRoles { get; set; } = null!;
 
     /// <summary>
-    /// Gets or sets the <see cref="T:Microsoft.EntityFrameworkCore.DbSet`1" /> that can be used to query and save instances of <see cref="Tracker.Core.Data.Entities.User"/>.
+    /// Gets or sets the <see cref="DbSet{TEntity}" /> for <see cref="Tracker.Core.Data.Entities.User" /> entities mapped to the <c>dbo.User</c> table.
     /// </summary>
     /// <value>
-    /// The <see cref="T:Microsoft.EntityFrameworkCore.DbSet`1" /> that can be used to query and save instances of <see cref="Tracker.Core.Data.Entities.User"/>.
+    /// The <c>Users</c> entity set.
     /// </value>
     public virtual DbSet<Tracker.Core.Data.Entities.User> Users { get; set; } = null!;
 
     #endregion
 
     /// <summary>
-    /// Configure the model that was discovered from the entity types exposed in <see cref="T:Microsoft.EntityFrameworkCore.DbSet`1" /> properties on this context.
+    /// Configures entity mappings for the generated model.
     /// </summary>
-    /// <param name="modelBuilder">The builder being used to construct the model for this context.</param>
+    /// <param name="modelBuilder">The builder used to configure the generated entity model.</param>
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         #region Generated Configuration

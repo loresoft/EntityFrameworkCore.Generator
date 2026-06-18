@@ -1,45 +1,44 @@
 using System;
 using System.Collections.Generic;
 
-// ReSharper disable once CheckNamespace
 namespace Tracker.Core.Domain.Models;
 
 /// <summary>
-/// View Model class
+/// Represents a update model for the <c>TaskExtended</c> entity mapped to the <c>TaskExtended</c> table.
 /// </summary>
 public partial class TaskExtendedUpdateModel
     : EntityUpdateModel
 {
     #region Generated Properties
     /// <summary>
-    /// Gets or sets the property value for <c>TaskId</c>.
+    /// Gets or sets the <c>TaskId</c> value mapped from the <c>TaskId</c> column.
     /// </summary>
     /// <value>
-    /// The property value for <c>TaskId</c>.
+    /// The <c>TaskId</c> model value.
     /// </value>
     public Guid TaskId { get; set; }
 
     /// <summary>
-    /// Gets or sets the property value for <c>UserAgent</c>.
+    /// Gets or sets the <c>UserAgent</c> value mapped from the <c>UserAgent</c> column.
     /// </summary>
     /// <value>
-    /// The property value for <c>UserAgent</c>.
+    /// The <c>UserAgent</c> model value.
     /// </value>
     public string? UserAgent { get; set; }
 
     /// <summary>
-    /// Gets or sets the property value for <c>Browser</c>.
+    /// Gets or sets the <c>Browser</c> value mapped from the <c>Browser</c> column.
     /// </summary>
     /// <value>
-    /// The property value for <c>Browser</c>.
+    /// The <c>Browser</c> model value.
     /// </value>
     public string? Browser { get; set; }
 
     /// <summary>
-    /// Gets or sets the property value for <c>OperatingSystem</c>.
+    /// Gets or sets the <c>OperatingSystem</c> value mapped from the <c>OperatingSystem</c> column.
     /// </summary>
     /// <value>
-    /// The property value for <c>OperatingSystem</c>.
+    /// The <c>OperatingSystem</c> model value.
     /// </value>
     public string? OperatingSystem { get; set; }
 

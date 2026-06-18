@@ -1,18 +1,22 @@
+using System;
+using System.Collections.Generic;
+
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Tracker.Core.Data.Mapping;
 
 /// <summary>
-/// Allows configuration for an entity type <see cref="Tracker.Core.Data.Entities.Task" />
+/// Configures Entity Framework Core mapping for the <see cref="Tracker.Core.Data.Entities.Task" /> entity mapped to the <c>dbo.Task</c> table.
 /// </summary>
 public partial class TaskMap
     : IEntityTypeConfiguration<Tracker.Core.Data.Entities.Task>
 {
     /// <summary>
-    /// Configures the entity of type <see cref="Tracker.Core.Data.Entities.Task" />
+    /// Configures the table, key, property, and relationship mappings for <see cref="Tracker.Core.Data.Entities.Task" />.
     /// </summary>
-    /// <param name="builder">The builder to be used to configure the entity type.</param>
-    public void Configure(Microsoft.EntityFrameworkCore.Metadata.Builders.EntityTypeBuilder<Tracker.Core.Data.Entities.Task> builder)
+    /// <param name="builder">The builder used to configure <see cref="Tracker.Core.Data.Entities.Task" />.</param>
+    public void Configure(EntityTypeBuilder<Tracker.Core.Data.Entities.Task> builder)
     {
         #region Generated Configure
         // table
@@ -150,49 +154,93 @@ public partial class TaskMap
     }
 
     #region Generated Constants
+    /// <summary>
+    /// Contains table mapping constants for <see cref="Tracker.Core.Data.Entities.Task" />.
+    /// </summary>
     public readonly struct Table
     {
-        /// <summary>Table Schema name constant for entity <see cref="Tracker.Core.Data.Entities.Task" /></summary>
+        /// <summary>
+        /// The database schema name for <see cref="Tracker.Core.Data.Entities.Task" />.
+        /// </summary>
         public const string Schema = "dbo";
-        /// <summary>Table Name constant for entity <see cref="Tracker.Core.Data.Entities.Task" /></summary>
+        /// <summary>
+        /// The database table name for <see cref="Tracker.Core.Data.Entities.Task" />.
+        /// </summary>
         public const string Name = "Task";
     }
 
+    /// <summary>
+    /// Contains column name constants for <see cref="Tracker.Core.Data.Entities.Task" /> properties.
+    /// </summary>
     public readonly struct Columns
     {
-        /// <summary>Column Name constant for property <see cref="Tracker.Core.Data.Entities.Task.Id" /></summary>
+        /// <summary>
+        /// The <c>Id</c> column name for <see cref="Tracker.Core.Data.Entities.Task.Id" />.
+        /// </summary>
         public const string Id = "Id";
-        /// <summary>Column Name constant for property <see cref="Tracker.Core.Data.Entities.Task.StatusId" /></summary>
+        /// <summary>
+        /// The <c>StatusId</c> column name for <see cref="Tracker.Core.Data.Entities.Task.StatusId" />.
+        /// </summary>
         public const string StatusId = "StatusId";
-        /// <summary>Column Name constant for property <see cref="Tracker.Core.Data.Entities.Task.PriorityId" /></summary>
+        /// <summary>
+        /// The <c>PriorityId</c> column name for <see cref="Tracker.Core.Data.Entities.Task.PriorityId" />.
+        /// </summary>
         public const string PriorityId = "PriorityId";
-        /// <summary>Column Name constant for property <see cref="Tracker.Core.Data.Entities.Task.Title" /></summary>
+        /// <summary>
+        /// The <c>Title</c> column name for <see cref="Tracker.Core.Data.Entities.Task.Title" />.
+        /// </summary>
         public const string Title = "Title";
-        /// <summary>Column Name constant for property <see cref="Tracker.Core.Data.Entities.Task.Description" /></summary>
+        /// <summary>
+        /// The <c>Description</c> column name for <see cref="Tracker.Core.Data.Entities.Task.Description" />.
+        /// </summary>
         public const string Description = "Description";
-        /// <summary>Column Name constant for property <see cref="Tracker.Core.Data.Entities.Task.StartDate" /></summary>
+        /// <summary>
+        /// The <c>StartDate</c> column name for <see cref="Tracker.Core.Data.Entities.Task.StartDate" />.
+        /// </summary>
         public const string StartDate = "StartDate";
-        /// <summary>Column Name constant for property <see cref="Tracker.Core.Data.Entities.Task.DueDate" /></summary>
+        /// <summary>
+        /// The <c>DueDate</c> column name for <see cref="Tracker.Core.Data.Entities.Task.DueDate" />.
+        /// </summary>
         public const string DueDate = "DueDate";
-        /// <summary>Column Name constant for property <see cref="Tracker.Core.Data.Entities.Task.CompleteDate" /></summary>
+        /// <summary>
+        /// The <c>CompleteDate</c> column name for <see cref="Tracker.Core.Data.Entities.Task.CompleteDate" />.
+        /// </summary>
         public const string CompleteDate = "CompleteDate";
-        /// <summary>Column Name constant for property <see cref="Tracker.Core.Data.Entities.Task.AssignedId" /></summary>
+        /// <summary>
+        /// The <c>AssignedId</c> column name for <see cref="Tracker.Core.Data.Entities.Task.AssignedId" />.
+        /// </summary>
         public const string AssignedId = "AssignedId";
-        /// <summary>Column Name constant for property <see cref="Tracker.Core.Data.Entities.Task.TenantId" /></summary>
+        /// <summary>
+        /// The <c>TenantId</c> column name for <see cref="Tracker.Core.Data.Entities.Task.TenantId" />.
+        /// </summary>
         public const string TenantId = "TenantId";
-        /// <summary>Column Name constant for property <see cref="Tracker.Core.Data.Entities.Task.Created" /></summary>
+        /// <summary>
+        /// The <c>Created</c> column name for <see cref="Tracker.Core.Data.Entities.Task.Created" />.
+        /// </summary>
         public const string Created = "Created";
-        /// <summary>Column Name constant for property <see cref="Tracker.Core.Data.Entities.Task.CreatedBy" /></summary>
+        /// <summary>
+        /// The <c>CreatedBy</c> column name for <see cref="Tracker.Core.Data.Entities.Task.CreatedBy" />.
+        /// </summary>
         public const string CreatedBy = "CreatedBy";
-        /// <summary>Column Name constant for property <see cref="Tracker.Core.Data.Entities.Task.Updated" /></summary>
+        /// <summary>
+        /// The <c>Updated</c> column name for <see cref="Tracker.Core.Data.Entities.Task.Updated" />.
+        /// </summary>
         public const string Updated = "Updated";
-        /// <summary>Column Name constant for property <see cref="Tracker.Core.Data.Entities.Task.UpdatedBy" /></summary>
+        /// <summary>
+        /// The <c>UpdatedBy</c> column name for <see cref="Tracker.Core.Data.Entities.Task.UpdatedBy" />.
+        /// </summary>
         public const string UpdatedBy = "UpdatedBy";
-        /// <summary>Column Name constant for property <see cref="Tracker.Core.Data.Entities.Task.RowVersion" /></summary>
+        /// <summary>
+        /// The <c>RowVersion</c> column name for <see cref="Tracker.Core.Data.Entities.Task.RowVersion" />.
+        /// </summary>
         public const string RowVersion = "RowVersion";
-        /// <summary>Column Name constant for property <see cref="Tracker.Core.Data.Entities.Task.PeriodStart1" /></summary>
+        /// <summary>
+        /// The <c>PeriodStart</c> column name for <see cref="Tracker.Core.Data.Entities.Task.PeriodStart1" />.
+        /// </summary>
         public const string PeriodStart1 = "PeriodStart";
-        /// <summary>Column Name constant for property <see cref="Tracker.Core.Data.Entities.Task.PeriodEnd1" /></summary>
+        /// <summary>
+        /// The <c>PeriodEnd</c> column name for <see cref="Tracker.Core.Data.Entities.Task.PeriodEnd1" />.
+        /// </summary>
         public const string PeriodEnd1 = "PeriodEnd";
     }
     #endregion

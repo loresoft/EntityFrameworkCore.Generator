@@ -1,20 +1,22 @@
 using System;
 using System.Collections.Generic;
+
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Tracker.Core.Data.Mapping;
 
 /// <summary>
-/// Allows configuration for an entity type <see cref="Tracker.Core.Data.Entities.UserRole" />
+/// Configures Entity Framework Core mapping for the <see cref="Tracker.Core.Data.Entities.UserRole" /> entity mapped to the <c>dbo.UserRole</c> table.
 /// </summary>
 public partial class UserRoleMap
     : IEntityTypeConfiguration<Tracker.Core.Data.Entities.UserRole>
 {
     /// <summary>
-    /// Configures the entity of type <see cref="Tracker.Core.Data.Entities.UserRole" />
+    /// Configures the table, key, property, and relationship mappings for <see cref="Tracker.Core.Data.Entities.UserRole" />.
     /// </summary>
-    /// <param name="builder">The builder to be used to configure the entity type.</param>
-    public void Configure(Microsoft.EntityFrameworkCore.Metadata.Builders.EntityTypeBuilder<Tracker.Core.Data.Entities.UserRole> builder)
+    /// <param name="builder">The builder used to configure <see cref="Tracker.Core.Data.Entities.UserRole" />.</param>
+    public void Configure(EntityTypeBuilder<Tracker.Core.Data.Entities.UserRole> builder)
     {
         #region Generated Configure
         // table
@@ -49,19 +51,33 @@ public partial class UserRoleMap
     }
 
     #region Generated Constants
+    /// <summary>
+    /// Contains table mapping constants for <see cref="Tracker.Core.Data.Entities.UserRole" />.
+    /// </summary>
     public readonly struct Table
     {
-        /// <summary>Table Schema name constant for entity <see cref="Tracker.Core.Data.Entities.UserRole" /></summary>
+        /// <summary>
+        /// The database schema name for <see cref="Tracker.Core.Data.Entities.UserRole" />.
+        /// </summary>
         public const string Schema = "dbo";
-        /// <summary>Table Name constant for entity <see cref="Tracker.Core.Data.Entities.UserRole" /></summary>
+        /// <summary>
+        /// The database table name for <see cref="Tracker.Core.Data.Entities.UserRole" />.
+        /// </summary>
         public const string Name = "UserRole";
     }
 
+    /// <summary>
+    /// Contains column name constants for <see cref="Tracker.Core.Data.Entities.UserRole" /> properties.
+    /// </summary>
     public readonly struct Columns
     {
-        /// <summary>Column Name constant for property <see cref="Tracker.Core.Data.Entities.UserRole.UserId" /></summary>
+        /// <summary>
+        /// The <c>UserId</c> column name for <see cref="Tracker.Core.Data.Entities.UserRole.UserId" />.
+        /// </summary>
         public const string UserId = "UserId";
-        /// <summary>Column Name constant for property <see cref="Tracker.Core.Data.Entities.UserRole.RoleId" /></summary>
+        /// <summary>
+        /// The <c>RoleId</c> column name for <see cref="Tracker.Core.Data.Entities.UserRole.RoleId" />.
+        /// </summary>
         public const string RoleId = "RoleId";
     }
     #endregion

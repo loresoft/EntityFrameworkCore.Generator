@@ -58,9 +58,7 @@ public class DataContextTemplate : CodeTemplateBase
 
         if (Options.Data.Context.Document)
         {
-            CodeBuilder.AppendLine("/// <summary>");
-            CodeBuilder.AppendLine("/// A <see cref=\"DbContext\" /> instance represents a session with the database and can be used to query and save instances of entities. ");
-            CodeBuilder.AppendLine("/// </summary>");
+            GenerateClassDocumentation();
         }
 
         CodeBuilder.AppendLine($"public partial class {contextClass} : {baseClass}");
@@ -82,10 +80,7 @@ public class DataContextTemplate : CodeTemplateBase
 
         if (Options.Data.Context.Document)
         {
-            CodeBuilder.AppendLine("/// <summary>");
-            CodeBuilder.AppendLine($"/// Initializes a new instance of the <see cref=\"{contextName}\"/> class.");
-            CodeBuilder.AppendLine("/// </summary>");
-            CodeBuilder.AppendLine("/// <param name=\"options\">The options to be used by this <see cref=\"DbContext\" />.</param>");
+            GenerateConstructorDocumentation(contextName);
         }
 
         CodeBuilder.AppendLine($"public {contextName}(DbContextOptions<{contextName}> options)")
@@ -108,12 +103,7 @@ public class DataContextTemplate : CodeTemplateBase
 
             if (Options.Data.Context.Document)
             {
-                CodeBuilder.AppendLine("/// <summary>");
-                CodeBuilder.AppendLine($"/// Gets or sets the <see cref=\"T:Microsoft.EntityFrameworkCore.DbSet`1\" /> that can be used to query and save instances of <see cref=\"{fullName}\"/>.");
-                CodeBuilder.AppendLine("/// </summary>");
-                CodeBuilder.AppendLine("/// <value>");
-                CodeBuilder.AppendLine($"/// The <see cref=\"T:Microsoft.EntityFrameworkCore.DbSet`1\" /> that can be used to query and save instances of <see cref=\"{fullName}\"/>.");
-                CodeBuilder.AppendLine("/// </value>");
+                GenerateDbSetDocumentation(entityType, fullName);
             }
 
             CodeBuilder.Append($"public virtual DbSet<{fullName}> {propertyName} {{ get; set; }}");
@@ -134,10 +124,7 @@ public class DataContextTemplate : CodeTemplateBase
     {
         if (Options.Data.Context.Document)
         {
-            CodeBuilder.AppendLine("/// <summary>");
-            CodeBuilder.AppendLine("/// Configure the model that was discovered from the entity types exposed in <see cref=\"T:Microsoft.EntityFrameworkCore.DbSet`1\" /> properties on this context.");
-            CodeBuilder.AppendLine("/// </summary>");
-            CodeBuilder.AppendLine("/// <param name=\"modelBuilder\">The builder being used to construct the model for this context.</param>");
+            GenerateOnModelCreatingDocumentation();
         }
 
         CodeBuilder.AppendLine("protected override void OnModelCreating(ModelBuilder modelBuilder)");
@@ -157,5 +144,64 @@ public class DataContextTemplate : CodeTemplateBase
         }
 
         CodeBuilder.AppendLine("}");
+    }
+
+    private void GenerateClassDocumentation()
+    {
+        var databaseName = ToXmlText(_entityContext.DatabaseName);
+
+        CodeBuilder.AppendLine("/// <summary>");
+
+        if (databaseName.HasValue())
+            CodeBuilder.AppendLine($"/// Represents a session with the <c>{databaseName}</c> database and provides access to generated entity sets.");
+        else
+            CodeBuilder.AppendLine("/// Represents a session with the database and provides access to generated entity sets.");
+
+        CodeBuilder.AppendLine("/// </summary>");
+    }
+
+    private void GenerateConstructorDocumentation(string contextName)
+    {
+        CodeBuilder.AppendLine("/// <summary>");
+        CodeBuilder.AppendLine($"/// Initializes a new instance of the <see cref=\"{contextName}\"/> class.");
+        CodeBuilder.AppendLine("/// </summary>");
+        CodeBuilder.AppendLine("/// <param name=\"options\">The options used to configure this <see cref=\"DbContext\" /> instance.</param>");
+    }
+
+    private void GenerateDbSetDocumentation(Entity entityType, string fullName)
+    {
+        var propertyName = ToXmlText(entityType.ContextProperty);
+        var sourceName = ToXmlText(GetQualifiedTableName(entityType));
+        var sourceType = entityType.IsView ? "view" : "table";
+
+        CodeBuilder.AppendLine("/// <summary>");
+
+        if (sourceName.HasValue())
+            CodeBuilder.AppendLine($"/// Gets or sets the <see cref=\"DbSet{{TEntity}}\" /> for <see cref=\"{fullName}\" /> entities mapped to the <c>{sourceName}</c> {sourceType}.");
+        else
+            CodeBuilder.AppendLine($"/// Gets or sets the <see cref=\"DbSet{{TEntity}}\" /> for <see cref=\"{fullName}\" /> entities.");
+
+        CodeBuilder.AppendLine("/// </summary>");
+        CodeBuilder.AppendLine("/// <value>");
+        CodeBuilder.AppendLine($"/// The <c>{propertyName}</c> entity set.");
+        CodeBuilder.AppendLine("/// </value>");
+    }
+
+    private void GenerateOnModelCreatingDocumentation()
+    {
+        CodeBuilder.AppendLine("/// <summary>");
+        CodeBuilder.AppendLine("/// Configures entity mappings for the generated model.");
+        CodeBuilder.AppendLine("/// </summary>");
+        CodeBuilder.AppendLine("/// <param name=\"modelBuilder\">The builder used to configure the generated entity model.</param>");
+    }
+
+    private static string? GetQualifiedTableName(Entity entityType)
+    {
+        if (entityType.TableName.IsNullOrEmpty())
+            return entityType.TableName;
+
+        return entityType.TableSchema.HasValue()
+            ? $"{entityType.TableSchema}.{entityType.TableName}"
+            : entityType.TableName;
     }
 }

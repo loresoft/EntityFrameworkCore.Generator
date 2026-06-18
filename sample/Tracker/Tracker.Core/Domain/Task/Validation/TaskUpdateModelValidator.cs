@@ -1,18 +1,19 @@
 using System;
+
 using FluentValidation;
 using Tracker.Core.Domain.Models;
 
-// ReSharper disable once CheckNamespace
 namespace Tracker.Core.Domain.Validation;
 
 /// <summary>
-/// Validator class for <see cref="TaskUpdateModel"/> .
+/// Defines FluentValidation rules for the <see cref="Tracker.Core.Domain.Models.TaskUpdateModel" /> update model for the <c>Task</c> entity mapped to the <c>dbo.Task</c> table.
 /// </summary>
+[RegisterSingleton<IValidator<TaskUpdateModel>>]
 public partial class TaskUpdateModelValidator
     : AbstractValidator<TaskUpdateModel>
 {
     /// <summary>
-    /// Initializes a new instance of the <see cref="TaskUpdateModelValidator"/> class.
+    /// Initializes a new instance of the <see cref="Tracker.Core.Domain.Validation.TaskUpdateModelValidator"/> class and configures validation rules for <see cref="Tracker.Core.Domain.Models.TaskUpdateModel" />.
     /// </summary>
     public TaskUpdateModelValidator()
     {

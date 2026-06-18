@@ -1,20 +1,22 @@
 using System;
 using System.Collections.Generic;
+
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Tracker.Core.Data.Mapping;
 
 /// <summary>
-/// Allows configuration for an entity type <see cref="Tracker.Core.Data.Entities.UserLogin" />
+/// Configures Entity Framework Core mapping for the <see cref="Tracker.Core.Data.Entities.UserLogin" /> entity mapped to the <c>dbo.UserLogin</c> table.
 /// </summary>
 public partial class UserLoginMap
     : IEntityTypeConfiguration<Tracker.Core.Data.Entities.UserLogin>
 {
     /// <summary>
-    /// Configures the entity of type <see cref="Tracker.Core.Data.Entities.UserLogin" />
+    /// Configures the table, key, property, and relationship mappings for <see cref="Tracker.Core.Data.Entities.UserLogin" />.
     /// </summary>
-    /// <param name="builder">The builder to be used to configure the entity type.</param>
-    public void Configure(Microsoft.EntityFrameworkCore.Metadata.Builders.EntityTypeBuilder<Tracker.Core.Data.Entities.UserLogin> builder)
+    /// <param name="builder">The builder used to configure <see cref="Tracker.Core.Data.Entities.UserLogin" />.</param>
+    public void Configure(EntityTypeBuilder<Tracker.Core.Data.Entities.UserLogin> builder)
     {
         #region Generated Configure
         // table
@@ -125,49 +127,93 @@ public partial class UserLoginMap
     }
 
     #region Generated Constants
+    /// <summary>
+    /// Contains table mapping constants for <see cref="Tracker.Core.Data.Entities.UserLogin" />.
+    /// </summary>
     public readonly struct Table
     {
-        /// <summary>Table Schema name constant for entity <see cref="Tracker.Core.Data.Entities.UserLogin" /></summary>
+        /// <summary>
+        /// The database schema name for <see cref="Tracker.Core.Data.Entities.UserLogin" />.
+        /// </summary>
         public const string Schema = "dbo";
-        /// <summary>Table Name constant for entity <see cref="Tracker.Core.Data.Entities.UserLogin" /></summary>
+        /// <summary>
+        /// The database table name for <see cref="Tracker.Core.Data.Entities.UserLogin" />.
+        /// </summary>
         public const string Name = "UserLogin";
     }
 
+    /// <summary>
+    /// Contains column name constants for <see cref="Tracker.Core.Data.Entities.UserLogin" /> properties.
+    /// </summary>
     public readonly struct Columns
     {
-        /// <summary>Column Name constant for property <see cref="Tracker.Core.Data.Entities.UserLogin.Id" /></summary>
+        /// <summary>
+        /// The <c>Id</c> column name for <see cref="Tracker.Core.Data.Entities.UserLogin.Id" />.
+        /// </summary>
         public const string Id = "Id";
-        /// <summary>Column Name constant for property <see cref="Tracker.Core.Data.Entities.UserLogin.EmailAddress" /></summary>
+        /// <summary>
+        /// The <c>EmailAddress</c> column name for <see cref="Tracker.Core.Data.Entities.UserLogin.EmailAddress" />.
+        /// </summary>
         public const string EmailAddress = "EmailAddress";
-        /// <summary>Column Name constant for property <see cref="Tracker.Core.Data.Entities.UserLogin.UserId" /></summary>
+        /// <summary>
+        /// The <c>UserId</c> column name for <see cref="Tracker.Core.Data.Entities.UserLogin.UserId" />.
+        /// </summary>
         public const string UserId = "UserId";
-        /// <summary>Column Name constant for property <see cref="Tracker.Core.Data.Entities.UserLogin.UserAgent" /></summary>
+        /// <summary>
+        /// The <c>UserAgent</c> column name for <see cref="Tracker.Core.Data.Entities.UserLogin.UserAgent" />.
+        /// </summary>
         public const string UserAgent = "UserAgent";
-        /// <summary>Column Name constant for property <see cref="Tracker.Core.Data.Entities.UserLogin.Browser" /></summary>
+        /// <summary>
+        /// The <c>Browser</c> column name for <see cref="Tracker.Core.Data.Entities.UserLogin.Browser" />.
+        /// </summary>
         public const string Browser = "Browser";
-        /// <summary>Column Name constant for property <see cref="Tracker.Core.Data.Entities.UserLogin.OperatingSystem" /></summary>
+        /// <summary>
+        /// The <c>OperatingSystem</c> column name for <see cref="Tracker.Core.Data.Entities.UserLogin.OperatingSystem" />.
+        /// </summary>
         public const string OperatingSystem = "OperatingSystem";
-        /// <summary>Column Name constant for property <see cref="Tracker.Core.Data.Entities.UserLogin.DeviceFamily" /></summary>
+        /// <summary>
+        /// The <c>DeviceFamily</c> column name for <see cref="Tracker.Core.Data.Entities.UserLogin.DeviceFamily" />.
+        /// </summary>
         public const string DeviceFamily = "DeviceFamily";
-        /// <summary>Column Name constant for property <see cref="Tracker.Core.Data.Entities.UserLogin.DeviceBrand" /></summary>
+        /// <summary>
+        /// The <c>DeviceBrand</c> column name for <see cref="Tracker.Core.Data.Entities.UserLogin.DeviceBrand" />.
+        /// </summary>
         public const string DeviceBrand = "DeviceBrand";
-        /// <summary>Column Name constant for property <see cref="Tracker.Core.Data.Entities.UserLogin.DeviceModel" /></summary>
+        /// <summary>
+        /// The <c>DeviceModel</c> column name for <see cref="Tracker.Core.Data.Entities.UserLogin.DeviceModel" />.
+        /// </summary>
         public const string DeviceModel = "DeviceModel";
-        /// <summary>Column Name constant for property <see cref="Tracker.Core.Data.Entities.UserLogin.IpAddress" /></summary>
+        /// <summary>
+        /// The <c>IpAddress</c> column name for <see cref="Tracker.Core.Data.Entities.UserLogin.IpAddress" />.
+        /// </summary>
         public const string IpAddress = "IpAddress";
-        /// <summary>Column Name constant for property <see cref="Tracker.Core.Data.Entities.UserLogin.IsSuccessful" /></summary>
+        /// <summary>
+        /// The <c>IsSuccessful</c> column name for <see cref="Tracker.Core.Data.Entities.UserLogin.IsSuccessful" />.
+        /// </summary>
         public const string IsSuccessful = "IsSuccessful";
-        /// <summary>Column Name constant for property <see cref="Tracker.Core.Data.Entities.UserLogin.FailureMessage" /></summary>
+        /// <summary>
+        /// The <c>FailureMessage</c> column name for <see cref="Tracker.Core.Data.Entities.UserLogin.FailureMessage" />.
+        /// </summary>
         public const string FailureMessage = "FailureMessage";
-        /// <summary>Column Name constant for property <see cref="Tracker.Core.Data.Entities.UserLogin.Created" /></summary>
+        /// <summary>
+        /// The <c>Created</c> column name for <see cref="Tracker.Core.Data.Entities.UserLogin.Created" />.
+        /// </summary>
         public const string Created = "Created";
-        /// <summary>Column Name constant for property <see cref="Tracker.Core.Data.Entities.UserLogin.CreatedBy" /></summary>
+        /// <summary>
+        /// The <c>CreatedBy</c> column name for <see cref="Tracker.Core.Data.Entities.UserLogin.CreatedBy" />.
+        /// </summary>
         public const string CreatedBy = "CreatedBy";
-        /// <summary>Column Name constant for property <see cref="Tracker.Core.Data.Entities.UserLogin.Updated" /></summary>
+        /// <summary>
+        /// The <c>Updated</c> column name for <see cref="Tracker.Core.Data.Entities.UserLogin.Updated" />.
+        /// </summary>
         public const string Updated = "Updated";
-        /// <summary>Column Name constant for property <see cref="Tracker.Core.Data.Entities.UserLogin.UpdatedBy" /></summary>
+        /// <summary>
+        /// The <c>UpdatedBy</c> column name for <see cref="Tracker.Core.Data.Entities.UserLogin.UpdatedBy" />.
+        /// </summary>
         public const string UpdatedBy = "UpdatedBy";
-        /// <summary>Column Name constant for property <see cref="Tracker.Core.Data.Entities.UserLogin.RowVersion" /></summary>
+        /// <summary>
+        /// The <c>RowVersion</c> column name for <see cref="Tracker.Core.Data.Entities.UserLogin.RowVersion" />.
+        /// </summary>
         public const string RowVersion = "RowVersion";
     }
     #endregion

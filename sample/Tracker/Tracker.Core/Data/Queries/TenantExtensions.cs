@@ -1,23 +1,25 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
+
 using Microsoft.EntityFrameworkCore;
 
 namespace Tracker.Core.Data.Queries;
 
 /// <summary>
-/// Query extensions for entity <see cref="Tracker.Core.Data.Entities.Tenant" />.
+/// Provides query extension methods for <see cref="Tracker.Core.Data.Entities.Tenant" /> entities mapped to the <c>dbo.Tenant</c> table.
 /// </summary>
 public static partial class TenantExtensions
 {
     #region Generated Extensions
     /// <summary>
-    /// Gets an instance by the primary key.
+    /// Gets the <see cref="Tracker.Core.Data.Entities.Tenant" /> entity matching the primary key.
     /// </summary>
-    /// <param name="queryable">An <see cref="IQueryable`1" /> to filter.</param>
-    /// <param name="id">The value to filter by.</param>
-    /// <returns>An instance of <see cref="T:Tracker.Core.Data.Entities.Tenant"/> or null if not found.</returns>
+    /// <param name="queryable">The source query for <see cref="Tracker.Core.Data.Entities.Tenant" /> entities.</param>
+    /// <param name="id">The value to match against <see cref="Tracker.Core.Data.Entities.Tenant.Id" /> mapped to the <c>Id</c> column.</param>
+    /// <returns>The matching <see cref="Tracker.Core.Data.Entities.Tenant" /> entity, or <see langword="null" /> if no match is found.</returns>
     public static Tracker.Core.Data.Entities.Tenant? GetByKey(this IQueryable<Tracker.Core.Data.Entities.Tenant> queryable, Guid id)
     {
         if (queryable is null)
@@ -30,12 +32,12 @@ public static partial class TenantExtensions
     }
 
     /// <summary>
-    /// Gets an instance by the primary key.
+    /// Gets the <see cref="Tracker.Core.Data.Entities.Tenant" /> entity matching the primary key.
     /// </summary>
-    /// <param name="queryable">An <see cref="IQueryable`1" /> to filter.</param>
-    /// <param name="id">The value to filter by.</param>
-    /// <param name="cancellationToken">A <see cref="CancellationToken" /> to observe while waiting for the task to complete.</param>
-    /// <returns>An instance of <see cref="T:Tracker.Core.Data.Entities.Tenant"/> or null if not found.</returns>
+    /// <param name="queryable">The source query for <see cref="Tracker.Core.Data.Entities.Tenant" /> entities.</param>
+    /// <param name="id">The value to match against <see cref="Tracker.Core.Data.Entities.Tenant.Id" /> mapped to the <c>Id</c> column.</param>
+    /// <param name="cancellationToken">A <see cref="CancellationToken" /> to observe while waiting for the operation to complete.</param>
+    /// <returns>A task that represents the asynchronous operation. The task result contains the matching <see cref="Tracker.Core.Data.Entities.Tenant" /> entity, or <see langword="null" /> if no match is found.</returns>
     public static async System.Threading.Tasks.ValueTask<Tracker.Core.Data.Entities.Tenant?> GetByKeyAsync(this IQueryable<Tracker.Core.Data.Entities.Tenant> queryable, Guid id, CancellationToken cancellationToken = default)
     {
         if (queryable is null)

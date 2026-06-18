@@ -1,12 +1,14 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Tracker.Core.Data.Entities;
 
 /// <summary>
-/// Entity class representing data for table 'UserRole'.
+/// Represents the <c>UserRole</c> entity mapped to the <c>dbo.UserRole</c> table.
 /// </summary>
-[System.ComponentModel.DataAnnotations.Schema.Table("UserRole", Schema = "dbo")]
+[Table("UserRole", Schema = "dbo")]
 public partial class UserRole
 {
     /// <summary>
@@ -20,20 +22,20 @@ public partial class UserRole
 
     #region Generated Properties
     /// <summary>
-    /// Gets or sets the property value representing column <c>UserId</c>.
+    /// Gets or sets the <c>UserId</c> value mapped to the <c>UserId</c> column.
     /// </summary>
     /// <value>
-    /// The property value representing column <c>UserId</c>.
+    /// The <c>UserId</c> entity value.
     /// </value>
     [Key]
     [Column("UserId", TypeName = "uniqueidentifier")]
     public Guid UserId { get; set; }
 
     /// <summary>
-    /// Gets or sets the property value representing column <c>RoleId</c>.
+    /// Gets or sets the <c>RoleId</c> value mapped to the <c>RoleId</c> column.
     /// </summary>
     /// <value>
-    /// The property value representing column <c>RoleId</c>.
+    /// The <c>RoleId</c> entity value.
     /// </value>
     [Key]
     [Column("RoleId", TypeName = "uniqueidentifier")]
@@ -43,19 +45,19 @@ public partial class UserRole
 
     #region Generated Relationships
     /// <summary>
-    /// Gets or sets the navigation property for entity <see cref="Role" />.
+    /// Gets or sets the related <see cref="Role" /> entity.
     /// </summary>
     /// <value>
-    /// The navigation property for entity <see cref="Role" />.
+    /// The related <see cref="Role" /> entity.
     /// </value>
     /// <seealso cref="RoleId" />
     public virtual Role Role { get; set; } = null!;
 
     /// <summary>
-    /// Gets or sets the navigation property for entity <see cref="User" />.
+    /// Gets or sets the related <see cref="User" /> entity.
     /// </summary>
     /// <value>
-    /// The navigation property for entity <see cref="User" />.
+    /// The related <see cref="User" /> entity.
     /// </value>
     /// <seealso cref="UserId" />
     public virtual User User { get; set; } = null!;

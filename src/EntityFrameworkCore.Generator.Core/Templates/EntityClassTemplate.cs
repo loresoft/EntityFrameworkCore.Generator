@@ -59,9 +59,7 @@ public class EntityClassTemplate : CodeTemplateBase
 
         if (Options.Data.Entity.Document)
         {
-            CodeBuilder.AppendLine("/// <summary>");
-            CodeBuilder.AppendLine($"/// Entity class representing data for table <c>{_entity.TableName}</c>.");
-            CodeBuilder.AppendLine("/// </summary>");
+            GenerateClassDocumentation();
         }
         if (Options.Data.Entity.MappingAttributes)
         {
@@ -104,9 +102,7 @@ public class EntityClassTemplate : CodeTemplateBase
 
         if (Options.Data.Entity.Document)
         {
-            CodeBuilder.AppendLine("/// <summary>");
-            CodeBuilder.AppendLine($"/// Initializes a new instance of the <see cref=\"{entityClass}\"/> class.");
-            CodeBuilder.AppendLine("/// </summary>");
+            GenerateConstructorDocumentation(entityClass, relationships.Count > 0);
         }
 
         CodeBuilder.AppendLine($"public {entityClass}()");
@@ -144,12 +140,7 @@ public class EntityClassTemplate : CodeTemplateBase
 
             if (Options.Data.Entity.Document)
             {
-                CodeBuilder.AppendLine("/// <summary>");
-                CodeBuilder.AppendLine($"/// Gets or sets the property value representing column <c>{property.ColumnName}</c>.");
-                CodeBuilder.AppendLine("/// </summary>");
-                CodeBuilder.AppendLine("/// <value>");
-                CodeBuilder.AppendLine($"/// The property value representing column <c>{property.ColumnName}</c>.");
-                CodeBuilder.AppendLine("/// </value>");
+                GeneratePropertyDocumentation(property);
             }
 
             if (Options.Data.Entity.MappingAttributes)
@@ -203,6 +194,62 @@ public class EntityClassTemplate : CodeTemplateBase
             : propertyType + "?";
     }
 
+    private void GenerateClassDocumentation()
+    {
+        var entityName = ToXmlText(_entity.EntityClass);
+        var sourceName = ToXmlText(GetQualifiedTableName());
+        var sourceType = _entity.IsView ? "view" : "table";
+
+        CodeBuilder.AppendLine("/// <summary>");
+
+        if (sourceName.HasValue())
+            CodeBuilder.AppendLine($"/// Represents the <c>{entityName}</c> entity mapped to the <c>{sourceName}</c> {sourceType}.");
+        else
+            CodeBuilder.AppendLine($"/// Represents the <c>{entityName}</c> entity.");
+
+        CodeBuilder.AppendLine("/// </summary>");
+    }
+
+    private void GenerateConstructorDocumentation(string entityClass, bool initializesCollections)
+    {
+        CodeBuilder.AppendLine("/// <summary>");
+
+        if (initializesCollections)
+            CodeBuilder.AppendLine($"/// Initializes a new instance of the <see cref=\"{entityClass}\"/> class and its collection navigation properties.");
+        else
+            CodeBuilder.AppendLine($"/// Initializes a new instance of the <see cref=\"{entityClass}\"/> class.");
+
+        CodeBuilder.AppendLine("/// </summary>");
+    }
+
+    private void GeneratePropertyDocumentation(Property property)
+    {
+        var propertyName = ToXmlText(property.PropertyName);
+        var columnName = ToXmlText(property.ColumnName);
+
+        CodeBuilder.AppendLine("/// <summary>");
+
+        if (columnName.HasValue())
+            CodeBuilder.AppendLine($"/// Gets or sets the <c>{propertyName}</c> value mapped to the <c>{columnName}</c> column.");
+        else
+            CodeBuilder.AppendLine($"/// Gets or sets the <c>{propertyName}</c> value.");
+
+        CodeBuilder.AppendLine("/// </summary>");
+        CodeBuilder.AppendLine("/// <value>");
+        CodeBuilder.AppendLine($"/// The <c>{propertyName}</c> entity value.");
+        CodeBuilder.AppendLine("/// </value>");
+    }
+
+    private string? GetQualifiedTableName()
+    {
+        if (_entity.TableName.IsNullOrEmpty())
+            return _entity.TableName;
+
+        return _entity.TableSchema.HasValue()
+            ? $"{_entity.TableSchema}.{_entity.TableName}"
+            : _entity.TableName;
+    }
+
     private void GenerateRelationshipProperties()
     {
         CodeBuilder.AppendLine("#region Generated Relationships");
@@ -219,14 +266,8 @@ public class EntityClassTemplate : CodeTemplateBase
             {
                 if (Options.Data.Entity.Document)
                 {
-                    CodeBuilder.AppendLine("/// <summary>");
-                    CodeBuilder.AppendLine($"/// Gets or sets the navigation collection for entity <see cref=\"{primaryFullName}\" />.");
-                    CodeBuilder.AppendLine("/// </summary>");
-                    CodeBuilder.AppendLine("/// <value>");
-                    CodeBuilder.AppendLine($"/// The navigation collection for entity <see cref=\"{primaryFullName}\" />.");
-                    CodeBuilder.AppendLine("/// </value>");
+                    GenerateCollectionRelationshipDocumentation(primaryFullName);
                 }
-
 
                 CodeBuilder.AppendLine($"public virtual ICollection<{primaryFullName}> {propertyName} {{ get; set; }}");
                 CodeBuilder.AppendLine();
@@ -235,15 +276,13 @@ public class EntityClassTemplate : CodeTemplateBase
             {
                 if (Options.Data.Entity.Document)
                 {
-                    CodeBuilder.AppendLine("/// <summary>");
-                    CodeBuilder.AppendLine($"/// Gets or sets the navigation property for entity <see cref=\"{primaryFullName}\" />.");
-                    CodeBuilder.AppendLine("/// </summary>");
-                    CodeBuilder.AppendLine("/// <value>");
-                    CodeBuilder.AppendLine($"/// The navigation property for entity <see cref=\"{primaryFullName}\" />.");
-                    CodeBuilder.AppendLine("/// </value>");
+                    GenerateReferenceRelationshipDocumentation(primaryFullName);
 
                     foreach (var property in relationship.Properties)
-                        CodeBuilder.AppendLine($"/// <seealso cref=\"{property.PropertyName}\" />");
+                    {
+                        var relatedPropertyName = property.PropertyName.ToSafeName();
+                        CodeBuilder.AppendLine($"/// <seealso cref=\"{relatedPropertyName}\" />");
+                    }
                 }
 
                 if (!Options.Project.Nullable)
@@ -256,7 +295,28 @@ public class EntityClassTemplate : CodeTemplateBase
                 CodeBuilder.AppendLine();
             }
         }
+
         CodeBuilder.AppendLine("#endregion");
         CodeBuilder.AppendLine();
+    }
+
+    private void GenerateCollectionRelationshipDocumentation(string primaryFullName)
+    {
+        CodeBuilder.AppendLine("/// <summary>");
+        CodeBuilder.AppendLine($"/// Gets or sets the related <see cref=\"{primaryFullName}\" /> entity collection.");
+        CodeBuilder.AppendLine("/// </summary>");
+        CodeBuilder.AppendLine("/// <value>");
+        CodeBuilder.AppendLine($"/// The related <see cref=\"{primaryFullName}\" /> entity collection.");
+        CodeBuilder.AppendLine("/// </value>");
+    }
+
+    private void GenerateReferenceRelationshipDocumentation(string primaryFullName)
+    {
+        CodeBuilder.AppendLine("/// <summary>");
+        CodeBuilder.AppendLine($"/// Gets or sets the related <see cref=\"{primaryFullName}\" /> entity.");
+        CodeBuilder.AppendLine("/// </summary>");
+        CodeBuilder.AppendLine("/// <value>");
+        CodeBuilder.AppendLine($"/// The related <see cref=\"{primaryFullName}\" /> entity.");
+        CodeBuilder.AppendLine("/// </value>");
     }
 }

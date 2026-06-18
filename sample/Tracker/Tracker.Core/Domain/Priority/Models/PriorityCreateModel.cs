@@ -1,45 +1,44 @@
 using System;
 using System.Collections.Generic;
 
-// ReSharper disable once CheckNamespace
 namespace Tracker.Core.Domain.Models;
 
 /// <summary>
-/// View Model class
+/// Represents a create model for the <c>Priority</c> entity mapped to the <c>Priority</c> table.
 /// </summary>
 public partial class PriorityCreateModel
     : EntityCreateModel
 {
     #region Generated Properties
     /// <summary>
-    /// Gets or sets the property value for <c>Name</c>.
+    /// Gets or sets the <c>Name</c> value mapped from the <c>Name</c> column.
     /// </summary>
     /// <value>
-    /// The property value for <c>Name</c>.
+    /// The <c>Name</c> model value.
     /// </value>
     public string Name { get; set; } = null!;
 
     /// <summary>
-    /// Gets or sets the property value for <c>Description</c>.
+    /// Gets or sets the <c>Description</c> value mapped from the <c>Description</c> column.
     /// </summary>
     /// <value>
-    /// The property value for <c>Description</c>.
+    /// The <c>Description</c> model value.
     /// </value>
     public string? Description { get; set; }
 
     /// <summary>
-    /// Gets or sets the property value for <c>DisplayOrder</c>.
+    /// Gets or sets the <c>DisplayOrder</c> value mapped from the <c>DisplayOrder</c> column.
     /// </summary>
     /// <value>
-    /// The property value for <c>DisplayOrder</c>.
+    /// The <c>DisplayOrder</c> model value.
     /// </value>
     public int DisplayOrder { get; set; }
 
     /// <summary>
-    /// Gets or sets the property value for <c>IsActive</c>.
+    /// Gets or sets the <c>IsActive</c> value mapped from the <c>IsActive</c> column.
     /// </summary>
     /// <value>
-    /// The property value for <c>IsActive</c>.
+    /// The <c>IsActive</c> model value.
     /// </value>
     public bool IsActive { get; set; }
 

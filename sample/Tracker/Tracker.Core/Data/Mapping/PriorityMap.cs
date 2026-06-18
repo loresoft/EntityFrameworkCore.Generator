@@ -1,20 +1,22 @@
 using System;
 using System.Collections.Generic;
+
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Tracker.Core.Data.Mapping;
 
 /// <summary>
-/// Allows configuration for an entity type <see cref="Tracker.Core.Data.Entities.Priority" />
+/// Configures Entity Framework Core mapping for the <see cref="Tracker.Core.Data.Entities.Priority" /> entity mapped to the <c>dbo.Priority</c> table.
 /// </summary>
 public partial class PriorityMap
     : IEntityTypeConfiguration<Tracker.Core.Data.Entities.Priority>
 {
     /// <summary>
-    /// Configures the entity of type <see cref="Tracker.Core.Data.Entities.Priority" />
+    /// Configures the table, key, property, and relationship mappings for <see cref="Tracker.Core.Data.Entities.Priority" />.
     /// </summary>
-    /// <param name="builder">The builder to be used to configure the entity type.</param>
-    public void Configure(Microsoft.EntityFrameworkCore.Metadata.Builders.EntityTypeBuilder<Tracker.Core.Data.Entities.Priority> builder)
+    /// <param name="builder">The builder used to configure <see cref="Tracker.Core.Data.Entities.Priority" />.</param>
+    public void Configure(EntityTypeBuilder<Tracker.Core.Data.Entities.Priority> builder)
     {
         #region Generated Configure
         // table
@@ -88,35 +90,65 @@ public partial class PriorityMap
     }
 
     #region Generated Constants
+    /// <summary>
+    /// Contains table mapping constants for <see cref="Tracker.Core.Data.Entities.Priority" />.
+    /// </summary>
     public readonly struct Table
     {
-        /// <summary>Table Schema name constant for entity <see cref="Tracker.Core.Data.Entities.Priority" /></summary>
+        /// <summary>
+        /// The database schema name for <see cref="Tracker.Core.Data.Entities.Priority" />.
+        /// </summary>
         public const string Schema = "dbo";
-        /// <summary>Table Name constant for entity <see cref="Tracker.Core.Data.Entities.Priority" /></summary>
+        /// <summary>
+        /// The database table name for <see cref="Tracker.Core.Data.Entities.Priority" />.
+        /// </summary>
         public const string Name = "Priority";
     }
 
+    /// <summary>
+    /// Contains column name constants for <see cref="Tracker.Core.Data.Entities.Priority" /> properties.
+    /// </summary>
     public readonly struct Columns
     {
-        /// <summary>Column Name constant for property <see cref="Tracker.Core.Data.Entities.Priority.Id" /></summary>
+        /// <summary>
+        /// The <c>Id</c> column name for <see cref="Tracker.Core.Data.Entities.Priority.Id" />.
+        /// </summary>
         public const string Id = "Id";
-        /// <summary>Column Name constant for property <see cref="Tracker.Core.Data.Entities.Priority.Name" /></summary>
+        /// <summary>
+        /// The <c>Name</c> column name for <see cref="Tracker.Core.Data.Entities.Priority.Name" />.
+        /// </summary>
         public const string Name = "Name";
-        /// <summary>Column Name constant for property <see cref="Tracker.Core.Data.Entities.Priority.Description" /></summary>
+        /// <summary>
+        /// The <c>Description</c> column name for <see cref="Tracker.Core.Data.Entities.Priority.Description" />.
+        /// </summary>
         public const string Description = "Description";
-        /// <summary>Column Name constant for property <see cref="Tracker.Core.Data.Entities.Priority.DisplayOrder" /></summary>
+        /// <summary>
+        /// The <c>DisplayOrder</c> column name for <see cref="Tracker.Core.Data.Entities.Priority.DisplayOrder" />.
+        /// </summary>
         public const string DisplayOrder = "DisplayOrder";
-        /// <summary>Column Name constant for property <see cref="Tracker.Core.Data.Entities.Priority.IsActive" /></summary>
+        /// <summary>
+        /// The <c>IsActive</c> column name for <see cref="Tracker.Core.Data.Entities.Priority.IsActive" />.
+        /// </summary>
         public const string IsActive = "IsActive";
-        /// <summary>Column Name constant for property <see cref="Tracker.Core.Data.Entities.Priority.Created" /></summary>
+        /// <summary>
+        /// The <c>Created</c> column name for <see cref="Tracker.Core.Data.Entities.Priority.Created" />.
+        /// </summary>
         public const string Created = "Created";
-        /// <summary>Column Name constant for property <see cref="Tracker.Core.Data.Entities.Priority.CreatedBy" /></summary>
+        /// <summary>
+        /// The <c>CreatedBy</c> column name for <see cref="Tracker.Core.Data.Entities.Priority.CreatedBy" />.
+        /// </summary>
         public const string CreatedBy = "CreatedBy";
-        /// <summary>Column Name constant for property <see cref="Tracker.Core.Data.Entities.Priority.Updated" /></summary>
+        /// <summary>
+        /// The <c>Updated</c> column name for <see cref="Tracker.Core.Data.Entities.Priority.Updated" />.
+        /// </summary>
         public const string Updated = "Updated";
-        /// <summary>Column Name constant for property <see cref="Tracker.Core.Data.Entities.Priority.UpdatedBy" /></summary>
+        /// <summary>
+        /// The <c>UpdatedBy</c> column name for <see cref="Tracker.Core.Data.Entities.Priority.UpdatedBy" />.
+        /// </summary>
         public const string UpdatedBy = "UpdatedBy";
-        /// <summary>Column Name constant for property <see cref="Tracker.Core.Data.Entities.Priority.RowVersion" /></summary>
+        /// <summary>
+        /// The <c>RowVersion</c> column name for <see cref="Tracker.Core.Data.Entities.Priority.RowVersion" />.
+        /// </summary>
         public const string RowVersion = "RowVersion";
     }
     #endregion

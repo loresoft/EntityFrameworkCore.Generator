@@ -39,4 +39,15 @@ public abstract class CodeTemplateBase
     }
 
     public abstract string WriteCode();
+
+    protected static string? ToXmlText(string? value)
+    {
+        if (value.IsNullOrEmpty())
+            return value;
+
+        return value
+            .Replace("&", "&amp;")
+            .Replace("<", "&lt;")
+            .Replace(">", "&gt;");
+    }
 }

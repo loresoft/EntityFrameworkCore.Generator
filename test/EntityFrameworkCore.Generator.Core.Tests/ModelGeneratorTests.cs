@@ -385,6 +385,286 @@ public class ModelGeneratorTests
         Assert.Contains("public List<string?>? Tags { get; set; }", modelCode);
     }
 
+    [Fact]
+    public void GenerateModelXmlDocumentation()
+    {
+        var generatorOptions = new GeneratorOptions();
+        generatorOptions.Model.Read.Document = true;
+
+        var entity = new Entity
+        {
+            EntityClass = "Order&Item",
+            TableName = "Order<Items>",
+            IsView = true
+        };
+        var model = new Model
+        {
+            Entity = entity,
+            ModelType = ModelType.Read,
+            ModelNamespace = "TestDatabase.Domain.Models",
+            ModelClass = "OrderItemReadModel"
+        };
+        model.Properties.Add(new Property
+        {
+            PropertyName = "Title",
+            ColumnName = "Title & Subtitle",
+            SystemType = typeof(string),
+            SystemTypeName = string.Empty,
+            IsNullable = false
+        });
+
+        var modelCode = new ModelClassTemplate(model, generatorOptions).WriteCode();
+
+        Assert.Contains("/// Represents a read model for the <c>Order&amp;Item</c> entity mapped to the <c>Order&lt;Items&gt;</c> view.", modelCode);
+        Assert.Contains("/// Gets or sets the <c>Title</c> value mapped from the <c>Title &amp; Subtitle</c> column.", modelCode);
+        Assert.Contains("/// The <c>Title</c> model value.", modelCode);
+    }
+
+    [Fact]
+    public void GenerateEntityXmlDocumentation()
+    {
+        var generatorOptions = new GeneratorOptions();
+        generatorOptions.Data.Entity.Document = true;
+
+        var entity = new Entity
+        {
+            EntityNamespace = "TestDatabase.Data.Entities",
+            EntityClass = "OrderItem",
+            TableSchema = "Sales&Archive",
+            TableName = "Order<Items>"
+        };
+        var userIdProperty = new Property
+        {
+            PropertyName = "UserId",
+            ColumnName = "User & Owner Id",
+            SystemType = typeof(Guid),
+            SystemTypeName = string.Empty,
+            IsNullable = false
+        };
+        entity.Properties.Add(userIdProperty);
+        entity.Relationships.Add(new Relationship
+        {
+            Entity = entity,
+            PropertyName = "User",
+            Cardinality = Cardinality.One,
+            PrimaryEntity = new Entity
+            {
+                EntityNamespace = entity.EntityNamespace,
+                EntityClass = "User"
+            },
+            Properties = new global::EntityFrameworkCore.Generator.Metadata.Generation.PropertyCollection([userIdProperty])
+        });
+        entity.Relationships.Add(new Relationship
+        {
+            Entity = entity,
+            PropertyName = "OrderLines",
+            Cardinality = Cardinality.Many,
+            PrimaryEntity = new Entity
+            {
+                EntityNamespace = entity.EntityNamespace,
+                EntityClass = "OrderLine"
+            }
+        });
+
+        var entityCode = new EntityClassTemplate(entity, generatorOptions).WriteCode();
+
+        Assert.Contains("/// Represents the <c>OrderItem</c> entity mapped to the <c>Sales&amp;Archive.Order&lt;Items&gt;</c> table.", entityCode);
+        Assert.Contains("/// Initializes a new instance of the <see cref=\"OrderItem\"/> class and its collection navigation properties.", entityCode);
+        Assert.Contains("/// Gets or sets the <c>UserId</c> value mapped to the <c>User &amp; Owner Id</c> column.", entityCode);
+        Assert.Contains("/// The <c>UserId</c> entity value.", entityCode);
+        Assert.Contains("/// Gets or sets the related <see cref=\"User\" /> entity.", entityCode);
+        Assert.Contains("/// <seealso cref=\"UserId\" />", entityCode);
+        Assert.Contains("/// Gets or sets the related <see cref=\"OrderLine\" /> entity collection.", entityCode);
+    }
+
+    [Fact]
+    public void GenerateDataContextXmlDocumentation()
+    {
+        var generatorOptions = new GeneratorOptions();
+        generatorOptions.Data.Context.Document = true;
+
+        var entityContext = new EntityContext
+        {
+            ContextNamespace = "TestDatabase.Data",
+            ContextClass = "TestDatabaseContext",
+            ContextBaseClass = "DbContext",
+            DatabaseName = "Test & Reporting"
+        };
+        entityContext.Entities.Add(new Entity
+        {
+            ContextProperty = "OrderItems",
+            EntityNamespace = "TestDatabase.Data.Entities",
+            EntityClass = "OrderItem",
+            MappingNamespace = "TestDatabase.Data.Mapping",
+            MappingClass = "OrderItemMap",
+            TableSchema = "Sales&Archive",
+            TableName = "Order<Items>"
+        });
+
+        var contextCode = new DataContextTemplate(entityContext, generatorOptions).WriteCode();
+
+        Assert.Contains("/// Represents a session with the <c>Test &amp; Reporting</c> database and provides access to generated entity sets.", contextCode);
+        Assert.Contains("/// <param name=\"options\">The options used to configure this <see cref=\"DbContext\" /> instance.</param>", contextCode);
+        Assert.Contains("/// Gets or sets the <see cref=\"DbSet{TEntity}\" /> for <see cref=\"TestDatabase.Data.Entities.OrderItem\" /> entities mapped to the <c>Sales&amp;Archive.Order&lt;Items&gt;</c> table.", contextCode);
+        Assert.Contains("/// The <c>OrderItems</c> entity set.", contextCode);
+        Assert.Contains("/// Configures entity mappings for the generated model.", contextCode);
+        Assert.Contains("/// <param name=\"modelBuilder\">The builder used to configure the generated entity model.</param>", contextCode);
+    }
+
+    [Fact]
+    public void GenerateMapperXmlDocumentation()
+    {
+        var generatorOptions = new GeneratorOptions();
+        generatorOptions.Model.Mapper.Document = true;
+
+        var entity = new Entity
+        {
+            EntityNamespace = "TestDatabase.Data.Entities",
+            EntityClass = "OrderItem",
+            MapperNamespace = "TestDatabase.Domain.Mapping",
+            MapperClass = "OrderItemProfile",
+            TableSchema = "Sales&Archive",
+            TableName = "Order<Items>"
+        };
+        entity.Models.Add(new Model
+        {
+            Entity = entity,
+            ModelType = ModelType.Read,
+            ModelNamespace = "TestDatabase.Domain.Models",
+            ModelClass = "OrderItemReadModel"
+        });
+        entity.Models.Add(new Model
+        {
+            Entity = entity,
+            ModelType = ModelType.Update,
+            ModelNamespace = "TestDatabase.Domain.Models",
+            ModelClass = "OrderItemUpdateModel"
+        });
+
+        var mapperCode = new MapperClassTemplate(entity, generatorOptions).WriteCode();
+
+        Assert.Contains("/// Configures AutoMapper mappings for the <see cref=\"TestDatabase.Data.Entities.OrderItem\" /> entity mapped to the <c>Sales&amp;Archive.Order&lt;Items&gt;</c> table and its generated read and update models.", mapperCode);
+        Assert.Contains("/// Initializes a new instance of the <see cref=\"TestDatabase.Domain.Mapping.OrderItemProfile\"/> class and creates mappings for <see cref=\"TestDatabase.Data.Entities.OrderItem\" />.", mapperCode);
+    }
+
+    [Fact]
+    public void GenerateMappingXmlDocumentation()
+    {
+        var generatorOptions = new GeneratorOptions();
+        generatorOptions.Data.Mapping.Document = true;
+
+        var entity = new Entity
+        {
+            EntityNamespace = "TestDatabase.Data.Entities",
+            EntityClass = "OrderItem",
+            MappingNamespace = "TestDatabase.Data.Mapping",
+            MappingClass = "OrderItemMap",
+            TableSchema = "Sales&Archive",
+            TableName = "Order<Items>"
+        };
+        entity.Properties.Add(new Property
+        {
+            PropertyName = "UserId",
+            ColumnName = "User & Owner Id",
+            SystemType = typeof(Guid),
+            SystemTypeName = string.Empty,
+            IsNullable = false,
+            IsPrimaryKey = true
+        });
+
+        var mappingCode = new MappingClassTemplate(entity, generatorOptions).WriteCode();
+
+        Assert.Contains("/// Configures Entity Framework Core mapping for the <see cref=\"TestDatabase.Data.Entities.OrderItem\" /> entity mapped to the <c>Sales&amp;Archive.Order&lt;Items&gt;</c> table.", mappingCode);
+        Assert.Contains("/// Configures the table, key, property, and relationship mappings for <see cref=\"TestDatabase.Data.Entities.OrderItem\" />.", mappingCode);
+        Assert.Contains("/// <param name=\"builder\">The builder used to configure <see cref=\"TestDatabase.Data.Entities.OrderItem\" />.</param>", mappingCode);
+        Assert.Contains("/// Contains table mapping constants for <see cref=\"TestDatabase.Data.Entities.OrderItem\" />.", mappingCode);
+        Assert.Contains("/// The database schema name for <see cref=\"TestDatabase.Data.Entities.OrderItem\" />.", mappingCode);
+        Assert.Contains("/// The database table name for <see cref=\"TestDatabase.Data.Entities.OrderItem\" />.", mappingCode);
+        Assert.Contains("/// Contains column name constants for <see cref=\"TestDatabase.Data.Entities.OrderItem\" /> properties.", mappingCode);
+        Assert.Contains("/// The <c>User &amp; Owner Id</c> column name for <see cref=\"TestDatabase.Data.Entities.OrderItem.UserId\" />.", mappingCode);
+    }
+
+    [Fact]
+    public void GenerateValidatorXmlDocumentation()
+    {
+        var generatorOptions = new GeneratorOptions();
+        generatorOptions.Model.Validator.Document = true;
+
+        var entity = new Entity
+        {
+            EntityNamespace = "TestDatabase.Data.Entities",
+            EntityClass = "OrderItem",
+            TableSchema = "Sales&Archive",
+            TableName = "Order<Items>"
+        };
+        var model = new Model
+        {
+            Entity = entity,
+            ModelType = ModelType.Create,
+            ModelNamespace = "TestDatabase.Domain.Models",
+            ModelClass = "OrderItemCreateModel",
+            ValidatorNamespace = "TestDatabase.Domain.Validation",
+            ValidatorClass = "OrderItemCreateModelValidator"
+        };
+
+        var validatorCode = new ValidatorClassTemplate(model, generatorOptions).WriteCode();
+
+        Assert.Contains("/// Defines FluentValidation rules for the <see cref=\"TestDatabase.Domain.Models.OrderItemCreateModel\" /> create model for the <c>OrderItem</c> entity mapped to the <c>Sales&amp;Archive.Order&lt;Items&gt;</c> table.", validatorCode);
+        Assert.Contains("/// Initializes a new instance of the <see cref=\"TestDatabase.Domain.Validation.OrderItemCreateModelValidator\"/> class and configures validation rules for <see cref=\"TestDatabase.Domain.Models.OrderItemCreateModel\" />.", validatorCode);
+    }
+
+    [Fact]
+    public void GenerateQueryExtensionXmlDocumentation()
+    {
+        var generatorOptions = new GeneratorOptions();
+        generatorOptions.Data.Query.Document = true;
+        generatorOptions.Data.Query.Namespace = "TestDatabase.Data.Queries";
+
+        var entity = new Entity
+        {
+            EntityNamespace = "TestDatabase.Data.Entities",
+            EntityClass = "OrderItem",
+            TableSchema = "Sales&Archive",
+            TableName = "Order<Items>"
+        };
+        var userIdProperty = new Property
+        {
+            PropertyName = "UserId",
+            ColumnName = "User & Owner Id",
+            SystemType = typeof(Guid),
+            SystemTypeName = string.Empty,
+            IsNullable = false
+        };
+        entity.Properties.Add(userIdProperty);
+        entity.Methods.Add(new Method
+        {
+            Entity = entity,
+            NameSuffix = "ByUserId",
+            SourceName = "IX_Order<UserId>",
+            IsIndex = true,
+            Properties = new global::EntityFrameworkCore.Generator.Metadata.Generation.PropertyCollection([userIdProperty])
+        });
+        entity.Methods.Add(new Method
+        {
+            Entity = entity,
+            NameSuffix = "ByUserIdUnique",
+            SourceName = "UX_Order<UserId>",
+            IsUnique = true,
+            Properties = new global::EntityFrameworkCore.Generator.Metadata.Generation.PropertyCollection([userIdProperty])
+        });
+
+        var queryCode = new QueryExtensionTemplate(entity, generatorOptions).WriteCode();
+
+        Assert.Contains("/// Provides query extension methods for <see cref=\"TestDatabase.Data.Entities.OrderItem\" /> entities mapped to the <c>Sales&amp;Archive.Order&lt;Items&gt;</c> table.", queryCode);
+        Assert.Contains("/// Filters <see cref=\"TestDatabase.Data.Entities.OrderItem\" /> entities by <c>UserId</c>.", queryCode);
+        Assert.Contains("/// <param name=\"queryable\">The source query for <see cref=\"TestDatabase.Data.Entities.OrderItem\" /> entities.</param>", queryCode);
+        Assert.Contains("/// <param name=\"userId\">The value to match against <see cref=\"TestDatabase.Data.Entities.OrderItem.UserId\" /> mapped to the <c>User &amp; Owner Id</c> column.</param>", queryCode);
+        Assert.Contains("/// <returns>An <see cref=\"IQueryable{T}\" /> of <see cref=\"TestDatabase.Data.Entities.OrderItem\" /> entities matching the specified values.</returns>", queryCode);
+        Assert.Contains("/// Gets the <see cref=\"TestDatabase.Data.Entities.OrderItem\" /> entity matching the unique index <c>UX_Order&lt;UserId&gt;</c>.", queryCode);
+        Assert.Contains("/// <param name=\"cancellationToken\">A <see cref=\"CancellationToken\" /> to observe while waiting for the operation to complete.</param>", queryCode);
+        Assert.Contains("/// <returns>A task that represents the asynchronous operation. The task result contains the matching <see cref=\"TestDatabase.Data.Entities.OrderItem\" /> entity, or <see langword=\"null\" /> if no match is found.</returns>", queryCode);
+    }
+
     private static DatabaseModel CreateDatabaseModel(string databaseName, params Action<TableBuilder>[] configureTables)
     {
         var builder = new DatabaseModelBuilder()

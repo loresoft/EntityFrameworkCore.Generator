@@ -1,17 +1,18 @@
 using System;
 using System.Collections.Generic;
-using Tracker.Core.Definitions;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Tracker.Core.Data.Entities;
 
 /// <summary>
-/// Entity class representing data for table 'Tenant'.
+/// Represents the <c>Tenant</c> entity mapped to the <c>dbo.Tenant</c> table.
 /// </summary>
-[System.ComponentModel.DataAnnotations.Schema.Table("Tenant", Schema = "dbo")]
-public partial class Tenant : IHaveIdentifier, ITrackCreated, ITrackUpdated
+[Table("Tenant", Schema = "dbo")]
+public partial class Tenant
 {
     /// <summary>
-    /// Initializes a new instance of the <see cref="Tenant"/> class.
+    /// Initializes a new instance of the <see cref="Tenant"/> class and its collection navigation properties.
     /// </summary>
     public Tenant()
     {
@@ -22,83 +23,83 @@ public partial class Tenant : IHaveIdentifier, ITrackCreated, ITrackUpdated
 
     #region Generated Properties
     /// <summary>
-    /// Gets or sets the property value representing column <c>Id</c>.
+    /// Gets or sets the <c>Id</c> value mapped to the <c>Id</c> column.
     /// </summary>
     /// <value>
-    /// The property value representing column <c>Id</c>.
+    /// The <c>Id</c> entity value.
     /// </value>
     [Key]
     [Column("Id", TypeName = "uniqueidentifier")]
     public Guid Id { get; set; }
 
     /// <summary>
-    /// Gets or sets the property value representing column <c>Name</c>.
+    /// Gets or sets the <c>Name</c> value mapped to the <c>Name</c> column.
     /// </summary>
     /// <value>
-    /// The property value representing column <c>Name</c>.
+    /// The <c>Name</c> entity value.
     /// </value>
     [Column("Name", TypeName = "nvarchar(256)")]
     public string Name { get; set; } = null!;
 
     /// <summary>
-    /// Gets or sets the property value representing column <c>Description</c>.
+    /// Gets or sets the <c>Description</c> value mapped to the <c>Description</c> column.
     /// </summary>
     /// <value>
-    /// The property value representing column <c>Description</c>.
+    /// The <c>Description</c> entity value.
     /// </value>
     [Column("Description", TypeName = "nvarchar(max)")]
     public string? Description { get; set; }
 
     /// <summary>
-    /// Gets or sets the property value representing column <c>IsActive</c>.
+    /// Gets or sets the <c>IsActive</c> value mapped to the <c>IsActive</c> column.
     /// </summary>
     /// <value>
-    /// The property value representing column <c>IsActive</c>.
+    /// The <c>IsActive</c> entity value.
     /// </value>
     [Column("IsActive", TypeName = "bit")]
     public bool IsActive { get; set; }
 
     /// <summary>
-    /// Gets or sets the property value representing column <c>Created</c>.
+    /// Gets or sets the <c>Created</c> value mapped to the <c>Created</c> column.
     /// </summary>
     /// <value>
-    /// The property value representing column <c>Created</c>.
+    /// The <c>Created</c> entity value.
     /// </value>
     [Column("Created", TypeName = "datetimeoffset")]
     public DateTimeOffset Created { get; set; }
 
     /// <summary>
-    /// Gets or sets the property value representing column <c>CreatedBy</c>.
+    /// Gets or sets the <c>CreatedBy</c> value mapped to the <c>CreatedBy</c> column.
     /// </summary>
     /// <value>
-    /// The property value representing column <c>CreatedBy</c>.
+    /// The <c>CreatedBy</c> entity value.
     /// </value>
     [Column("CreatedBy", TypeName = "nvarchar(100)")]
     public string? CreatedBy { get; set; }
 
     /// <summary>
-    /// Gets or sets the property value representing column <c>Updated</c>.
+    /// Gets or sets the <c>Updated</c> value mapped to the <c>Updated</c> column.
     /// </summary>
     /// <value>
-    /// The property value representing column <c>Updated</c>.
+    /// The <c>Updated</c> entity value.
     /// </value>
     [Column("Updated", TypeName = "datetimeoffset")]
     public DateTimeOffset Updated { get; set; }
 
     /// <summary>
-    /// Gets or sets the property value representing column <c>UpdatedBy</c>.
+    /// Gets or sets the <c>UpdatedBy</c> value mapped to the <c>UpdatedBy</c> column.
     /// </summary>
     /// <value>
-    /// The property value representing column <c>UpdatedBy</c>.
+    /// The <c>UpdatedBy</c> entity value.
     /// </value>
     [Column("UpdatedBy", TypeName = "nvarchar(100)")]
     public string? UpdatedBy { get; set; }
 
     /// <summary>
-    /// Gets or sets the property value representing column <c>RowVersion</c>.
+    /// Gets or sets the <c>RowVersion</c> value mapped to the <c>RowVersion</c> column.
     /// </summary>
     /// <value>
-    /// The property value representing column <c>RowVersion</c>.
+    /// The <c>RowVersion</c> entity value.
     /// </value>
     [ConcurrencyCheck]
     [Column("RowVersion", TypeName = "rowversion")]
@@ -109,10 +110,10 @@ public partial class Tenant : IHaveIdentifier, ITrackCreated, ITrackUpdated
 
     #region Generated Relationships
     /// <summary>
-    /// Gets or sets the navigation collection for entity <see cref="Task" />.
+    /// Gets or sets the related <see cref="Task" /> entity collection.
     /// </summary>
     /// <value>
-    /// The navigation collection for entity <see cref="Task" />.
+    /// The related <see cref="Task" /> entity collection.
     /// </value>
     public virtual ICollection<Task> Tasks { get; set; }
 
