@@ -3,13 +3,15 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
+using Tracker.Core.Definitions;
+
 namespace Tracker.Core.Data.Entities;
 
 /// <summary>
 /// Represents the <c>Status</c> entity mapped to the <c>dbo.Status</c> table.
 /// </summary>
 [Table("Status", Schema = "dbo")]
-public partial class Status
+public partial class Status : IHaveIdentifier, ITrackCreated, ITrackUpdated
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="Status"/> class and its collection navigation properties.

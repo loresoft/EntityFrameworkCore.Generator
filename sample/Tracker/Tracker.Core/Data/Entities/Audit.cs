@@ -3,13 +3,15 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
+using Tracker.Core.Definitions;
+
 namespace Tracker.Core.Data.Entities;
 
 /// <summary>
 /// Represents the <c>Audit</c> entity mapped to the <c>dbo.Audit</c> table.
 /// </summary>
 [Table("Audit", Schema = "dbo")]
-public partial class Audit
+public partial class Audit : IHaveIdentifier
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="Audit"/> class.

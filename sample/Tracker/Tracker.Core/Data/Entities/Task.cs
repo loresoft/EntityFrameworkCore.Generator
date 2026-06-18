@@ -3,13 +3,15 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
+using Tracker.Core.Definitions;
+
 namespace Tracker.Core.Data.Entities;
 
 /// <summary>
 /// Represents the <c>Task</c> entity mapped to the <c>dbo.Task</c> table.
 /// </summary>
 [Table("Task", Schema = "dbo")]
-public partial class Task
+public partial class Task : IHaveIdentifier, ITrackCreated, ITrackUpdated
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="Task"/> class.

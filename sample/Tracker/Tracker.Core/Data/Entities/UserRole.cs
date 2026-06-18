@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
+using Tracker.Core.Definitions;
+
 namespace Tracker.Core.Data.Entities;
 
 /// <summary>

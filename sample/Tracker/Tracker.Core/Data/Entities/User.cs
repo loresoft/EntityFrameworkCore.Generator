@@ -3,13 +3,15 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
+using Tracker.Core.Definitions;
+
 namespace Tracker.Core.Data.Entities;
 
 /// <summary>
 /// Represents the <c>User</c> entity mapped to the <c>dbo.User</c> table.
 /// </summary>
 [Table("User", Schema = "dbo")]
-public partial class User
+public partial class User : IHaveIdentifier, ITrackCreated, ITrackUpdated
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="User"/> class and its collection navigation properties.

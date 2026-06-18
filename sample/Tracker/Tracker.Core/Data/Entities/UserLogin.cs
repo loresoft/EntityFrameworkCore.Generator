@@ -3,13 +3,15 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
+using Tracker.Core.Definitions;
+
 namespace Tracker.Core.Data.Entities;
 
 /// <summary>
 /// Represents the <c>UserLogin</c> entity mapped to the <c>dbo.UserLogin</c> table.
 /// </summary>
 [Table("UserLogin", Schema = "dbo")]
-public partial class UserLogin
+public partial class UserLogin : IHaveIdentifier, ITrackCreated, ITrackUpdated
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="UserLogin"/> class.

@@ -3,13 +3,15 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
+using Tracker.Core.Definitions;
+
 namespace Tracker.Core.Data.Entities;
 
 /// <summary>
 /// Represents the <c>Role</c> entity mapped to the <c>dbo.Role</c> table.
 /// </summary>
 [Table("Role", Schema = "dbo")]
-public partial class Role
+public partial class Role : IHaveIdentifier, ITrackCreated, ITrackUpdated
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="Role"/> class and its collection navigation properties.
