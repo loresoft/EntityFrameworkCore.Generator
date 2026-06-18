@@ -128,6 +128,7 @@ Entity Framework Core Generator supports the following databases.
 - PostgreSQL
 - MySQL
 - Sqlite
+- Oracle
 
 The provider can be set via command line or via the [configuration file](https://efg.loresoft.com/configuration/).
 
@@ -147,13 +148,24 @@ database:
 
 ## Database Schema
 
-The database schema is loaded from the metadata model factory implementation of `IDatabaseModelFactory`.  Entity Framework Core Generator uses the implemented interface from each of the supported providers similar to how `ef dbcontext scaffold` works.
+The database schema is loaded from [SchemaSaurus](https://github.com/loresoft/SchemaSaurus) for each supported provider.
 
 ## View Models
 
 Entity Framework Core Generator supports generating [Read](https://efg.loresoft.com/md/read/), [Create](https://efg.loresoft.com/md/create/) and [Update](https://efg.loresoft.com/md/update/) view models from an entity.  Many projects rely on view models to shape data.  The model templates can be used to quickly get the basic view models created.  The model templates also support regeneration so any database change can easily be sync'd to the view models.  
 
 ## Change Log
+
+### Version 8.0
+
+- add support for .NET 10 while continuing to target .NET 8
+- update generated Entity Framework dependencies for Entity Framework Core 10
+- load database schema metadata from [SchemaSaurus](https://github.com/loresoft/SchemaSaurus) instead of Entity Framework Core Design
+- remove direct Entity Framework Core dependencies from the tool; Entity Framework Core packages are only needed by generated projects
+- add Oracle database provider support
+- add entity `typeMapping` configuration for mapping native database types to generated .NET types
+- update major package dependencies including AutoMapper 16, FluentValidation 12, Spectre.Console.Cli 0.55 and YamlDotNet 18
+- generated projects may need matching current Entity Framework Core and provider package versions
 
 ### Version 7.0
 
@@ -181,7 +193,7 @@ database:
 
 - upgrade to .net 8
 - add option to turn off temporal table mapping
-- add rowversion options, ByteArray|Long|ULong 
+- add rowversion options, ByteArray|Long|ULong
 - add script template merge
 
 ### Version 5.0

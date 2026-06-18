@@ -28,7 +28,7 @@ database:
   # the connection string to the database
   connectionString: 'Data Source=(local);Initial Catalog=Tracker;Integrated Security=True'
   # the database provider name.  Default: SqlServer
-  provider: SqlServer|PostgreSQL|MySQL|Sqlite
+  provider: SqlServer|PostgreSQL|MySQL|Sqlite|Oracle
 
   # config name to read the connection string from the user secrets file
   connectionName: 'ConnectionStrings:Generator'
@@ -46,7 +46,7 @@ database:
   schemas:
     - dbo
   
-  # exclude tables or columns: Changed in v7.x
+  # exclude tables or columns
   exclude:
     # list of expressions for tables to exclude, source is Schema.TableName
     tables:
@@ -95,6 +95,14 @@ data:
     mappingAttributes: true
     # Generate class names with prefixed schema name eg. dbo.MyTable = DboMyTable
     prefixWithSchemaName: false
+
+    # Map native database type names to generated .NET system type names
+    typeMapping:
+      - nativeType: geometry
+        systemType: NetTopologySuite.Geometries.Geometry
+      - nativeType: dbo.StringList
+        systemType: List<string?>
+
     # file header
     header: // Entity header
 
