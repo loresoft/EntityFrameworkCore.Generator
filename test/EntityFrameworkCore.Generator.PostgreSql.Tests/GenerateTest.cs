@@ -1,13 +1,13 @@
 using System.Diagnostics;
 
-using EntityFrameworkCore.Generator.SqlServer.Tests.Fixtures;
+using EntityFrameworkCore.Generator.PostgreSql.Tests.Fixtures;
 
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
 using Spectre.Console.Cli;
 
-namespace EntityFrameworkCore.Generator.SqlServer.Tests;
+namespace EntityFrameworkCore.Generator.PostgreSql.Tests;
 
 public class GenerateTest : DatabaseTestBase
 {
@@ -27,7 +27,7 @@ public class GenerateTest : DatabaseTestBase
         Assert.False(string.IsNullOrWhiteSpace(_databaseFixture.ConnectionString));
 
         var solutionDirectory = GetSolutionDirectory();
-        var testResultsDirectory = Path.Combine(solutionDirectory, "TestResults", "SqlServer");
+        var testResultsDirectory = Path.Combine(solutionDirectory, "TestResults", "PostgreSql");
         var outputDirectory = Path.Combine(testResultsDirectory, "GenerateCommand");
 
         PrepareDirectory(outputDirectory);
@@ -86,7 +86,7 @@ public class GenerateTest : DatabaseTestBase
         var sourceFile = Path.Combine(
             solutionDirectory,
             "test",
-            "EntityFrameworkCore.Generator.SqlServer.Tests",
+            "EntityFrameworkCore.Generator.PostgreSql.Tests",
             ConfigurationSerializer.OptionsFileName);
         var targetFile = Path.Combine(outputDirectory, ConfigurationSerializer.OptionsFileName);
 
@@ -111,8 +111,8 @@ public class GenerateTest : DatabaseTestBase
               <ItemGroup>
                 <PackageReference Include="AutoMapper" />
                 <PackageReference Include="FluentValidation" />
-                <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" />
-                <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer.NetTopologySuite" />
+                <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" />
+                <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL.NetTopologySuite" />
               </ItemGroup>
             </Project>
             """;

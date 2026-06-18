@@ -65,7 +65,10 @@ public class EntityClassTemplate : CodeTemplateBase
         }
         if (Options.Data.Entity.MappingAttributes)
         {
-            CodeBuilder.AppendLine($"[Table(\"{_entity.TableName}\", Schema = \"{_entity.TableSchema}\")]");
+            if (_entity.TableSchema.HasValue())
+                CodeBuilder.AppendLine($"[Table(\"{_entity.TableName}\", Schema = \"{_entity.TableSchema}\")]");
+            else
+                CodeBuilder.AppendLine($"[Table(\"{_entity.TableName}\")]");
         }
         CodeBuilder.AppendLine($"public partial class {entityClass}");
 

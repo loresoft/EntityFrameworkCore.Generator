@@ -14,11 +14,14 @@
 
   <ItemGroup>
     <PackageReference Include="coverlet.MTP" />
+    <PackageReference Include="FluentMigrator.Runner.MySql" />
+    <PackageReference Include="Testcontainers.MySql" />
     <PackageReference Include="xunit.v3.mtp-v2" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\EntityFrameworkCore.Generator.Core\EntityFrameworkCore.Generator.Core.csproj" />
+    <ProjectReference Include="..\..\src\EntityFrameworkCore.Generator\EntityFrameworkCore.Generator.csproj" />
     <ProjectReference Include="..\EntityFrameworkCore.Generator.Migrator\EntityFrameworkCore.Generator.Migrator.csproj" />
   </ItemGroup>
 

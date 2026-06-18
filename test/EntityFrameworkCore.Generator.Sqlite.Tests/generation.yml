@@ -4,11 +4,8 @@ project:
   nullable: true
   fileScopedNamespace: true
 database:
-  provider: SqlServer
+  provider: Sqlite
   connectionName: 'ConnectionStrings:GeneratorTest'
-  exclude:
-    tables:
-      - exact: 'dbo.SchemaVersions'
 data:
   context:
     name: 'GeneratedContext'
@@ -25,8 +22,6 @@ data:
         systemType: NetTopologySuite.Geometries.Geometry
       - nativeType: geography
         systemType: NetTopologySuite.Geometries.Geometry
-      - nativeType: StringList
-        systemType: List<string>
     document: true
   mapping:
     namespace: '{Project.Namespace}.Data.Mapping'

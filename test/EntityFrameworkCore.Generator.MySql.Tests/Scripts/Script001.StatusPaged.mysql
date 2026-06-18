@@ -1,0 +1,12 @@
+DROP PROCEDURE IF EXISTS `StatusPaged`;
+
+CREATE PROCEDURE `StatusPaged`(
+    IN `Offset` int,
+    IN `Limit` int,
+    OUT `Total` bigint
+)
+COMMENT 'Reads a page of statuses.'
+BEGIN
+    SELECT COUNT(*) INTO `Total`
+    FROM `Status`;
+END;

@@ -99,10 +99,13 @@ public class MappingClassTemplate : CodeTemplateBase
         using (CodeBuilder.Indent())
         {
 
-            if (Options.Data.Mapping.Document)
-                CodeBuilder.AppendLine($"/// <summary>Table Schema name constant for entity <see cref=\"{safeName}\" /></summary>");
+            if (_entity.TableSchema.HasValue())
+            {
+                if (Options.Data.Mapping.Document)
+                    CodeBuilder.AppendLine($"/// <summary>Table Schema name constant for entity <see cref=\"{safeName}\" /></summary>");
 
-            CodeBuilder.AppendLine($"public const string Schema = \"{_entity.TableSchema}\";");
+                CodeBuilder.AppendLine($"public const string Schema = \"{_entity.TableSchema}\";");
+            }
 
             if (Options.Data.Mapping.Document)
                 CodeBuilder.AppendLine($"/// <summary>Table Name constant for entity <see cref=\"{safeName}\" /></summary>");
