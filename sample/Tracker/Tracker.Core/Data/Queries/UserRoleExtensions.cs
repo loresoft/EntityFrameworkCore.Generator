@@ -17,7 +17,7 @@ public static partial class UserRoleExtensions
     /// <param name="queryable">An <see cref="T:System.Linq.IQueryable`1" /> to filter.</param>
     /// <param name="roleId">The value to filter by.</param>
     /// <returns>An <see cref="T: System.Linq.IQueryable`1" /> that contains elements from the input sequence that satisfy the condition specified.</returns>
-    public static System.Linq.IQueryable<TrackerGenerator.Core.Data.Entities.UserRole> ByRoleId(this System.Linq.IQueryable<TrackerGenerator.Core.Data.Entities.UserRole> queryable, Guid roleId)
+    public static System.Linq.IQueryable<Tracker.Core.Data.Entities.UserRole> ByRoleId(this System.Linq.IQueryable<Tracker.Core.Data.Entities.UserRole> queryable, Guid roleId)
     {
         if (queryable is null)
             throw new ArgumentNullException(nameof(queryable));
@@ -31,7 +31,7 @@ public static partial class UserRoleExtensions
     /// <param name="queryable">An <see cref="T:System.Linq.IQueryable`1" /> to filter.</param>
     /// <param name="userId">The value to filter by.</param>
     /// <returns>An <see cref="T: System.Linq.IQueryable`1" /> that contains elements from the input sequence that satisfy the condition specified.</returns>
-    public static System.Linq.IQueryable<TrackerGenerator.Core.Data.Entities.UserRole> ByUserId(this System.Linq.IQueryable<TrackerGenerator.Core.Data.Entities.UserRole> queryable, Guid userId)
+    public static System.Linq.IQueryable<Tracker.Core.Data.Entities.UserRole> ByUserId(this System.Linq.IQueryable<Tracker.Core.Data.Entities.UserRole> queryable, Guid userId)
     {
         if (queryable is null)
             throw new ArgumentNullException(nameof(queryable));
@@ -45,13 +45,13 @@ public static partial class UserRoleExtensions
     /// <param name="queryable">An <see cref="T:System.Linq.IQueryable`1" /> to filter.</param>
     /// <param name="userId">The value to filter by.</param>
     /// <param name="roleId">The value to filter by.</param>
-    /// <returns>An instance of <see cref="T:TrackerGenerator.Core.Data.Entities.UserRole"/> or null if not found.</returns>
-    public static TrackerGenerator.Core.Data.Entities.UserRole? GetByKey(this System.Linq.IQueryable<TrackerGenerator.Core.Data.Entities.UserRole> queryable, Guid userId, Guid roleId)
+    /// <returns>An instance of <see cref="T:Tracker.Core.Data.Entities.UserRole"/> or null if not found.</returns>
+    public static Tracker.Core.Data.Entities.UserRole? GetByKey(this System.Linq.IQueryable<Tracker.Core.Data.Entities.UserRole> queryable, Guid userId, Guid roleId)
     {
         if (queryable is null)
             throw new ArgumentNullException(nameof(queryable));
 
-        if (queryable is DbSet<TrackerGenerator.Core.Data.Entities.UserRole> dbSet)
+        if (queryable is DbSet<Tracker.Core.Data.Entities.UserRole> dbSet)
             return dbSet.Find(userId, roleId);
 
         return queryable.FirstOrDefault(q => q.UserId == userId
@@ -65,13 +65,13 @@ public static partial class UserRoleExtensions
     /// <param name="userId">The value to filter by.</param>
     /// <param name="roleId">The value to filter by.</param>
     /// <param name="cancellationToken">A <see cref="System.Threading.CancellationToken" /> to observe while waiting for the task to complete.</param>
-    /// <returns>An instance of <see cref="T:TrackerGenerator.Core.Data.Entities.UserRole"/> or null if not found.</returns>
-    public static async System.Threading.Tasks.ValueTask<TrackerGenerator.Core.Data.Entities.UserRole?> GetByKeyAsync(this System.Linq.IQueryable<TrackerGenerator.Core.Data.Entities.UserRole> queryable, Guid userId, Guid roleId, System.Threading.CancellationToken cancellationToken = default)
+    /// <returns>An instance of <see cref="T:Tracker.Core.Data.Entities.UserRole"/> or null if not found.</returns>
+    public static async System.Threading.Tasks.ValueTask<Tracker.Core.Data.Entities.UserRole?> GetByKeyAsync(this System.Linq.IQueryable<Tracker.Core.Data.Entities.UserRole> queryable, Guid userId, Guid roleId, System.Threading.CancellationToken cancellationToken = default)
     {
         if (queryable is null)
             throw new ArgumentNullException(nameof(queryable));
 
-        if (queryable is DbSet<TrackerGenerator.Core.Data.Entities.UserRole> dbSet)
+        if (queryable is DbSet<Tracker.Core.Data.Entities.UserRole> dbSet)
             return await dbSet.FindAsync(new object[] { userId, roleId }, cancellationToken);
 
         return await queryable.FirstOrDefaultAsync(q => q.UserId == userId

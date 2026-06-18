@@ -13,8 +13,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="AutoMapper" />
     <PackageReference Include="coverlet.MTP" />
     <PackageReference Include="FluentMigrator.Runner.Postgres" />
+    <PackageReference Include="FluentValidation" />
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" />
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL.NetTopologySuite" />
     <PackageReference Include="Testcontainers.Postgresql" />
     <PackageReference Include="xunit.v3.mtp-v2" />
   </ItemGroup>

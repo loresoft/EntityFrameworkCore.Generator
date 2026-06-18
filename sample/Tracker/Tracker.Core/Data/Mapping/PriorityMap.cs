@@ -90,33 +90,33 @@ public partial class PriorityMap
     #region Generated Constants
     public readonly struct Table
     {
-        /// <summary>Table Schema name constant for entity <see cref="TrackerGenerator.Core.Data.Entities.Priority" /></summary>
+        /// <summary>Table Schema name constant for entity <see cref="Tracker.Core.Data.Entities.Priority" /></summary>
         public const string Schema = "dbo";
-        /// <summary>Table Name constant for entity <see cref="TrackerGenerator.Core.Data.Entities.Priority" /></summary>
+        /// <summary>Table Name constant for entity <see cref="Tracker.Core.Data.Entities.Priority" /></summary>
         public const string Name = "Priority";
     }
 
     public readonly struct Columns
     {
-        /// <summary>Column Name constant for property <see cref="TrackerGenerator.Core.Data.Entities.Priority.Id" /></summary>
+        /// <summary>Column Name constant for property <see cref="Tracker.Core.Data.Entities.Priority.Id" /></summary>
         public const string Id = "Id";
-        /// <summary>Column Name constant for property <see cref="TrackerGenerator.Core.Data.Entities.Priority.Name" /></summary>
+        /// <summary>Column Name constant for property <see cref="Tracker.Core.Data.Entities.Priority.Name" /></summary>
         public const string Name = "Name";
-        /// <summary>Column Name constant for property <see cref="TrackerGenerator.Core.Data.Entities.Priority.Description" /></summary>
+        /// <summary>Column Name constant for property <see cref="Tracker.Core.Data.Entities.Priority.Description" /></summary>
         public const string Description = "Description";
-        /// <summary>Column Name constant for property <see cref="TrackerGenerator.Core.Data.Entities.Priority.DisplayOrder" /></summary>
+        /// <summary>Column Name constant for property <see cref="Tracker.Core.Data.Entities.Priority.DisplayOrder" /></summary>
         public const string DisplayOrder = "DisplayOrder";
-        /// <summary>Column Name constant for property <see cref="TrackerGenerator.Core.Data.Entities.Priority.IsActive" /></summary>
+        /// <summary>Column Name constant for property <see cref="Tracker.Core.Data.Entities.Priority.IsActive" /></summary>
         public const string IsActive = "IsActive";
-        /// <summary>Column Name constant for property <see cref="TrackerGenerator.Core.Data.Entities.Priority.Created" /></summary>
+        /// <summary>Column Name constant for property <see cref="Tracker.Core.Data.Entities.Priority.Created" /></summary>
         public const string Created = "Created";
-        /// <summary>Column Name constant for property <see cref="TrackerGenerator.Core.Data.Entities.Priority.CreatedBy" /></summary>
+        /// <summary>Column Name constant for property <see cref="Tracker.Core.Data.Entities.Priority.CreatedBy" /></summary>
         public const string CreatedBy = "CreatedBy";
-        /// <summary>Column Name constant for property <see cref="TrackerGenerator.Core.Data.Entities.Priority.Updated" /></summary>
+        /// <summary>Column Name constant for property <see cref="Tracker.Core.Data.Entities.Priority.Updated" /></summary>
         public const string Updated = "Updated";
-        /// <summary>Column Name constant for property <see cref="TrackerGenerator.Core.Data.Entities.Priority.UpdatedBy" /></summary>
+        /// <summary>Column Name constant for property <see cref="Tracker.Core.Data.Entities.Priority.UpdatedBy" /></summary>
         public const string UpdatedBy = "UpdatedBy";
-        /// <summary>Column Name constant for property <see cref="TrackerGenerator.Core.Data.Entities.Priority.RowVersion" /></summary>
+        /// <summary>Column Name constant for property <see cref="Tracker.Core.Data.Entities.Priority.RowVersion" /></summary>
         public const string RowVersion = "RowVersion";
     }
     #endregion

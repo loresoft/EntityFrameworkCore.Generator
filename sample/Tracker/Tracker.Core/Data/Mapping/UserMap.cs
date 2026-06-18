@@ -123,47 +123,47 @@ public partial class UserMap
     #region Generated Constants
     public readonly struct Table
     {
-        /// <summary>Table Schema name constant for entity <see cref="TrackerGenerator.Core.Data.Entities.User" /></summary>
+        /// <summary>Table Schema name constant for entity <see cref="Tracker.Core.Data.Entities.User" /></summary>
         public const string Schema = "dbo";
-        /// <summary>Table Name constant for entity <see cref="TrackerGenerator.Core.Data.Entities.User" /></summary>
+        /// <summary>Table Name constant for entity <see cref="Tracker.Core.Data.Entities.User" /></summary>
         public const string Name = "User";
     }
 
     public readonly struct Columns
     {
-        /// <summary>Column Name constant for property <see cref="TrackerGenerator.Core.Data.Entities.User.Id" /></summary>
+        /// <summary>Column Name constant for property <see cref="Tracker.Core.Data.Entities.User.Id" /></summary>
         public const string Id = "Id";
-        /// <summary>Column Name constant for property <see cref="TrackerGenerator.Core.Data.Entities.User.EmailAddress" /></summary>
+        /// <summary>Column Name constant for property <see cref="Tracker.Core.Data.Entities.User.EmailAddress" /></summary>
         public const string EmailAddress = "EmailAddress";
-        /// <summary>Column Name constant for property <see cref="TrackerGenerator.Core.Data.Entities.User.IsEmailAddressConfirmed" /></summary>
+        /// <summary>Column Name constant for property <see cref="Tracker.Core.Data.Entities.User.IsEmailAddressConfirmed" /></summary>
         public const string IsEmailAddressConfirmed = "IsEmailAddressConfirmed";
-        /// <summary>Column Name constant for property <see cref="TrackerGenerator.Core.Data.Entities.User.DisplayName" /></summary>
+        /// <summary>Column Name constant for property <see cref="Tracker.Core.Data.Entities.User.DisplayName" /></summary>
         public const string DisplayName = "DisplayName";
-        /// <summary>Column Name constant for property <see cref="TrackerGenerator.Core.Data.Entities.User.PasswordHash" /></summary>
+        /// <summary>Column Name constant for property <see cref="Tracker.Core.Data.Entities.User.PasswordHash" /></summary>
         public const string PasswordHash = "PasswordHash";
-        /// <summary>Column Name constant for property <see cref="TrackerGenerator.Core.Data.Entities.User.ResetHash" /></summary>
+        /// <summary>Column Name constant for property <see cref="Tracker.Core.Data.Entities.User.ResetHash" /></summary>
         public const string ResetHash = "ResetHash";
-        /// <summary>Column Name constant for property <see cref="TrackerGenerator.Core.Data.Entities.User.InviteHash" /></summary>
+        /// <summary>Column Name constant for property <see cref="Tracker.Core.Data.Entities.User.InviteHash" /></summary>
         public const string InviteHash = "InviteHash";
-        /// <summary>Column Name constant for property <see cref="TrackerGenerator.Core.Data.Entities.User.AccessFailedCount" /></summary>
+        /// <summary>Column Name constant for property <see cref="Tracker.Core.Data.Entities.User.AccessFailedCount" /></summary>
         public const string AccessFailedCount = "AccessFailedCount";
-        /// <summary>Column Name constant for property <see cref="TrackerGenerator.Core.Data.Entities.User.LockoutEnabled" /></summary>
+        /// <summary>Column Name constant for property <see cref="Tracker.Core.Data.Entities.User.LockoutEnabled" /></summary>
         public const string LockoutEnabled = "LockoutEnabled";
-        /// <summary>Column Name constant for property <see cref="TrackerGenerator.Core.Data.Entities.User.LockoutEnd" /></summary>
+        /// <summary>Column Name constant for property <see cref="Tracker.Core.Data.Entities.User.LockoutEnd" /></summary>
         public const string LockoutEnd = "LockoutEnd";
-        /// <summary>Column Name constant for property <see cref="TrackerGenerator.Core.Data.Entities.User.LastLogin" /></summary>
+        /// <summary>Column Name constant for property <see cref="Tracker.Core.Data.Entities.User.LastLogin" /></summary>
         public const string LastLogin = "LastLogin";
-        /// <summary>Column Name constant for property <see cref="TrackerGenerator.Core.Data.Entities.User.IsDeleted" /></summary>
+        /// <summary>Column Name constant for property <see cref="Tracker.Core.Data.Entities.User.IsDeleted" /></summary>
         public const string IsDeleted = "IsDeleted";
-        /// <summary>Column Name constant for property <see cref="TrackerGenerator.Core.Data.Entities.User.Created" /></summary>
+        /// <summary>Column Name constant for property <see cref="Tracker.Core.Data.Entities.User.Created" /></summary>
         public const string Created = "Created";
-        /// <summary>Column Name constant for property <see cref="TrackerGenerator.Core.Data.Entities.User.CreatedBy" /></summary>
+        /// <summary>Column Name constant for property <see cref="Tracker.Core.Data.Entities.User.CreatedBy" /></summary>
         public const string CreatedBy = "CreatedBy";
-        /// <summary>Column Name constant for property <see cref="TrackerGenerator.Core.Data.Entities.User.Updated" /></summary>
+        /// <summary>Column Name constant for property <see cref="Tracker.Core.Data.Entities.User.Updated" /></summary>
         public const string Updated = "Updated";
-        /// <summary>Column Name constant for property <see cref="TrackerGenerator.Core.Data.Entities.User.UpdatedBy" /></summary>
+        /// <summary>Column Name constant for property <see cref="Tracker.Core.Data.Entities.User.UpdatedBy" /></summary>
         public const string UpdatedBy = "UpdatedBy";
-        /// <summary>Column Name constant for property <see cref="TrackerGenerator.Core.Data.Entities.User.RowVersion" /></summary>
+        /// <summary>Column Name constant for property <see cref="Tracker.Core.Data.Entities.User.RowVersion" /></summary>
         public const string RowVersion = "RowVersion";
     }
     #endregion

@@ -83,31 +83,31 @@ public partial class TenantMap
     #region Generated Constants
     public readonly struct Table
     {
-        /// <summary>Table Schema name constant for entity <see cref="TrackerGenerator.Core.Data.Entities.Tenant" /></summary>
+        /// <summary>Table Schema name constant for entity <see cref="Tracker.Core.Data.Entities.Tenant" /></summary>
         public const string Schema = "dbo";
-        /// <summary>Table Name constant for entity <see cref="TrackerGenerator.Core.Data.Entities.Tenant" /></summary>
+        /// <summary>Table Name constant for entity <see cref="Tracker.Core.Data.Entities.Tenant" /></summary>
         public const string Name = "Tenant";
     }
 
     public readonly struct Columns
     {
-        /// <summary>Column Name constant for property <see cref="TrackerGenerator.Core.Data.Entities.Tenant.Id" /></summary>
+        /// <summary>Column Name constant for property <see cref="Tracker.Core.Data.Entities.Tenant.Id" /></summary>
         public const string Id = "Id";
-        /// <summary>Column Name constant for property <see cref="TrackerGenerator.Core.Data.Entities.Tenant.Name" /></summary>
+        /// <summary>Column Name constant for property <see cref="Tracker.Core.Data.Entities.Tenant.Name" /></summary>
         public const string Name = "Name";
-        /// <summary>Column Name constant for property <see cref="TrackerGenerator.Core.Data.Entities.Tenant.Description" /></summary>
+        /// <summary>Column Name constant for property <see cref="Tracker.Core.Data.Entities.Tenant.Description" /></summary>
         public const string Description = "Description";
-        /// <summary>Column Name constant for property <see cref="TrackerGenerator.Core.Data.Entities.Tenant.IsActive" /></summary>
+        /// <summary>Column Name constant for property <see cref="Tracker.Core.Data.Entities.Tenant.IsActive" /></summary>
         public const string IsActive = "IsActive";
-        /// <summary>Column Name constant for property <see cref="TrackerGenerator.Core.Data.Entities.Tenant.Created" /></summary>
+        /// <summary>Column Name constant for property <see cref="Tracker.Core.Data.Entities.Tenant.Created" /></summary>
         public const string Created = "Created";
-        /// <summary>Column Name constant for property <see cref="TrackerGenerator.Core.Data.Entities.Tenant.CreatedBy" /></summary>
+        /// <summary>Column Name constant for property <see cref="Tracker.Core.Data.Entities.Tenant.CreatedBy" /></summary>
         public const string CreatedBy = "CreatedBy";
-        /// <summary>Column Name constant for property <see cref="TrackerGenerator.Core.Data.Entities.Tenant.Updated" /></summary>
+        /// <summary>Column Name constant for property <see cref="Tracker.Core.Data.Entities.Tenant.Updated" /></summary>
         public const string Updated = "Updated";
-        /// <summary>Column Name constant for property <see cref="TrackerGenerator.Core.Data.Entities.Tenant.UpdatedBy" /></summary>
+        /// <summary>Column Name constant for property <see cref="Tracker.Core.Data.Entities.Tenant.UpdatedBy" /></summary>
         public const string UpdatedBy = "UpdatedBy";
-        /// <summary>Column Name constant for property <see cref="TrackerGenerator.Core.Data.Entities.Tenant.RowVersion" /></summary>
+        /// <summary>Column Name constant for property <see cref="Tracker.Core.Data.Entities.Tenant.RowVersion" /></summary>
         public const string RowVersion = "RowVersion";
     }
     #endregion

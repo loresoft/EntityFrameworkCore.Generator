@@ -51,17 +51,17 @@ public partial class UserRoleMap
     #region Generated Constants
     public readonly struct Table
     {
-        /// <summary>Table Schema name constant for entity <see cref="TrackerGenerator.Core.Data.Entities.UserRole" /></summary>
+        /// <summary>Table Schema name constant for entity <see cref="Tracker.Core.Data.Entities.UserRole" /></summary>
         public const string Schema = "dbo";
-        /// <summary>Table Name constant for entity <see cref="TrackerGenerator.Core.Data.Entities.UserRole" /></summary>
+        /// <summary>Table Name constant for entity <see cref="Tracker.Core.Data.Entities.UserRole" /></summary>
         public const string Name = "UserRole";
     }
 
     public readonly struct Columns
     {
-        /// <summary>Column Name constant for property <see cref="TrackerGenerator.Core.Data.Entities.UserRole.UserId" /></summary>
+        /// <summary>Column Name constant for property <see cref="Tracker.Core.Data.Entities.UserRole.UserId" /></summary>
         public const string UserId = "UserId";
-        /// <summary>Column Name constant for property <see cref="TrackerGenerator.Core.Data.Entities.UserRole.RoleId" /></summary>
+        /// <summary>Column Name constant for property <see cref="Tracker.Core.Data.Entities.UserRole.RoleId" /></summary>
         public const string RoleId = "RoleId";
     }
     #endregion

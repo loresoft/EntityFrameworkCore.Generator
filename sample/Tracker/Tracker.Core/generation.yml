@@ -1,5 +1,5 @@
 project:
-  namespace: '{Database.Name}.Core'
+  namespace: 'Tracker.Core'
   directory: .\
   nullable: true
   fileScopedNamespace: true
@@ -11,7 +11,7 @@ database:
       - exact: 'dbo.SchemaVersions'
 data:
   context:
-    name: '{Database.Name}Context'
+    name: 'TrackerContext'
     baseClass: DbContext
     namespace: '{Project.Namespace}.Data'
     directory: '{Project.Directory}\Data'

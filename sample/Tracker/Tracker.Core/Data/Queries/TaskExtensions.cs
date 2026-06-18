@@ -18,7 +18,7 @@ public static partial class TaskExtensions
     /// <param name="queryable">An <see cref="T:System.Linq.IQueryable`1" /> to filter.</param>
     /// <param name="assignedId">The value to filter by.</param>
     /// <returns>An <see cref="T: System.Linq.IQueryable`1" /> that contains elements from the input sequence that satisfy the condition specified.</returns>
-    public static System.Linq.IQueryable<TrackerGenerator.Core.Data.Entities.Task> ByAssignedId(this System.Linq.IQueryable<TrackerGenerator.Core.Data.Entities.Task> queryable, Guid? assignedId)
+    public static System.Linq.IQueryable<Tracker.Core.Data.Entities.Task> ByAssignedId(this System.Linq.IQueryable<Tracker.Core.Data.Entities.Task> queryable, Guid? assignedId)
     {
         if (queryable is null)
             throw new ArgumentNullException(nameof(queryable));
@@ -31,13 +31,13 @@ public static partial class TaskExtensions
     /// </summary>
     /// <param name="queryable">An <see cref="T:System.Linq.IQueryable`1" /> to filter.</param>
     /// <param name="id">The value to filter by.</param>
-    /// <returns>An instance of <see cref="T:TrackerGenerator.Core.Data.Entities.Task"/> or null if not found.</returns>
-    public static TrackerGenerator.Core.Data.Entities.Task? GetByKey(this System.Linq.IQueryable<TrackerGenerator.Core.Data.Entities.Task> queryable, Guid id)
+    /// <returns>An instance of <see cref="T:Tracker.Core.Data.Entities.Task"/> or null if not found.</returns>
+    public static Tracker.Core.Data.Entities.Task? GetByKey(this System.Linq.IQueryable<Tracker.Core.Data.Entities.Task> queryable, Guid id)
     {
         if (queryable is null)
             throw new ArgumentNullException(nameof(queryable));
 
-        if (queryable is DbSet<TrackerGenerator.Core.Data.Entities.Task> dbSet)
+        if (queryable is DbSet<Tracker.Core.Data.Entities.Task> dbSet)
             return dbSet.Find(id);
 
         return queryable.FirstOrDefault(q => q.Id == id);
@@ -49,13 +49,13 @@ public static partial class TaskExtensions
     /// <param name="queryable">An <see cref="T:System.Linq.IQueryable`1" /> to filter.</param>
     /// <param name="id">The value to filter by.</param>
     /// <param name="cancellationToken">A <see cref="System.Threading.CancellationToken" /> to observe while waiting for the task to complete.</param>
-    /// <returns>An instance of <see cref="T:TrackerGenerator.Core.Data.Entities.Task"/> or null if not found.</returns>
-    public static async System.Threading.Tasks.ValueTask<TrackerGenerator.Core.Data.Entities.Task?> GetByKeyAsync(this System.Linq.IQueryable<TrackerGenerator.Core.Data.Entities.Task> queryable, Guid id, System.Threading.CancellationToken cancellationToken = default)
+    /// <returns>An instance of <see cref="T:Tracker.Core.Data.Entities.Task"/> or null if not found.</returns>
+    public static async System.Threading.Tasks.ValueTask<Tracker.Core.Data.Entities.Task?> GetByKeyAsync(this System.Linq.IQueryable<Tracker.Core.Data.Entities.Task> queryable, Guid id, System.Threading.CancellationToken cancellationToken = default)
     {
         if (queryable is null)
             throw new ArgumentNullException(nameof(queryable));
 
-        if (queryable is DbSet<TrackerGenerator.Core.Data.Entities.Task> dbSet)
+        if (queryable is DbSet<Tracker.Core.Data.Entities.Task> dbSet)
             return await dbSet.FindAsync(new object[] { id }, cancellationToken);
 
         return await queryable.FirstOrDefaultAsync(q => q.Id == id, cancellationToken);
@@ -67,7 +67,7 @@ public static partial class TaskExtensions
     /// <param name="queryable">An <see cref="T:System.Linq.IQueryable`1" /> to filter.</param>
     /// <param name="priorityId">The value to filter by.</param>
     /// <returns>An <see cref="T: System.Linq.IQueryable`1" /> that contains elements from the input sequence that satisfy the condition specified.</returns>
-    public static System.Linq.IQueryable<TrackerGenerator.Core.Data.Entities.Task> ByPriorityId(this System.Linq.IQueryable<TrackerGenerator.Core.Data.Entities.Task> queryable, Guid? priorityId)
+    public static System.Linq.IQueryable<Tracker.Core.Data.Entities.Task> ByPriorityId(this System.Linq.IQueryable<Tracker.Core.Data.Entities.Task> queryable, Guid? priorityId)
     {
         if (queryable is null)
             throw new ArgumentNullException(nameof(queryable));
@@ -81,7 +81,7 @@ public static partial class TaskExtensions
     /// <param name="queryable">An <see cref="T:System.Linq.IQueryable`1" /> to filter.</param>
     /// <param name="statusId">The value to filter by.</param>
     /// <returns>An <see cref="T: System.Linq.IQueryable`1" /> that contains elements from the input sequence that satisfy the condition specified.</returns>
-    public static System.Linq.IQueryable<TrackerGenerator.Core.Data.Entities.Task> ByStatusId(this System.Linq.IQueryable<TrackerGenerator.Core.Data.Entities.Task> queryable, Guid statusId)
+    public static System.Linq.IQueryable<Tracker.Core.Data.Entities.Task> ByStatusId(this System.Linq.IQueryable<Tracker.Core.Data.Entities.Task> queryable, Guid statusId)
     {
         if (queryable is null)
             throw new ArgumentNullException(nameof(queryable));
@@ -95,7 +95,7 @@ public static partial class TaskExtensions
     /// <param name="queryable">An <see cref="T:System.Linq.IQueryable`1" /> to filter.</param>
     /// <param name="tenantId">The value to filter by.</param>
     /// <returns>An <see cref="T: System.Linq.IQueryable`1" /> that contains elements from the input sequence that satisfy the condition specified.</returns>
-    public static System.Linq.IQueryable<TrackerGenerator.Core.Data.Entities.Task> ByTenantId(this System.Linq.IQueryable<TrackerGenerator.Core.Data.Entities.Task> queryable, Guid tenantId)
+    public static System.Linq.IQueryable<Tracker.Core.Data.Entities.Task> ByTenantId(this System.Linq.IQueryable<Tracker.Core.Data.Entities.Task> queryable, Guid tenantId)
     {
         if (queryable is null)
             throw new ArgumentNullException(nameof(queryable));

@@ -20,84 +20,84 @@ public partial class TrackerContext : DbContext
 
     #region Generated Properties
     /// <summary>
-    /// Gets or sets the <see cref="T:Microsoft.EntityFrameworkCore.DbSet`1" /> that can be used to query and save instances of <see cref="TrackerGenerator.Core.Data.Entities.Audit"/>.
+    /// Gets or sets the <see cref="T:Microsoft.EntityFrameworkCore.DbSet`1" /> that can be used to query and save instances of <see cref="Tracker.Core.Data.Entities.Audit"/>.
     /// </summary>
     /// <value>
-    /// The <see cref="T:Microsoft.EntityFrameworkCore.DbSet`1" /> that can be used to query and save instances of <see cref="TrackerGenerator.Core.Data.Entities.Audit"/>.
+    /// The <see cref="T:Microsoft.EntityFrameworkCore.DbSet`1" /> that can be used to query and save instances of <see cref="Tracker.Core.Data.Entities.Audit"/>.
     /// </value>
-    public virtual DbSet<TrackerGenerator.Core.Data.Entities.Audit> Audits { get; set; } = null!;
+    public virtual DbSet<Tracker.Core.Data.Entities.Audit> Audits { get; set; } = null!;
 
     /// <summary>
-    /// Gets or sets the <see cref="T:Microsoft.EntityFrameworkCore.DbSet`1" /> that can be used to query and save instances of <see cref="TrackerGenerator.Core.Data.Entities.Priority"/>.
+    /// Gets or sets the <see cref="T:Microsoft.EntityFrameworkCore.DbSet`1" /> that can be used to query and save instances of <see cref="Tracker.Core.Data.Entities.Priority"/>.
     /// </summary>
     /// <value>
-    /// The <see cref="T:Microsoft.EntityFrameworkCore.DbSet`1" /> that can be used to query and save instances of <see cref="TrackerGenerator.Core.Data.Entities.Priority"/>.
+    /// The <see cref="T:Microsoft.EntityFrameworkCore.DbSet`1" /> that can be used to query and save instances of <see cref="Tracker.Core.Data.Entities.Priority"/>.
     /// </value>
-    public virtual DbSet<TrackerGenerator.Core.Data.Entities.Priority> Priorities { get; set; } = null!;
+    public virtual DbSet<Tracker.Core.Data.Entities.Priority> Priorities { get; set; } = null!;
 
     /// <summary>
-    /// Gets or sets the <see cref="T:Microsoft.EntityFrameworkCore.DbSet`1" /> that can be used to query and save instances of <see cref="TrackerGenerator.Core.Data.Entities.Role"/>.
+    /// Gets or sets the <see cref="T:Microsoft.EntityFrameworkCore.DbSet`1" /> that can be used to query and save instances of <see cref="Tracker.Core.Data.Entities.Role"/>.
     /// </summary>
     /// <value>
-    /// The <see cref="T:Microsoft.EntityFrameworkCore.DbSet`1" /> that can be used to query and save instances of <see cref="TrackerGenerator.Core.Data.Entities.Role"/>.
+    /// The <see cref="T:Microsoft.EntityFrameworkCore.DbSet`1" /> that can be used to query and save instances of <see cref="Tracker.Core.Data.Entities.Role"/>.
     /// </value>
-    public virtual DbSet<TrackerGenerator.Core.Data.Entities.Role> Roles { get; set; } = null!;
+    public virtual DbSet<Tracker.Core.Data.Entities.Role> Roles { get; set; } = null!;
 
     /// <summary>
-    /// Gets or sets the <see cref="T:Microsoft.EntityFrameworkCore.DbSet`1" /> that can be used to query and save instances of <see cref="TrackerGenerator.Core.Data.Entities.Status"/>.
+    /// Gets or sets the <see cref="T:Microsoft.EntityFrameworkCore.DbSet`1" /> that can be used to query and save instances of <see cref="Tracker.Core.Data.Entities.Status"/>.
     /// </summary>
     /// <value>
-    /// The <see cref="T:Microsoft.EntityFrameworkCore.DbSet`1" /> that can be used to query and save instances of <see cref="TrackerGenerator.Core.Data.Entities.Status"/>.
+    /// The <see cref="T:Microsoft.EntityFrameworkCore.DbSet`1" /> that can be used to query and save instances of <see cref="Tracker.Core.Data.Entities.Status"/>.
     /// </value>
-    public virtual DbSet<TrackerGenerator.Core.Data.Entities.Status> Statuses { get; set; } = null!;
+    public virtual DbSet<Tracker.Core.Data.Entities.Status> Statuses { get; set; } = null!;
 
     /// <summary>
-    /// Gets or sets the <see cref="T:Microsoft.EntityFrameworkCore.DbSet`1" /> that can be used to query and save instances of <see cref="TrackerGenerator.Core.Data.Entities.TaskExtended"/>.
+    /// Gets or sets the <see cref="T:Microsoft.EntityFrameworkCore.DbSet`1" /> that can be used to query and save instances of <see cref="Tracker.Core.Data.Entities.TaskExtended"/>.
     /// </summary>
     /// <value>
-    /// The <see cref="T:Microsoft.EntityFrameworkCore.DbSet`1" /> that can be used to query and save instances of <see cref="TrackerGenerator.Core.Data.Entities.TaskExtended"/>.
+    /// The <see cref="T:Microsoft.EntityFrameworkCore.DbSet`1" /> that can be used to query and save instances of <see cref="Tracker.Core.Data.Entities.TaskExtended"/>.
     /// </value>
-    public virtual DbSet<TrackerGenerator.Core.Data.Entities.TaskExtended> TaskExtended { get; set; } = null!;
+    public virtual DbSet<Tracker.Core.Data.Entities.TaskExtended> TaskExtended { get; set; } = null!;
 
     /// <summary>
-    /// Gets or sets the <see cref="T:Microsoft.EntityFrameworkCore.DbSet`1" /> that can be used to query and save instances of <see cref="TrackerGenerator.Core.Data.Entities.Task"/>.
+    /// Gets or sets the <see cref="T:Microsoft.EntityFrameworkCore.DbSet`1" /> that can be used to query and save instances of <see cref="Tracker.Core.Data.Entities.Task"/>.
     /// </summary>
     /// <value>
-    /// The <see cref="T:Microsoft.EntityFrameworkCore.DbSet`1" /> that can be used to query and save instances of <see cref="TrackerGenerator.Core.Data.Entities.Task"/>.
+    /// The <see cref="T:Microsoft.EntityFrameworkCore.DbSet`1" /> that can be used to query and save instances of <see cref="Tracker.Core.Data.Entities.Task"/>.
     /// </value>
-    public virtual DbSet<TrackerGenerator.Core.Data.Entities.Task> Tasks { get; set; } = null!;
+    public virtual DbSet<Tracker.Core.Data.Entities.Task> Tasks { get; set; } = null!;
 
     /// <summary>
-    /// Gets or sets the <see cref="T:Microsoft.EntityFrameworkCore.DbSet`1" /> that can be used to query and save instances of <see cref="TrackerGenerator.Core.Data.Entities.Tenant"/>.
+    /// Gets or sets the <see cref="T:Microsoft.EntityFrameworkCore.DbSet`1" /> that can be used to query and save instances of <see cref="Tracker.Core.Data.Entities.Tenant"/>.
     /// </summary>
     /// <value>
-    /// The <see cref="T:Microsoft.EntityFrameworkCore.DbSet`1" /> that can be used to query and save instances of <see cref="TrackerGenerator.Core.Data.Entities.Tenant"/>.
+    /// The <see cref="T:Microsoft.EntityFrameworkCore.DbSet`1" /> that can be used to query and save instances of <see cref="Tracker.Core.Data.Entities.Tenant"/>.
     /// </value>
-    public virtual DbSet<TrackerGenerator.Core.Data.Entities.Tenant> Tenants { get; set; } = null!;
+    public virtual DbSet<Tracker.Core.Data.Entities.Tenant> Tenants { get; set; } = null!;
 
     /// <summary>
-    /// Gets or sets the <see cref="T:Microsoft.EntityFrameworkCore.DbSet`1" /> that can be used to query and save instances of <see cref="TrackerGenerator.Core.Data.Entities.UserLogin"/>.
+    /// Gets or sets the <see cref="T:Microsoft.EntityFrameworkCore.DbSet`1" /> that can be used to query and save instances of <see cref="Tracker.Core.Data.Entities.UserLogin"/>.
     /// </summary>
     /// <value>
-    /// The <see cref="T:Microsoft.EntityFrameworkCore.DbSet`1" /> that can be used to query and save instances of <see cref="TrackerGenerator.Core.Data.Entities.UserLogin"/>.
+    /// The <see cref="T:Microsoft.EntityFrameworkCore.DbSet`1" /> that can be used to query and save instances of <see cref="Tracker.Core.Data.Entities.UserLogin"/>.
     /// </value>
-    public virtual DbSet<TrackerGenerator.Core.Data.Entities.UserLogin> UserLogins { get; set; } = null!;
+    public virtual DbSet<Tracker.Core.Data.Entities.UserLogin> UserLogins { get; set; } = null!;
 
     /// <summary>
-    /// Gets or sets the <see cref="T:Microsoft.EntityFrameworkCore.DbSet`1" /> that can be used to query and save instances of <see cref="TrackerGenerator.Core.Data.Entities.UserRole"/>.
+    /// Gets or sets the <see cref="T:Microsoft.EntityFrameworkCore.DbSet`1" /> that can be used to query and save instances of <see cref="Tracker.Core.Data.Entities.UserRole"/>.
     /// </summary>
     /// <value>
-    /// The <see cref="T:Microsoft.EntityFrameworkCore.DbSet`1" /> that can be used to query and save instances of <see cref="TrackerGenerator.Core.Data.Entities.UserRole"/>.
+    /// The <see cref="T:Microsoft.EntityFrameworkCore.DbSet`1" /> that can be used to query and save instances of <see cref="Tracker.Core.Data.Entities.UserRole"/>.
     /// </value>
-    public virtual DbSet<TrackerGenerator.Core.Data.Entities.UserRole> UserRoles { get; set; } = null!;
+    public virtual DbSet<Tracker.Core.Data.Entities.UserRole> UserRoles { get; set; } = null!;
 
     /// <summary>
-    /// Gets or sets the <see cref="T:Microsoft.EntityFrameworkCore.DbSet`1" /> that can be used to query and save instances of <see cref="TrackerGenerator.Core.Data.Entities.User"/>.
+    /// Gets or sets the <see cref="T:Microsoft.EntityFrameworkCore.DbSet`1" /> that can be used to query and save instances of <see cref="Tracker.Core.Data.Entities.User"/>.
     /// </summary>
     /// <value>
-    /// The <see cref="T:Microsoft.EntityFrameworkCore.DbSet`1" /> that can be used to query and save instances of <see cref="TrackerGenerator.Core.Data.Entities.User"/>.
+    /// The <see cref="T:Microsoft.EntityFrameworkCore.DbSet`1" /> that can be used to query and save instances of <see cref="Tracker.Core.Data.Entities.User"/>.
     /// </value>
-    public virtual DbSet<TrackerGenerator.Core.Data.Entities.User> Users { get; set; } = null!;
+    public virtual DbSet<Tracker.Core.Data.Entities.User> Users { get; set; } = null!;
 
     #endregion
 
@@ -108,16 +108,16 @@ public partial class TrackerContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         #region Generated Configuration
-        modelBuilder.ApplyConfiguration(new TrackerGenerator.Core.Data.Mapping.AuditMap());
-        modelBuilder.ApplyConfiguration(new TrackerGenerator.Core.Data.Mapping.PriorityMap());
-        modelBuilder.ApplyConfiguration(new TrackerGenerator.Core.Data.Mapping.RoleMap());
-        modelBuilder.ApplyConfiguration(new TrackerGenerator.Core.Data.Mapping.StatusMap());
-        modelBuilder.ApplyConfiguration(new TrackerGenerator.Core.Data.Mapping.TaskExtendedMap());
-        modelBuilder.ApplyConfiguration(new TrackerGenerator.Core.Data.Mapping.TaskMap());
-        modelBuilder.ApplyConfiguration(new TrackerGenerator.Core.Data.Mapping.TenantMap());
-        modelBuilder.ApplyConfiguration(new TrackerGenerator.Core.Data.Mapping.UserLoginMap());
-        modelBuilder.ApplyConfiguration(new TrackerGenerator.Core.Data.Mapping.UserMap());
-        modelBuilder.ApplyConfiguration(new TrackerGenerator.Core.Data.Mapping.UserRoleMap());
+        modelBuilder.ApplyConfiguration(new Tracker.Core.Data.Mapping.AuditMap());
+        modelBuilder.ApplyConfiguration(new Tracker.Core.Data.Mapping.PriorityMap());
+        modelBuilder.ApplyConfiguration(new Tracker.Core.Data.Mapping.RoleMap());
+        modelBuilder.ApplyConfiguration(new Tracker.Core.Data.Mapping.StatusMap());
+        modelBuilder.ApplyConfiguration(new Tracker.Core.Data.Mapping.TaskExtendedMap());
+        modelBuilder.ApplyConfiguration(new Tracker.Core.Data.Mapping.TaskMap());
+        modelBuilder.ApplyConfiguration(new Tracker.Core.Data.Mapping.TenantMap());
+        modelBuilder.ApplyConfiguration(new Tracker.Core.Data.Mapping.UserLoginMap());
+        modelBuilder.ApplyConfiguration(new Tracker.Core.Data.Mapping.UserMap());
+        modelBuilder.ApplyConfiguration(new Tracker.Core.Data.Mapping.UserRoleMap());
         #endregion
     }
 }
