@@ -134,6 +134,7 @@ public partial class ModelGenerator
             entityClass = ToClassName(relationSchema);
 
         entityClass = _namer.UniqueClassName(entityClass);
+        var pluralName = entityClass.Pluralize(false);
 
         var entityNamespace = _options.Data.Entity.Namespace ?? "Data.Entities";
         var entiyBaseClass = _options.Data.Entity.BaseClass;
@@ -148,6 +149,7 @@ public partial class ModelGenerator
         contextName = _namer.UniqueContextName(contextName);
 
         entity.EntityClass = entityClass;
+        entity.EntityPlural = pluralName;
         entity.EntityNamespace = entityNamespace;
         entity.EntityBaseClass = entiyBaseClass;
 

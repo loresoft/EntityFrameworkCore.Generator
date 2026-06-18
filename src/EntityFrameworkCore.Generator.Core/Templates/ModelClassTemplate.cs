@@ -95,6 +95,12 @@ public class ModelClassTemplate : CodeTemplateBase
                 GeneratePropertyDocumentation(property);
             }
 
+            if (_model.PropertyAttributes.TryGetValue(property.PropertyName, out var attributes) && attributes.Count > 0)
+            {
+                foreach (var attribute in attributes)
+                    CodeBuilder.AppendLine(attribute);
+            }
+
             if (property.IsNullable == true && (property.SystemType.IsValueType || Options.Project.Nullable))
                 CodeBuilder.AppendLine($"public {ToNullablePropertyType(propertyType)} {propertyName} {{ get; set; }}");
             else if (Options.Project.Nullable && !property.SystemType.IsValueType)

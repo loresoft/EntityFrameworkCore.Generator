@@ -54,6 +54,14 @@ public class Entity : ModelBase, IOptionVariable
     public string EntityClass { get; set; } = null!;
 
     /// <summary>
+    /// Gets or sets the plural name of the entity.
+    /// </summary>
+    /// <value>
+    /// The plural name of the entity.
+    /// </value>
+    public string EntityPlural { get; set; } = null!;
+
+    /// <summary>
     /// Gets or sets the entity base class.
     /// </summary>
     /// <value>
@@ -216,6 +224,7 @@ public class Entity : ModelBase, IOptionVariable
         variableDictionary.Set(VariableConstants.TableSchema, TableSchema);
         variableDictionary.Set(VariableConstants.TableName, TableName);
         variableDictionary.Set(VariableConstants.EntityName, EntityClass);
+        variableDictionary.Set(VariableConstants.EntityPlural, EntityPlural);
     }
 
     void IOptionVariable.Remove(VariableDictionary variableDictionary)
@@ -223,5 +232,6 @@ public class Entity : ModelBase, IOptionVariable
         variableDictionary.Remove(VariableConstants.TableSchema);
         variableDictionary.Remove(VariableConstants.TableName);
         variableDictionary.Remove(VariableConstants.EntityName);
+        variableDictionary.Remove(VariableConstants.EntityPlural);
     }
 }

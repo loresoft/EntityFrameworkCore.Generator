@@ -28,8 +28,80 @@ public class SourceSynchronizer
         // make sure to update the entities before the context
         UpdateFromMapping(generatedContext, options.Data.Mapping.Directory);
         UpdateFromContext(generatedContext, options.Data.Context.Directory);
+        UpdateFromModels(generatedContext, options);
 
         return true;
+    }
+
+    private void UpdateFromModels(EntityContext generatedContext, GeneratorOptions options)
+    {
+        if (generatedContext == null || options == null)
+            return;
+
+        var parser = new ModelParser(_loggerFactory);
+
+        foreach (var entity in generatedContext.Entities)
+        {
+            options.Variables.Set(entity);
+
+            foreach (var model in entity.Models)
+            {
+                options.Variables.Set(model);
+
+                UpdateFromModel(parser, model, options);
+
+                options.Variables.Remove(model);
+            }
+
+            options.Variables.Remove(entity);
+        }
+    }
+
+    private void UpdateFromModel(ModelParser parser, Model model, GeneratorOptions options)
+    {
+        var modelDirectory = GetModelDirectory(model, options) ?? "Data\\Models";
+        if (!Directory.Exists(modelDirectory))
+            return;
+
+        var modelFile = Path.Combine(modelDirectory, model.ModelClass + ".cs");
+        var parsedModel = parser.ParseFile(modelFile);
+        if (parsedModel == null || parsedModel.ModelClass != model.ModelClass)
+            return;
+
+        foreach (var parsedProperty in parsedModel.Properties)
+        {
+            var property = model.Properties.ByProperty(parsedProperty.PropertyName);
+            if (property == null)
+                continue;
+
+            _logger.LogInformation(
+                "  Preserve attributes for Model Property '{PropertyName}' in Model '{ModelClass}'.",
+                parsedProperty.PropertyName,
+                model.ModelClass);
+
+            model.PropertyAttributes[parsedProperty.PropertyName] = [.. parsedProperty.Attributes];
+        }
+    }
+
+    private static string? GetModelDirectory(Model model, GeneratorOptions options)
+    {
+        if (model.ModelType == ModelType.Create)
+        {
+            return options.Model.Create.Directory.HasValue()
+                ? options.Model.Create.Directory
+                : options.Model.Shared.Directory;
+        }
+
+        if (model.ModelType == ModelType.Update)
+        {
+            return options.Model.Update.Directory.HasValue()
+                ? options.Model.Update.Directory
+                : options.Model.Shared.Directory;
+        }
+
+        return options.Model.Read.Directory.HasValue()
+            ? options.Model.Read.Directory
+            : options.Model.Shared.Directory;
     }
 
 

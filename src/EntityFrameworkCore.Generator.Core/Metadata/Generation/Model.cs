@@ -5,6 +5,7 @@ public class Model : ModelBase, IOptionVariable
     public Model()
     {
         Properties = [];
+        PropertyAttributes = [];
     }
 
     public Entity Entity { get; set; } = null!;
@@ -30,6 +31,8 @@ public class Model : ModelBase, IOptionVariable
 
 
     public PropertyCollection Properties { get; set; }
+
+    public Dictionary<string, List<string>> PropertyAttributes { get; }
 
 
     void IOptionVariable.Set(VariableDictionary variableDictionary)

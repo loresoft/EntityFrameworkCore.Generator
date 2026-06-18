@@ -421,6 +421,53 @@ public class ModelGeneratorTests
     }
 
     [Fact]
+    public void GenerateModelPropertyAttributes()
+    {
+        var generatorOptions = new GeneratorOptions();
+
+        var entity = new Entity
+        {
+            EntityClass = "OrderItem",
+            TableName = "OrderItems"
+        };
+        var model = new Model
+        {
+            Entity = entity,
+            ModelType = ModelType.Read,
+            ModelNamespace = "TestDatabase.Domain.Models",
+            ModelClass = "OrderItemReadModel"
+        };
+        model.Properties.Add(new Property
+        {
+            PropertyName = "Title",
+            ColumnName = "Title",
+            SystemType = typeof(string),
+            SystemTypeName = string.Empty,
+            IsNullable = false
+        });
+        model.Properties.Add(new Property
+        {
+            PropertyName = "Quantity",
+            ColumnName = "Quantity",
+            SystemType = typeof(int),
+            SystemTypeName = string.Empty,
+            IsNullable = false
+        });
+        model.PropertyAttributes["Title"] = ["[Required]"];
+
+        var modelCode = new ModelClassTemplate(model, generatorOptions).WriteCode();
+
+        var attributeIndex = modelCode.IndexOf("[Required]", StringComparison.Ordinal);
+        var titleIndex = modelCode.IndexOf("public string Title { get; set; }", StringComparison.Ordinal);
+        var quantityIndex = modelCode.IndexOf("public int Quantity { get; set; }", StringComparison.Ordinal);
+
+        Assert.True(attributeIndex >= 0);
+        Assert.True(titleIndex > attributeIndex);
+        Assert.True(quantityIndex > titleIndex);
+        Assert.DoesNotContain("[Required]\r\n        public int Quantity", modelCode);
+    }
+
+    [Fact]
     public void GenerateEntityXmlDocumentation()
     {
         var generatorOptions = new GeneratorOptions();

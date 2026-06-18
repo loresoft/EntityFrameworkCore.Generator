@@ -1,4 +1,6 @@
-﻿using System;
+using System;
+
+using EntityFrameworkCore.Generator.Metadata.Generation;
 
 using Xunit;
 
@@ -92,5 +94,31 @@ public class VariableDictionaryTests
 
         var result = dictionary.Get("Project.Namespace");
         Assert.Equal(".Core", result);
+    }
+
+    [Fact]
+    public void EntityPluralName()
+    {
+        var dictionary = new VariableDictionary();
+        dictionary.Set("Project.Directory", @"c:\projects\tester");
+
+        var entity = new Entity
+        {
+            TableName = "Person",
+            TableSchema = "dbo",
+            EntityClass = "Person",
+            EntityPlural = "People"
+        };
+
+        dictionary.Set(entity);
+
+        Assert.Equal("Person", dictionary.Get(VariableConstants.EntityName));
+        Assert.Equal("People", dictionary.Get(VariableConstants.EntityPlural));
+        Assert.Equal(@"c:\projects\tester\Domain\People\Models", dictionary.Evaluate(@"{Project.Directory}\Domain\{Entity.Plural}\Models"));
+
+        dictionary.Remove(entity);
+
+        Assert.Null(dictionary.Get(VariableConstants.EntityName));
+        Assert.Null(dictionary.Get(VariableConstants.EntityPlural));
     }
 }
