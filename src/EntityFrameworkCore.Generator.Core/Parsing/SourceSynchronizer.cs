@@ -60,6 +60,8 @@ public class SourceSynchronizer
     private void UpdateFromModel(ModelParser parser, Model model, GeneratorOptions options)
     {
         var modelDirectory = GetModelDirectory(model, options) ?? "Data\\Models";
+        modelDirectory = NormalizeDirectory(modelDirectory);
+
         if (!Directory.Exists(modelDirectory))
             return;
 
@@ -107,6 +109,8 @@ public class SourceSynchronizer
 
     private void UpdateFromContext(EntityContext generatedContext, string? contextDirectory)
     {
+        contextDirectory = NormalizeDirectory(contextDirectory);
+
         if (generatedContext == null
             || contextDirectory == null
             || !Directory.Exists(contextDirectory))
@@ -156,6 +160,8 @@ public class SourceSynchronizer
 
     private void UpdateFromMapping(EntityContext generatedContext, string? mappingDirectory)
     {
+        mappingDirectory = NormalizeDirectory(mappingDirectory);
+
         if (generatedContext == null
             || mappingDirectory == null
             || !Directory.Exists(mappingDirectory))
@@ -223,6 +229,14 @@ public class SourceSynchronizer
                 RenameRelationship(parsedRelationship, relationship);
             }
         }
+    }
+
+    private static string? NormalizeDirectory(string? directory)
+    {
+        if (directory.IsNullOrWhiteSpace() || Path.DirectorySeparatorChar == '\\')
+            return directory;
+
+        return directory.Replace('\\', Path.DirectorySeparatorChar);
     }
 
 
