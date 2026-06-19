@@ -240,7 +240,7 @@ public partial class ModelGenerator
             property.NativeType = column.NativeTypeName;
             property.DataType = column.DbType;
             property.SystemType = column.SystemType;
-            property.SystemTypeName = GetSystemTypeName(column.NativeTypeName, column.SystemType);
+            property.SystemTypeName = GetSystemTypeName(column);
             property.Size = column.MaxLength;
 
             property.Default = column.DefaultValueSql;
@@ -651,6 +651,20 @@ public partial class ModelGenerator
         }
 
         return keyMembers;
+    }
+
+    private string GetSystemTypeName(Column column)
+    {
+        var annotationName = _options.Data.Entity.SystemTypeAnnotation;
+        if (annotationName.HasValue()
+            && column.Annotations.TryGetValue(annotationName, out var annotationValue))
+        {
+            var annotationSystemType = Convert.ToString(annotationValue, CultureInfo.InvariantCulture);
+            if (annotationSystemType.HasValue())
+                return annotationSystemType;
+        }
+
+        return GetSystemTypeName(column.NativeTypeName, column.SystemType);
     }
 
     private string GetSystemTypeName(string? nativeType, Type systemType)

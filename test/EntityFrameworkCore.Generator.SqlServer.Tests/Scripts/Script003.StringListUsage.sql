@@ -4,6 +4,7 @@ BEGIN
     (
         [Id] INT IDENTITY(1, 1) NOT NULL,
         [Values] [dbo].[StringList] NULL,
+        [AnnotatedValues] NVARCHAR(MAX) NULL,
         CONSTRAINT [PK_StringListUsage] PRIMARY KEY CLUSTERED ([Id] ASC)
     );
 END;

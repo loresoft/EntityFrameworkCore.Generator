@@ -94,4 +94,27 @@ public class OptionsTests
         Assert.Equal("List<string?>", options.Data.Entity.TypeMapping[1].SystemType);
     }
 
+    [Fact]
+    public void LoadSystemTypeAnnotation()
+    {
+        const string yaml =
+            """
+            data:
+              entity:
+                systemTypeAnnotation: Custom:SystemType
+            """;
+
+        var serializer = new ConfigurationSerializer(NullLogger<ConfigurationSerializer>.Instance);
+        using var reader = new StringReader(yaml);
+
+        var model = serializer.Load(reader);
+
+        Assert.NotNull(model);
+        Assert.Equal("Custom:SystemType", model.Data.Entity.SystemTypeAnnotation);
+
+        var options = OptionMapper.Map(model);
+
+        Assert.Equal("Custom:SystemType", options.Data.Entity.SystemTypeAnnotation);
+    }
+
 }

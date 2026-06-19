@@ -438,6 +438,81 @@ public class ModelGeneratorTests
     }
 
     [Fact]
+    public void GenerateWithDefaultSystemTypeAnnotation()
+    {
+        var generatorOptions = new GeneratorOptions();
+        generatorOptions.Project.Nullable = true;
+        generatorOptions.Model.Read.Generate = true;
+
+        var databaseModel = CreateDatabaseModel("TestDatabase",
+            table => ConfigureTable(table, "dbo", "TestTable",
+                column => ConfigureColumn(column, "Id", false, "int", 1),
+                column => ConfigureColumn(column, "Geometry", false, "geometry", 2)
+                    .WithAnnotation("Generator:SystemType", "NetTopologySuite.Geometries.Geometry")));
+
+        var generator = new ModelGenerator(NullLoggerFactory.Instance);
+
+        var result = generator.Generate(generatorOptions, databaseModel);
+        var entity = Assert.Single(result.Entities);
+
+        var geometryProperty = entity.Properties.ByColumn("Geometry");
+        Assert.NotNull(geometryProperty);
+        Assert.Equal("NetTopologySuite.Geometries.Geometry", geometryProperty.SystemTypeName);
+
+        var entityCode = new EntityClassTemplate(entity, generatorOptions).WriteCode();
+        Assert.Contains("public NetTopologySuite.Geometries.Geometry Geometry { get; set; } = null!;", entityCode);
+
+        var model = Assert.Single(entity.Models);
+        var modelCode = new ModelClassTemplate(model, generatorOptions).WriteCode();
+        Assert.Contains("public NetTopologySuite.Geometries.Geometry Geometry { get; set; } = null!;", modelCode);
+    }
+
+    [Fact]
+    public void GenerateWithCustomSystemTypeAnnotation()
+    {
+        var generatorOptions = new GeneratorOptions();
+        generatorOptions.Data.Entity.SystemTypeAnnotation = "Custom:SystemType";
+
+        var databaseModel = CreateDatabaseModel("TestDatabase",
+            table => ConfigureTable(table, "dbo", "TestTable",
+                column => ConfigureColumn(column, "Tags", true, "dbo.StringList", 1)
+                    .WithAnnotation("Custom:SystemType", "List<string?>")));
+
+        var generator = new ModelGenerator(NullLoggerFactory.Instance);
+
+        var result = generator.Generate(generatorOptions, databaseModel);
+        var entity = Assert.Single(result.Entities);
+
+        var tagsProperty = entity.Properties.ByColumn("Tags");
+        Assert.NotNull(tagsProperty);
+        Assert.Equal("List<string?>", tagsProperty.SystemTypeName);
+    }
+
+    [Fact]
+    public void GenerateWithTypeMappingWhenSystemTypeAnnotationNotPresent()
+    {
+        var generatorOptions = new GeneratorOptions();
+        generatorOptions.Data.Entity.TypeMapping.Add(new TypeMappingOptions
+        {
+            NativeType = "geometry",
+            SystemType = "NetTopologySuite.Geometries.Geometry"
+        });
+
+        var databaseModel = CreateDatabaseModel("TestDatabase",
+            table => ConfigureTable(table, "dbo", "TestTable",
+                column => ConfigureColumn(column, "Geometry", false, "geometry", 1)));
+
+        var generator = new ModelGenerator(NullLoggerFactory.Instance);
+
+        var result = generator.Generate(generatorOptions, databaseModel);
+        var entity = Assert.Single(result.Entities);
+
+        var geometryProperty = entity.Properties.ByColumn("Geometry");
+        Assert.NotNull(geometryProperty);
+        Assert.Equal("NetTopologySuite.Geometries.Geometry", geometryProperty.SystemTypeName);
+    }
+
+    [Fact]
     public void GenerateModelXmlDocumentation()
     {
         var generatorOptions = new GeneratorOptions();
@@ -764,12 +839,23 @@ public class ModelGeneratorTests
         Assert.Contains("/// <returns>A task that represents the asynchronous operation. The task result contains the matching <see cref=\"TestDatabase.Data.Entities.OrderItem\" /> entity, or <see langword=\"null\" /> if no match is found.</returns>", queryCode);
     }
 
-    private static DatabaseModel CreateDatabaseModel(string databaseName, params Action<TableBuilder>[] configureTables)
+    private static DatabaseModel CreateDatabaseModel(
+        string databaseName,
+        params Action<TableBuilder>[] configureTables)
+    {
+        return CreateDatabaseModel(databaseName, "SqlServer", "dbo", configureTables);
+    }
+
+    private static DatabaseModel CreateDatabaseModel(
+        string databaseName,
+        string provider,
+        string defaultSchema,
+        params Action<TableBuilder>[] configureTables)
     {
         var builder = new DatabaseModelBuilder()
-            .WithProvider("SqlServer")
+            .WithProvider(provider)
             .WithDatabaseName(databaseName)
-            .WithDefaultSchemaName("dbo");
+            .WithDefaultSchemaName(defaultSchema);
 
         foreach (var configureTable in configureTables)
             builder.AddTable(configureTable);
@@ -832,6 +918,7 @@ public class ModelGeneratorTests
             "rowversion" => (DbType.Binary, typeof(byte[])),
             "geometry" => (DbType.Object, typeof(object)),
             "dbo.StringList" => (DbType.Object, typeof(object)),
+            "text[]" => (DbType.Object, typeof(string[])),
             _ => throw new ArgumentOutOfRangeException(nameof(nativeTypeName), nativeTypeName, "Unsupported test column type.")
         };
     }

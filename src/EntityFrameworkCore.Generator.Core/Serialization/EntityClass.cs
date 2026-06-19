@@ -21,6 +21,7 @@ public class EntityClass : ClassBase
         RelationshipNaming = RelationshipNaming.Plural;
         EntityNaming = EntityNaming.Singular;
         PrefixWithSchemaName = false;
+        SystemTypeAnnotation = "Generator:SystemType";
     }
 
     /// <summary>
@@ -68,4 +69,9 @@ public class EntityClass : ClassBase
     /// Gets or sets the native type to system type mappings.
     /// </summary>
     public List<TypeMapping>? TypeMapping { get; set; }
+
+    /// <summary>
+    /// Gets or sets the column annotation name used to override generated .NET system type names.
+    /// </summary>
+    public string? SystemTypeAnnotation { get; set; }
 }

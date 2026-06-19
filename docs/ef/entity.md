@@ -63,6 +63,7 @@ data:
         systemType: NetTopologySuite.Geometries.Geometry
       - nativeType: dbo.StringList
         systemType: List<string?>
+    systemTypeAnnotation: Generator:SystemType
     renaming:
       entities:
         - ^(sp|tbl|udf|vw)_
@@ -117,15 +118,46 @@ Include mapping attributes on the entity classes. Default: `false`
 Map a native database type to the generated .NET system type used for entity and model properties.
 Native type matching is case-insensitive.
 
+Column annotations can override the generated .NET system type before `typeMapping` is applied. Set `systemTypeAnnotation` to the annotation name to read. The default annotation name is `Generator:SystemType`.
+
+Type resolution precedence is:
+
+1. Column annotation matching `systemTypeAnnotation`.
+2. `typeMapping` native type match.
+3. The provider-inferred .NET type.
+
 ```YAML
 data:
   entity:
+    systemTypeAnnotation: Generator:SystemType
     typeMapping:
       - nativeType: geometry
         systemType: NetTopologySuite.Geometries.Geometry
       - nativeType: dbo.StringList
         systemType: List<string?>
 ```
+
+For SQL Server, column-level extended properties can provide the default annotation:
+
+```SQL
+EXEC sys.sp_addextendedproperty
+    @name = N'Generator:SystemType',
+    @value = N'string[]',
+    @level0type = N'SCHEMA',
+    @level0name = N'dbo',
+    @level1type = N'TABLE',
+    @level1name = N'StringListUsage',
+    @level2type = N'COLUMN',
+    @level2name = N'Values';
+```
+
+Provider support for database-backed column annotations depends on the schema reader. If a provider does not expose custom column annotations, `typeMapping` remains the portable fallback.
+
+### systemTypeAnnotation
+
+The column annotation name used to override the generated .NET system type. Default: `Generator:SystemType`.
+
+Set this value when your database schema reader exposes a different column annotation key.
 
 ### renaming
 

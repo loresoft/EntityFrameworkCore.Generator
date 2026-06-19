@@ -72,6 +72,26 @@ IF NOT EXISTS (
     SELECT 1
     FROM sys.extended_properties ep
     WHERE ep.[class] = 1
+      AND ep.[major_id] = OBJECT_ID(N'[dbo].[StringListUsage]')
+  AND ep.[minor_id] = COLUMNPROPERTY(OBJECT_ID(N'[dbo].[StringListUsage]'), N'AnnotatedValues', 'ColumnId')
+      AND ep.[name] = N'Generator:SystemType'
+)
+BEGIN
+    EXEC sys.sp_addextendedproperty
+        @name = N'Generator:SystemType',
+        @value = N'string[]',
+        @level0type = N'SCHEMA',
+        @level0name = N'dbo',
+        @level1type = N'TABLE',
+        @level1name = N'StringListUsage',
+        @level2type = N'COLUMN',
+        @level2name = N'AnnotatedValues';
+END;
+
+IF NOT EXISTS (
+    SELECT 1
+    FROM sys.extended_properties ep
+    WHERE ep.[class] = 1
       AND ep.[major_id] = OBJECT_ID(N'[dbo].[User]')
       AND ep.[minor_id] = COLUMNPROPERTY(OBJECT_ID(N'[dbo].[User]'), N'EmailAddress', 'ColumnId')
       AND ep.[name] = N'GeneratorTest:IsSensitive'

@@ -149,6 +149,7 @@ public static class OptionMapper
         option.RelationshipNaming = entity.RelationshipNaming;
         option.PrefixWithSchemaName = entity.PrefixWithSchemaName;
         option.MappingAttributes = entity.MappingAttributes;
+        option.SystemTypeAnnotation = entity.SystemTypeAnnotation;
 
         MapSelection(option.Renaming, entity.Renaming);
 

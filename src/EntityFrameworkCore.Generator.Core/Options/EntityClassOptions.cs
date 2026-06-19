@@ -20,6 +20,7 @@ public class EntityClassOptions : ClassOptionsBase
         RelationshipNaming = RelationshipNaming.Plural;
         EntityNaming = EntityNaming.Singular;
         PrefixWithSchemaName = false;
+        SystemTypeAnnotation = "Generator:SystemType";
 
         Renaming = new SelectionOptions(variables, AppendPrefix(prefix, "Naming"));
         TypeMapping = [];
@@ -70,4 +71,9 @@ public class EntityClassOptions : ClassOptionsBase
     /// Gets the native type to system type mappings.
     /// </summary>
     public IList<TypeMappingOptions> TypeMapping { get; }
+
+    /// <summary>
+    /// Gets or sets the column annotation name used to override generated .NET system type names.
+    /// </summary>
+    public string? SystemTypeAnnotation { get; set; }
 }
