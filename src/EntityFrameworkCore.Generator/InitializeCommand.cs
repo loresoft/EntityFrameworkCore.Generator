@@ -7,7 +7,7 @@ using Spectre.Console.Cli;
 
 namespace EntityFrameworkCore.Generator;
 
-public class InitializeCommand : AsyncCommand<InitializeSettings>
+public partial class InitializeCommand : AsyncCommand<InitializeSettings>
 {
     private readonly ILogger<InitializeCommand> _logger;
     private readonly IConfigurationSerializer _serializer;
@@ -26,7 +26,7 @@ public class InitializeCommand : AsyncCommand<InitializeSettings>
 
             if (!Directory.Exists(workingDirectory))
             {
-                _logger.LogTrace("Creating directory: {Directory}", workingDirectory);
+                LogCreatingDirectory(_logger, workingDirectory);
                 Directory.CreateDirectory(workingDirectory);
             }
 
@@ -63,7 +63,7 @@ public class InitializeCommand : AsyncCommand<InitializeSettings>
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, ex.Message);
+            LogCommandFailed(_logger, ex, ex.Message);
             return Task.FromResult(1);
         }
     }
@@ -76,7 +76,7 @@ public class InitializeCommand : AsyncCommand<InitializeSettings>
         if (options.Database.ConnectionName.IsNullOrWhiteSpace())
             options.Database.ConnectionName = "ConnectionStrings:Generator";
 
-        _logger.LogInformation("Adding Connection String to User Secrets file");
+        LogAddingConnectionStringToUserSecretsFile(_logger);
 
         // save connection string to user secrets file
         var secretsStore = new SecretsStore(options.Database.UserSecretsId);
@@ -105,8 +105,20 @@ public class InitializeCommand : AsyncCommand<InitializeSettings>
         options.Model.Validator.Generate = true;
         options.Model.Mapper.Generate = true;
 
-        _logger.LogInformation("Creating options file: {OptionsFile}", optionsFile);
+        LogCreatingOptionsFile(_logger, optionsFile);
 
         return options;
     }
+
+    [LoggerMessage(EventId = 1, Level = LogLevel.Trace, Message = "Creating directory: {directory}")]
+    private static partial void LogCreatingDirectory(ILogger logger, string directory);
+
+    [LoggerMessage(EventId = 2, Level = LogLevel.Error, Message = "{errorMessage}")]
+    private static partial void LogCommandFailed(ILogger logger, Exception exception, string errorMessage);
+
+    [LoggerMessage(EventId = 3, Level = LogLevel.Information, Message = "Adding Connection String to User Secrets file")]
+    private static partial void LogAddingConnectionStringToUserSecretsFile(ILogger logger);
+
+    [LoggerMessage(EventId = 4, Level = LogLevel.Information, Message = "Creating options file: {optionsFile}")]
+    private static partial void LogCreatingOptionsFile(ILogger logger, string optionsFile);
 }

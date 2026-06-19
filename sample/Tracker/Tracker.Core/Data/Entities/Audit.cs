@@ -131,7 +131,7 @@ public partial class Audit : IHaveIdentifier
     /// <value>
     /// The <c>Attributes</c> entity value.
     /// </value>
-    [Column("Attributes", TypeName = "StringList")]
+    [Column("Attributes", TypeName = "dbo.StringList")]
     public string? Attributes { get; set; }
 
     #endregion

@@ -46,7 +46,7 @@ public partial class TenantMap
             .IsRequired()
             .HasColumnName("IsActive")
             .HasColumnType("bit")
-            .HasDefaultValueSql("((1))");
+            .HasDefaultValue(true);
 
         builder.Property(t => t.Created)
             .IsRequired()

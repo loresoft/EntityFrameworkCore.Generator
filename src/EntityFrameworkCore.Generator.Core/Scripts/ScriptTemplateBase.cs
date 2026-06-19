@@ -11,7 +11,7 @@ using ScriptOptions = Microsoft.CodeAnalysis.Scripting.ScriptOptions;
 
 namespace EntityFrameworkCore.Generator.Scripts;
 
-public abstract class ScriptTemplateBase<TVariable>
+public abstract partial class ScriptTemplateBase<TVariable>
     where TVariable : ScriptVariablesBase
 {
     private Script<string>? _scriptTemplate;
@@ -42,7 +42,7 @@ public abstract class ScriptTemplateBase<TVariable>
 
         if (!File.Exists(templatePath))
         {
-            Logger.LogWarning("Template '{template}' could not be found.", templatePath);
+            LogTemplateNotFound(Logger, templatePath);
             return;
         }
 
@@ -52,7 +52,7 @@ public abstract class ScriptTemplateBase<TVariable>
 
         if (directory.IsNullOrEmpty() || fileName.IsNullOrEmpty())
         {
-            Logger.LogWarning("Template '{template}' could not resolve output file.", templatePath);
+            LogTemplateCouldNotResolveOutputFile(Logger, templatePath);
             return;
         }
 
@@ -61,21 +61,18 @@ public abstract class ScriptTemplateBase<TVariable>
 
         if (exists && !(TemplateOptions.Merge || TemplateOptions.Overwrite))
         {
-            Logger.LogDebug("Skipping template '{template}' because output '{fileName}' already exists.", templatePath, fileName);
+            LogSkippingTemplateBecauseOutputExists(Logger, templatePath, fileName);
             return;
         }
 
-        if (File.Exists(path))
-            Logger.LogInformation("Updating template script file: {fileName}", fileName);
-        else
-            Logger.LogInformation("Creating template script file: {fileName}", fileName);
+        LogTemplateScriptFileAction(Logger, File.Exists(path) ? "Updating" : "Creating", fileName);
 
         // get content
         var content = ExecuteScript();
 
         if (content.IsNullOrWhiteSpace())
         {
-            Logger.LogDebug("Skipping template '{template}' because it didn't return any text.", templatePath);
+            LogSkippingTemplateBecauseNoText(Logger, templatePath);
             return;
         }
 
@@ -93,7 +90,7 @@ public abstract class ScriptTemplateBase<TVariable>
         var templatePath = TemplateOptions.TemplatePath;
         if (!File.Exists(templatePath))
         {
-            Logger.LogWarning("Template '{template}' could not be found.", templatePath);
+            LogTemplateNotFound(Logger, templatePath);
             return string.Empty;
         }
 
@@ -113,7 +110,7 @@ public abstract class ScriptTemplateBase<TVariable>
         if (_scriptTemplate != null)
             return _scriptTemplate;
 
-        Logger.LogDebug("Loading template script: {script}", scriptPath);
+        LogLoadingTemplateScript(Logger, scriptPath);
 
         var scriptContent = File.ReadAllText(scriptPath);
 
@@ -137,27 +134,57 @@ public abstract class ScriptTemplateBase<TVariable>
         if (diagnostics.Length == 0)
             return _scriptTemplate;
 
-        Logger.LogInformation("Template Compile Diagnostics: ");
+        LogTemplateCompileDiagnostics(Logger);
         foreach (var diagnostic in diagnostics)
         {
             var message = diagnostic.GetMessage();
             switch (diagnostic.Severity)
             {
                 case DiagnosticSeverity.Info:
-                    Logger.LogDebug(message);
+                    LogTemplateDiagnosticDebug(Logger, message);
                     break;
                 case DiagnosticSeverity.Warning:
-                    Logger.LogWarning(message);
+                    LogTemplateDiagnosticWarning(Logger, message);
                     break;
                 case DiagnosticSeverity.Error:
-                    Logger.LogError(message);
+                    LogTemplateDiagnosticError(Logger, message);
                     break;
                 default:
-                    Logger.LogDebug(message);
+                    LogTemplateDiagnosticDebug(Logger, message);
                     break;
             }
         }
 
         return _scriptTemplate;
     }
+
+    [LoggerMessage(EventId = 1, Level = LogLevel.Warning, Message = "Template '{template}' could not be found.")]
+    private static partial void LogTemplateNotFound(ILogger logger, string? template);
+
+    [LoggerMessage(EventId = 2, Level = LogLevel.Warning, Message = "Template '{template}' could not resolve output file.")]
+    private static partial void LogTemplateCouldNotResolveOutputFile(ILogger logger, string? template);
+
+    [LoggerMessage(EventId = 3, Level = LogLevel.Debug, Message = "Skipping template '{template}' because output '{fileName}' already exists.")]
+    private static partial void LogSkippingTemplateBecauseOutputExists(ILogger logger, string? template, string fileName);
+
+    [LoggerMessage(EventId = 4, Level = LogLevel.Information, Message = "{action} template script file: {fileName}")]
+    private static partial void LogTemplateScriptFileAction(ILogger logger, string action, string fileName);
+
+    [LoggerMessage(EventId = 5, Level = LogLevel.Debug, Message = "Skipping template '{template}' because it didn't return any text.")]
+    private static partial void LogSkippingTemplateBecauseNoText(ILogger logger, string? template);
+
+    [LoggerMessage(EventId = 6, Level = LogLevel.Debug, Message = "Loading template script: {script}")]
+    private static partial void LogLoadingTemplateScript(ILogger logger, string script);
+
+    [LoggerMessage(EventId = 7, Level = LogLevel.Information, Message = "Template Compile Diagnostics: ")]
+    private static partial void LogTemplateCompileDiagnostics(ILogger logger);
+
+    [LoggerMessage(EventId = 8, Level = LogLevel.Debug, Message = "{message}")]
+    private static partial void LogTemplateDiagnosticDebug(ILogger logger, string message);
+
+    [LoggerMessage(EventId = 9, Level = LogLevel.Warning, Message = "{message}")]
+    private static partial void LogTemplateDiagnosticWarning(ILogger logger, string message);
+
+    [LoggerMessage(EventId = 10, Level = LogLevel.Error, Message = "{message}")]
+    private static partial void LogTemplateDiagnosticError(ILogger logger, string message);
 }

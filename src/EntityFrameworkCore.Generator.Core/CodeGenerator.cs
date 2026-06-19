@@ -12,7 +12,7 @@ using SchemaSaurus.Metadata.Provider;
 
 namespace EntityFrameworkCore.Generator;
 
-public class CodeGenerator : ICodeGenerator
+public partial class CodeGenerator : ICodeGenerator
 {
     private readonly ILoggerFactory _loggerFactory;
     private readonly ILogger _logger;
@@ -39,7 +39,7 @@ public class CodeGenerator : ICodeGenerator
         if (databaseModel == null)
             throw new InvalidOperationException("Failed to create database model");
 
-        _logger.LogInformation("Loaded database model for: {databaseName}", databaseModel.DatabaseName);
+        LogLoadedDatabaseModel(_logger, databaseModel.DatabaseName);
 
         var context = _modelGenerator.Generate(Options, databaseModel);
 
@@ -74,10 +74,7 @@ public class CodeGenerator : ICodeGenerator
             var file = entity.EntityClass + "Extensions.cs";
             var path = Path.Combine(directory, file);
 
-            if (File.Exists(path))
-                _logger.LogInformation("Updating query extensions class: {file}", file);
-            else
-                _logger.LogInformation("Creating query extensions class: {file}", file);
+            LogClassFileAction(_logger, File.Exists(path) ? "Updating" : "Creating", "query extensions", file);
 
             var template = new QueryExtensionTemplate(entity, Options);
             template.WriteCode(path);
@@ -96,10 +93,7 @@ public class CodeGenerator : ICodeGenerator
             var file = entity.MappingClass + ".cs";
             var path = Path.Combine(directory, file);
 
-            if (File.Exists(path))
-                _logger.LogInformation("Updating mapping class: {file}", file);
-            else
-                _logger.LogInformation("Creating mapping class: {file}", file);
+            LogClassFileAction(_logger, File.Exists(path) ? "Updating" : "Creating", "mapping", file);
 
             var template = new MappingClassTemplate(entity, Options);
             template.WriteCode(path);
@@ -118,10 +112,7 @@ public class CodeGenerator : ICodeGenerator
             var file = entity.EntityClass + ".cs";
             var path = Path.Combine(directory, file);
 
-            if (File.Exists(path))
-                _logger.LogInformation("Updating entity class: {file}", file);
-            else
-                _logger.LogInformation("Creating entity class: {file}", file);
+            LogClassFileAction(_logger, File.Exists(path) ? "Updating" : "Creating", "entity", file);
 
             var template = new EntityClassTemplate(entity, Options);
             template.WriteCode(path);
@@ -137,10 +128,7 @@ public class CodeGenerator : ICodeGenerator
         var file = entityContext.ContextClass + ".cs";
         var path = Path.Combine(directory, file);
 
-        if (File.Exists(path))
-            _logger.LogInformation("Updating data context class: {file}", file);
-        else
-            _logger.LogInformation("Creating data context class: {file}", file);
+        LogClassFileAction(_logger, File.Exists(path) ? "Updating" : "Creating", "data context", file);
 
         var template = new DataContextTemplate(entityContext, Options);
         template.WriteCode(path);
@@ -175,10 +163,7 @@ public class CodeGenerator : ICodeGenerator
             var file = model.ModelClass + ".cs";
             var path = Path.Combine(directory, file);
 
-            if (File.Exists(path))
-                _logger.LogInformation("Updating model class: {file}", file);
-            else
-                _logger.LogInformation("Creating model class: {file}", file);
+            LogClassFileAction(_logger, File.Exists(path) ? "Updating" : "Creating", "model", file);
 
             var template = new ModelClassTemplate(model, Options);
             template.WriteCode(path);
@@ -227,10 +212,7 @@ public class CodeGenerator : ICodeGenerator
             var file = model.ValidatorClass + ".cs";
             var path = Path.Combine(directory, file);
 
-            if (File.Exists(path))
-                _logger.LogInformation("Updating validation class: {file}", file);
-            else
-                _logger.LogInformation("Creating validation class: {file}", file);
+            LogClassFileAction(_logger, File.Exists(path) ? "Updating" : "Creating", "validation", file);
 
             var template = new ValidatorClassTemplate(model, Options);
             template.WriteCode(path);
@@ -249,10 +231,7 @@ public class CodeGenerator : ICodeGenerator
         var file = entity.MapperClass + ".cs";
         var path = Path.Combine(directory, file);
 
-        if (File.Exists(path))
-            _logger.LogInformation("Updating mapper class: {file}", file);
-        else
-            _logger.LogInformation("Creating mapper class: {file}", file);
+        LogClassFileAction(_logger, File.Exists(path) ? "Updating" : "Creating", "mapper", file);
 
         var template = new MapperClassTemplate(entity, Options);
         template.WriteCode(path);
@@ -298,7 +277,7 @@ public class CodeGenerator : ICodeGenerator
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error Running Model Template: {message}", ex.Message);
+                LogErrorRunningTemplate(_logger, ex, "Model", ex.Message);
             }
         }
     }
@@ -328,7 +307,7 @@ public class CodeGenerator : ICodeGenerator
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error Running Entity Template: {message}", ex.Message);
+                LogErrorRunningTemplate(_logger, ex, "Entity", ex.Message);
             }
         }
     }
@@ -350,7 +329,7 @@ public class CodeGenerator : ICodeGenerator
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error Running Context Template: {message}", ex.Message);
+                LogErrorRunningTemplate(_logger, ex, "Context", ex.Message);
             }
         }
     }
@@ -362,14 +341,14 @@ public class CodeGenerator : ICodeGenerator
         if (File.Exists(templatePath))
             return true;
 
-        _logger.LogWarning("Template '{template}' could not be found.", templatePath);
+        LogTemplateNotFound(_logger, templatePath);
         return false;
     }
 
 
     private async Task<DatabaseModel> GetDatabaseModel(IDatabaseSchemaReader factory)
     {
-        _logger.LogInformation("Loading database model ...");
+        LogLoadingDatabaseModel(_logger);
 
         var database = Options.Database;
 
@@ -406,7 +385,7 @@ public class CodeGenerator : ICodeGenerator
     {
         var provider = Options.Database.Provider;
 
-        _logger.LogDebug("Creating database model factory for: {provider}", provider);
+        LogCreatingDatabaseModelFactory(_logger, provider);
 
         return provider switch
         {
@@ -418,4 +397,23 @@ public class CodeGenerator : ICodeGenerator
             _ => throw new NotSupportedException($"The specified provider '{provider}' is not supported."),
         };
     }
+
+
+    [LoggerMessage(EventId = 1, Level = LogLevel.Information, Message = "Loaded database model for: {databaseName}")]
+    private static partial void LogLoadedDatabaseModel(ILogger logger, string? databaseName);
+
+    [LoggerMessage(EventId = 2, Level = LogLevel.Information, Message = "{action} {kind} class: {file}")]
+    private static partial void LogClassFileAction(ILogger logger, string action, string kind, string file);
+
+    [LoggerMessage(EventId = 3, Level = LogLevel.Error, Message = "Error Running {templateType} Template: {errorMessage}")]
+    private static partial void LogErrorRunningTemplate(ILogger logger, Exception exception, string templateType, string errorMessage);
+
+    [LoggerMessage(EventId = 4, Level = LogLevel.Warning, Message = "Template '{template}' could not be found.")]
+    private static partial void LogTemplateNotFound(ILogger logger, string? template);
+
+    [LoggerMessage(EventId = 5, Level = LogLevel.Information, Message = "Loading database model ...")]
+    private static partial void LogLoadingDatabaseModel(ILogger logger);
+
+    [LoggerMessage(EventId = 6, Level = LogLevel.Debug, Message = "Creating database model factory for: {provider}")]
+    private static partial void LogCreatingDatabaseModelFactory(ILogger logger, DatabaseProviders provider);
 }

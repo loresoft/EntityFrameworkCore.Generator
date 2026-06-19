@@ -7,7 +7,7 @@ using Microsoft.Extensions.Logging;
 
 namespace EntityFrameworkCore.Generator.Parsing;
 
-public class SourceSynchronizer
+public partial class SourceSynchronizer
 {
     private readonly ILoggerFactory _loggerFactory;
     private readonly ILogger _logger;
@@ -23,7 +23,7 @@ public class SourceSynchronizer
         if (generatedContext == null)
             return false;
 
-        _logger.LogInformation("Parsing existing source for changes ...");
+        LogParsingExistingSource(_logger);
 
         // make sure to update the entities before the context
         UpdateFromMapping(generatedContext, options.Data.Mapping.Directory);
@@ -76,10 +76,7 @@ public class SourceSynchronizer
             if (property == null)
                 continue;
 
-            _logger.LogInformation(
-                "  Preserve attributes for Model Property '{PropertyName}' in Model '{ModelClass}'.",
-                parsedProperty.PropertyName,
-                model.ModelClass);
+            LogPreserveAttributesForModelProperty(_logger, parsedProperty.PropertyName, model.ModelClass);
 
             model.PropertyAttributes[parsedProperty.PropertyName] = [.. parsedProperty.Attributes];
         }
@@ -132,10 +129,7 @@ public class SourceSynchronizer
 
         if (generatedContext.ContextClass != parsedContext.ContextClass)
         {
-            _logger.LogInformation(
-                "Rename Context Class'{ContextClass}' to '{ContextClass}'.",
-                generatedContext.ContextClass,
-                parsedContext.ContextClass);
+            LogRenameContextClass(_logger, generatedContext.ContextClass, parsedContext.ContextClass);
 
             generatedContext.ContextClass = parsedContext.ContextClass;
         }
@@ -149,10 +143,7 @@ public class SourceSynchronizer
             if (entity.ContextProperty == parsedProperty.ContextProperty)
                 continue;
 
-            _logger.LogInformation(
-                "Rename Context Property'{EntityProperty}' to '{ParsedProperty}'.",
-                entity.ContextProperty,
-                parsedProperty.ContextProperty);
+            LogRenameContextProperty(_logger, entity.ContextProperty, parsedProperty.ContextProperty);
 
             entity.ContextProperty = parsedProperty.ContextProperty;
         }
@@ -194,10 +185,7 @@ public class SourceSynchronizer
             // sync names
             if (entity.MappingClass != parsedEntity.MappingClass)
             {
-                _logger.LogInformation(
-                    "  Rename Mapping Class'{EntityClass}' to '{ParsedClass}'.",
-                    entity.MappingClass,
-                    parsedEntity.MappingClass);
+                LogRenameMappingClass(_logger, entity.MappingClass, parsedEntity.MappingClass);
 
                 entity.MappingClass = parsedEntity.MappingClass;
             }
@@ -246,7 +234,7 @@ public class SourceSynchronizer
         if (originalName == newName)
             return;
 
-        _logger.LogInformation("  Rename Entity '{OrginalName}' to '{NewName}'.", originalName, newName);
+        LogRenameEntity(_logger, originalName, newName);
         foreach (var entity in generatedContext.Entities)
         {
             if (entity.EntityClass == originalName)
@@ -259,7 +247,7 @@ public class SourceSynchronizer
         if (originalName == newName)
             return;
 
-        _logger.LogInformation("  Rename Property '{OrginalName}' to '{NewName}' in Entity '{EntityName}'.", originalName, newName, entityName);
+        LogRenameProperty(_logger, originalName, newName, entityName);
         foreach (var entity in generatedContext.Entities)
         {
             if (entity.EntityClass != entityName)
@@ -276,13 +264,13 @@ public class SourceSynchronizer
     {
         if (parsedRelationship.PropertyName.HasValue() && relationship.PropertyName != parsedRelationship.PropertyName)
         {
-            _logger.LogInformation("  Rename Property '{OrginalName}' to '{NewName}' in Entity '{EntityName}'.", relationship.PropertyName, parsedRelationship.PropertyName, relationship.Entity.EntityClass);
+            LogRenameProperty(_logger, relationship.PropertyName, parsedRelationship.PropertyName, relationship.Entity.EntityClass);
             relationship.PropertyName = parsedRelationship.PropertyName;
         }
 
         if (parsedRelationship.PrimaryPropertyName.HasValue() && relationship.PrimaryPropertyName != parsedRelationship.PrimaryPropertyName)
         {
-            _logger.LogInformation("  Rename Property '{OrginalName}' to '{NewName}' in Entity '{EntityName}'.", relationship.PrimaryPropertyName, parsedRelationship.PrimaryPropertyName, relationship.PrimaryEntity.EntityClass);
+            LogRenameProperty(_logger, relationship.PrimaryPropertyName, parsedRelationship.PrimaryPropertyName, relationship.PrimaryEntity.EntityClass);
             relationship.PrimaryPropertyName = parsedRelationship.PrimaryPropertyName;
         }
 
@@ -294,14 +282,35 @@ public class SourceSynchronizer
 
         if (parsedRelationship.PrimaryPropertyName.HasValue() && primaryRelationship.PropertyName != parsedRelationship.PrimaryPropertyName)
         {
-            _logger.LogInformation("  Rename Property '{OrginalName}' to '{NewName}' in Entity '{EntityName}'.", primaryRelationship.PropertyName, parsedRelationship.PrimaryPropertyName, primaryRelationship.Entity.EntityClass);
+            LogRenameProperty(_logger, primaryRelationship.PropertyName, parsedRelationship.PrimaryPropertyName, primaryRelationship.Entity.EntityClass);
             primaryRelationship.PropertyName = parsedRelationship.PrimaryPropertyName;
         }
 
         if (parsedRelationship.PropertyName.HasValue() && primaryRelationship.PrimaryPropertyName != parsedRelationship.PropertyName)
         {
-            _logger.LogInformation("  Rename Property '{OrginalName}' to '{NewName}' in Entity '{EntityName}'.", primaryRelationship.PrimaryPropertyName, parsedRelationship.PropertyName, primaryRelationship.PrimaryEntity.EntityClass);
+            LogRenameProperty(_logger, primaryRelationship.PrimaryPropertyName, parsedRelationship.PropertyName, primaryRelationship.PrimaryEntity.EntityClass);
             primaryRelationship.PrimaryPropertyName = parsedRelationship.PropertyName;
         }
     }
+
+    [LoggerMessage(EventId = 1, Level = LogLevel.Information, Message = "Parsing existing source for changes ...")]
+    private static partial void LogParsingExistingSource(ILogger logger);
+
+    [LoggerMessage(EventId = 2, Level = LogLevel.Debug, Message = "  Preserve attributes for Model Property '{propertyName}' in Model '{modelClass}'.")]
+    private static partial void LogPreserveAttributesForModelProperty(ILogger logger, string propertyName, string modelClass);
+
+    [LoggerMessage(EventId = 3, Level = LogLevel.Information, Message = "Rename Context Class'{originalContextClass}' to '{parsedContextClass}'.")]
+    private static partial void LogRenameContextClass(ILogger logger, string originalContextClass, string parsedContextClass);
+
+    [LoggerMessage(EventId = 4, Level = LogLevel.Information, Message = "Rename Context Property'{entityProperty}' to '{parsedProperty}'.")]
+    private static partial void LogRenameContextProperty(ILogger logger, string entityProperty, string parsedProperty);
+
+    [LoggerMessage(EventId = 5, Level = LogLevel.Debug, Message = "  Rename Mapping Class'{entityClass}' to '{parsedClass}'.")]
+    private static partial void LogRenameMappingClass(ILogger logger, string entityClass, string parsedClass);
+
+    [LoggerMessage(EventId = 6, Level = LogLevel.Debug, Message = "  Rename Entity '{originalName}' to '{newName}'.")]
+    private static partial void LogRenameEntity(ILogger logger, string originalName, string newName);
+
+    [LoggerMessage(EventId = 7, Level = LogLevel.Debug, Message = "  Rename Property '{originalName}' to '{newName}' in Entity '{entityName}'.")]
+    private static partial void LogRenameProperty(ILogger logger, string? originalName, string? newName, string entityName);
 }

@@ -47,13 +47,13 @@ public partial class PriorityMap
             .IsRequired()
             .HasColumnName("DisplayOrder")
             .HasColumnType("int")
-            .HasDefaultValueSql("((0))");
+            .HasDefaultValue(0);
 
         builder.Property(t => t.IsActive)
             .IsRequired()
             .HasColumnName("IsActive")
             .HasColumnType("bit")
-            .HasDefaultValueSql("((1))");
+            .HasDefaultValue(true);
 
         builder.Property(t => t.Created)
             .IsRequired()

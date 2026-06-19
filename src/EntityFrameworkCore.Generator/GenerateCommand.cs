@@ -6,7 +6,7 @@ using Spectre.Console.Cli;
 
 namespace EntityFrameworkCore.Generator;
 
-public class GenerateCommand : AsyncCommand<GenerateSettings>
+public partial class GenerateCommand : AsyncCommand<GenerateSettings>
 {
     private readonly ILogger<GenerateCommand> _logger;
     private readonly IConfigurationSerializer _serializer;
@@ -32,7 +32,7 @@ public class GenerateCommand : AsyncCommand<GenerateSettings>
             var configuration = _serializer.Load(workingDirectory, configurationFile);
             if (configuration == null)
             {
-                _logger.LogInformation("Using default options");
+                LogUsingDefaultOptions(_logger);
                 configuration = new Serialization.GeneratorModel();
             }
 
@@ -69,8 +69,14 @@ public class GenerateCommand : AsyncCommand<GenerateSettings>
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, ex.Message);
+            LogCommandFailed(_logger, ex, ex.Message);
             return 1;
         }
     }
+
+    [LoggerMessage(EventId = 1, Level = LogLevel.Information, Message = "Using default options")]
+    private static partial void LogUsingDefaultOptions(ILogger logger);
+
+    [LoggerMessage(EventId = 2, Level = LogLevel.Error, Message = "{errorMessage}")]
+    private static partial void LogCommandFailed(ILogger logger, Exception exception, string errorMessage);
 }

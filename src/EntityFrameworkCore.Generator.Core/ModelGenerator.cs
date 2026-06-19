@@ -35,7 +35,7 @@ public partial class ModelGenerator
         ArgumentNullException.ThrowIfNull(options);
         ArgumentNullException.ThrowIfNull(databaseModel);
 
-        _logger.LogInformation("Building code generation model from database: {databaseName}", databaseModel.DatabaseName);
+        LogBuildingCodeGenerationModel(_logger, databaseModel.DatabaseName);
 
         _options = options;
 
@@ -60,11 +60,11 @@ public partial class ModelGenerator
         {
             if (IsIgnored(table, _options.Database.Exclude.Tables))
             {
-                _logger.LogDebug("  Skipping Table : {schema}.{name}", table.Schema, table.Name);
+                LogSkippingRelation(_logger, "Table", table.Schema, table.Name);
                 continue;
             }
 
-            _logger.LogDebug("  Processing Table : {schema}.{name}", table.Schema, table.Name);
+            LogProcessingRelation(_logger, "Table", table.Schema, table.Name);
 
             _options.Variables.Set(VariableConstants.TableSchema, ToLegalName(table.Schema));
             _options.Variables.Set(VariableConstants.TableName, ToLegalName(table.Name));
@@ -77,11 +77,11 @@ public partial class ModelGenerator
         {
             if (IsIgnored(view, _options.Database.Exclude.Tables))
             {
-                _logger.LogDebug("  Skipping View : {schema}.{name}", view.Schema, view.Name);
+                LogSkippingRelation(_logger, "View", view.Schema, view.Name);
                 continue;
             }
 
-            _logger.LogDebug("  Processing View : {schema}.{name}", view.Schema, view.Name);
+            LogProcessingRelation(_logger, "View", view.Schema, view.Name);
 
             _options.Variables.Set(VariableConstants.TableSchema, ToLegalName(view.Schema));
             _options.Variables.Set(VariableConstants.TableName, ToLegalName(view.Name));
@@ -203,7 +203,7 @@ public partial class ModelGenerator
             var parentRelation = column.Parent;
             if (parentRelation is null || IsIgnored(column, _options.Database.Exclude.Columns))
             {
-                _logger.LogDebug("  Skipping Column : {Schema}.{Table}.{Column}", parentRelation?.Schema, parentRelation?.Name, column.Name);
+                LogSkippingColumn(_logger, parentRelation?.Schema, parentRelation?.Name, column.Name);
                 continue;
             }
 
@@ -342,13 +342,13 @@ public partial class ModelGenerator
             // skip relationship if principal table is ignored
             if (IsIgnored(foreignKey.PrincipalTable, _options.Database.Exclude.Tables))
             {
-                _logger.LogDebug("  Skipping Relationship : {name}", foreignKey.Name);
+                LogSkippingRelationship(_logger, foreignKey.Name);
                 continue;
             }
 
             if (IsIgnored(foreignKey, _options.Database.Exclude.Relationships))
             {
-                _logger.LogDebug("  Skipping Relationship : {name}", foreignKey.Name);
+                LogSkippingRelationship(_logger, foreignKey.Name);
                 continue;
             }
 
@@ -638,14 +638,14 @@ public partial class ModelGenerator
         {
             if (string.IsNullOrEmpty(memberName))
             {
-                _logger.LogWarning("Could not resolve column name for relationship {relationshipName}.", relationshipName);
+                LogCouldNotResolveColumnName(_logger, relationshipName);
                 continue;
             }
 
             var property = entity.Properties.ByColumn(memberName);
 
             if (property == null)
-                _logger.LogWarning("Could not find column {columnName} for relationship {relationshipName}.", memberName, relationshipName);
+                LogCouldNotFindColumn(_logger, memberName, relationshipName);
             else
                 keyMembers.Add(property);
         }
@@ -985,4 +985,25 @@ public partial class ModelGenerator
 
     [GeneratedRegex(@"^\d")]
     private static partial Regex DigitPrefixRegex();
+
+    [LoggerMessage(EventId = 1, Level = LogLevel.Information, Message = "Building code generation model from database: {databaseName}")]
+    private static partial void LogBuildingCodeGenerationModel(ILogger logger, string? databaseName);
+
+    [LoggerMessage(EventId = 2, Level = LogLevel.Debug, Message = "  Skipping {relationType} : {schema}.{name}")]
+    private static partial void LogSkippingRelation(ILogger logger, string relationType, string? schema, string name);
+
+    [LoggerMessage(EventId = 3, Level = LogLevel.Debug, Message = "  Processing {relationType} : {schema}.{name}")]
+    private static partial void LogProcessingRelation(ILogger logger, string relationType, string? schema, string name);
+
+    [LoggerMessage(EventId = 4, Level = LogLevel.Debug, Message = "  Skipping Column : {schema}.{table}.{column}")]
+    private static partial void LogSkippingColumn(ILogger logger, string? schema, string? table, string column);
+
+    [LoggerMessage(EventId = 5, Level = LogLevel.Debug, Message = "  Skipping Relationship : {name}")]
+    private static partial void LogSkippingRelationship(ILogger logger, string? name);
+
+    [LoggerMessage(EventId = 6, Level = LogLevel.Warning, Message = "Could not resolve column name for relationship {relationshipName}.")]
+    private static partial void LogCouldNotResolveColumnName(ILogger logger, string? relationshipName);
+
+    [LoggerMessage(EventId = 7, Level = LogLevel.Warning, Message = "Could not find column {columnName} for relationship {relationshipName}.")]
+    private static partial void LogCouldNotFindColumn(ILogger logger, string columnName, string? relationshipName);
 }

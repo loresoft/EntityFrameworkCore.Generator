@@ -80,7 +80,7 @@ public partial class UserLoginMap
             .IsRequired()
             .HasColumnName("IsSuccessful")
             .HasColumnType("bit")
-            .HasDefaultValueSql("((0))");
+            .HasDefaultValue(false);
 
         builder.Property(t => t.FailureMessage)
             .HasColumnName("FailureMessage")

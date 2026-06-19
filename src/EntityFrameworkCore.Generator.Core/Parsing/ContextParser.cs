@@ -6,7 +6,7 @@ using Microsoft.Extensions.Logging;
 
 namespace EntityFrameworkCore.Generator.Parsing;
 
-public class ContextParser
+public partial class ContextParser
 {
     private readonly ILogger _logger;
 
@@ -20,9 +20,7 @@ public class ContextParser
         if (string.IsNullOrEmpty(contextFile) || !File.Exists(contextFile))
             return null;
 
-        _logger.LogDebug(
-            "Parsing Context File: '{ContextFile}'",
-            Path.GetFileName(contextFile));
+        LogParsingContextFile(_logger, Path.GetFileName(contextFile));
 
         var code = File.ReadAllText(contextFile);
         return ParseCode(code);
@@ -43,11 +41,14 @@ public class ContextParser
         if (parsedContext == null)
             return null;
 
-        _logger.LogDebug(
-            "Parsed Context Class: {ContextClass}; Entities: {Entities}",
-            parsedContext.ContextClass,
-            parsedContext.Properties.Count);
+        LogParsedContextClass(_logger, parsedContext.ContextClass, parsedContext.Properties.Count);
 
         return parsedContext;
     }
+
+    [LoggerMessage(EventId = 1, Level = LogLevel.Debug, Message = "Parsing Context File: '{contextFile}'")]
+    private static partial void LogParsingContextFile(ILogger logger, string contextFile);
+
+    [LoggerMessage(EventId = 2, Level = LogLevel.Debug, Message = "Parsed Context Class: {contextClass}; Entities: {entities}")]
+    private static partial void LogParsedContextClass(ILogger logger, string contextClass, int entities);
 }

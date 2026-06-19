@@ -6,7 +6,7 @@ using Microsoft.Extensions.Logging;
 
 namespace EntityFrameworkCore.Generator.Parsing;
 
-public class ModelParser
+public partial class ModelParser
 {
     private readonly ILogger _logger;
 
@@ -20,9 +20,7 @@ public class ModelParser
         if (string.IsNullOrEmpty(modelFile) || !File.Exists(modelFile))
             return null;
 
-        _logger.LogDebug(
-            "Parsing Model File: '{ModelFile}'",
-            Path.GetFileName(modelFile));
+        LogParsingModelFile(_logger, Path.GetFileName(modelFile));
 
         var code = File.ReadAllText(modelFile);
         return ParseCode(code);
@@ -43,11 +41,14 @@ public class ModelParser
         if (parsedModel == null || parsedModel.Properties.Count == 0)
             return null;
 
-        _logger.LogDebug(
-            "Parsed Model Class: '{ModelClass}'; Properties: {Properties}",
-            parsedModel.ModelClass,
-            parsedModel.Properties.Count);
+        LogParsedModelClass(_logger, parsedModel.ModelClass, parsedModel.Properties.Count);
 
         return parsedModel;
     }
+
+    [LoggerMessage(EventId = 1, Level = LogLevel.Debug, Message = "Parsing Model File: '{modelFile}'")]
+    private static partial void LogParsingModelFile(ILogger logger, string modelFile);
+
+    [LoggerMessage(EventId = 2, Level = LogLevel.Debug, Message = "Parsed Model Class: '{modelClass}'; Properties: {properties}")]
+    private static partial void LogParsedModelClass(ILogger logger, string modelClass, int properties);
 }

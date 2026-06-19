@@ -88,7 +88,7 @@ public partial class AuditMap
 
         builder.Property(t => t.Attributes)
             .HasColumnName("Attributes")
-            .HasColumnType("StringList");
+            .HasColumnType("dbo.StringList");
 
         // relationships
         #endregion

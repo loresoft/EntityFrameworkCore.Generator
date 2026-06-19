@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace Tracker.Core.Domain.Models;
 
@@ -32,6 +33,8 @@ public partial class TaskCreateModel
     /// <value>
     /// The <c>Title</c> model value.
     /// </value>
+    [Required]
+    [StringLength(255)]
     public string Title { get; set; } = null!;
 
     /// <summary>
