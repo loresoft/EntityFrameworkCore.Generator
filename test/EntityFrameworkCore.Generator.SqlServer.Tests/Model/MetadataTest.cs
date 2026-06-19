@@ -102,6 +102,7 @@ public class MetadataTest : ModelTestBase
         // dependent side: required (NOT NULL) foreign key to User
         var toUser = userRole.Relationships
             .Single(r => r.IsForeignKey && r.PrimaryEntity.EntityClass == "User");
+
         Assert.Equal("FK_UserRole_User_UserId", toUser.RelationshipName);
         Assert.Equal(Cardinality.One, toUser.Cardinality);
         Assert.Contains(toUser.Properties, p => p.ColumnName == "UserId");
@@ -110,6 +111,7 @@ public class MetadataTest : ModelTestBase
         var user = GetEntity(context, "User");
         var fromUserRole = user.Relationships
             .Single(r => !r.IsForeignKey && r.PrimaryEntity.EntityClass == "UserRole");
+
         Assert.Equal(Cardinality.Many, fromUserRole.Cardinality);
     }
 
