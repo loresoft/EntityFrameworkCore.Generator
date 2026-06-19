@@ -189,7 +189,7 @@ public class ColorConsoleFormatter(IOptionsMonitor<SimpleConsoleFormatterOptions
             LogLevel.Warning => "W",
             LogLevel.Error => "E",
             LogLevel.Critical => "F",
-            _ => "none"
+            _ => "T"
         };
 
     private static ConsoleColor GetLevelColor(LogLevel level)

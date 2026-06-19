@@ -20,44 +20,52 @@ public class InitializeCommand : AsyncCommand<InitializeSettings>
 
     protected override Task<int> ExecuteAsync(CommandContext context, InitializeSettings settings, CancellationToken cancellationToken)
     {
-        var workingDirectory = settings.WorkingDirectory ?? Environment.CurrentDirectory;
-
-        if (!Directory.Exists(workingDirectory))
+        try
         {
-            _logger.LogTrace("Creating directory: {Directory}", workingDirectory);
-            Directory.CreateDirectory(workingDirectory);
-        }
+            var workingDirectory = settings.WorkingDirectory ?? Environment.CurrentDirectory;
 
-        var optionsFile = settings.OptionsFile ?? ConfigurationSerializer.OptionsFileName;
+            if (!Directory.Exists(workingDirectory))
+            {
+                _logger.LogTrace("Creating directory: {Directory}", workingDirectory);
+                Directory.CreateDirectory(workingDirectory);
+            }
 
-        Serialization.GeneratorModel? options = null;
+            var optionsFile = settings.OptionsFile ?? ConfigurationSerializer.OptionsFileName;
 
-        if (_serializer.Exists(workingDirectory, optionsFile))
-            options = _serializer.Load(workingDirectory, optionsFile);
+            Serialization.GeneratorModel? options = null;
 
-        if (options == null)
-            options = CreateOptionsFile(optionsFile);
+            if (_serializer.Exists(workingDirectory, optionsFile))
+                options = _serializer.Load(workingDirectory, optionsFile);
 
-        if (settings.UserSecretsId.HasValue())
-            options.Database.UserSecretsId = settings.UserSecretsId;
+            if (options == null)
+                options = CreateOptionsFile(optionsFile);
 
-        if (settings.ConnectionName.HasValue())
-            options.Database.ConnectionName = settings.ConnectionName;
-
-        if (settings.Provider.HasValue)
-            options.Database.Provider = settings.Provider.Value;
-
-        if (settings.ConnectionString.HasValue())
-        {
             if (settings.UserSecretsId.HasValue())
-                options = CreateUserSecret(options, settings.ConnectionString);
-            else
-                options.Database.ConnectionString = settings.ConnectionString;
+                options.Database.UserSecretsId = settings.UserSecretsId;
+
+            if (settings.ConnectionName.HasValue())
+                options.Database.ConnectionName = settings.ConnectionName;
+
+            if (settings.Provider.HasValue)
+                options.Database.Provider = settings.Provider.Value;
+
+            if (settings.ConnectionString.HasValue())
+            {
+                if (settings.UserSecretsId.HasValue())
+                    options = CreateUserSecret(options, settings.ConnectionString);
+                else
+                    options.Database.ConnectionString = settings.ConnectionString;
+            }
+
+            _serializer.Save(options, workingDirectory, optionsFile);
+
+            return Task.FromResult(0);
         }
-
-        _serializer.Save(options, workingDirectory, optionsFile);
-
-        return Task.FromResult(0);
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, ex.Message);
+            return Task.FromResult(1);
+        }
     }
 
     private Serialization.GeneratorModel CreateUserSecret(Serialization.GeneratorModel options, string connectionString)
