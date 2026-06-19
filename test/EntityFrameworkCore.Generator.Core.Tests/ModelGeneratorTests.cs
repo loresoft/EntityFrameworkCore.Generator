@@ -1,8 +1,11 @@
 using System;
 using System.Data;
+using System.IO;
 
+using EntityFrameworkCore.Generator.Extensions;
 using EntityFrameworkCore.Generator.Metadata.Generation;
 using EntityFrameworkCore.Generator.Options;
+using EntityFrameworkCore.Generator.Scripts;
 using EntityFrameworkCore.Generator.Templates;
 
 using Microsoft.Extensions.Logging.Abstractions;
@@ -211,6 +214,55 @@ public class ModelGeneratorTests
         var nameProperty = firstEntity.Properties.ByColumn("Name");
         Assert.NotNull(nameProperty);
         Assert.Equal("Name", nameProperty.PropertyName);
+    }
+
+    [Fact]
+    public void GenerateWithLongRowVersionMappingUsesLongType()
+    {
+        var generatorOptions = new GeneratorOptions();
+        generatorOptions.Data.Mapping.RowVersion = RowVersionMapping.Long;
+
+        var databaseModel = CreateDatabaseModel("TestDatabase",
+            table => ConfigureTable(table, "dbo", "TestTable",
+                column => ConfigureColumn(column, "Id", false, "int", 1),
+                column => ConfigureColumn(column, "RowVersion", false, "rowversion", 2)
+                    .WithIsRowVersion(true)));
+
+        var generator = new ModelGenerator(NullLoggerFactory.Instance);
+
+        var result = generator.Generate(generatorOptions, databaseModel);
+        var firstEntity = Assert.Single(result.Entities);
+
+        var rowVersionProperty = firstEntity.Properties.ByColumn("RowVersion");
+        Assert.NotNull(rowVersionProperty);
+        Assert.Equal(typeof(long), rowVersionProperty.SystemType);
+        Assert.Equal(typeof(long).ToType(), rowVersionProperty.SystemTypeName);
+    }
+
+    [Fact]
+    public void EntityScriptTemplateRunsWithoutEntityFrameworkCoreReference()
+    {
+        var outputDirectory = Path.Combine(Path.GetTempPath(), $"efg-script-{Guid.NewGuid():N}");
+        var templatePath = Path.Combine(outputDirectory, "entity.csx");
+        var outputPath = Path.Combine(outputDirectory, "entity.txt");
+        Directory.CreateDirectory(outputDirectory);
+        File.WriteAllText(templatePath, "return Entity.EntityClass;");
+
+        var generatorOptions = new GeneratorOptions();
+        var templateOptions = new TemplateOptions(generatorOptions.Variables, null)
+        {
+            TemplatePath = templatePath,
+            Directory = outputDirectory,
+            FileName = Path.GetFileName(outputPath),
+            Overwrite = true
+        };
+
+        var entity = new Entity { EntityClass = "TestEntity" };
+        var scriptTemplate = new EntityScriptTemplate(NullLoggerFactory.Instance, generatorOptions, templateOptions);
+
+        scriptTemplate.RunScript(entity);
+
+        Assert.Equal("TestEntity", File.ReadAllText(outputPath));
     }
 
     [Fact]
@@ -777,6 +829,7 @@ public class ModelGeneratorTests
         {
             "int" => (DbType.Int32, typeof(int)),
             "varchar(50)" => (DbType.String, typeof(string)),
+            "rowversion" => (DbType.Binary, typeof(byte[])),
             "geometry" => (DbType.Object, typeof(object)),
             "dbo.StringList" => (DbType.Object, typeof(object)),
             _ => throw new ArgumentOutOfRangeException(nameof(nativeTypeName), nativeTypeName, "Unsupported test column type.")

@@ -128,8 +128,7 @@ public abstract class ScriptTemplateBase<TVariable>
                 "System.Text",
                 "EntityFrameworkCore.Generator.Extensions",
                 "EntityFrameworkCore.Generator.Metadata.Generation",
-                "EntityFrameworkCore.Generator.Options",
-                "Microsoft.EntityFrameworkCore.Internal"
+                "EntityFrameworkCore.Generator.Options"
             );
 
         _scriptTemplate = CSharpScript.Create<string>(scriptContent, scriptOptions, typeof(TVariable));

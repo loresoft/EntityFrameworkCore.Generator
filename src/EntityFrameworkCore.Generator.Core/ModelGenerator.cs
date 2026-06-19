@@ -1,4 +1,5 @@
 using System.Data;
+using System.Globalization;
 using System.Text;
 using System.Text.RegularExpressions;
 
@@ -242,23 +243,8 @@ public partial class ModelGenerator
             property.SystemTypeName = GetSystemTypeName(column.NativeTypeName, column.SystemType);
             property.Size = column.MaxLength;
 
-            // overwrite row version type
-            if (property.IsRowVersion == true
-                && _options.Data.Mapping.RowVersion != RowVersionMapping.ByteArray
-                && property.SystemType == typeof(byte[]))
-            {
-                property.SystemType = _options.Data.Mapping.RowVersion switch
-                {
-                    RowVersionMapping.ByteArray => typeof(byte[]),
-                    RowVersionMapping.Long => typeof(long),
-                    RowVersionMapping.ULong => typeof(ulong),
-                    _ => typeof(byte[])
-                };
-                property.SystemTypeName = property.SystemType.ToType();
-            }
-
-            //property.DefaultValue = column.DefaultValue;
             property.Default = column.DefaultValueSql;
+            property.DefaultValue = TryParseDefault(column.DefaultValueSql, column.SystemType);
 
             property.IsComputed = column.IsComputed;
             property.IsIdentity = column.IsIdentity;
@@ -277,6 +263,20 @@ public partial class ModelGenerator
 
                 property.IsUnique = parentTable.UniqueConstraints.Any(c => c.Columns.Any(col => col.ColumnName == column.Name))
                                     || parentTable.Indexes.Where(i => i.IsUnique).Any(c => c.Columns.Any(col => col.ColumnName == column.Name));
+            }
+
+            // overwrite row version type
+            if (property.IsRowVersion == true
+                && _options.Data.Mapping.RowVersion != RowVersionMapping.ByteArray
+                && property.SystemType == typeof(byte[]))
+            {
+                property.SystemType = _options.Data.Mapping.RowVersion switch
+                {
+                    RowVersionMapping.Long => typeof(long),
+                    RowVersionMapping.ULong => typeof(ulong),
+                    _ => typeof(byte[])
+                };
+                property.SystemTypeName = property.SystemType.ToType();
             }
 
             property.IsProcessed = true;
@@ -365,10 +365,18 @@ public partial class ModelGenerator
         var primaryName = primaryEntity.EntityClass;
         var foreignName = foreignEntity.EntityClass;
 
-        var foreignMembers = GetKeyMembers(foreignEntity, tableKeySchema.ColumnMappings.Select(c => c.DependentColumn), tableKeySchema.Name);
+        var foreignMembers = GetKeyMembers(
+            foreignEntity,
+            tableKeySchema.ColumnMappings.Select(c => c.DependentColumn?.Name ?? c.DependentColumnName),
+            tableKeySchema.Name
+        );
         bool foreignMembersRequired = foreignMembers.Any(c => c.IsRequired);
 
-        var primaryMembers = GetKeyMembers(primaryEntity, tableKeySchema.ColumnMappings.Select(c => c.PrincipalColumn), tableKeySchema.Name);
+        var primaryMembers = GetKeyMembers(
+            primaryEntity,
+            tableKeySchema.ColumnMappings.Select(c => c.PrincipalColumn?.Name ?? c.PrincipalColumnName),
+            tableKeySchema.Name
+        );
         bool primaryMembersRequired = primaryMembers.Any(c => c.IsRequired);
 
         // skip invalid fkeys
@@ -475,17 +483,17 @@ public partial class ModelGenerator
 
     private static void GetForeignKeyMethods(Entity entity, Table table)
     {
-        var columns = new List<Column>();
+        var columnNames = new List<string?>();
 
-        foreach (var column in table.ForeignKeys.SelectMany(c => c.ColumnMappings.Select(m => m.DependentColumn)))
+        foreach (var columnName in table.ForeignKeys.SelectMany(c => c.ColumnMappings.Select(m => m.DependentColumn?.Name ?? m.DependentColumnName)))
         {
-            columns.Add(column);
+            columnNames.Add(columnName);
 
-            var method = GetMethodFromColumns(entity, columns);
+            var method = GetMethodFromColumnNames(entity, columnNames);
             if (method != null && entity.Methods.All(m => m.NameSuffix != method.NameSuffix))
                 entity.Methods.Add(method);
 
-            columns.Clear();
+            columnNames.Clear();
         }
     }
 
@@ -506,14 +514,22 @@ public partial class ModelGenerator
         }
     }
 
-    private static Method? GetMethodFromColumns(Entity entity, IEnumerable<Column> columns)
+    private static Method? GetMethodFromColumns(Entity entity, IEnumerable<Column?> columns)
+    {
+        return GetMethodFromColumnNames(entity, columns.Select(column => column?.Name));
+    }
+
+    private static Method? GetMethodFromColumnNames(Entity entity, IEnumerable<string?> columnNames)
     {
         var method = new Method { Entity = entity };
         var methodName = new StringBuilder();
 
-        foreach (var column in columns)
+        foreach (var columnName in columnNames)
         {
-            var property = entity.Properties.ByColumn(column.Name);
+            if (string.IsNullOrEmpty(columnName))
+                continue;
+
+            var property = entity.Properties.ByColumn(columnName);
             if (property == null)
                 continue;
 
@@ -614,16 +630,22 @@ public partial class ModelGenerator
     }
 
 
-    private List<Property> GetKeyMembers(Entity entity, IEnumerable<Column> members, string? relationshipName)
+    private List<Property> GetKeyMembers(Entity entity, IEnumerable<string?> memberNames, string? relationshipName)
     {
         var keyMembers = new List<Property>();
 
-        foreach (var member in members)
+        foreach (var memberName in memberNames)
         {
-            var property = entity.Properties.ByColumn(member.Name);
+            if (string.IsNullOrEmpty(memberName))
+            {
+                _logger.LogWarning("Could not resolve column name for relationship {relationshipName}.", relationshipName);
+                continue;
+            }
+
+            var property = entity.Properties.ByColumn(memberName);
 
             if (property == null)
-                _logger.LogWarning("Could not find column {columnName} for relationship {relationshipName}.", member.Name, relationshipName);
+                _logger.LogWarning("Could not find column {columnName} for relationship {relationshipName}.", memberName, relationshipName);
             else
                 keyMembers.Add(property);
         }
@@ -776,6 +798,88 @@ public partial class ModelGenerator
             legalName = "Number" + name;
 
         return legalName.ToPascalCase();
+    }
+
+
+    private static object? TryParseDefault(string? defaultValueSql, Type type)
+    {
+        defaultValueSql = defaultValueSql?.Trim();
+        if (string.IsNullOrEmpty(defaultValueSql))
+            return null;
+
+        // unwrap parentheses
+        Unwrap();
+
+        if (defaultValueSql.StartsWith("CONVERT", StringComparison.OrdinalIgnoreCase))
+        {
+            // extract value from CONVERT statement
+            defaultValueSql = defaultValueSql[(defaultValueSql.IndexOf(',') + 1)..];
+            defaultValueSql = defaultValueSql[..defaultValueSql.LastIndexOf(')')];
+
+            // unwrap parentheses again
+            Unwrap();
+        }
+
+        // handle NULL default
+        if (defaultValueSql.Equals("NULL", StringComparison.OrdinalIgnoreCase))
+            return null;
+
+        // handle boolean defaults represented as 0 or 1
+        if (type == typeof(bool) && int.TryParse(defaultValueSql, out var intValue))
+            return intValue != 0;
+
+        // handle numeric types
+        if (type.IsNumeric())
+        {
+            try
+            {
+                return Convert.ChangeType(defaultValueSql, type, CultureInfo.InvariantCulture);
+            }
+            catch
+            {
+                // Ignored
+                return null;
+            }
+        }
+
+        // handle string literals
+        if ((defaultValueSql.StartsWith('\'') || defaultValueSql.StartsWith("N'", StringComparison.OrdinalIgnoreCase))
+            && defaultValueSql.EndsWith('\''))
+        {
+            // extract string value from quotes
+            var startIndex = defaultValueSql.IndexOf('\'');
+            defaultValueSql = defaultValueSql.Substring(startIndex + 1, defaultValueSql.Length - (startIndex + 2));
+
+            if (type == typeof(string))
+                return defaultValueSql;
+
+            if (type == typeof(bool) && bool.TryParse(defaultValueSql, out var boolValue))
+                return boolValue;
+
+            if (type == typeof(Guid) && Guid.TryParse(defaultValueSql, out var guid))
+                return guid;
+
+            if (type == typeof(DateTime) && DateTime.TryParse(defaultValueSql, out var dateTime))
+                return dateTime;
+
+            if (type == typeof(DateOnly) && DateOnly.TryParse(defaultValueSql, out var dateOnly))
+                return dateOnly;
+
+            if (type == typeof(TimeOnly) && TimeOnly.TryParse(defaultValueSql, out var timeOnly))
+                return timeOnly;
+
+            if (type == typeof(DateTimeOffset) && DateTimeOffset.TryParse(defaultValueSql, out var dateTimeOffset))
+                return dateTimeOffset;
+        }
+
+        return null;
+
+        // local function to unwrap parentheses
+        void Unwrap()
+        {
+            while (defaultValueSql.StartsWith('(') && defaultValueSql.EndsWith(')'))
+                defaultValueSql = defaultValueSql[1..^1].Trim();
+        }
     }
 
 
