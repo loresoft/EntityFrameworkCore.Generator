@@ -25,7 +25,7 @@ data:
         systemType: NetTopologySuite.Geometries.Geometry
       - nativeType: geography
         systemType: NetTopologySuite.Geometries.Geometry
-      - nativeType: StringList
+      - nativeType: dbo.StringList
         systemType: List<string>
     document: true
   mapping:

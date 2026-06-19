@@ -166,7 +166,6 @@ Entity Framework Core Generator supports generating [Read](https://efg.loresoft.
 - remove direct Entity Framework Core dependencies from the tool; Entity Framework Core packages are only needed by generated projects
 - add Oracle database provider support
 - add entity `typeMapping` configuration for mapping native database types to generated .NET types
-- update major package dependencies including AutoMapper 16, FluentValidation 12, Spectre.Console.Cli 0.55 and YamlDotNet 18
 - generated projects may need matching current Entity Framework Core and provider package versions
 
 ### Version 7.0
