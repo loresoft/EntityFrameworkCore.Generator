@@ -90,4 +90,4 @@ The query extension template has one region that is replaced on regeneration.
 
 ### Generated Configuration
 
-The `Generated Configure` region configures the entity type mapping.  
+The `Generated Configure` region configures the entity type mapping.

@@ -1,12 +1,12 @@
-﻿using System.IO;
 using EntityFrameworkCore.Generator.Metadata.Parsing;
+
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.Extensions.Logging;
 
 namespace EntityFrameworkCore.Generator.Parsing;
 
-public class MappingParser
+public partial class MappingParser
 {
     private readonly ILogger _logger;
 
@@ -15,20 +15,18 @@ public class MappingParser
         _logger = loggerFactory.CreateLogger<MappingParser>();
     }
 
-    public ParsedEntity ParseFile(string mappingFile)
+    public ParsedEntity? ParseFile(string mappingFile)
     {
         if (string.IsNullOrEmpty(mappingFile) || !File.Exists(mappingFile))
             return null;
 
-        _logger.LogDebug(
-            "Parsing Mapping File: '{0}'",
-            Path.GetFileName(mappingFile));
+        LogParsingMappingFile(_logger, Path.GetFileName(mappingFile));
 
         var code = File.ReadAllText(mappingFile);
         return ParseCode(code);
     }
 
-    public ParsedEntity ParseCode(string code)
+    public ParsedEntity? ParseCode(string code)
     {
         if (string.IsNullOrWhiteSpace(code))
             return null;
@@ -44,12 +42,14 @@ public class MappingParser
         if (parsedEntity == null)
             return null;
 
-        _logger.LogDebug(
-            "Parsed Mapping Class: '{0}'; Properties: {1}; Relationships: {2}",
-            parsedEntity.MappingClass,
-            parsedEntity.Properties.Count,
-            parsedEntity.Relationships.Count);
+        LogParsedMappingClass(_logger, parsedEntity.MappingClass, parsedEntity.Properties.Count, parsedEntity.Relationships.Count);
 
         return parsedEntity;
     }
+
+    [LoggerMessage(EventId = 1, Level = LogLevel.Debug, Message = "Parsing Mapping File: '{mappingFile}'")]
+    private static partial void LogParsingMappingFile(ILogger logger, string mappingFile);
+
+    [LoggerMessage(EventId = 2, Level = LogLevel.Debug, Message = "Parsed Mapping Class: '{mappingClass}'; Properties: {properties}; Relationships: {relationships}")]
+    private static partial void LogParsedMappingClass(ILogger logger, string mappingClass, int properties, int relationships);
 }

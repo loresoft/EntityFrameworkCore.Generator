@@ -107,4 +107,4 @@ Property rename is supported.  The rename will be discovered during the parsing 
 
 ### Generated Configuration
 
-The `Generated Configuration` region configures the entity type mapping.  
+The `Generated Configuration` region configures the entity type mapping.

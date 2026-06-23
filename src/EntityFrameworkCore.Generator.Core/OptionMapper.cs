@@ -1,13 +1,5 @@
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-
 using EntityFrameworkCore.Generator.Options;
 using EntityFrameworkCore.Generator.Serialization;
-
-using Microsoft.CodeAnalysis.Options;
-
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace EntityFrameworkCore.Generator;
 
@@ -29,7 +21,7 @@ public static class OptionMapper
         return options;
     }
 
-    private static void MapScript(ScriptOptions option, ScriptModel script)
+    private static void MapScript(ScriptOptions option, ScriptModel? script)
     {
         if (script == null)
             return;
@@ -71,6 +63,7 @@ public static class OptionMapper
         option.Name = classBase.Name;
         option.BaseClass = classBase.BaseClass;
         option.Attributes = classBase.Attributes;
+        option.Header = classBase.Header;
     }
 
     private static void MapModelBase(ModelOptionsBase option, ModelBase modelBase)
@@ -117,6 +110,7 @@ public static class OptionMapper
     {
         option.Namespace = shared.Namespace;
         option.Directory = shared.Directory;
+        option.Header = shared.Header;
 
         MapSelection(option.Include, shared.Include);
         MapSelection(option.Exclude, shared.Exclude);
@@ -154,12 +148,25 @@ public static class OptionMapper
         option.EntityNaming = entity.EntityNaming;
         option.RelationshipNaming = entity.RelationshipNaming;
         option.PrefixWithSchemaName = entity.PrefixWithSchemaName;
+        option.MappingAttributes = entity.MappingAttributes;
+        option.SystemTypeAnnotation = entity.SystemTypeAnnotation;
         option.AdditionalUsings = entity.AdditionalUsings;
 
         MapSelection(option.Renaming, entity.Renaming);
+
+        MapList(option.TypeMapping, entity.TypeMapping, MapTypeMapping);
     }
 
-    private static void MapSelection(SelectionOptions option, SelectionModel selection)
+    private static TypeMappingOptions MapTypeMapping(Serialization.TypeMapping typeMapping)
+    {
+        return new TypeMappingOptions
+        {
+            NativeType = typeMapping.NativeType,
+            SystemType = typeMapping.SystemType
+        };
+    }
+
+    private static void MapSelection(SelectionOptions option, SelectionModel? selection)
     {
         if (selection == null)
             return;
@@ -194,11 +201,8 @@ public static class OptionMapper
 
         MapList(option.Tables, database.Tables);
         MapList(option.Schemas, database.Schemas);
-        MapList(option.Exclude, database.Exclude, (match) =>
-        {
-            var prefix = OptionsBase.AppendPrefix(option.Prefix, $"Exclude{option.Exclude.Count:0000}");
-            return MapMatch(option.Variables, match, prefix);
-        });
+
+        MapDatabaseMatch(option.Exclude, database.Exclude);
     }
 
     private static void MapProject(ProjectOptions option, ProjectModel project)
@@ -209,17 +213,40 @@ public static class OptionMapper
         option.FileScopedNamespace = project.FileScopedNamespace;
     }
 
-
-    private static void MapList<T>(IList<T> targetList, IList<T> sourceList)
+    private static void MapDatabaseMatch(DatabaseMatchOptions option, DatabaseMatchModel? match)
     {
-        if (!(sourceList?.Count > 0))
+        if (match == null)
+            return;
+
+        MapList(option.Tables, match.Tables, (match) =>
+        {
+            var prefix = OptionsBase.AppendPrefix(option.Prefix, $"Table{option.Tables?.Count:0000}");
+            return MapMatch(option.Variables, match, prefix);
+        });
+
+        MapList(option.Columns, match.Columns, (match) =>
+        {
+            var prefix = OptionsBase.AppendPrefix(option.Prefix, $"Column{option.Columns?.Count:0000}");
+            return MapMatch(option.Variables, match, prefix);
+        });
+
+        MapList(option.Relationships, match.Relationships, (match) =>
+        {
+            var prefix = OptionsBase.AppendPrefix(option.Prefix, $"Relationship{option.Relationships?.Count:0000}");
+            return MapMatch(option.Variables, match, prefix);
+        });
+    }
+
+    private static void MapList<T>(IList<T> targetList, IList<T>? sourceList)
+    {
+        if (sourceList == null || sourceList.Count == 0)
             return;
 
         foreach (var source in sourceList)
             targetList.Add(source);
     }
 
-    private static void MapList<TTarget, TSource>(IList<TTarget> targetList, IList<TSource> sourceList, Func<TSource, TTarget> factory)
+    private static void MapList<TTarget, TSource>(IList<TTarget> targetList, IList<TSource>? sourceList, Func<TSource, TTarget> factory)
     {
         if (sourceList == null || sourceList.Count == 0)
             return;
@@ -231,7 +258,7 @@ public static class OptionMapper
         }
     }
 
-    private static MatchOptions MapMatch(VariableDictionary variables, MatchModel match, string prefix)
+    private static MatchOptions MapMatch(VariableDictionary variables, MatchModel match, string? prefix)
     {
         return new MatchOptions(variables, prefix)
         {
@@ -240,7 +267,7 @@ public static class OptionMapper
         };
     }
 
-    private static TemplateOptions MapTemplate(VariableDictionary variables, TemplateModel template, string prefix)
+    private static TemplateOptions MapTemplate(VariableDictionary variables, TemplateModel template, string? prefix)
     {
         var option = new TemplateOptions(variables, prefix)
         {
@@ -261,5 +288,4 @@ public static class OptionMapper
 
         return option;
     }
-
 }

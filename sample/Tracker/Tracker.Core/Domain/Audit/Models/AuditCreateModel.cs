@@ -1,55 +1,62 @@
 using System;
 using System.Collections.Generic;
 
-// ReSharper disable once CheckNamespace
 namespace Tracker.Core.Domain.Models;
 
 /// <summary>
-/// View Model class
+/// Represents a create model for the <c>Audit</c> entity mapped to the <c>Audit</c> table.
 /// </summary>
 public partial class AuditCreateModel
     : EntityCreateModel
 {
     #region Generated Properties
     /// <summary>
-    /// Gets or sets the property value for 'Date'.
+    /// Gets or sets the <c>Date</c> value mapped from the <c>Date</c> column.
     /// </summary>
     /// <value>
-    /// The property value for 'Date'.
+    /// The <c>Date</c> model value.
     /// </value>
     public DateTime Date { get; set; }
 
     /// <summary>
-    /// Gets or sets the property value for 'UserId'.
+    /// Gets or sets the <c>UserId</c> value mapped from the <c>UserId</c> column.
     /// </summary>
     /// <value>
-    /// The property value for 'UserId'.
+    /// The <c>UserId</c> model value.
     /// </value>
     public Guid? UserId { get; set; }
 
     /// <summary>
-    /// Gets or sets the property value for 'TaskId'.
+    /// Gets or sets the <c>TaskId</c> value mapped from the <c>TaskId</c> column.
     /// </summary>
     /// <value>
-    /// The property value for 'TaskId'.
+    /// The <c>TaskId</c> model value.
     /// </value>
     public Guid? TaskId { get; set; }
 
     /// <summary>
-    /// Gets or sets the property value for 'Content'.
+    /// Gets or sets the <c>Content</c> value mapped from the <c>Content</c> column.
     /// </summary>
     /// <value>
-    /// The property value for 'Content'.
+    /// The <c>Content</c> model value.
     /// </value>
     public string Content { get; set; } = null!;
 
     /// <summary>
-    /// Gets or sets the property value for 'Username'.
+    /// Gets or sets the <c>Username</c> value mapped from the <c>Username</c> column.
     /// </summary>
     /// <value>
-    /// The property value for 'Username'.
+    /// The <c>Username</c> model value.
     /// </value>
     public string Username { get; set; } = null!;
+
+    /// <summary>
+    /// Gets or sets the <c>Attributes</c> value mapped from the <c>Attributes</c> column.
+    /// </summary>
+    /// <value>
+    /// The <c>Attributes</c> model value.
+    /// </value>
+    public string? Attributes { get; set; }
 
     #endregion
 

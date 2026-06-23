@@ -35,6 +35,10 @@ The following are common variables to use in the configuration file
 
 `{Entity.Name}` is the name of the current entity
 
+### Entity Plural Name
+
+`{Entity.Plural}` is the plural name of the current entity
+
 ### Model Name
 
 `{Model.Name}` is the name of the current model

@@ -1,0 +1,12 @@
+DROP VIEW IF EXISTS `PriorityDropdown`;
+DROP VIEW IF EXISTS `StatusDropdown`;
+
+CREATE VIEW `PriorityDropdown`
+AS
+SELECT `Id`, `Name`, `DisplayOrder`
+FROM `Priority`;
+
+CREATE VIEW `StatusDropdown`
+AS
+SELECT `Id`, `Name`, `DisplayOrder`
+FROM `Status`;

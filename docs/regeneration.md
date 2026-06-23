@@ -1,10 +1,10 @@
 # Regeneration
 
-Entity Framework Core Generator supports safe regeneration via region replacement and source code parsing.  A typical workflow for a project requires many database changes and updates.  Being able to regenerate the entities and associated files is a huge time saver. 
+Entity Framework Core Generator supports safe regeneration via region replacement and source code parsing.  A typical workflow for a project requires many database changes and updates.  Being able to regenerate the entities and associated files is a huge time saver.
 
 ## Region Replacement
 
-All the templates output a region on first generation.  On future regeneration, only the regions are replaced.  This keeps any other changes you've made the the source file.
+All the templates output a region on first generation.  On future regeneration, only the regions are replaced.  This keeps any other changes you've made to the source file.
 
 Example of a generated entity class
 
@@ -46,8 +46,10 @@ public partial class Status
 }
 ```
 
-When the `generate` command is re-run, the `Generated Constructor`, `Generated Properties` and `Generated Relationships` regions will be replace with the current output of the template.  Any other changes outside those regions will be safe.
+When the `generate` command is re-run, the `Generated Constructor`, `Generated Properties` and `Generated Relationships` regions will be replaced with the current output of the template.  Any other changes outside those regions will be safe.
 
 ## Source Parsing
 
-In order to capture and preserve Entity, Property and DbContext renames, the `generate` command parses any existing mapping and DbContext class to capture how things are named.  This allows you to use the full extend of Visual Studio's refactoring tools to rename things as you like.  Then, when regenerating, those changes won't be lost.
+In order to capture and preserve Entity, Property and DbContext renames, the `generate` command parses any existing mapping and DbContext class to capture how things are named.  This allows you to use the full extent of Visual Studio's refactoring tools to rename things as you like.  Then, when regenerating, those changes won't be lost.
+
+Generated model files are also parsed during regeneration.  Attributes added to existing model properties, including multi-line attributes, are preserved and written back to the matching generated model properties.

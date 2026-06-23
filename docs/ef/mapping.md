@@ -136,11 +136,11 @@ Include XML documentation for the generated class.  Default: `false`
 
 ### temporal
 
-If temporal table mapping is enabled. Default true
+If temporal table mapping is enabled. Default `true`
 
 ### rowVersion
 
-How row versions should be mapped. Default ByteArray. ByteArray|Long|ULong
+How row versions should be mapped. Default ByteArray. `ByteArray|Long|ULong`
 
 ## Regeneration
 

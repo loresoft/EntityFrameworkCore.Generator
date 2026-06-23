@@ -142,6 +142,14 @@ CREATE TABLE [dbo].[UserRole] (
     CONSTRAINT [PK_UserRole] PRIMARY KEY ([UserId], [RoleId])
 );
 
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[CitiesSpatial]') AND type in (N'U'))
+CREATE TABLE [dbo].[CitiesSpatial](
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [Name] [nvarchar](50) NULL,
+    [GeometryField] [geometry] NOT NULL,
+    [GeographyField] [geography] NOT NULL,
+ CONSTRAINT [PK_CitiesSpatial] PRIMARY KEY ([Id])
+) 
 
 -- Foreign Keys
 IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_Task_Priority_PriorityId]') AND parent_object_id = OBJECT_ID(N'[dbo].[Task]'))

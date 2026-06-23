@@ -1,9 +1,6 @@
-﻿using System.Linq;
-using System.Text;
+using System.Linq;
 
 using EntityFrameworkCore.Generator.Parsing;
-
-using FluentAssertions;
 
 using Xunit;
 
@@ -14,142 +11,195 @@ public class RegionParserTests
     [Fact]
     public void ParseRegions()
     {
-        var parser = new RegionParser();
+        var source = """
+            using System;
+            using System.Collections.Generic;
 
-        var source = new StringBuilder();
-        source.AppendLine(@"using System;");
-        source.AppendLine(@"using System.Collections.Generic;");
-        source.AppendLine(@"");
-        source.AppendLine(@"namespace EntityFrameworkCore.Generator.Core.Tests");
-        source.AppendLine(@"{");
-        source.AppendLine(@"    public partial class User");
-        source.AppendLine(@"    {");
-        source.AppendLine(@"        #region Generated Properties");
-        source.AppendLine(@"        public Guid Id { get; set; }");
-        source.AppendLine(@"        #endregion");
-        source.AppendLine(@"    }");
-        source.AppendLine(@"}");
+            namespace EntityFrameworkCore.Generator.Core.Tests
+            {
+                public partial class User
+                {
+                    #region Generated Properties
+                    public Guid Id { get; set; }
+                    #endregion
+                }
+            }
+            """;
 
 
-        var result = parser.ParseRegions(source.ToString());
-        result.Should().NotBeNull();
-        result.Count.Should().Be(1);
+        var result = RegionParser.ParseRegions(source);
+        Assert.NotNull(result);
+        Assert.Single(result);
 
-        var first = result.Values.First();
-        first.Should().NotBeNull();
-        first.Name.Should().Be("Generated Properties");
+        var first = result.First();
+        Assert.NotNull(first);
+        Assert.Equal("Generated Properties", first.RegionName);
 
-        var content = new StringBuilder();
-        content.AppendLine(@"#region Generated Properties");
-        content.AppendLine(@"        public Guid Id { get; set; }");
-        content.AppendLine(@"        #endregion");
+        var content = """
+            #region Generated Properties
+                    public Guid Id { get; set; }
+                    #endregion
+            """ + Environment.NewLine;
 
-        first.Content.Should().Be(content.ToString());
+        Assert.Equal(content, first.Content);
 
     }
 
     [Fact]
     public void ParseMultipleRegions()
     {
-        var parser = new RegionParser();
+        var source = """
+            using System;
+            using System.Collections.Generic;
 
-        var source = new StringBuilder();
-        source.AppendLine(@"using System;");
-        source.AppendLine(@"using System.Collections.Generic;");
-        source.AppendLine(@"");
-        source.AppendLine(@"namespace EntityFrameworkCore.Generator.Core.Tests");
-        source.AppendLine(@"{");
-        source.AppendLine(@"    public partial class User");
-        source.AppendLine(@"    {");
-        source.AppendLine(@"        public User()");
-        source.AppendLine(@"        {");
-        source.AppendLine(@"            #region Generated Initializes");
-        source.AppendLine(@"            Created = DateTimeOffset.UtcNow;");
-        source.AppendLine(@"            Updated = DateTimeOffset.UtcNow;");
-        source.AppendLine(@"            UserRoles = new HashSet<UserRole>();");
-        source.AppendLine(@"            #endregion");
-        source.AppendLine(@"        }");
-        source.AppendLine(@"");
-        source.AppendLine(@"        #region Generated Properties");
-        source.AppendLine(@"        public Guid Id { get; set; }");
-        source.AppendLine(@"        public string EmailAddress { get; set; }");
-        source.AppendLine(@"        public DateTimeOffset Created { get; set; }");
-        source.AppendLine(@"        public DateTimeOffset Updated { get; set; }");
-        source.AppendLine(@"        #endregion");
-        source.AppendLine(@"");
-        source.AppendLine(@"        #region Generated Relationships");
-        source.AppendLine(@"        public virtual ICollection<UserRole> UserRoles { get; set; }");
-        source.AppendLine(@"        #endregion");
-        source.AppendLine(@"    }");
-        source.AppendLine(@"}");
+            namespace EntityFrameworkCore.Generator.Core.Tests
+            {
+                public partial class User
+                {
+                    public User()
+                    {
+                        #region Generated Initializes
+                        Created = DateTimeOffset.UtcNow;
+                        Updated = DateTimeOffset.UtcNow;
+                        UserRoles = new HashSet<UserRole>();
+                        #endregion
+                    }
+
+                    #region Generated Properties
+                    public Guid Id { get; set; }
+                    public string EmailAddress { get; set; }
+                    public DateTimeOffset Created { get; set; }
+                    public DateTimeOffset Updated { get; set; }
+                    #endregion
+
+                    #region Generated Relationships
+                    public virtual ICollection<UserRole> UserRoles { get; set; }
+                    #endregion
+                }
+            }
+            """;
 
 
-        var result = parser.ParseRegions(source.ToString());
-        result.Should().NotBeNull();
-        result.Count.Should().Be(3);
+        var result = RegionParser.ParseRegions(source);
+        Assert.NotNull(result);
+        Assert.Equal(3, result.Count);
 
-        var first = result.Values.First();
-        first.Should().NotBeNull();
-        first.Name.Should().Be("Generated Initializes");
+        var first = result.First();
+        Assert.NotNull(first);
+        Assert.Equal("Generated Initializes", first.RegionName);
     }
 
     [Fact]
     public void ParseNestedRegions()
     {
-        var parser = new RegionParser();
+        var source = """
+            using System;
+            using System.Collections.Generic;
 
-        var source = new StringBuilder();
-        source.AppendLine(@"using System;");
-        source.AppendLine(@"using System.Collections.Generic;");
-        source.AppendLine(@"");
-        source.AppendLine(@"namespace EntityFrameworkCore.Generator.Core.Tests");
-        source.AppendLine(@"{");
-        source.AppendLine(@"    public partial class User");
-        source.AppendLine(@"    {");
-        source.AppendLine(@"        #region Generated Properties");
-        source.AppendLine(@"        public Guid Id { get; set; }");
-        source.AppendLine(@"");
-        source.AppendLine(@"        #region Nested Properties");
-        source.AppendLine(@"        public string EmailAddress { get; set; }");
-        source.AppendLine(@"        #endregion");
-        source.AppendLine(@"");
-        source.AppendLine(@"        #endregion");
-        source.AppendLine(@"    }");
-        source.AppendLine(@"}");
+            namespace EntityFrameworkCore.Generator.Core.Tests
+            {
+                public partial class User
+                {
+                    #region Generated Properties
+                    public Guid Id { get; set; }
+
+                    #region Nested Properties
+                    public string EmailAddress { get; set; }
+                    #endregion
+
+                    #endregion
+                }
+            }
+            """;
 
 
-        var result = parser.ParseRegions(source.ToString());
-        result.Should().NotBeNull();
-        result.Count.Should().Be(2);
+        var result = RegionParser.ParseRegions(source);
+        Assert.NotNull(result);
+        Assert.Equal(2, result.Count);
 
-        var nested = result["Nested Properties"];
-        nested.Should().NotBeNull();
-        nested.Name.Should().Be("Nested Properties");
+        var nested = result.Find(p => p.RegionName == "Nested Properties");
+        Assert.NotNull(nested);
+        Assert.Equal("Nested Properties", nested.RegionName);
 
-        var nestedContent = new StringBuilder();
-        nestedContent.AppendLine(@"#region Nested Properties");
-        nestedContent.AppendLine(@"        public string EmailAddress { get; set; }");
-        nestedContent.AppendLine(@"        #endregion");
+        var nestedContent = """
+            #region Nested Properties
+                    public string EmailAddress { get; set; }
+                    #endregion
+            """ + Environment.NewLine;
 
-        nested.Content.Should().Be(nestedContent.ToString());
+        Assert.Equal(nestedContent, nested.Content);
 
-        var generated = result["Generated Properties"];
-        generated.Should().NotBeNull();
-        generated.Name.Should().Be("Generated Properties");
+        var generated = result.Find(p => p.RegionName == "Generated Properties");
+        Assert.NotNull(generated);
+        Assert.Equal("Generated Properties", generated.RegionName);
 
-        var generatedContent = new StringBuilder();
-        generatedContent.AppendLine(@"#region Generated Properties");
-        generatedContent.AppendLine(@"        public Guid Id { get; set; }");
-        generatedContent.AppendLine(@"");
-        generatedContent.AppendLine(@"        #region Nested Properties");
-        generatedContent.AppendLine(@"        public string EmailAddress { get; set; }");
-        generatedContent.AppendLine(@"        #endregion");
-        generatedContent.AppendLine(@"");
-        generatedContent.AppendLine(@"        #endregion");
+        var generatedContent = """
+            #region Generated Properties
+                    public Guid Id { get; set; }
 
-        generated.Content.Should().Be(generatedContent.ToString());
+                    #region Nested Properties
+                    public string EmailAddress { get; set; }
+                    #endregion
+
+                    #endregion
+            """ + Environment.NewLine;
+
+        Assert.Equal(generatedContent, generated.Content);
 
     }
 
+    [Fact]
+    public void ParseRegionsMultipleClasses()
+    {
+        var source = """
+            using System;
+            using System.Collections.Generic;
+
+            namespace EntityFrameworkCore.Generator.Core.Tests;
+            public partial class User
+            {
+                #region Generated Properties
+                public Guid UserId { get; set; }
+                #endregion
+            }
+            public partial class Tester
+            {
+                #region Generated Properties
+                public Guid TesterId { get; set; }
+                #endregion
+            }
+            """;
+
+
+        var result = RegionParser.ParseRegions(source);
+        Assert.NotNull(result);
+        Assert.Equal(2, result.Count);
+
+        var first = result[0];
+        Assert.NotNull(first);
+        Assert.Equal("Generated Properties", first.RegionName);
+        Assert.Equal("User", first.ClassName);
+
+        var firstContent = """
+            #region Generated Properties
+                public Guid UserId { get; set; }
+                #endregion
+            """ + Environment.NewLine;
+
+        Assert.Equal(firstContent, first.Content);
+
+        var second = result[1];
+        Assert.NotNull(second);
+        Assert.Equal("Generated Properties", second.RegionName);
+        Assert.Equal("Tester", second.ClassName);
+
+        var secondContent = """
+            #region Generated Properties
+                public Guid TesterId { get; set; }
+                #endregion
+            """ + Environment.NewLine;
+
+        Assert.Equal(secondContent, second.Content);
+    }
 
 }

@@ -1,69 +1,77 @@
-using McMaster.Extensions.CommandLineUtils;
-
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Console;
 
-using Serilog;
+using Spectre.Console.Cli;
 
 namespace EntityFrameworkCore.Generator;
 
-[Command("efg", Description = "Entity Framework Core model generation tool")]
-[Subcommand(typeof(InitializeCommand))]
-[Subcommand(typeof(GenerateCommand))]
-[VersionOptionFromMember("--version", MemberName = nameof(GetVersion))]
-public class Program : CommandBase
+public static class Program
 {
-    public Program(ILoggerFactory logger, IConsole console)
-        : base(logger, console)
+    public static async Task<int> Main(string[] args)
     {
-    }
-
-    protected override int OnExecute(CommandLineApplication application)
-    {
-        application.ShowHelp();
-        return 1;
-    }
-
-
-    public static int Main(string[] args)
-    {
-        Log.Logger = new LoggerConfiguration()
-            .MinimumLevel.Verbose()
-            .Enrich.FromLogContext()
-            .WriteTo.Console(outputTemplate: "{Timestamp:HH:mm:ss} {Level:u1} {Message:lj}{NewLine}{Exception}")
-            .CreateLogger();
-
         try
         {
-            var services = new ServiceCollection()
-                .AddLogging(logger => logger
-                    .AddSerilog()
-                    .SetMinimumLevel(LogLevel.Information)
-                )
-                .AddSingleton(PhysicalConsole.Singleton)
-                .AddTransient<IConfigurationSerializer, ConfigurationSerializer>()
-                .AddTransient<ICodeGenerator, CodeGenerator>()
-                .BuildServiceProvider();
+            var builder = Host.CreateApplicationBuilder(args);
+            ConfigureServices(builder);
 
-            var app = new CommandLineApplication<Program>();
+            var host = builder.Build();
+            var app = ConfigureCommands(host);
 
-            app.Conventions
-                .UseDefaultConventions()
-                .UseConstructorInjection(services);
-
-            return app.Execute(args);
+            return await app.RunAsync(args);
         }
         catch (Exception ex)
         {
-            Log.Fatal(ex, "Host terminated unexpectedly");
+            Console.Error.WriteLine($"Host terminated unexpectedly: {ex.Message}");
+            Console.Error.WriteLine(ex.ToString());
             return 1;
-        }
-        finally
-        {
-            Log.CloseAndFlush();
         }
     }
 
+    private static void ConfigureServices(HostApplicationBuilder builder)
+    {
+        builder.Logging.SetMinimumLevel(LogLevel.Trace);
 
-    private static string GetVersion() => ThisAssembly.InformationalVersion;
+        builder.Logging.ClearProviders();
+
+        builder.Logging
+           .AddConsole(options => options.FormatterName = ColorConsoleFormatter.FormatterName)
+           .AddConsoleFormatter<ColorConsoleFormatter, SimpleConsoleFormatterOptions>(options =>
+           {
+               options.ColorBehavior = LoggerColorBehavior.Enabled;
+               options.SingleLine = true;
+               options.TimestampFormat = null;
+               options.IncludeScopes = false;
+           });
+
+        builder.Services
+            .AddTransient<IConfigurationSerializer, ConfigurationSerializer>()
+            .AddTransient<ICodeGenerator, CodeGenerator>()
+            .AddTransient<GenerateCommand>()
+            .AddTransient<InitializeCommand>();
+    }
+
+    private static CommandApp ConfigureCommands(IHost host)
+    {
+        // Create a type registrar that uses our DI container
+        var registrar = new TypeRegistrar(host.Services);
+        var app = new CommandApp(registrar);
+
+        app.Configure(config =>
+        {
+            config.SetApplicationName("efg");
+            config.SetApplicationVersion(ThisAssembly.InformationalVersion);
+
+            config.AddCommand<InitializeCommand>("initialize")
+                .WithAlias("init")
+                .WithDescription("Create the configuration file and optionally set the connection string.");
+
+            config.AddCommand<GenerateCommand>("generate")
+                .WithAlias("gen")
+                .WithDescription("Generate source code files from a database schema.");
+        });
+
+        return app;
+    }
 }

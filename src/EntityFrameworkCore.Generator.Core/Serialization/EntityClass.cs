@@ -21,23 +21,8 @@ public class EntityClass : ClassBase
         RelationshipNaming = RelationshipNaming.Plural;
         EntityNaming = EntityNaming.Singular;
         PrefixWithSchemaName = false;
+        SystemTypeAnnotation = "Generator:SystemType";
     }
-
-    /// <summary>
-    /// Gets or sets the entity class name template.
-    /// </summary>
-    /// <value>
-    /// The entity class name template.
-    /// </value>
-    public string Name { get; set; }
-
-    /// <summary>
-    /// Gets or sets the base class to inherit from.
-    /// </summary>
-    /// <value>
-    /// The base class.
-    /// </value>
-    public string BaseClass { get; set; }
 
     /// <summary>
     /// Gets or sets the entity class naming strategy.
@@ -69,7 +54,26 @@ public class EntityClass : ClassBase
     /// <value>
     /// The renaming expressions.
     /// </value>
-    public SelectionModel Renaming { get; set; }
+    public SelectionModel? Renaming { get; set; }
+
+    /// <summary>
+    /// Gets or sets if mapping attributes are included on the entity classes. Default false
+    /// </summary>
+    /// <value>
+    /// If mapping attributes are included.
+    /// </value>
+    [DefaultValue(false)]
+    public bool MappingAttributes { get; set; }
+
+    /// <summary>
+    /// Gets or sets the native type to system type mappings.
+    /// </summary>
+    public List<TypeMapping>? TypeMapping { get; set; }
+
+    /// <summary>
+    /// Gets or sets the column annotation name used to override generated .NET system type names.
+    /// </summary>
+    public string? SystemTypeAnnotation { get; set; }
 
     /// <summary>
     /// Additional using statements, ;-separated - example: MyLib;MyLib.Data;MyLib.Domain;MyLib.Domain.Interfaces

@@ -9,6 +9,8 @@ indent_style = space
 indent_size = 4
 insert_final_newline = true
 trim_trailing_whitespace = true
+vsspell_section_id = main
+vsspell_ignored_words_main = File:dictionary.dic
 
 # XML Configuration Files
 [*.{xml,config,props,targets,nuspec,resx,ruleset,vsixmanifest,vsct,refactorlog,runsettings}]

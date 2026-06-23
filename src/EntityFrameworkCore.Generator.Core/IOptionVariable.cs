@@ -1,7 +1,7 @@
 ﻿namespace EntityFrameworkCore.Generator;
 
 /// <summary>
-/// 
+/// Interface for option variables.
 /// </summary>
 public interface IOptionVariable
 {

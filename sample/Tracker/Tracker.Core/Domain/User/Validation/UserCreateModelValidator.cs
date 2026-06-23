@@ -1,18 +1,19 @@
 using System;
+
 using FluentValidation;
 using Tracker.Core.Domain.Models;
 
-// ReSharper disable once CheckNamespace
 namespace Tracker.Core.Domain.Validation;
 
 /// <summary>
-/// Validator class for <see cref="UserCreateModel"/> .
+/// Defines FluentValidation rules for the <see cref="Tracker.Core.Domain.Models.UserCreateModel" /> create model for the <c>User</c> entity mapped to the <c>dbo.User</c> table.
 /// </summary>
+[RegisterSingleton<IValidator<UserCreateModel>>]
 public partial class UserCreateModelValidator
     : AbstractValidator<UserCreateModel>
 {
     /// <summary>
-    /// Initializes a new instance of the <see cref="UserCreateModelValidator"/> class.
+    /// Initializes a new instance of the <see cref="Tracker.Core.Domain.Validation.UserCreateModelValidator"/> class and configures validation rules for <see cref="Tracker.Core.Domain.Models.UserCreateModel" />.
     /// </summary>
     public UserCreateModelValidator()
     {
