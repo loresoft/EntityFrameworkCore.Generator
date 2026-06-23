@@ -21,6 +21,7 @@ public class EntityClassOptions : ClassOptionsBase
         EntityNaming = EntityNaming.Singular;
         PrefixWithSchemaName = false;
         SystemTypeAnnotation = "Generator:SystemType";
+        GeneratePkValue = false;
 
         Renaming = new SelectionOptions(variables, AppendPrefix(prefix, "Naming"));
         TypeMapping = [];
@@ -76,4 +77,10 @@ public class EntityClassOptions : ClassOptionsBase
     /// Gets or sets the column annotation name used to override generated .NET system type names.
     /// </summary>
     public string? SystemTypeAnnotation { get; set; }
+
+    /// <summary>
+    /// If true, the primary key property will have a value generated in the constructor
+    /// </summary>
+    [DefaultValue(false)]
+    public bool GeneratePkValue { get; set; }
 }

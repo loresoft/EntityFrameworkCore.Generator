@@ -22,6 +22,7 @@ public class EntityClass : ClassBase
         EntityNaming = EntityNaming.Singular;
         PrefixWithSchemaName = false;
         SystemTypeAnnotation = "Generator:SystemType";
+        GeneratePkValue = false;
     }
 
     /// <summary>
@@ -74,4 +75,10 @@ public class EntityClass : ClassBase
     /// Gets or sets the column annotation name used to override generated .NET system type names.
     /// </summary>
     public string? SystemTypeAnnotation { get; set; }
+
+    /// <summary>
+    /// If true, the primary key property will have a value generated in the constructor
+    /// </summary>
+    [DefaultValue(false)]
+    public bool GeneratePkValue { get; set; }
 }
