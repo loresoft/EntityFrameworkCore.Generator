@@ -4,33 +4,33 @@ using System.Collections.Generic;
 namespace Tracker.Core.Domain.Models;
 
 /// <summary>
-/// View Model class
+/// Represents a read model for the <c>Tenant</c> entity mapped to the <c>Tenant</c> table.
 /// </summary>
 public partial class TenantReadModel
     : EntityReadModel
 {
     #region Generated Properties
     /// <summary>
-    /// Gets or sets the property value for 'Name'.
+    /// Gets or sets the <c>Name</c> value mapped from the <c>Name</c> column.
     /// </summary>
     /// <value>
-    /// The property value for 'Name'.
+    /// The <c>Name</c> model value.
     /// </value>
     public string Name { get; set; } = null!;
 
     /// <summary>
-    /// Gets or sets the property value for 'Description'.
+    /// Gets or sets the <c>Description</c> value mapped from the <c>Description</c> column.
     /// </summary>
     /// <value>
-    /// The property value for 'Description'.
+    /// The <c>Description</c> model value.
     /// </value>
     public string? Description { get; set; }
 
     /// <summary>
-    /// Gets or sets the property value for 'IsActive'.
+    /// Gets or sets the <c>IsActive</c> value mapped from the <c>IsActive</c> column.
     /// </summary>
     /// <value>
-    /// The property value for 'IsActive'.
+    /// The <c>IsActive</c> model value.
     /// </value>
     public bool IsActive { get; set; }
 

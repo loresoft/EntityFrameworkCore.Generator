@@ -43,5 +43,5 @@ public class GeneratorModel
     /// <value>
     /// The script template .
     /// </value>
-    public ScriptModel Script { get; set; }
+    public ScriptModel? Script { get; set; }
 }

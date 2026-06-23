@@ -1,18 +1,19 @@
 using System;
+
 using FluentValidation;
 using Tracker.Core.Domain.Models;
 
-// ReSharper disable once CheckNamespace
 namespace Tracker.Core.Domain.Validation;
 
 /// <summary>
-/// Validator class for <see cref="RoleCreateModel"/> .
+/// Defines FluentValidation rules for the <see cref="Tracker.Core.Domain.Models.RoleCreateModel" /> create model for the <c>Role</c> entity mapped to the <c>dbo.Role</c> table.
 /// </summary>
+[RegisterSingleton<IValidator<RoleCreateModel>>]
 public partial class RoleCreateModelValidator
     : AbstractValidator<RoleCreateModel>
 {
     /// <summary>
-    /// Initializes a new instance of the <see cref="RoleCreateModelValidator"/> class.
+    /// Initializes a new instance of the <see cref="Tracker.Core.Domain.Validation.RoleCreateModelValidator"/> class and configures validation rules for <see cref="Tracker.Core.Domain.Models.RoleCreateModel" />.
     /// </summary>
     public RoleCreateModelValidator()
     {

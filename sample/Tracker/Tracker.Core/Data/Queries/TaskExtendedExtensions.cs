@@ -1,24 +1,26 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
+
 using Microsoft.EntityFrameworkCore;
 
 namespace Tracker.Core.Data.Queries;
 
 /// <summary>
-/// Query extensions for entity <see cref="Tracker.Core.Data.Entities.TaskExtended" />.
+/// Provides query extension methods for <see cref="Tracker.Core.Data.Entities.TaskExtended" /> entities mapped to the <c>dbo.TaskExtended</c> table.
 /// </summary>
 public static partial class TaskExtendedExtensions
 {
     #region Generated Extensions
     /// <summary>
-    /// Gets an instance by the primary key.
+    /// Gets the <see cref="Tracker.Core.Data.Entities.TaskExtended" /> entity matching the primary key.
     /// </summary>
-    /// <param name="queryable">An <see cref="T:System.Linq.IQueryable`1" /> to filter.</param>
-    /// <param name="taskId">The value to filter by.</param>
-    /// <returns>An instance of <see cref="T:Tracker.Core.Data.Entities.TaskExtended"/> or null if not found.</returns>
-    public static Tracker.Core.Data.Entities.TaskExtended? GetByKey(this System.Linq.IQueryable<Tracker.Core.Data.Entities.TaskExtended> queryable, Guid taskId)
+    /// <param name="queryable">The source query for <see cref="Tracker.Core.Data.Entities.TaskExtended" /> entities.</param>
+    /// <param name="taskId">The value to match against <see cref="Tracker.Core.Data.Entities.TaskExtended.TaskId" /> mapped to the <c>TaskId</c> column.</param>
+    /// <returns>The matching <see cref="Tracker.Core.Data.Entities.TaskExtended" /> entity, or <see langword="null" /> if no match is found.</returns>
+    public static Tracker.Core.Data.Entities.TaskExtended? GetByKey(this IQueryable<Tracker.Core.Data.Entities.TaskExtended> queryable, Guid taskId)
     {
         if (queryable is null)
             throw new ArgumentNullException(nameof(queryable));
@@ -30,13 +32,13 @@ public static partial class TaskExtendedExtensions
     }
 
     /// <summary>
-    /// Gets an instance by the primary key.
+    /// Gets the <see cref="Tracker.Core.Data.Entities.TaskExtended" /> entity matching the primary key.
     /// </summary>
-    /// <param name="queryable">An <see cref="T:System.Linq.IQueryable`1" /> to filter.</param>
-    /// <param name="taskId">The value to filter by.</param>
-    /// <param name="cancellationToken">A <see cref="System.Threading.CancellationToken" /> to observe while waiting for the task to complete.</param>
-    /// <returns>An instance of <see cref="T:Tracker.Core.Data.Entities.TaskExtended"/> or null if not found.</returns>
-    public static async System.Threading.Tasks.ValueTask<Tracker.Core.Data.Entities.TaskExtended?> GetByKeyAsync(this System.Linq.IQueryable<Tracker.Core.Data.Entities.TaskExtended> queryable, Guid taskId, System.Threading.CancellationToken cancellationToken = default)
+    /// <param name="queryable">The source query for <see cref="Tracker.Core.Data.Entities.TaskExtended" /> entities.</param>
+    /// <param name="taskId">The value to match against <see cref="Tracker.Core.Data.Entities.TaskExtended.TaskId" /> mapped to the <c>TaskId</c> column.</param>
+    /// <param name="cancellationToken">A <see cref="CancellationToken" /> to observe while waiting for the operation to complete.</param>
+    /// <returns>A task that represents the asynchronous operation. The task result contains the matching <see cref="Tracker.Core.Data.Entities.TaskExtended" /> entity, or <see langword="null" /> if no match is found.</returns>
+    public static async System.Threading.Tasks.ValueTask<Tracker.Core.Data.Entities.TaskExtended?> GetByKeyAsync(this IQueryable<Tracker.Core.Data.Entities.TaskExtended> queryable, Guid taskId, CancellationToken cancellationToken = default)
     {
         if (queryable is null)
             throw new ArgumentNullException(nameof(queryable));

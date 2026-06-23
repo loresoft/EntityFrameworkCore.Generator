@@ -51,4 +51,4 @@ The `userSecretsId` can be shared with your .NET Core Project.
 
 Read more about user secrets in the ASP.NET Core documentation
 
-[Secret Manager](https://docs.microsoft.com/en-us/aspnet/core/security/app-secrets?tabs=windows&view=aspnetcore-2.1#secret-manager)
+[Secret Manager](https://learn.microsoft.com/aspnet/core/security/app-secrets#secret-manager)

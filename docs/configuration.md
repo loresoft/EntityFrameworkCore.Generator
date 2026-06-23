@@ -28,7 +28,7 @@ database:
   # the connection string to the database
   connectionString: 'Data Source=(local);Initial Catalog=Tracker;Integrated Security=True'
   # the database provider name.  Default: SqlServer
-  provider: SqlServer|PostgreSQL|MySQL|Sqlite
+  provider: SqlServer|PostgreSQL|MySQL|Sqlite|Oracle
 
   # config name to read the connection string from the user secrets file
   connectionName: 'ConnectionStrings:Generator'
@@ -46,10 +46,17 @@ database:
   schemas:
     - dbo
   
-  # list of expressions for tables to exclude, source is Schema.TableName
+  # exclude tables or columns
   exclude:
-    - exact: dbo.SchemaVersions
-    - regex: dbo\.SchemaVersions$
+    # list of expressions for tables to exclude, source is Schema.TableName
+    tables:
+      - exact: dbo.SchemaVersions
+      - regex: dbo\.SchemaVersions$
+    # list of expressions for columns to exclude, source is Schema.TableName.ColumnName
+    columns:
+      - exact: dbo.User.Password
+      - regex: dbo\.User\.Password$
+
 
   # table naming hint for how existing tables are named.  Default: Singular
   tableNaming: Mixed|Plural|Singular
@@ -69,6 +76,8 @@ data:
     propertyNaming: Preserve|Plural|Suffix
     #include XML documentation
     document: false
+    # file header
+    header: // Context header
 
   # entity class file configuration
   entity:
@@ -82,11 +91,22 @@ data:
     relationshipNaming: Preserve|Plural|Suffix
     #include XML documentation
     document: false
-
+    #include mapping attributes on the entity classes
+    mappingAttributes: true
     # Generate class names with prefixed schema name eg. dbo.MyTable = DboMyTable
     prefixWithSchemaName: false
 
-    # Rename entities and properties with regular expressions
+    # Map native database type names to generated .NET system type names
+    typeMapping:
+      - nativeType: geometry
+        systemType: NetTopologySuite.Geometries.Geometry
+      - nativeType: dbo.StringList
+        systemType: List<string?>
+
+    # file header
+    header: // Entity header
+
+    # Rename entities and properties with regular expressions.  Matched expressions will be removed
     renaming:
       # list of regular expressions to clean entity names
       entities:
@@ -105,6 +125,8 @@ data:
     
     temporal: false                                 # if temporal table mapping is enabled. Default true
     rowVersion: ByteArray|Long|ULong                # How row versions should be mapped. Default ByteArray
+    # file header
+    header: // Mapping header
 
   # query extension class file configuration
   query:
@@ -115,6 +137,8 @@ data:
     directory: '{Project.Directory}\Data\Queries'   # the mapping class output directory
     #include XML documentation
     document: false
+    # file header
+    header: // Query header
 
 #---------------------------------#
 # model section - controls the optional view model generation
@@ -124,6 +148,9 @@ model:
   shared:
     namespace: '{Project.Namespace}.Domain.Models' # the model class namespace
     directory: '{Project.Directory}\Domain\Models' # the mapping class output directory
+    # file header
+    header: '#pragma warning disable IDE0130 // Namespace does not match folder structure'
+
     # regular expression of entities and properties to exclude in all models
     exclude:
       # list of regular expressions of entity names
@@ -143,6 +170,11 @@ model:
     baseClass: EntityReadModel      # the read model base class
     namespace: '{Project.Namespace}.Domain.Models'
     directory: '{Project.Directory}\Domain\Models'
+    # Multi-line file header
+    header: |
+        // * * * * * * * * * * * *
+        // Read Model File Header
+        // * * * * * * * * * * * *
     exclude:
       entities: []
       properties: []
@@ -153,7 +185,8 @@ model:
     name: '{Entity.Name}CreateModel'    # the create model class name
     baseClass: EntityCreateModel        # the create model base class
     namespace: '{Project.Namespace}.Domain.Models'
-    directory: '{Project.Directory}\Domain\Models'
+    directory: '{Project.Directory}\Domain\Models'    
+    header: '// create model file header' # file header
     exclude:
       entities: []
       properties: []
@@ -165,6 +198,7 @@ model:
     baseClass: EntityUpdateModel        # the update model base class
     namespace: '{Project.Namespace}.Domain.Models'
     directory: '{Project.Directory}\Domain\Models'
+    header: '// update model file header' # file header
     exclude:
       entities: []
       properties: []
@@ -176,6 +210,7 @@ model:
     baseClass: Profile
     namespace: '{Project.Namespace}.Domain.Mapping'
     directory: '{Project.Directory}\Domain\Mapping'
+    header: '// mapper file header' # file header
 
   # FluentValidation class configuration
   validator:
@@ -184,6 +219,8 @@ model:
     baseClass: 'AbstractValidator<{Model.Name}>'
     namespace: '{Project.Namespace}.Domain.Validation'
     directory: '{Project.Directory}\Domain\Validation'
+    header: '// validator file header' # file header
+
 # script templates
 script:
   # collection script template with EntityContext as a variable

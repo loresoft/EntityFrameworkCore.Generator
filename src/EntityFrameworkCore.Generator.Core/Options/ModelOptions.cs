@@ -10,7 +10,7 @@ public class ModelOptions : OptionsBase
     /// </summary>
     /// <param name="variables">The shared variables dictionary.</param>
     /// <param name="prefix">The variable key prefix.</param>
-    public ModelOptions(VariableDictionary variables, string prefix)
+    public ModelOptions(VariableDictionary variables, string? prefix)
         : base(variables, AppendPrefix(prefix, "Model"))
     {
         Shared = new SharedModelOptions(Variables, Prefix);

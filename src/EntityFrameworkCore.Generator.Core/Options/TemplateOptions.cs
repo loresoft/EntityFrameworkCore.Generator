@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-
 namespace EntityFrameworkCore.Generator.Options;
 
 /// <summary>
@@ -12,10 +10,10 @@ public class TemplateOptions : OptionsBase
     /// </summary>
     /// <param name="variables">The shared variable dictionary.</param>
     /// <param name="prefix">The variable key prefix.</param>
-    public TemplateOptions(VariableDictionary variables, string prefix)
+    public TemplateOptions(VariableDictionary variables, string? prefix)
         : base(variables, AppendPrefix(prefix, "Template"))
     {
-        Parameters = new Dictionary<string, string>();
+        Parameters = [];
     }
 
     /// <summary>
@@ -24,7 +22,7 @@ public class TemplateOptions : OptionsBase
     /// <value>
     /// The template file path.
     /// </value>
-    public string TemplatePath
+    public string? TemplatePath
     {
         get => GetProperty();
         set => SetProperty(value);
@@ -36,7 +34,7 @@ public class TemplateOptions : OptionsBase
     /// <value>
     /// The name of the class.
     /// </value>
-    public string FileName
+    public string? FileName
     {
         get => GetProperty();
         set => SetProperty(value);
@@ -48,7 +46,7 @@ public class TemplateOptions : OptionsBase
     /// <value>
     /// The class namespace.
     /// </value>
-    public string Namespace
+    public string? Namespace
     {
         get => GetProperty();
         set => SetProperty(value);
@@ -60,7 +58,7 @@ public class TemplateOptions : OptionsBase
     /// <value>
     /// The base class.
     /// </value>
-    public string BaseClass
+    public string? BaseClass
     {
         get => GetProperty();
         set => SetProperty(value);
@@ -73,7 +71,7 @@ public class TemplateOptions : OptionsBase
     /// <value>
     /// The output directory.
     /// </value>
-    public string Directory
+    public string? Directory
     {
         get => GetProperty();
         set => SetProperty(value);

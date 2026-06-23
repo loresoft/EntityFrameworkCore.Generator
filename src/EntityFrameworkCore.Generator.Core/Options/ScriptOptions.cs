@@ -1,15 +1,13 @@
-using System.Collections.Generic;
-
 namespace EntityFrameworkCore.Generator.Options;
 
 public class ScriptOptions : OptionsBase
 {
-    public ScriptOptions(VariableDictionary variables, string prefix)
+    public ScriptOptions(VariableDictionary variables, string? prefix)
         : base(variables, AppendPrefix(prefix, "Script"))
     {
-        Context = new List<TemplateOptions>();
-        Entity = new List<TemplateOptions>();
-        Model = new List<TemplateOptions>();
+        Context = [];
+        Entity = [];
+        Model = [];
     }
 
     /// <summary>

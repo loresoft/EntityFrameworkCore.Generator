@@ -33,12 +33,17 @@ public class SharedModel
     public string Directory { get; set; }
 
     /// <summary>
+    /// Gets or sets the file header.
+    /// </summary>
+    public string? Header { get; set; }
+
+    /// <summary>
     /// Gets or sets the include selection options.
     /// </summary>
     /// <value>
     /// The include selection options.
     /// </value>
-    public SelectionModel Include { get; set; }
+    public SelectionModel? Include { get; set; }
 
     /// <summary>
     /// Gets or sets the exclude selection options.
@@ -46,5 +51,5 @@ public class SharedModel
     /// <value>
     /// The exclude selection options.
     /// </value>
-    public SelectionModel Exclude { get; set; }
+    public SelectionModel? Exclude { get; set; }
 }

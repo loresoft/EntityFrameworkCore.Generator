@@ -1,29 +1,28 @@
 using System;
 using System.Collections.Generic;
 
-// ReSharper disable once CheckNamespace
 namespace Tracker.Core.Domain.Models;
 
 /// <summary>
-/// View Model class
+/// Represents a read model for the <c>UserRole</c> entity mapped to the <c>UserRole</c> table.
 /// </summary>
 public partial class UserRoleReadModel
     : EntityReadModel
 {
     #region Generated Properties
     /// <summary>
-    /// Gets or sets the property value for 'UserId'.
+    /// Gets or sets the <c>UserId</c> value mapped from the <c>UserId</c> column.
     /// </summary>
     /// <value>
-    /// The property value for 'UserId'.
+    /// The <c>UserId</c> model value.
     /// </value>
     public Guid UserId { get; set; }
 
     /// <summary>
-    /// Gets or sets the property value for 'RoleId'.
+    /// Gets or sets the <c>RoleId</c> value mapped from the <c>RoleId</c> column.
     /// </summary>
     /// <value>
-    /// The property value for 'RoleId'.
+    /// The <c>RoleId</c> model value.
     /// </value>
     public Guid RoleId { get; set; }
 

@@ -8,7 +8,7 @@ public class ContextScriptVariables : ScriptVariablesBase
     public ContextScriptVariables(EntityContext entityContext, GeneratorOptions generatorOptions, TemplateOptions templateOptions)
         : base(generatorOptions, templateOptions)
     {
-        EntityContext = entityContext;
+        EntityContext = entityContext ?? throw new ArgumentNullException(nameof(entityContext));
     }
 
     public EntityContext EntityContext { get; }

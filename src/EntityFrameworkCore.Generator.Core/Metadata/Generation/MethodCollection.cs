@@ -1,5 +1,3 @@
-﻿using System.Collections.Generic;
-
 namespace EntityFrameworkCore.Generator.Metadata.Generation;
 
 /// <summary>

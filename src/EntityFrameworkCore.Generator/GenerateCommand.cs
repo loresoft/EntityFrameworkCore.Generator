@@ -1,87 +1,82 @@
-using System;
-
 using EntityFrameworkCore.Generator.Extensions;
-using EntityFrameworkCore.Generator.Options;
-
-using McMaster.Extensions.CommandLineUtils;
 
 using Microsoft.Extensions.Logging;
 
+using Spectre.Console.Cli;
+
 namespace EntityFrameworkCore.Generator;
 
-[Command("generate", "gen")]
-public class GenerateCommand : OptionsCommandBase
+public partial class GenerateCommand : AsyncCommand<GenerateSettings>
 {
+    private readonly ILogger<GenerateCommand> _logger;
+    private readonly IConfigurationSerializer _serializer;
     private readonly ICodeGenerator _codeGenerator;
 
-    public GenerateCommand(ILoggerFactory logger, IConsole console, IConfigurationSerializer serializer, ICodeGenerator codeGenerator)
-        : base(logger, console, serializer)
+    public GenerateCommand(
+        ILogger<GenerateCommand> logger,
+        IConfigurationSerializer serializer,
+        ICodeGenerator codeGenerator)
     {
+        _logger = logger;
+        _serializer = serializer;
         _codeGenerator = codeGenerator;
     }
 
-    [Option("-p <Provider>", Description = "Database provider to reverse engineer")]
-    public DatabaseProviders? Provider { get; set; }
-
-    [Option("-c <ConnectionString>", Description = "Database connection string to reverse engineer")]
-    public string ConnectionString { get; set; }
-
-
-    [Option("--extensions", Description = "Include query extensions in generation")]
-    public bool? Extensions { get; set; }
-
-    [Option("--models", Description = "Include view models in generation")]
-    public bool? Models { get; set; }
-
-    [Option("--mapper", Description = "Include object mapper in generation")]
-    public bool? Mapper { get; set; }
-
-    [Option("--validator", Description = "Include model validation in generation")]
-    public bool? Validator { get; set; }
-
-
-    protected override int OnExecute(CommandLineApplication application)
+    protected override async Task<int> ExecuteAsync(CommandContext context, GenerateSettings settings, CancellationToken cancellationToken)
     {
-        var workingDirectory = WorkingDirectory ?? Environment.CurrentDirectory;
-        var configurationFile = OptionsFile ?? ConfigurationSerializer.OptionsFileName;
-
-        var configuration = Serializer.Load(workingDirectory, configurationFile);
-        if (configuration == null)
+        try
         {
-            Logger.LogInformation("Using default options");
-            configuration = new Serialization.GeneratorModel();
+            var workingDirectory = settings.WorkingDirectory ?? Environment.CurrentDirectory;
+            var configurationFile = settings.OptionsFile ?? ConfigurationSerializer.OptionsFileName;
+
+            var configuration = _serializer.Load(workingDirectory, configurationFile);
+            if (configuration == null)
+            {
+                LogUsingDefaultOptions(_logger);
+                configuration = new Serialization.GeneratorModel();
+            }
+
+            // override options
+            if (settings.ConnectionString.HasValue())
+                configuration.Database.ConnectionString = settings.ConnectionString;
+
+            if (settings.Provider.HasValue)
+                configuration.Database.Provider = settings.Provider.Value;
+
+            if (settings.Extensions.HasValue)
+                configuration.Data.Query.Generate = settings.Extensions.Value;
+
+
+            if (settings.Models.HasValue)
+            {
+                configuration.Model.Read.Generate = settings.Models.Value;
+                configuration.Model.Create.Generate = settings.Models.Value;
+                configuration.Model.Update.Generate = settings.Models.Value;
+            }
+
+            if (settings.Mapper.HasValue)
+                configuration.Model.Mapper.Generate = settings.Mapper.Value;
+
+            if (settings.Validator.HasValue)
+                configuration.Model.Validator.Generate = settings.Validator.Value;
+
+            // convert to options format to support variables
+            var options = OptionMapper.Map(configuration);
+
+            var result = await _codeGenerator.GenerateAsync(options);
+
+            return result ? 0 : 1;
         }
-
-        // override options
-        if (ConnectionString.HasValue())
-            configuration.Database.ConnectionString = ConnectionString;
-
-        if (Provider.HasValue)
-            configuration.Database.Provider = Provider.Value;
-
-        if (Extensions.HasValue)
-            configuration.Data.Query.Generate = Extensions.Value;
-
-
-        if (Models.HasValue)
+        catch (Exception ex)
         {
-            configuration.Model.Read.Generate = Models.Value;
-            configuration.Model.Create.Generate = Models.Value;
-            configuration.Model.Update.Generate = Models.Value;
+            LogCommandFailed(_logger, ex, ex.Message);
+            return 1;
         }
-
-        if (Mapper.HasValue)
-            configuration.Model.Mapper.Generate = Mapper.Value;
-
-        if (Validator.HasValue)
-            configuration.Model.Validator.Generate = Validator.Value;
-
-        // conver to options format to support variables
-        var options = OptionMapper.Map(configuration);
-
-        var result = _codeGenerator.Generate(options);
-
-        return result ? 0 : 1;
     }
 
+    [LoggerMessage(EventId = 1, Level = LogLevel.Information, Message = "Using default options")]
+    private static partial void LogUsingDefaultOptions(ILogger logger);
+
+    [LoggerMessage(EventId = 2, Level = LogLevel.Error, Message = "{errorMessage}")]
+    private static partial void LogCommandFailed(ILogger logger, Exception exception, string errorMessage);
 }

@@ -5,9 +5,6 @@ using EntityFrameworkCore.Generator.Extensions;
 using EntityFrameworkCore.Generator.Metadata.Generation;
 using EntityFrameworkCore.Generator.Options;
 
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
-
 namespace EntityFrameworkCore.Generator.Templates;
 
 public class MappingClassTemplate : CodeTemplateBase
@@ -24,9 +21,14 @@ public class MappingClassTemplate : CodeTemplateBase
     {
         CodeBuilder.Clear();
 
+        if (Options.Data.Mapping.Header.HasValue())
+            CodeBuilder.AppendLine(Options.Data.Mapping.Header).AppendLine();
+
         CodeBuilder.AppendLine("using System;");
         CodeBuilder.AppendLine("using System.Collections.Generic;");
+        CodeBuilder.AppendLine();
         CodeBuilder.AppendLine("using Microsoft.EntityFrameworkCore;");
+        CodeBuilder.AppendLine("using Microsoft.EntityFrameworkCore.Metadata.Builders;");
         CodeBuilder.AppendLine();
 
         CodeBuilder.Append($"namespace {_entity.MappingNamespace}");
@@ -62,9 +64,7 @@ public class MappingClassTemplate : CodeTemplateBase
 
         if (Options.Data.Mapping.Document)
         {
-            CodeBuilder.AppendLine("/// <summary>");
-            CodeBuilder.AppendLine($"/// Allows configuration for an entity type <see cref=\"{safeName}\" />");
-            CodeBuilder.AppendLine("/// </summary>");
+            GenerateClassDocumentation(safeName);
         }
 
         CodeBuilder.AppendLine($"public partial class {mappingClass}");
@@ -91,19 +91,25 @@ public class MappingClassTemplate : CodeTemplateBase
 
         CodeBuilder.AppendLine("#region Generated Constants");
 
+        if (Options.Data.Mapping.Document)
+            GenerateTableConstantsDocumentation(safeName);
+
         CodeBuilder.AppendLine("public readonly struct Table");
         CodeBuilder.AppendLine("{");
 
         using (CodeBuilder.Indent())
         {
 
-            if (Options.Data.Mapping.Document)
-                CodeBuilder.AppendLine($"/// <summary>Table Schema name constant for entity <see cref=\"{safeName}\" /></summary>");
+            if (_entity.TableSchema.HasValue())
+            {
+                if (Options.Data.Mapping.Document)
+                    GenerateTableSchemaDocumentation(safeName);
 
-            CodeBuilder.AppendLine($"public const string Schema = \"{_entity.TableSchema}\";");
+                CodeBuilder.AppendLine($"public const string Schema = \"{_entity.TableSchema}\";");
+            }
 
             if (Options.Data.Mapping.Document)
-                CodeBuilder.AppendLine($"/// <summary>Table Name constant for entity <see cref=\"{safeName}\" /></summary>");
+                GenerateTableNameDocumentation(safeName);
 
             CodeBuilder.AppendLine($"public const string Name = \"{_entity.TableName}\";");
         }
@@ -111,6 +117,10 @@ public class MappingClassTemplate : CodeTemplateBase
         CodeBuilder.AppendLine("}");
 
         CodeBuilder.AppendLine();
+
+        if (Options.Data.Mapping.Document)
+            GenerateColumnConstantsDocumentation(safeName);
+
         CodeBuilder.AppendLine("public readonly struct Columns");
         CodeBuilder.AppendLine("{");
 
@@ -119,7 +129,7 @@ public class MappingClassTemplate : CodeTemplateBase
             foreach (var property in _entity.Properties)
             {
                 if (Options.Data.Mapping.Document)
-                    CodeBuilder.AppendLine($"/// <summary>Column Name constant for property <see cref=\"{safeName}.{property.PropertyName}\" /></summary>");
+                    GenerateColumnNameDocumentation(safeName, property);
 
                 CodeBuilder.AppendLine($"public const string {property.PropertyName.ToSafeName()} = {property.ColumnName.ToLiteral()};");
             }
@@ -136,13 +146,10 @@ public class MappingClassTemplate : CodeTemplateBase
 
         if (Options.Data.Mapping.Document)
         {
-            CodeBuilder.AppendLine("/// <summary>");
-            CodeBuilder.AppendLine($"/// Configures the entity of type <see cref=\"{entityFullName}\" />");
-            CodeBuilder.AppendLine("/// </summary>");
-            CodeBuilder.AppendLine("/// <param name=\"builder\">The builder to be used to configure the entity type.</param>");
+            GenerateConfigureDocumentation(entityFullName);
         }
 
-        CodeBuilder.AppendLine($"public void Configure(Microsoft.EntityFrameworkCore.Metadata.Builders.EntityTypeBuilder<{entityFullName}> builder)");
+        CodeBuilder.AppendLine($"public void Configure(EntityTypeBuilder<{entityFullName}> builder)");
         CodeBuilder.AppendLine("{");
 
         using (CodeBuilder.Indent())
@@ -159,6 +166,84 @@ public class MappingClassTemplate : CodeTemplateBase
 
         CodeBuilder.AppendLine("}");
         CodeBuilder.AppendLine();
+    }
+
+    private void GenerateClassDocumentation(string entityFullName)
+    {
+        var sourceName = ToXmlText(GetQualifiedTableName());
+        var sourceType = _entity.IsView ? "view" : "table";
+
+        CodeBuilder.AppendLine("/// <summary>");
+
+        if (sourceName.HasValue())
+            CodeBuilder.AppendLine($"/// Configures Entity Framework Core mapping for the <see cref=\"{entityFullName}\" /> entity mapped to the <c>{sourceName}</c> {sourceType}.");
+        else
+            CodeBuilder.AppendLine($"/// Configures Entity Framework Core mapping for the <see cref=\"{entityFullName}\" /> entity.");
+
+        CodeBuilder.AppendLine("/// </summary>");
+    }
+
+    private void GenerateConfigureDocumentation(string entityFullName)
+    {
+        CodeBuilder.AppendLine("/// <summary>");
+        CodeBuilder.AppendLine($"/// Configures the table, key, property, and relationship mappings for <see cref=\"{entityFullName}\" />.");
+        CodeBuilder.AppendLine("/// </summary>");
+        CodeBuilder.AppendLine($"/// <param name=\"builder\">The builder used to configure <see cref=\"{entityFullName}\" />.</param>");
+    }
+
+    private void GenerateTableConstantsDocumentation(string entityFullName)
+    {
+        CodeBuilder.AppendLine("/// <summary>");
+        CodeBuilder.AppendLine($"/// Contains table mapping constants for <see cref=\"{entityFullName}\" />.");
+        CodeBuilder.AppendLine("/// </summary>");
+    }
+
+    private void GenerateTableSchemaDocumentation(string entityFullName)
+    {
+        CodeBuilder.AppendLine("/// <summary>");
+        CodeBuilder.AppendLine($"/// The database schema name for <see cref=\"{entityFullName}\" />.");
+        CodeBuilder.AppendLine("/// </summary>");
+    }
+
+    private void GenerateTableNameDocumentation(string entityFullName)
+    {
+        var sourceType = _entity.IsView ? "view" : "table";
+
+        CodeBuilder.AppendLine("/// <summary>");
+        CodeBuilder.AppendLine($"/// The database {sourceType} name for <see cref=\"{entityFullName}\" />.");
+        CodeBuilder.AppendLine("/// </summary>");
+    }
+
+    private void GenerateColumnConstantsDocumentation(string entityFullName)
+    {
+        CodeBuilder.AppendLine("/// <summary>");
+        CodeBuilder.AppendLine($"/// Contains column name constants for <see cref=\"{entityFullName}\" /> properties.");
+        CodeBuilder.AppendLine("/// </summary>");
+    }
+
+    private void GenerateColumnNameDocumentation(string entityFullName, Property property)
+    {
+        var propertyName = property.PropertyName.ToSafeName();
+        var columnName = ToXmlText(property.ColumnName);
+
+        CodeBuilder.AppendLine("/// <summary>");
+
+        if (columnName.HasValue())
+            CodeBuilder.AppendLine($"/// The <c>{columnName}</c> column name for <see cref=\"{entityFullName}.{propertyName}\" />.");
+        else
+            CodeBuilder.AppendLine($"/// The column name for <see cref=\"{entityFullName}.{propertyName}\" />.");
+
+        CodeBuilder.AppendLine("/// </summary>");
+    }
+
+    private string? GetQualifiedTableName()
+    {
+        if (_entity.TableName.IsNullOrEmpty())
+            return _entity.TableName;
+
+        return _entity.TableSchema.HasValue()
+            ? $"{_entity.TableSchema}.{_entity.TableName}"
+            : _entity.TableName;
     }
 
 
@@ -206,7 +291,7 @@ public class MappingClassTemplate : CodeTemplateBase
 
         if (keys.Count == 1)
         {
-            var propertyName = keys.First().PropertyName.ToSafeName();
+            var propertyName = keys[0].PropertyName.ToSafeName();
             CodeBuilder.Append($"d.{propertyName}");
         }
         else
@@ -223,6 +308,30 @@ public class MappingClassTemplate : CodeTemplateBase
             CodeBuilder.Append("}");
         }
         CodeBuilder.Append(")");
+
+        var primaryKeys = relationship.PrimaryProperties;
+        var nonPrimaryPrincipalKey = !primaryKeys
+            .Select(pp => relationship.PrimaryEntity.Properties.ByProperty(pp.PropertyName))
+            .All(p => p?.IsPrimaryKey ?? true);
+
+        if (nonPrimaryPrincipalKey)
+        {
+            CodeBuilder.AppendLine();
+
+            CodeBuilder.Append(".HasPrincipalKey(t => ");
+            if (primaryKeys.Count > 1)
+            {
+                CodeBuilder.Append("new { ");
+                CodeBuilder.Append(string.Join(", ", primaryKeys.Select(pp => $"t.{pp.PropertyName.ToSafeName()}")));
+                CodeBuilder.Append(" }");
+            }
+            else
+            {
+                var propertyName = primaryKeys.First().PropertyName.ToSafeName();
+                CodeBuilder.Append($"t.{propertyName}");
+            }
+            CodeBuilder.Append(")");
+        }
 
         if (!string.IsNullOrEmpty(relationship.RelationshipName))
         {
@@ -282,10 +391,10 @@ public class MappingClassTemplate : CodeTemplateBase
         CodeBuilder.AppendLine();
         CodeBuilder.Append($".HasColumnName({property.ColumnName.ToLiteral()})");
 
-        if (!string.IsNullOrEmpty(property.StoreType))
+        if (!string.IsNullOrEmpty(property.NativeType))
         {
             CodeBuilder.AppendLine();
-            CodeBuilder.Append($".HasColumnType({property.StoreType.ToLiteral()})");
+            CodeBuilder.Append($".HasColumnType({property.NativeType.ToLiteral()})");
         }
 
         if ((isString || isByteArray) && property.Size > 0)
@@ -306,30 +415,22 @@ public class MappingClassTemplate : CodeTemplateBase
             CodeBuilder.Append($".HasDefaultValueSql({property.Default.ToLiteral()})");
         }
 
-        //If Primary key value should be generated, specify ValueGeneratedNever() so the database won't generate values for the property
         if (property.IsPrimaryKey == true && Options.Data.Entity.GeneratePkValue)
         {
             CodeBuilder.AppendLine();
             CodeBuilder.Append(".ValueGeneratedNever()");
         }
-        else
+        else if(property.IsIdentity == true)
         {
-            switch (property.ValueGenerated)
-            {
-                case ValueGenerated.OnAdd:
-                    CodeBuilder.AppendLine();
-                    CodeBuilder.Append(".ValueGeneratedOnAdd()");
-                    break;
-                case ValueGenerated.OnAddOrUpdate:
-                    CodeBuilder.AppendLine();
-                    CodeBuilder.Append(".ValueGeneratedOnAddOrUpdate()");
-                    break;
-                case ValueGenerated.OnUpdate:
-                    CodeBuilder.AppendLine();
-                    CodeBuilder.Append(".ValueGeneratedOnUpdate()");
-                    break;
-            }
+            CodeBuilder.AppendLine();
+            CodeBuilder.Append(".ValueGeneratedOnAdd()");
         }
+        else if (property.IsComputed == true || property.IsRowVersion == true)
+        {
+            CodeBuilder.AppendLine();
+            CodeBuilder.Append(".ValueGeneratedOnAddOrUpdate()");
+        }
+
         CodeBuilder.DecrementIndent();
 
         CodeBuilder.AppendLine(";");
@@ -353,7 +454,7 @@ public class MappingClassTemplate : CodeTemplateBase
 
         if (keys.Count == 1)
         {
-            var propertyName = keys.First().PropertyName.ToSafeName();
+            var propertyName = keys[0].PropertyName.ToSafeName();
             CodeBuilder.AppendLine($"t.{propertyName});");
             CodeBuilder.AppendLine();
 
@@ -381,9 +482,7 @@ public class MappingClassTemplate : CodeTemplateBase
     {
         CodeBuilder.AppendLine("// table");
 
-        var method = _entity.IsView
-            ? nameof(RelationalEntityTypeBuilderExtensions.ToView)
-            : nameof(RelationalEntityTypeBuilderExtensions.ToTable);
+        var method = _entity.IsView ? "ToView" : "ToTable";
 
         CodeBuilder.AppendLine(_entity.TableSchema.HasValue()
             ? $"builder.{method}(\"{_entity.TableName}\", \"{_entity.TableSchema}\");"

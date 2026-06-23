@@ -1,0 +1,12 @@
+DROP FUNCTION IF EXISTS `FormatAddress`;
+
+CREATE FUNCTION `FormatAddress`(
+    `AddressLine1` text,
+    `City` text,
+    `StateProvince` text,
+    `PostalCode` text
+)
+RETURNS text
+DETERMINISTIC
+COMMENT 'Formats an address.'
+RETURN CONCAT_WS(', ', `AddressLine1`, `City`, `StateProvince`, `PostalCode`);

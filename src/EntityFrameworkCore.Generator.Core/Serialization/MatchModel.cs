@@ -14,7 +14,7 @@ public class MatchModel
     /// The exact string match option.
     /// </value>
     [YamlMember(Alias = "exact")]
-    public string Exact { get; set; }
+    public string? Exact { get; set; }
 
     /// <summary>
     /// Gets or sets the regular expression pattern match option.
@@ -23,7 +23,7 @@ public class MatchModel
     /// The regular expression pattern match option.
     /// </value>
     [YamlMember(Alias = "regex")]
-    public string Expression { get; set; }
+    public string? Expression { get; set; }
 
     /// <summary>
     /// Performs an implicit conversion from <see cref="string"/> to <see cref="MatchModel"/>.

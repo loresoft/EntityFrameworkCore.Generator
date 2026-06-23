@@ -1,26 +1,24 @@
-using System;
 using System.Data;
 using System.Diagnostics;
-using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace EntityFrameworkCore.Generator.Metadata.Generation;
 
-[DebuggerDisplay("Property: {PropertyName}, Column: {ColumnName}, Type: {StoreType}")]
+[DebuggerDisplay("Property: {PropertyName}, Column: {ColumnName}, Type: {NativeType}")]
 public class Property : ModelBase
 {
-    public Entity Entity { get; set; }
+    public Entity Entity { get; set; } = null!;
 
-    public string PropertyName { get; set; }
+    public string PropertyName { get; set; } = null!;
 
-    public string ColumnName { get; set; }
+    public string ColumnName { get; set; } = null!;
 
-    public string StoreType { get; set; }
-
-    public string NativeType { get; set; }
+    public string? NativeType { get; set; }
 
     public DbType DataType { get; set; }
 
-    public Type SystemType { get; set; }
+    public Type SystemType { get; set; } = null!;
+
+    public string SystemTypeName { get; set; } = null!;
 
     public bool? IsNullable { get; set; }
 
@@ -40,20 +38,17 @@ public class Property : ModelBase
 
     public bool? IsUnique { get; set; }
 
-    [Obsolete("Value no longer used, will be deleted")]
-    public bool? IsMaxLength { get; set; }
+    public bool? IsComputed { get; set; }
+
+    public bool? IsIdentity { get; set; }
 
     public int? Size { get; set; }
 
-    [Obsolete("Value no longer used, will be deleted")]
-    public int? Precision { get; set; }
+    public object? DefaultValue { get; set; }
 
-    [Obsolete("Value no longer used, will be deleted")]
-    public int? Scale { get; set; }
+    public string? Default { get; set; }
 
-    public object DefaultValue { get; set; }
+    public bool? AllowInsert { get; set; }
 
-    public string Default { get; set; }
-
-    public ValueGenerated? ValueGenerated { get; set; }
+    public bool? AllowUpdate { get; set; }
 }

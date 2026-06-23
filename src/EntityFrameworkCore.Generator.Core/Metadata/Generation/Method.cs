@@ -1,4 +1,4 @@
-﻿using System.Diagnostics;
+using System.Diagnostics;
 
 namespace EntityFrameworkCore.Generator.Metadata.Generation;
 
@@ -7,13 +7,13 @@ public class Method : ModelBase
 {
     public Method()
     {
-        Properties = new PropertyCollection();
+        Properties = [];
     }
 
-    public Entity Entity { get; set; }
+    public Entity Entity { get; set; } = null!;
 
-    public string NameSuffix { get; set; }
-    public string SourceName { get; set; }
+    public string? NameSuffix { get; set; }
+    public string? SourceName { get; set; }
 
     public bool IsKey { get; set; }
     public bool IsUnique { get; set; }
