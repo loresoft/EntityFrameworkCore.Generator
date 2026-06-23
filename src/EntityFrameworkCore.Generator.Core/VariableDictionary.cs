@@ -1,6 +1,3 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
 using System.Text;
 
 namespace EntityFrameworkCore.Generator;
@@ -10,7 +7,7 @@ namespace EntityFrameworkCore.Generator;
 /// </summary>
 public class VariableDictionary
 {
-    private readonly Dictionary<string, string> _variables = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+    private readonly Dictionary<string, string?> _variables = new(StringComparer.OrdinalIgnoreCase);
 
 
     /// <summary>
@@ -26,7 +23,7 @@ public class VariableDictionary
     /// </summary>
     /// <param name="name">The name of the variable to set.</param>
     /// <returns>The current (evaluated) value of the variable.</returns>
-    public string this[string name]
+    public string? this[string name]
     {
         get => Get(name);
         set => Set(name, value);
@@ -38,7 +35,7 @@ public class VariableDictionary
     /// </summary>
     /// <param name="name">The name of the variable.</param>
     /// <param name="value">The value of the variable.</param>
-    public void Set(string name, string value)
+    public void Set(string name, string? value)
     {
         if (name == null)
             return;
@@ -62,7 +59,7 @@ public class VariableDictionary
     /// <returns>
     /// The value of the variable, or <c>null</c> if the variable is not defined.
     /// </returns>
-    public string Get(string name)
+    public string? Get(string name)
     {
         if (!_variables.TryGetValue(name, out var variable))
             return null;
@@ -80,8 +77,7 @@ public class VariableDictionary
         if (name == null)
             return;
 
-        if (_variables.ContainsKey(name))
-            _variables.Remove(name);
+        _variables.Remove(name);
     }
 
     /// <summary>
@@ -92,14 +88,14 @@ public class VariableDictionary
     {
         optionVariable.Remove(this);
     }
-        
+
     /// <summary>
     /// Evaluates the specified variable or text.
     /// </summary>
     /// <param name="variableOrText">The variable or text.</param>
     /// <returns>The result of the variable.</returns>
     /// <exception cref="System.FormatException">Invalid variable format</exception>
-    public string Evaluate(string variableOrText)
+    public string? Evaluate(string? variableOrText)
     {
         if (variableOrText == null)
             return null;
@@ -109,8 +105,11 @@ public class VariableDictionary
     }
 
 
-    private string Eval(string variableOrText, ISet<string> loop)
+    private string? Eval(string? variableOrText, ISet<string> loop)
     {
+        if (variableOrText == null)
+            return null;
+
         var result = new StringBuilder(variableOrText.Length * 2);
         var variable = new StringBuilder();
         var state = State.OutsideExpression;
@@ -136,7 +135,7 @@ public class VariableDictionary
                                 state = State.OnCloseBracket;
                                 break;
                             default:
-                                result.Append((char) c);
+                                result.Append((char)c);
                                 break;
                         }
 
@@ -152,7 +151,7 @@ public class VariableDictionary
                                 state = State.OutsideExpression;
                                 break;
                             default:
-                                variable.Append((char) c);
+                                variable.Append((char)c);
                                 state = State.InsideExpression;
                                 break;
                         }
@@ -167,7 +166,7 @@ public class VariableDictionary
                             case '}':
 
                                 var v = variable.ToString();
-                                if (loop.Add(v) && _variables.TryGetValue(v, out string value))
+                                if (loop.Add(v) && _variables.TryGetValue(v, out string? value))
                                 {
                                     value = Eval(value, loop);
                                     result.Append(value);
@@ -177,7 +176,7 @@ public class VariableDictionary
                                 state = State.OutsideExpression;
                                 break;
                             default:
-                                variable.Append((char) c);
+                                variable.Append((char)c);
                                 break;
                         }
 

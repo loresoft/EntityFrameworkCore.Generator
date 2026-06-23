@@ -1,3 +1,5 @@
+using System.ComponentModel;
+
 namespace EntityFrameworkCore.Generator.Serialization;
 
 /// <summary>
@@ -14,7 +16,7 @@ public class ValidatorClass : ClassBase
         Namespace = "{Project.Namespace}.Domain.Validation";
         Directory = @"{Project.Directory}\Domain\Validation";
 
-        BaseClass = "AbstractValidator<{Model.Name}>";
+        BaseClass = "FluentValidation.AbstractValidator<{Model.Name}>";
         Name = "{Model.Name}Validator";
     }
     /// <summary>
@@ -23,5 +25,6 @@ public class ValidatorClass : ClassBase
     /// <value>
     ///   <c>true</c> to generate; otherwise, <c>false</c>.
     /// </value>
+    [DefaultValue(false)]
     public bool Generate { get; set; }
 }

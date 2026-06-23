@@ -1,11 +1,9 @@
 using System.ComponentModel;
 
-using Microsoft.EntityFrameworkCore;
-
 namespace EntityFrameworkCore.Generator.Options;
 
 /// <summary>
-/// EntityFramework <see cref="DbContext"/> generation options
+/// EntityFramework <c>DbContext</c> generation options
 /// </summary>
 /// <seealso cref="ClassOptionsBase" />
 public class ContextClassOptions : ClassOptionsBase
@@ -13,7 +11,7 @@ public class ContextClassOptions : ClassOptionsBase
     /// <summary>
     /// Initializes a new instance of the <see cref="ContextClassOptions"/> class.
     /// </summary>
-    public ContextClassOptions(VariableDictionary variables, string prefix)
+    public ContextClassOptions(VariableDictionary variables, string? prefix)
         : base(variables, AppendPrefix(prefix, "Context"))
     {
         Namespace = "{Project.Namespace}.Data";

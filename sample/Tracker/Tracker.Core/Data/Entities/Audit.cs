@@ -1,12 +1,16 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
 using Tracker.Core.Definitions;
 
 namespace Tracker.Core.Data.Entities;
 
 /// <summary>
-/// Entity class representing data for table 'Audit'.
+/// Represents the <c>Audit</c> entity mapped to the <c>dbo.Audit</c> table.
 /// </summary>
+[Table("Audit", Schema = "dbo")]
 public partial class Audit : IHaveIdentifier
 {
     /// <summary>
@@ -20,92 +24,115 @@ public partial class Audit : IHaveIdentifier
 
     #region Generated Properties
     /// <summary>
-    /// Gets or sets the property value representing column 'Id'.
+    /// Gets or sets the <c>Id</c> value mapped to the <c>Id</c> column.
     /// </summary>
     /// <value>
-    /// The property value representing column 'Id'.
+    /// The <c>Id</c> entity value.
     /// </value>
+    [Key]
+    [Column("Id", TypeName = "uniqueidentifier")]
     public Guid Id { get; set; }
 
     /// <summary>
-    /// Gets or sets the property value representing column 'Date'.
+    /// Gets or sets the <c>Date</c> value mapped to the <c>Date</c> column.
     /// </summary>
     /// <value>
-    /// The property value representing column 'Date'.
+    /// The <c>Date</c> entity value.
     /// </value>
+    [Column("Date", TypeName = "datetime")]
     public DateTime Date { get; set; }
 
     /// <summary>
-    /// Gets or sets the property value representing column 'UserId'.
+    /// Gets or sets the <c>UserId</c> value mapped to the <c>UserId</c> column.
     /// </summary>
     /// <value>
-    /// The property value representing column 'UserId'.
+    /// The <c>UserId</c> entity value.
     /// </value>
+    [Column("UserId", TypeName = "uniqueidentifier")]
     public Guid? UserId { get; set; }
 
     /// <summary>
-    /// Gets or sets the property value representing column 'TaskId'.
+    /// Gets or sets the <c>TaskId</c> value mapped to the <c>TaskId</c> column.
     /// </summary>
     /// <value>
-    /// The property value representing column 'TaskId'.
+    /// The <c>TaskId</c> entity value.
     /// </value>
+    [Column("TaskId", TypeName = "uniqueidentifier")]
     public Guid? TaskId { get; set; }
 
     /// <summary>
-    /// Gets or sets the property value representing column 'Content'.
+    /// Gets or sets the <c>Content</c> value mapped to the <c>Content</c> column.
     /// </summary>
     /// <value>
-    /// The property value representing column 'Content'.
+    /// The <c>Content</c> entity value.
     /// </value>
+    [Column("Content", TypeName = "nvarchar(max)")]
     public string Content { get; set; } = null!;
 
     /// <summary>
-    /// Gets or sets the property value representing column 'Username'.
+    /// Gets or sets the <c>Username</c> value mapped to the <c>Username</c> column.
     /// </summary>
     /// <value>
-    /// The property value representing column 'Username'.
+    /// The <c>Username</c> entity value.
     /// </value>
+    [Column("Username", TypeName = "nvarchar(50)")]
     public string Username { get; set; } = null!;
 
     /// <summary>
-    /// Gets or sets the property value representing column 'Created'.
+    /// Gets or sets the <c>Created</c> value mapped to the <c>Created</c> column.
     /// </summary>
     /// <value>
-    /// The property value representing column 'Created'.
+    /// The <c>Created</c> entity value.
     /// </value>
+    [Column("Created", TypeName = "datetimeoffset")]
     public DateTimeOffset Created { get; set; }
 
     /// <summary>
-    /// Gets or sets the property value representing column 'CreatedBy'.
+    /// Gets or sets the <c>CreatedBy</c> value mapped to the <c>CreatedBy</c> column.
     /// </summary>
     /// <value>
-    /// The property value representing column 'CreatedBy'.
+    /// The <c>CreatedBy</c> entity value.
     /// </value>
+    [Column("CreatedBy", TypeName = "nvarchar(100)")]
     public string? CreatedBy { get; set; }
 
     /// <summary>
-    /// Gets or sets the property value representing column 'Updated'.
+    /// Gets or sets the <c>Updated</c> value mapped to the <c>Updated</c> column.
     /// </summary>
     /// <value>
-    /// The property value representing column 'Updated'.
+    /// The <c>Updated</c> entity value.
     /// </value>
+    [Column("Updated", TypeName = "datetimeoffset")]
     public DateTimeOffset Updated { get; set; }
 
     /// <summary>
-    /// Gets or sets the property value representing column 'UpdatedBy'.
+    /// Gets or sets the <c>UpdatedBy</c> value mapped to the <c>UpdatedBy</c> column.
     /// </summary>
     /// <value>
-    /// The property value representing column 'UpdatedBy'.
+    /// The <c>UpdatedBy</c> entity value.
     /// </value>
+    [Column("UpdatedBy", TypeName = "nvarchar(100)")]
     public string? UpdatedBy { get; set; }
 
     /// <summary>
-    /// Gets or sets the property value representing column 'RowVersion'.
+    /// Gets or sets the <c>RowVersion</c> value mapped to the <c>RowVersion</c> column.
     /// </summary>
     /// <value>
-    /// The property value representing column 'RowVersion'.
+    /// The <c>RowVersion</c> entity value.
     /// </value>
-    public Byte[] RowVersion { get; set; } = null!;
+    [ConcurrencyCheck]
+    [Column("RowVersion", TypeName = "rowversion")]
+    [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
+    public byte[] RowVersion { get; set; } = null!;
+
+    /// <summary>
+    /// Gets or sets the <c>Attributes</c> value mapped to the <c>Attributes</c> column.
+    /// </summary>
+    /// <value>
+    /// The <c>Attributes</c> entity value.
+    /// </value>
+    [Column("Attributes", TypeName = "dbo.StringList")]
+    public string? Attributes { get; set; }
 
     #endregion
 

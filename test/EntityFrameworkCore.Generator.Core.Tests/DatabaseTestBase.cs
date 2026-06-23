@@ -1,8 +1,3 @@
-﻿using System;
-
-using Xunit;
-using Xunit.Abstractions;
-
 namespace FluentCommand.SqlServer.Tests;
 
 [Collection(DatabaseCollection.CollectionName)]

@@ -1,29 +1,28 @@
 using System;
 using System.Collections.Generic;
 
-// ReSharper disable once CheckNamespace
 namespace Tracker.Core.Domain.Models;
 
 /// <summary>
-/// View Model class
+/// Represents a create model for the <c>Role</c> entity mapped to the <c>Role</c> table.
 /// </summary>
 public partial class RoleCreateModel
     : EntityCreateModel
 {
     #region Generated Properties
     /// <summary>
-    /// Gets or sets the property value for 'Name'.
+    /// Gets or sets the <c>Name</c> value mapped from the <c>Name</c> column.
     /// </summary>
     /// <value>
-    /// The property value for 'Name'.
+    /// The <c>Name</c> model value.
     /// </value>
     public string Name { get; set; } = null!;
 
     /// <summary>
-    /// Gets or sets the property value for 'Description'.
+    /// Gets or sets the <c>Description</c> value mapped from the <c>Description</c> column.
     /// </summary>
     /// <value>
-    /// The property value for 'Description'.
+    /// The <c>Description</c> model value.
     /// </value>
     public string? Description { get; set; }
 

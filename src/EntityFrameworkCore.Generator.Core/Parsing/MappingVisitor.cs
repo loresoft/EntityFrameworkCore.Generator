@@ -1,5 +1,3 @@
-using System.Linq;
-
 using EntityFrameworkCore.Generator.Metadata.Parsing;
 
 using Microsoft.CodeAnalysis.CSharp;
@@ -9,8 +7,8 @@ namespace EntityFrameworkCore.Generator.Parsing;
 
 public class MappingVisitor : CSharpSyntaxWalker
 {
-    private ParsedProperty _currentProperty;
-    private ParsedRelationship _currentRelationship;
+    private ParsedProperty? _currentProperty;
+    private ParsedRelationship? _currentRelationship;
 
 
     public MappingVisitor()
@@ -20,7 +18,7 @@ public class MappingVisitor : CSharpSyntaxWalker
 
     public string MappingBaseType { get; set; }
 
-    public ParsedEntity ParsedEntity { get; set; }
+    public ParsedEntity? ParsedEntity { get; set; }
 
 
     public override void VisitClassDeclaration(ClassDeclarationSyntax node)
@@ -66,7 +64,7 @@ public class MappingVisitor : CSharpSyntaxWalker
     }
 
 
-    private string ParseMethodName(InvocationExpressionSyntax node)
+    private static string ParseMethodName(InvocationExpressionSyntax node)
     {
         var memberAccess = node
             .ChildNodes()
@@ -85,7 +83,7 @@ public class MappingVisitor : CSharpSyntaxWalker
         return methodName ?? string.Empty;
     }
 
-    private string ParseLambaExpression(InvocationExpressionSyntax node)
+    private static string? ParseLambaExpression(InvocationExpressionSyntax node)
     {
         if (node == null)
             return null;
@@ -116,6 +114,44 @@ public class MappingVisitor : CSharpSyntaxWalker
         return propertyName;
     }
 
+    private List<string>? ParseLambdaExpressionForAnonymousObject(InvocationExpressionSyntax node)
+    {
+        if (node == null)
+            return null;
+
+        var lambdaExpression = node
+            .ArgumentList
+            .DescendantNodes()
+            .OfType<LambdaExpressionSyntax>()
+            .FirstOrDefault();
+
+        if (lambdaExpression == null)
+            return null;
+
+        var anonymousObject = lambdaExpression
+            .ChildNodes()
+            .OfType<AnonymousObjectCreationExpressionSyntax>()
+            .FirstOrDefault();
+
+        if (anonymousObject == null)
+            return null;
+
+        return anonymousObject
+            .ChildNodes()
+            .OfType<AnonymousObjectMemberDeclaratorSyntax>()
+            .Select(declarator => declarator
+                .ChildNodes()
+                .OfType<MemberAccessExpressionSyntax>()
+                .FirstOrDefault())
+            .OfType<MemberAccessExpressionSyntax>()
+            .Select(memberAccess => memberAccess
+                .ChildNodes()
+                .OfType<IdentifierNameSyntax>()
+                .Select(identifier => identifier.Identifier.ValueText)
+                .LastOrDefault())
+            .OfType<string>()
+            .ToList();
+    }
 
     private void ParseHasOne(InvocationExpressionSyntax node)
     {
@@ -153,13 +189,17 @@ public class MappingVisitor : CSharpSyntaxWalker
         if (node == null || ParsedEntity == null)
             return;
 
-        var propertyName = ParseLambaExpression(node);
+        List<string>? propertyNames = null;
+        if (ParseLambaExpression(node) is string propertyName && !string.IsNullOrEmpty(propertyName))
+            propertyNames = [propertyName];
+        else
+            propertyNames = ParseLambdaExpressionForAnonymousObject(node);
 
-        if (string.IsNullOrEmpty(propertyName))
+        if (propertyNames == null)
             return;
 
         _currentRelationship ??= new ParsedRelationship();
-        _currentRelationship.Properties.Add(propertyName);
+        _currentRelationship.Properties.AddRange(propertyNames);
     }
 
     private void ParseConstraintName(InvocationExpressionSyntax node)
@@ -172,7 +212,7 @@ public class MappingVisitor : CSharpSyntaxWalker
             .DescendantNodes()
             .OfType<LiteralExpressionSyntax>()
             .Select(t => t.Token.ValueText)
-        .FirstOrDefault();
+            .FirstOrDefault();
 
         _currentRelationship ??= new ParsedRelationship();
         _currentRelationship.RelationshipName = constraitName;
@@ -181,7 +221,7 @@ public class MappingVisitor : CSharpSyntaxWalker
 
     private void ParseProperty(InvocationExpressionSyntax node)
     {
-        if (node == null || _currentProperty == null)
+        if (node == null || _currentProperty == null || ParsedEntity == null)
             return;
 
         var propertyName = ParseLambaExpression(node);
@@ -241,7 +281,7 @@ public class MappingVisitor : CSharpSyntaxWalker
             return;
 
         var baseType = node.BaseList
-            .DescendantNodes()
+            ?.DescendantNodes()
             .OfType<GenericNameSyntax>()
             .FirstOrDefault(t => t.Identifier.ValueText == MappingBaseType);
 
@@ -252,6 +292,9 @@ public class MappingVisitor : CSharpSyntaxWalker
             .TypeArgumentList
             .Arguments
             .FirstOrDefault();
+
+        if (firstArgument == null)
+            return;
 
         // last identifier is class name
         var entityClass = firstArgument

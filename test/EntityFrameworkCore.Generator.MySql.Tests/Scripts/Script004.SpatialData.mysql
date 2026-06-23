@@ -1,0 +1,7 @@
+CREATE TABLE IF NOT EXISTS SpatialData
+(
+    Id INT NOT NULL PRIMARY KEY,
+    GeometryValue GEOMETRY NULL,
+    PointValue POINT NULL,
+    LineStringValue LINESTRING NULL
+);

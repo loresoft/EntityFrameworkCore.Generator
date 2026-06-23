@@ -1,29 +1,35 @@
 using System;
+
 using AutoMapper;
+
 using Tracker.Core.Data.Entities;
 using Tracker.Core.Domain.Models;
 
-// ReSharper disable once CheckNamespace
 namespace Tracker.Core.Domain.Mapping;
 
 /// <summary>
-/// Mapper class for entity <see cref="TaskExtended"/> .
+/// Configures AutoMapper mappings for the <see cref="Tracker.Core.Data.Entities.TaskExtended" /> entity mapped to the <c>dbo.TaskExtended</c> table and its generated create, read, and update models.
 /// </summary>
 public partial class TaskExtendedProfile
     : Profile
 {
     /// <summary>
-    /// Initializes a new instance of the <see cref="TaskExtendedProfile"/> class.
+    /// Initializes a new instance of the <see cref="Tracker.Core.Domain.Mapping.TaskExtendedProfile"/> class and creates mappings for <see cref="Tracker.Core.Data.Entities.TaskExtended" />.
     /// </summary>
     public TaskExtendedProfile()
     {
-        CreateMap<TaskExtended, TaskExtendedReadModel>()
-            .ForMember(d => d.RowVersion, opt => opt.MapFrom(s => Convert.ToBase64String(s.RowVersion)));
+        CreateMap<Tracker.Core.Data.Entities.TaskExtended, Tracker.Core.Domain.Models.TaskExtendedReadModel>();
 
-        CreateMap<TaskExtendedCreateModel, TaskExtended>();
+        CreateMap<Tracker.Core.Domain.Models.TaskExtendedCreateModel, Tracker.Core.Data.Entities.TaskExtended>();
 
-        CreateMap<TaskExtendedUpdateModel, TaskExtended>()
-            .ForMember(d => d.RowVersion, opt => opt.MapFrom(s => Convert.FromBase64String(s.RowVersion)));
+        CreateMap<Tracker.Core.Data.Entities.TaskExtended, Tracker.Core.Domain.Models.TaskExtendedCreateModel>();
+
+        CreateMap<Tracker.Core.Data.Entities.TaskExtended, Tracker.Core.Domain.Models.TaskExtendedUpdateModel>();
+
+        CreateMap<Tracker.Core.Domain.Models.TaskExtendedUpdateModel, Tracker.Core.Data.Entities.TaskExtended>();
+
+        CreateMap<Tracker.Core.Domain.Models.TaskExtendedReadModel, Tracker.Core.Domain.Models.TaskExtendedUpdateModel>();
+
     }
 
 }

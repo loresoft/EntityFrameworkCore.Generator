@@ -1,20 +1,20 @@
-﻿using EntityFrameworkCore.Generator.Metadata.Generation;
+using System.Text;
+
+using EntityFrameworkCore.Generator.Metadata.Generation;
 using EntityFrameworkCore.Generator.Options;
-using Microsoft.EntityFrameworkCore.Infrastructure;
 
 namespace EntityFrameworkCore.Generator.Core.Tests.Templates;
 
 public class EntityYamlScript
 {
     // simulate global script variables
-    public TemplateOptions TemplateOptions { get; set; }
+    public TemplateOptions TemplateOptions { get; set; } = null!;
 
-    public GeneratorOptions GeneratorOptions { get; set; }
+    public GeneratorOptions GeneratorOptions { get; set; } = null!;
 
-    public IndentedStringBuilder CodeBuilder { get; set; }
+    public IndentedStringBuilder CodeBuilder { get; set; } = null!;
 
-    public Entity Entity { get; set; }
-
+    public Entity Entity { get; set; } = null!;
 
 
     public string WriteCode()
@@ -52,7 +52,6 @@ public class EntityYamlScript
         {
             CodeBuilder.Append("- PropertyName: ").Append(property.PropertyName).AppendLine();
             CodeBuilder.Append("  ColumnName: '").Append(property.ColumnName).AppendLine("'");
-            CodeBuilder.Append("  StoreType: ").Append(property.StoreType).AppendLine();
             CodeBuilder.Append("  NativeType: '").Append(property.NativeType).AppendLine("'");
             CodeBuilder.Append("  DataType: ").Append(property.DataType.ToString()).AppendLine();
             CodeBuilder.Append("  SystemType: ").Append(property.SystemType.Name).AppendLine();
@@ -62,9 +61,6 @@ public class EntityYamlScript
 
             if (property.Default != null)
                 CodeBuilder.Append("  Default: '").Append(property.Default).AppendLine("'");
-
-            if (property.ValueGenerated != null)
-                CodeBuilder.Append("  ValueGenerated: ").Append(property.ValueGenerated?.ToString()).AppendLine();
 
             if (property.IsNullable != null)
                 CodeBuilder.Append("  IsNullable: ").Append(property.IsNullable?.ToString()).AppendLine();

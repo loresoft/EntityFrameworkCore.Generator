@@ -2,12 +2,10 @@ using System.ComponentModel;
 
 using EntityFrameworkCore.Generator.Options;
 
-using Microsoft.EntityFrameworkCore;
-
 namespace EntityFrameworkCore.Generator.Serialization;
 
 /// <summary>
-/// EntityFramework <see cref="DbContext"/> generation options
+/// EntityFramework <c>DbContext</c> generation options
 /// </summary>
 /// <seealso cref="ClassOptionsBase" />
 public class ContextClass : ClassBase

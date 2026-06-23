@@ -110,6 +110,7 @@ Entity Framework Core Generator supports the following databases.
 - PostgreSQL
 - MySQL
 - Sqlite
+- Oracle
 
 The provider can be set via command line or via the [configuration file](configuration.md).
 
@@ -129,8 +130,8 @@ database:
 
 ## Database Schema
 
-The database schema is loaded from the metadata model factory implementation of `IDatabaseModelFactory`.  Entity Framework Core Generator uses the implemented interface from each of the supported providers similar to how `ef dbcontext scaffold` works.
+The database schema is loaded from [SchemaSaurus](https://github.com/loresoft/SchemaSaurus) for each supported provider.
 
 ## View Models
 
-Entity Framework Core Generator supports generating [Read](md/read.md), [Create](md/create.md) and [Update](md/update.md) view models from an entity.  Many projects rely on view models to shape data.  The model templates can be used to quickly get the basic view models created.  The model templates also support regeneration so any database change can easily be sync'd to the view models.  
+Entity Framework Core Generator supports generating [Read](md/read.md), [Create](md/create.md) and [Update](md/update.md) view models from an entity.  Many projects rely on view models to shape data.  The model templates can be used to quickly get the basic view models created.  The model templates also support regeneration so any database change can easily be sync'd to the view models.

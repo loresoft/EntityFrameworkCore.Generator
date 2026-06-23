@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using System.Diagnostics;
 
 namespace EntityFrameworkCore.Generator.Metadata.Parsing;
@@ -8,15 +7,16 @@ public class ParsedRelationship
 {
     public ParsedRelationship()
     {
-        Properties = new List<string>();
+        Properties = [];
     }
-    public string RelationshipName { get; set; }
 
-    public string PropertyName { get; set; }
+    public string? RelationshipName { get; set; }
+
+    public string? PropertyName { get; set; }
 
     public List<string> Properties { get; }
 
-    public string PrimaryPropertyName { get; set; }
+    public string? PrimaryPropertyName { get; set; }
 
 
     public bool IsValid()

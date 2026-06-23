@@ -1,4 +1,4 @@
-# Shared Model Template 
+# Shared Model Template
 
 The [Read](read.md), [Create](create.md) and [Update](update.md) model templates share the following [configuration](../configuration.md).
 
@@ -39,4 +39,3 @@ Exclude all entities that match any of the listed regular expressions.
 #### properties
 
 Exclude all properties that match any of the listed regular expressions.  The value to match contains the parent entity the property belongs too, `Entity.Property`.
-

@@ -1,5 +1,3 @@
-using System.Linq;
-
 using EntityFrameworkCore.Generator.Extensions;
 using EntityFrameworkCore.Generator.Metadata.Generation;
 using EntityFrameworkCore.Generator.Options;
@@ -19,11 +17,15 @@ public class QueryExtensionTemplate : CodeTemplateBase
     {
         CodeBuilder.Clear();
 
+        if (Options.Data.Query.Header.HasValue())
+            CodeBuilder.AppendLine(Options.Data.Query.Header).AppendLine();
+
         CodeBuilder.AppendLine("using System;");
         CodeBuilder.AppendLine("using System.Collections.Generic;");
         CodeBuilder.AppendLine("using System.Linq;");
         CodeBuilder.AppendLine("using System.Threading;");
         CodeBuilder.AppendLine("using System.Threading.Tasks;");
+        CodeBuilder.AppendLine();
         CodeBuilder.AppendLine("using Microsoft.EntityFrameworkCore;");
         CodeBuilder.AppendLine();
 
@@ -61,9 +63,7 @@ public class QueryExtensionTemplate : CodeTemplateBase
 
         if (Options.Data.Query.Document)
         {
-            CodeBuilder.AppendLine("/// <summary>");
-            CodeBuilder.AppendLine($"/// Query extensions for entity <see cref=\"{safeName}\" />.");
-            CodeBuilder.AppendLine("/// </summary>");
+            GenerateClassDocumentation(safeName);
         }
 
         CodeBuilder.AppendLine($"public static partial class {entityClass}Extensions");
@@ -105,21 +105,16 @@ public class QueryExtensionTemplate : CodeTemplateBase
 
     private void GenerateMethod(Method method)
     {
-        string safeName = _entity.EntityNamespace + "." + _entity.EntityClass.ToSafeName();
-        string prefix = Options.Data.Query.IndexPrefix;
-        string suffix = method.NameSuffix;
+        var safeName = _entity.EntityNamespace + "." + _entity.EntityClass.ToSafeName();
+        var prefix = Options.Data.Query.IndexPrefix;
+        var suffix = method.NameSuffix;
 
         if (Options.Data.Query.Document)
         {
-            CodeBuilder.AppendLine("/// <summary>");
-            CodeBuilder.AppendLine("/// Filters a sequence of values based on a predicate.");
-            CodeBuilder.AppendLine("/// </summary>");
-            CodeBuilder.AppendLine("/// <param name=\"queryable\">An <see cref=\"T:System.Linq.IQueryable`1\" /> to filter.</param>");
-            AppendDocumentation(method);
-            CodeBuilder.AppendLine("/// <returns>An <see cref=\"T: System.Linq.IQueryable`1\" /> that contains elements from the input sequence that satisfy the condition specified.</returns>");
+            GenerateFilterMethodDocumentation(method, safeName);
         }
 
-        CodeBuilder.Append($"public static System.Linq.IQueryable<{safeName}> {prefix}{suffix}(this System.Linq.IQueryable<{safeName}> queryable, ");
+        CodeBuilder.Append($"public static IQueryable<{safeName}> {prefix}{suffix}(this IQueryable<{safeName}> queryable, ");
         AppendParameters(method);
         CodeBuilder.AppendLine(")");
         CodeBuilder.AppendLine("{");
@@ -131,7 +126,7 @@ public class QueryExtensionTemplate : CodeTemplateBase
                 CodeBuilder.AppendLine("throw new ArgumentNullException(nameof(queryable));");
             CodeBuilder.AppendLine();
 
-            CodeBuilder.Append($"return queryable.Where(");
+            CodeBuilder.Append("return queryable.Where(");
             AppendLamba(method);
             CodeBuilder.AppendLine(");");
         }
@@ -142,35 +137,31 @@ public class QueryExtensionTemplate : CodeTemplateBase
 
     private void GenerateUniqueMethod(Method method, bool async = false)
     {
-        string safeName = _entity.EntityNamespace + "." + _entity.EntityClass.ToSafeName();
-        string uniquePrefix = Options.Data.Query.UniquePrefix;
-        string suffix = method.NameSuffix;
+        var safeName = _entity.EntityNamespace + "." + _entity.EntityClass.ToSafeName();
+        var uniquePrefix = Options.Data.Query.UniquePrefix;
+        var suffix = method.NameSuffix;
 
-        string asyncSuffix = async ? "Async" : string.Empty;
-        string asyncPrefix = async ? "async " : string.Empty;
-        string awaitPrefix = async ? "await " : string.Empty;
-        string nullableSuffix = Options.Project.Nullable ? "?" : "";
-        string returnType = async ? $"System.Threading.Tasks.Task<{safeName}{nullableSuffix}>" : safeName + nullableSuffix;
+        var asyncSuffix = async ? "Async" : string.Empty;
+        var asyncPrefix = async ? "async " : string.Empty;
+        var awaitPrefix = async ? "await " : string.Empty;
+        var nullableSuffix = Options.Project.Nullable ? "?" : "";
+        var returnType = async ? $"System.Threading.Tasks.Task<{safeName}{nullableSuffix}>" : safeName + nullableSuffix;
 
         if (Options.Data.Query.Document)
         {
-            CodeBuilder.AppendLine("/// <summary>");
-            CodeBuilder.AppendLine($"/// Gets an instance of <see cref=\"T:{safeName}\"/> by using a unique index.");
-            CodeBuilder.AppendLine("/// </summary>");
-            CodeBuilder.AppendLine("/// <param name=\"queryable\">An <see cref=\"T:System.Linq.IQueryable`1\" /> to filter.</param>");
-            AppendDocumentation(method);
+            GenerateUniqueMethodDocumentation(method, safeName);
 
             if (async)
-                CodeBuilder.AppendLine("/// <param name=\"cancellationToken\">A <see cref=\"System.Threading.CancellationToken\" /> to observe while waiting for the task to complete.</param>");
+                GenerateCancellationTokenDocumentation();
 
-            CodeBuilder.AppendLine($"/// <returns>An instance of <see cref=\"T:{safeName}\"/> or null if not found.</returns>");
+            GenerateSingleEntityReturnDocumentation(safeName, async);
         }
 
-        CodeBuilder.Append($"public static {asyncPrefix}{returnType} {uniquePrefix}{suffix}{asyncSuffix}(this System.Linq.IQueryable<{safeName}> queryable, ");
+        CodeBuilder.Append($"public static {asyncPrefix}{returnType} {uniquePrefix}{suffix}{asyncSuffix}(this IQueryable<{safeName}> queryable, ");
         AppendParameters(method);
 
         if (async)
-            CodeBuilder.Append(", System.Threading.CancellationToken cancellationToken = default");
+            CodeBuilder.Append(", CancellationToken cancellationToken = default");
 
         CodeBuilder.AppendLine(")");
         CodeBuilder.AppendLine("{");
@@ -199,34 +190,30 @@ public class QueryExtensionTemplate : CodeTemplateBase
 
     private void GenerateKeyMethod(Method method, bool async = false)
     {
-        string safeName = _entity.EntityNamespace + "." + _entity.EntityClass.ToSafeName();
-        string uniquePrefix = Options.Data.Query.UniquePrefix;
+        var safeName = _entity.EntityNamespace + "." + _entity.EntityClass.ToSafeName();
+        var uniquePrefix = Options.Data.Query.UniquePrefix;
 
-        string asyncSuffix = async ? "Async" : string.Empty;
-        string asyncPrefix = async ? "async " : string.Empty;
-        string awaitPrefix = async ? "await " : string.Empty;
-        string nullableSuffix = Options.Project.Nullable ? "?" : "";
-        string returnType = async ? $"System.Threading.Tasks.ValueTask<{safeName}{nullableSuffix}>" : safeName + nullableSuffix;
+        var asyncSuffix = async ? "Async" : string.Empty;
+        var asyncPrefix = async ? "async " : string.Empty;
+        var awaitPrefix = async ? "await " : string.Empty;
+        var nullableSuffix = Options.Project.Nullable ? "?" : "";
+        var returnType = async ? $"System.Threading.Tasks.ValueTask<{safeName}{nullableSuffix}>" : safeName + nullableSuffix;
 
         if (Options.Data.Query.Document)
         {
-            CodeBuilder.AppendLine("/// <summary>");
-            CodeBuilder.AppendLine("/// Gets an instance by the primary key.");
-            CodeBuilder.AppendLine("/// </summary>");
-            CodeBuilder.AppendLine("/// <param name=\"queryable\">An <see cref=\"T:System.Linq.IQueryable`1\" /> to filter.</param>");
-            AppendDocumentation(method);
+            GenerateKeyMethodDocumentation(method, safeName);
 
             if (async)
-                CodeBuilder.AppendLine("/// <param name=\"cancellationToken\">A <see cref=\"System.Threading.CancellationToken\" /> to observe while waiting for the task to complete.</param>");
+                GenerateCancellationTokenDocumentation();
 
-            CodeBuilder.AppendLine($"/// <returns>An instance of <see cref=\"T:{safeName}\"/> or null if not found.</returns>");
+            GenerateSingleEntityReturnDocumentation(safeName, async);
         }
 
-        CodeBuilder.Append($"public static {asyncPrefix}{returnType} {uniquePrefix}Key{asyncSuffix}(this System.Linq.IQueryable<{safeName}> queryable, ");
+        CodeBuilder.Append($"public static {asyncPrefix}{returnType} {uniquePrefix}Key{asyncSuffix}(this IQueryable<{safeName}> queryable, ");
         AppendParameters(method);
 
         if (async)
-            CodeBuilder.Append(", System.Threading.CancellationToken cancellationToken = default");
+            CodeBuilder.Append(", CancellationToken cancellationToken = default");
 
         CodeBuilder.AppendLine(")");
         CodeBuilder.AppendLine("{");
@@ -269,7 +256,79 @@ public class QueryExtensionTemplate : CodeTemplateBase
     }
 
 
-    private void AppendDocumentation(Method method)
+    private void GenerateClassDocumentation(string entityFullName)
+    {
+        var sourceName = ToXmlText(GetQualifiedTableName());
+        var sourceType = _entity.IsView ? "view" : "table";
+
+        CodeBuilder.AppendLine("/// <summary>");
+
+        if (sourceName.HasValue())
+            CodeBuilder.AppendLine($"/// Provides query extension methods for <see cref=\"{entityFullName}\" /> entities mapped to the <c>{sourceName}</c> {sourceType}.");
+        else
+            CodeBuilder.AppendLine($"/// Provides query extension methods for <see cref=\"{entityFullName}\" /> entities.");
+
+        CodeBuilder.AppendLine("/// </summary>");
+    }
+
+    private void GenerateFilterMethodDocumentation(Method method, string entityFullName)
+    {
+        CodeBuilder.AppendLine("/// <summary>");
+        CodeBuilder.AppendLine($"/// Filters <see cref=\"{entityFullName}\" /> entities by {QueryExtensionTemplate.FormatPropertyList(method)}.");
+        CodeBuilder.AppendLine("/// </summary>");
+
+        GenerateQueryableParameterDocumentation(entityFullName);
+        GenerateParameterDocumentation(method, entityFullName);
+
+        CodeBuilder.AppendLine($"/// <returns>An <see cref=\"IQueryable{{T}}\" /> of <see cref=\"{entityFullName}\" /> entities matching the specified values.</returns>");
+    }
+
+    private void GenerateUniqueMethodDocumentation(Method method, string entityFullName)
+    {
+        var sourceName = ToXmlText(method.SourceName);
+
+        CodeBuilder.AppendLine("/// <summary>");
+
+        if (sourceName.HasValue())
+            CodeBuilder.AppendLine($"/// Gets the <see cref=\"{entityFullName}\" /> entity matching the unique index <c>{sourceName}</c>.");
+        else
+            CodeBuilder.AppendLine($"/// Gets the <see cref=\"{entityFullName}\" /> entity matching the unique {QueryExtensionTemplate.FormatPropertyList(method)} values.");
+
+        CodeBuilder.AppendLine("/// </summary>");
+
+        GenerateQueryableParameterDocumentation(entityFullName);
+        GenerateParameterDocumentation(method, entityFullName);
+    }
+
+    private void GenerateKeyMethodDocumentation(Method method, string entityFullName)
+    {
+        CodeBuilder.AppendLine("/// <summary>");
+        CodeBuilder.AppendLine($"/// Gets the <see cref=\"{entityFullName}\" /> entity matching the primary key.");
+        CodeBuilder.AppendLine("/// </summary>");
+
+        GenerateQueryableParameterDocumentation(entityFullName);
+        GenerateParameterDocumentation(method, entityFullName);
+    }
+
+    private void GenerateQueryableParameterDocumentation(string entityFullName)
+    {
+        CodeBuilder.AppendLine($"/// <param name=\"queryable\">The source query for <see cref=\"{entityFullName}\" /> entities.</param>");
+    }
+
+    private void GenerateCancellationTokenDocumentation()
+    {
+        CodeBuilder.AppendLine("/// <param name=\"cancellationToken\">A <see cref=\"CancellationToken\" /> to observe while waiting for the operation to complete.</param>");
+    }
+
+    private void GenerateSingleEntityReturnDocumentation(string entityFullName, bool async)
+    {
+        var asyncPrefix = async ? "A task that represents the asynchronous operation. The task result contains" : "";
+        var article = async ? " the" : "The";
+
+        CodeBuilder.AppendLine($"/// <returns>{asyncPrefix}{article} matching <see cref=\"{entityFullName}\" /> entity, or <see langword=\"null\" /> if no match is found.</returns>");
+    }
+
+    private void GenerateParameterDocumentation(Method method, string entityFullName)
     {
         foreach (var property in method.Properties)
         {
@@ -277,8 +336,39 @@ public class QueryExtensionTemplate : CodeTemplateBase
                 .ToCamelCase()
                 .ToSafeName();
 
-            CodeBuilder.AppendLine($"/// <param name=\"{paramName}\">The value to filter by.</param>");
+            var propertyName = property.PropertyName.ToSafeName();
+            var columnName = ToXmlText(property.ColumnName);
+
+            if (columnName.HasValue())
+                CodeBuilder.AppendLine($"/// <param name=\"{paramName}\">The value to match against <see cref=\"{entityFullName}.{propertyName}\" /> mapped to the <c>{columnName}</c> column.</param>");
+            else
+                CodeBuilder.AppendLine($"/// <param name=\"{paramName}\">The value to match against <see cref=\"{entityFullName}.{propertyName}\" />.</param>");
         }
+    }
+
+    private static string FormatPropertyList(Method method)
+    {
+        var values = method.Properties
+            .Select(property => ToXmlText(property.PropertyName.ToSafeName()) ?? string.Empty)
+            .ToList();
+
+        return values.Count switch
+        {
+            0 => "the generated criteria",
+            1 => $"<c>{values[0]}</c>",
+            2 => $"<c>{values[0]}</c> and <c>{values[1]}</c>",
+            _ => $"{string.Join(", ", values.Take(values.Count - 1).Select(value => $"<c>{value}</c>"))}, and <c>{values[^1]}</c>"
+        };
+    }
+
+    private string? GetQualifiedTableName()
+    {
+        if (_entity.TableName.IsNullOrEmpty())
+            return _entity.TableName;
+
+        return _entity.TableSchema.HasValue()
+            ? $"{_entity.TableSchema}.{_entity.TableName}"
+            : _entity.TableName;
     }
 
     private void AppendParameters(Method method)
@@ -290,11 +380,11 @@ public class QueryExtensionTemplate : CodeTemplateBase
             if (wrote)
                 CodeBuilder.Append(", ");
 
-            string paramName = property.PropertyName
+            var paramName = property.PropertyName
                 .ToCamelCase()
                 .ToSafeName();
 
-            string paramType = property.SystemType
+            var paramType = property.SystemType
                 .ToNullableType(property.IsNullable == true);
 
             CodeBuilder.Append($"{paramType} {paramName}");

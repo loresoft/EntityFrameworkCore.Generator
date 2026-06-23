@@ -8,7 +8,9 @@ The Entity Framework Core Generator tool is available on nuget.org via package n
 
 To install EntityFrameworkCore.Generator, run the following command in the console
 
-    dotnet tool install --global EntityFrameworkCore.Generator
+```Shell
+dotnet tool install --global EntityFrameworkCore.Generator
+```
 
 More information about NuGet package available at
 <https://nuget.org/packages/EntityFrameworkCore.Generator>
@@ -25,4 +27,6 @@ More information about NuGet package available at
 
 To generate source code files from your database, use the generate command with your connection string.
 
-    efg generate -c <ConnectionString>
+```Shell
+efg generate -c <ConnectionString>
+```

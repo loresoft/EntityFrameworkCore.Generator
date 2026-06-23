@@ -11,7 +11,7 @@ public class ProjectOptions : OptionsBase
     /// <summary>
     /// Initializes a new instance of the <see cref="ProjectOptions"/> class.
     /// </summary>
-    public ProjectOptions(VariableDictionary variables, string prefix)
+    public ProjectOptions(VariableDictionary variables, string? prefix)
         : base(variables, AppendPrefix(prefix, "Project"))
     {
         Namespace = "{Database.Name}";
@@ -25,7 +25,7 @@ public class ProjectOptions : OptionsBase
     /// <value>
     /// The project root namespace.
     /// </value>
-    public string Namespace
+    public string? Namespace
     {
         get => GetProperty();
         set => SetProperty(value);
@@ -37,7 +37,7 @@ public class ProjectOptions : OptionsBase
     /// <value>
     /// The project directory.
     /// </value>
-    public string Directory
+    public string? Directory
     {
         get => GetProperty();
         set => SetProperty(value);

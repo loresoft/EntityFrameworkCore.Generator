@@ -1,0 +1,77 @@
+project:
+  namespace: 'GeneratedProject.Core'
+  directory: .\
+  nullable: true
+  fileScopedNamespace: true
+database:
+  provider: Sqlite
+  connectionName: 'ConnectionStrings:GeneratorTest'
+data:
+  context:
+    name: 'GeneratedContext'
+    baseClass: DbContext
+    namespace: '{Project.Namespace}.Data'
+    directory: '{Project.Directory}\Data'
+    document: true
+  entity:
+    namespace: '{Project.Namespace}.Data.Entities'
+    directory: '{Project.Directory}\Data\Entities'
+    mappingAttributes: true
+    typeMapping:
+      - nativeType: geometry
+        systemType: NetTopologySuite.Geometries.Geometry
+      - nativeType: geography
+        systemType: NetTopologySuite.Geometries.Geometry
+    document: true
+  mapping:
+    namespace: '{Project.Namespace}.Data.Mapping'
+    directory: '{Project.Directory}\Data\Mapping'
+    document: true
+  query:
+    generate: true
+    indexPrefix: By
+    uniquePrefix: GetBy
+    namespace: '{Project.Namespace}.Data.Queries'
+    directory: '{Project.Directory}\Data\Queries'
+    document: true
+model:
+  shared:
+    namespace: '{Project.Namespace}.Domain.Models'
+    directory: '{Project.Directory}\Domain\{Entity.Name}\Models'
+    exclude:
+      properties:
+        - 'User\.PasswordHash$'
+        - 'User\.ResetHash$'
+        - 'User\.InviteHash$'
+  read:
+    generate: true
+    name: '{Entity.Name}ReadModel'
+    document: true
+  create:
+    generate: true
+    name: '{Entity.Name}CreateModel'
+    document: true
+    exclude:
+      entities:
+        - 'UserLogin'
+  update:
+    generate: true
+    name: '{Entity.Name}UpdateModel'
+    document: true
+    exclude:
+      entities:
+        - 'UserLogin'
+  mapper:
+    generate: true
+    name: '{Entity.Name}Profile'
+    baseClass: Profile
+    namespace: '{Project.Namespace}.Domain.Mapping'
+    directory: '{Project.Directory}\Domain\{Entity.Name}\Mapping'
+    document: true
+  validator:
+    generate: true
+    name: '{Model.Name}Validator'
+    baseClass: 'AbstractValidator<{Model.Name}>'
+    namespace: '{Project.Namespace}.Domain.Validation'
+    directory: '{Project.Directory}\Domain\{Entity.Name}\Validation'
+    document: true

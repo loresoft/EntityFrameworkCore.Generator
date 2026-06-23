@@ -1,21 +1,18 @@
-using System;
-using System.IO;
 using EntityFrameworkCore.Generator.Extensions;
 using EntityFrameworkCore.Generator.Metadata.Generation;
 using EntityFrameworkCore.Generator.Options;
 using EntityFrameworkCore.Generator.Parsing;
 using EntityFrameworkCore.Generator.Scripts;
 using EntityFrameworkCore.Generator.Templates;
-using Microsoft.EntityFrameworkCore.Design;
-using Microsoft.EntityFrameworkCore.Scaffolding;
-using Microsoft.EntityFrameworkCore.Scaffolding.Metadata;
-using Microsoft.EntityFrameworkCore.Storage;
-using Microsoft.Extensions.DependencyInjection;
+
 using Microsoft.Extensions.Logging;
+
+using SchemaSaurus.Metadata;
+using SchemaSaurus.Metadata.Provider;
 
 namespace EntityFrameworkCore.Generator;
 
-public class CodeGenerator : ICodeGenerator
+public partial class CodeGenerator : ICodeGenerator
 {
     private readonly ILoggerFactory _loggerFactory;
     private readonly ILogger _logger;
@@ -30,21 +27,21 @@ public class CodeGenerator : ICodeGenerator
         _synchronizer = new SourceSynchronizer(loggerFactory);
     }
 
-    public GeneratorOptions Options { get; set; }
+    public GeneratorOptions Options { get; set; } = null!;
 
-    public bool Generate(GeneratorOptions options)
+    public async Task<bool> GenerateAsync(GeneratorOptions options)
     {
         Options = options ?? throw new ArgumentNullException(nameof(options));
 
-        var databaseProviders = GetDatabaseProviders();
-        var databaseModel = GetDatabaseModel(databaseProviders.factory);
+        var databaseProvider = GetDatabaseProvider();
+        var databaseModel = await GetDatabaseModel(databaseProvider);
 
         if (databaseModel == null)
             throw new InvalidOperationException("Failed to create database model");
 
-        _logger.LogInformation("Loaded database model for: {databaseName}", databaseModel.DatabaseName);
+        LogLoadedDatabaseModel(_logger, databaseModel.DatabaseName);
 
-        var context = _modelGenerator.Generate(Options, databaseModel, databaseProviders.mapping);
+        var context = _modelGenerator.Generate(Options, databaseModel);
 
         _synchronizer.UpdateFromSource(context, options);
 
@@ -73,13 +70,11 @@ public class CodeGenerator : ICodeGenerator
         {
             Options.Variables.Set(entity);
 
-            var directory = Options.Data.Query.Directory;
+            var directory = Options.Data.Query.Directory ?? "Data\\Queries";
             var file = entity.EntityClass + "Extensions.cs";
             var path = Path.Combine(directory, file);
 
-            _logger.LogInformation(File.Exists(path)
-                ? "Updating query extensions class: {file}"
-                : "Creating query extensions class: {file}", file);
+            LogClassFileAction(_logger, File.Exists(path) ? "Updating" : "Creating", "query extensions", file);
 
             var template = new QueryExtensionTemplate(entity, Options);
             template.WriteCode(path);
@@ -97,13 +92,11 @@ public class CodeGenerator : ICodeGenerator
         {
             Options.Variables.Set(entity);
 
-            var directory = Options.Data.Mapping.Directory;
+            var directory = Options.Data.Mapping.Directory ?? "Data\\Mapping";
             var file = entity.MappingClass + ".cs";
             var path = Path.Combine(directory, file);
 
-            _logger.LogInformation(File.Exists(path)
-                ? "Updating mapping class: {file}"
-                : "Creating mapping class: {file}", file);
+            LogClassFileAction(_logger, File.Exists(path) ? "Updating" : "Creating", "mapping", file);
 
             var template = new MappingClassTemplate(entity, Options);
             template.WriteCode(path);
@@ -121,13 +114,11 @@ public class CodeGenerator : ICodeGenerator
         {
             Options.Variables.Set(entity);
 
-            var directory = Options.Data.Entity.Directory;
+            var directory = Options.Data.Entity.Directory ?? "Data\\Entities";
             var file = entity.EntityClass + ".cs";
             var path = Path.Combine(directory, file);
 
-            _logger.LogInformation(File.Exists(path)
-                ? "Updating entity class: {file}"
-                : "Creating entity class: {file}", file);
+            LogClassFileAction(_logger, File.Exists(path) ? "Updating" : "Creating", "entity", file);
 
             var template = new EntityClassTemplate(entity, Options);
             template.WriteCode(path);
@@ -153,13 +144,11 @@ public class CodeGenerator : ICodeGenerator
     private void GenerateDataContext(EntityContext entityContext)
     {
 
-        var directory = Options.Data.Context.Directory;
+        var directory = Options.Data.Context.Directory ?? "Data";
         var file = entityContext.ContextClass + ".cs";
         var path = Path.Combine(directory, file);
 
-        _logger.LogInformation(File.Exists(path)
-            ? "Updating data context class: {file}"
-            : "Creating data context class: {file}", file);
+        LogClassFileAction(_logger, File.Exists(path) ? "Updating" : "Creating", "data context", file);
 
         var template = new DataContextTemplate(entityContext, Options);
         template.WriteCode(path);
@@ -170,7 +159,7 @@ public class CodeGenerator : ICodeGenerator
     {
         foreach (var entity in entityContext.Entities)
         {
-            if (entity.Models.Count <= 0)
+            if (entity.Models.Count == 0)
                 continue;
 
             Options.Variables.Set(entity);
@@ -190,14 +179,11 @@ public class CodeGenerator : ICodeGenerator
         {
             Options.Variables.Set(model);
 
-            var directory = GetModelDirectory(model);
+            var directory = GetModelDirectory(model) ?? "Data\\Models";
             var file = model.ModelClass + ".cs";
             var path = Path.Combine(directory, file);
 
-            _logger.LogInformation(File.Exists(path)
-                ? "Updating model class: {file}"
-                : "Creating model class: {file}", file);
-
+            LogClassFileAction(_logger, File.Exists(path) ? "Updating" : "Creating", "model", file);
 
             var template = new ModelClassTemplate(model, Options);
             template.WriteCode(path);
@@ -207,17 +193,21 @@ public class CodeGenerator : ICodeGenerator
 
     }
 
-    private string GetModelDirectory(Model model)
+    private string? GetModelDirectory(Model model)
     {
         if (model.ModelType == ModelType.Create)
+        {
             return Options.Model.Create.Directory.HasValue()
                 ? Options.Model.Create.Directory
                 : Options.Model.Shared.Directory;
+        }
 
         if (model.ModelType == ModelType.Update)
+        {
             return Options.Model.Update.Directory.HasValue()
                 ? Options.Model.Update.Directory
                 : Options.Model.Shared.Directory;
+        }
 
         return Options.Model.Read.Directory.HasValue()
             ? Options.Model.Read.Directory
@@ -238,13 +228,11 @@ public class CodeGenerator : ICodeGenerator
             if (model.ModelType == ModelType.Read)
                 continue;
 
-            var directory = Options.Model.Validator.Directory;
+            var directory = Options.Model.Validator.Directory ?? "Data\\Validation";
             var file = model.ValidatorClass + ".cs";
             var path = Path.Combine(directory, file);
 
-            _logger.LogInformation(File.Exists(path)
-                ? "Updating validation class: {file}"
-                : "Creating validation class: {file}", file);
+            LogClassFileAction(_logger, File.Exists(path) ? "Updating" : "Creating", "validation", file);
 
             var template = new ValidatorClassTemplate(model, Options);
             template.WriteCode(path);
@@ -259,13 +247,11 @@ public class CodeGenerator : ICodeGenerator
         if (!Options.Model.Mapper.Generate)
             return;
 
-        var directory = Options.Model.Mapper.Directory;
+        var directory = Options.Model.Mapper.Directory ?? "Data\\Mapper";
         var file = entity.MapperClass + ".cs";
         var path = Path.Combine(directory, file);
 
-        _logger.LogInformation(File.Exists(path)
-            ? "Updating object mapper class: {file}"
-            : "Creating object mapper class: {file}", file);
+        LogClassFileAction(_logger, File.Exists(path) ? "Updating" : "Creating", "mapper", file);
 
         var template = new MapperClassTemplate(entity, Options);
         template.WriteCode(path);
@@ -311,7 +297,7 @@ public class CodeGenerator : ICodeGenerator
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error Running Model Template: {message}", ex.Message);
+                LogErrorRunningTemplate(_logger, ex, "Model", ex.Message);
             }
         }
     }
@@ -341,14 +327,14 @@ public class CodeGenerator : ICodeGenerator
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error Running Entity Template: {message}", ex.Message);
+                LogErrorRunningTemplate(_logger, ex, "Entity", ex.Message);
             }
         }
     }
 
     private void GenerateContextScriptTemplates(EntityContext entityContext)
     {
-        if (Options?.Script?.Context == null || Options.Script.Context.Count !< 0)
+        if (Options?.Script?.Context == null || Options.Script.Context.Count! < 0)
             return;
 
         foreach (var templateOption in Options.Script.Context)
@@ -363,7 +349,7 @@ public class CodeGenerator : ICodeGenerator
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error Running Context Template: {message}", ex.Message);
+                LogErrorRunningTemplate(_logger, ex, "Context", ex.Message);
             }
         }
     }
@@ -375,30 +361,36 @@ public class CodeGenerator : ICodeGenerator
         if (File.Exists(templatePath))
             return true;
 
-        _logger.LogWarning("Template '{template}' could not be found.", templatePath);
+        LogTemplateNotFound(_logger, templatePath);
         return false;
     }
 
 
-    private DatabaseModel GetDatabaseModel(IDatabaseModelFactory factory)
+    private async Task<DatabaseModel> GetDatabaseModel(IDatabaseSchemaReader factory)
     {
-        _logger.LogInformation("Loading database model ...");
+        LogLoadingDatabaseModel(_logger);
 
         var database = Options.Database;
 
         var connectionString = ResolveConnectionString(database);
+        if (string.IsNullOrEmpty(connectionString))
+            throw new InvalidOperationException("Could not find connection string.");
 
-        var options = new DatabaseModelFactoryOptions(database.Tables, database.Schemas);
+        var options = new SchemaReaderOptions
+        {
+            Schemas = Options.Database.Schemas,
+            Tables = Options.Database.Tables
+        };
 
-        return factory.Create(connectionString, options);
+        return await factory.ReadAsync(connectionString, options);
     }
 
-    private string ResolveConnectionString(DatabaseOptions database)
+    private static string? ResolveConnectionString(DatabaseOptions database)
     {
         if (database.ConnectionString.HasValue())
             return database.ConnectionString;
 
-        if (database.UserSecretsId.HasValue())
+        if (database.UserSecretsId.HasValue() && database.ConnectionName.HasValue())
         {
             var secretsStore = new SecretsStore(database.UserSecretsId);
             if (secretsStore.ContainsKey(database.ConnectionName))
@@ -409,82 +401,39 @@ public class CodeGenerator : ICodeGenerator
     }
 
 
-    private (IDatabaseModelFactory factory, IRelationalTypeMappingSource mapping) GetDatabaseProviders()
+    private IDatabaseSchemaReader GetDatabaseProvider()
     {
         var provider = Options.Database.Provider;
 
-        _logger.LogDebug("Creating database model factory for: {provider}", provider);
+        LogCreatingDatabaseModelFactory(_logger, provider);
 
-        // start a new service container to create the database model factory
-        var services = new ServiceCollection()
-            .AddSingleton(_loggerFactory)
-            .AddEntityFrameworkDesignTimeServices();
-
-        switch (provider)
+        return provider switch
         {
-            case DatabaseProviders.SqlServer:
-                ConfigureSqlServerServices(services);
-                break;
-            case DatabaseProviders.PostgreSQL:
-                ConfigurePostgresServices(services);
-                break;
-            case DatabaseProviders.MySQL:
-                ConfigureMySqlServices(services);
-                break;
-            case DatabaseProviders.Sqlite:
-                ConfigureSqliteServices(services);
-                break;
-            case DatabaseProviders.Oracle:
-                ConfigureOracleServices(services);
-                break;
-            default:
-                throw new NotSupportedException($"The specified provider '{provider}' is not supported.");
-        }
-
-        var serviceProvider = services
-            .BuildServiceProvider();
-
-        var databaseModelFactory = serviceProvider
-            .GetRequiredService<IDatabaseModelFactory>();
-
-        var typeMappingSource = serviceProvider
-            .GetRequiredService<IRelationalTypeMappingSource>();
-
-        return (databaseModelFactory, typeMappingSource);
+            DatabaseProviders.SqlServer => new SchemaSaurus.SqlServer.SqlServerSchemaReader(),
+            DatabaseProviders.PostgreSQL => new SchemaSaurus.PostgreSql.PostgreSqlSchemaReader(),
+            DatabaseProviders.MySQL => new SchemaSaurus.MySql.MySqlSchemaReader(),
+            DatabaseProviders.Sqlite => new SchemaSaurus.Sqlite.SqliteSchemaReader(),
+            DatabaseProviders.Oracle => new SchemaSaurus.Oracle.OracleSchemaReader(),
+            _ => throw new NotSupportedException($"The specified provider '{provider}' is not supported."),
+        };
     }
 
 
-    private void ConfigureMySqlServices(IServiceCollection services)
-    {
-        var designTimeServices = new Pomelo.EntityFrameworkCore.MySql.Design.Internal.MySqlDesignTimeServices();
-        designTimeServices.ConfigureDesignTimeServices(services);
-            services.AddEntityFrameworkMySqlNetTopologySuite();
-    }
+    [LoggerMessage(EventId = 1, Level = LogLevel.Information, Message = "Loaded database model for: {databaseName}")]
+    private static partial void LogLoadedDatabaseModel(ILogger logger, string? databaseName);
 
-    private void ConfigurePostgresServices(IServiceCollection services)
-    {
-        var designTimeServices = new Npgsql.EntityFrameworkCore.PostgreSQL.Design.Internal.NpgsqlDesignTimeServices();
-        designTimeServices.ConfigureDesignTimeServices(services);
-            services.AddEntityFrameworkNpgsqlNetTopologySuite();
-    }
+    [LoggerMessage(EventId = 2, Level = LogLevel.Information, Message = "{action} {kind} class: {file}")]
+    private static partial void LogClassFileAction(ILogger logger, string action, string kind, string file);
 
-    private void ConfigureSqlServerServices(IServiceCollection services)
-    {
-        var designTimeServices = new Microsoft.EntityFrameworkCore.SqlServer.Design.Internal.SqlServerDesignTimeServices();
-        designTimeServices.ConfigureDesignTimeServices(services);
-            services.AddEntityFrameworkSqlServerNetTopologySuite();
-    }
+    [LoggerMessage(EventId = 3, Level = LogLevel.Error, Message = "Error Running {templateType} Template: {errorMessage}")]
+    private static partial void LogErrorRunningTemplate(ILogger logger, Exception exception, string templateType, string errorMessage);
 
-    private void ConfigureSqliteServices(IServiceCollection services)
-    {
-        var designTimeServices = new Microsoft.EntityFrameworkCore.Sqlite.Design.Internal.SqliteDesignTimeServices();
-        designTimeServices.ConfigureDesignTimeServices(services);
-            services.AddEntityFrameworkSqliteNetTopologySuite();
-    }
+    [LoggerMessage(EventId = 4, Level = LogLevel.Warning, Message = "Template '{template}' could not be found.")]
+    private static partial void LogTemplateNotFound(ILogger logger, string? template);
 
-    private void ConfigureOracleServices(IServiceCollection services)
-    {
-        var designTimeServices = new Oracle.EntityFrameworkCore.Design.Internal.OracleDesignTimeServices();
-        designTimeServices.ConfigureDesignTimeServices(services);
-    }
+    [LoggerMessage(EventId = 5, Level = LogLevel.Information, Message = "Loading database model ...")]
+    private static partial void LogLoadingDatabaseModel(ILogger logger);
+
+    [LoggerMessage(EventId = 6, Level = LogLevel.Debug, Message = "Creating database model factory for: {provider}")]
+    private static partial void LogCreatingDatabaseModelFactory(ILogger logger, DatabaseProviders provider);
 }
