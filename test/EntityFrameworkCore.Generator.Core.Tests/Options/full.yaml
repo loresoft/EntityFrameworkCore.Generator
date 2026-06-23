@@ -38,6 +38,7 @@ data:
     relationshipNaming: Plural
     document: false
     prefixWithSchemaName: false
+    deleteUnusedFiles: false
     typeMapping:
       - nativeType: geometry
         systemType: NetTopologySuite.Geometries.Geometry
@@ -52,6 +53,7 @@ data:
     namespace: '{Project.Namespace}.Data.Mapping'
     directory: '{Project.Directory}\Data\Mapping'
     document: false
+    deleteUnusedFiles: false
   query:
     generate: true
     indexPrefix: By

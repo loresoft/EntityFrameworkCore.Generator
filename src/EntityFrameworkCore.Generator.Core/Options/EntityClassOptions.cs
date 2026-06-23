@@ -76,4 +76,10 @@ public class EntityClassOptions : ClassOptionsBase
     /// Gets or sets the column annotation name used to override generated .NET system type names.
     /// </summary>
     public string? SystemTypeAnnotation { get; set; }
+
+    /// <summary>
+    /// If true, files without a corresponding database table will be removed in the folder
+    /// </summary>
+    [DefaultValue(false)]
+    public bool DeleteUnusedFiles { get; set; }
 }
