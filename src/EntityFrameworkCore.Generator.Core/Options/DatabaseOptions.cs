@@ -1,4 +1,5 @@
-using System.Collections.Generic;
+// Ignore Spelling: Schemas
+
 using System.ComponentModel;
 
 namespace EntityFrameworkCore.Generator.Options;
@@ -13,14 +14,14 @@ public class DatabaseOptions : OptionsBase
     /// </summary>
     /// <param name="variables">The shared variables dictionary.</param>
     /// <param name="prefix">The variable key prefix.</param>
-    public DatabaseOptions(VariableDictionary variables, string prefix)
+    public DatabaseOptions(VariableDictionary variables, string? prefix)
         : base(variables, AppendPrefix(prefix, "Database"))
     {
         Provider = DatabaseProviders.SqlServer;
         TableNaming = TableNaming.Singular;
-        Tables = new List<string>();
-        Schemas = new List<string>();
-        Exclude = new List<MatchOptions>();
+        Tables = [];
+        Schemas = [];
+        Exclude = new DatabaseMatchOptions(Variables, Prefix);
     }
 
     /// <summary>
@@ -29,7 +30,7 @@ public class DatabaseOptions : OptionsBase
     /// <value>
     /// The name of the database.
     /// </value>
-    public string Name
+    public string? Name
     {
         get => GetProperty();
         set => SetProperty(value);
@@ -52,11 +53,7 @@ public class DatabaseOptions : OptionsBase
     /// <value>
     /// The connection string for reverse engineering the database
     /// </value>
-    public string ConnectionString
-    {
-        get => GetProperty();
-        set => SetProperty(value);
-    }
+    public string? ConnectionString { get; set; }
 
     /// <summary>
     /// Gets or sets the name of the connection in the user secret file.
@@ -64,11 +61,7 @@ public class DatabaseOptions : OptionsBase
     /// <value>
     /// The name of the connection.
     /// </value>
-    public string ConnectionName
-    {
-        get => GetProperty();
-        set => SetProperty(value);
-    }
+    public string? ConnectionName { get; set; }
 
     /// <summary>
     /// Gets or sets the user secrets identifier. A user secrets ID is unique value used to store and identify a collection of secret configuration values.
@@ -76,11 +69,7 @@ public class DatabaseOptions : OptionsBase
     /// <value>
     /// The user secrets identifier.
     /// </value>
-    public string UserSecretsId
-    {
-        get => GetProperty();
-        set => SetProperty(value);
-    }
+    public string? UserSecretsId { get; set; }
 
 
     /// <summary>
@@ -116,6 +105,6 @@ public class DatabaseOptions : OptionsBase
     /// <value>
     /// The exclude table options.
     /// </value>
-    public List<MatchOptions> Exclude { get; }
+    public DatabaseMatchOptions Exclude { get; }
 
 }

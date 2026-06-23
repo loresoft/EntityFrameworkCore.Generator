@@ -84,3 +84,10 @@ WHEN MATCHED THEN
     UPDATE SET t.[Name] = s.[Name], t.[Description] = s.[Description]
 OUTPUT $action as [Action];
 
+-- Table [dbo].[CitiesSpatial] data
+
+INSERT INTO [dbo].[CitiesSpatial] VALUES
+('Sydney', 'POINT(151.2 -33.8)', 'POINT(151.2 -33.8)'),
+('Athens', 'POINT(23.7 38)', 'POINT(23.7 38)'),
+('Beijing', 'POINT(116.4 39.9)', 'POINT(116.4 39.9)'),
+('London', 'POINT(-0.15 51.5)', 'POINT(-0.15 51.5)'); 

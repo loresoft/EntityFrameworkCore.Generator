@@ -31,7 +31,7 @@ public abstract class ModelBase : ClassBase
     /// <value>
     /// The include selection options.
     /// </value>
-    public SelectionModel Include { get; set; }
+    public SelectionModel? Include { get; set; }
 
     /// <summary>
     /// Gets or sets the exclude selection options.
@@ -39,5 +39,5 @@ public abstract class ModelBase : ClassBase
     /// <value>
     /// The exclude selection options.
     /// </value>
-    public SelectionModel Exclude { get; set; }
+    public SelectionModel? Exclude { get; set; }
 }

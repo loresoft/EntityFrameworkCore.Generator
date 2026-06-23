@@ -1,10 +1,8 @@
-using System.IO;
 using System.Text;
 
+using EntityFrameworkCore.Generator.Extensions;
 using EntityFrameworkCore.Generator.Options;
 using EntityFrameworkCore.Generator.Parsing;
-
-using Microsoft.EntityFrameworkCore.Infrastructure;
 
 namespace EntityFrameworkCore.Generator.Templates;
 
@@ -29,7 +27,7 @@ public abstract class CodeTemplateBase
         var fullPath = Path.GetFullPath(path);
         var directory = Path.GetDirectoryName(fullPath);
 
-        if (!Directory.Exists(directory))
+        if (directory.HasValue() && !Directory.Exists(directory))
             Directory.CreateDirectory(directory);
 
         var output = WriteCode();
@@ -41,4 +39,15 @@ public abstract class CodeTemplateBase
     }
 
     public abstract string WriteCode();
+
+    protected static string? ToXmlText(string? value)
+    {
+        if (value.IsNullOrEmpty())
+            return value;
+
+        return value
+            .Replace("&", "&amp;")
+            .Replace("<", "&lt;")
+            .Replace(">", "&gt;");
+    }
 }

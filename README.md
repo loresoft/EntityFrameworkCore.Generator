@@ -6,6 +6,8 @@
 
 [![NuGet Version](https://img.shields.io/nuget/v/EntityFrameworkCore.Generator.svg?style=flat-square)](https://www.nuget.org/packages/EntityFrameworkCore.Generator/)
 
+[![Coverage Status](https://coveralls.io/repos/github/loresoft/EntityFrameworkCore.Generator/badge.svg)](https://coveralls.io/github/loresoft/EntityFrameworkCore.Generator)
+
 ## Features
 
 - Entity Framework Core database first model generation
@@ -128,6 +130,7 @@ Entity Framework Core Generator supports the following databases.
 - PostgreSQL
 - MySQL
 - Sqlite
+- Oracle
 
 The provider can be set via command line or via the [configuration file](https://efg.loresoft.com/configuration/).
 
@@ -147,7 +150,7 @@ database:
 
 ## Database Schema
 
-The database schema is loaded from the metadata model factory implementation of `IDatabaseModelFactory`.  Entity Framework Core Generator uses the implemented interface from each of the supported providers similar to how `ef dbcontext scaffold` works.
+The database schema is loaded from [SchemaSaurus](https://github.com/loresoft/SchemaSaurus) for each supported provider.
 
 ## View Models
 
@@ -155,11 +158,43 @@ Entity Framework Core Generator supports generating [Read](https://efg.loresoft.
 
 ## Change Log
 
+### Version 8.0
+
+- add support for .NET 10 while continuing to target .NET 8
+- update generated Entity Framework dependencies for Entity Framework Core 10
+- load database schema metadata from [SchemaSaurus](https://github.com/loresoft/SchemaSaurus) instead of Entity Framework Core Design
+- remove direct Entity Framework Core dependencies from the tool; Entity Framework Core packages are only needed by generated projects
+- add Oracle database provider support
+- add entity `typeMapping` configuration for mapping native database types to generated .NET types
+- generated projects may need matching current Entity Framework Core and provider package versions
+
+### Version 7.0
+
+- support for .net 9
+- update project to use nullable reference types
+- Breaking change to configuration file.  The `database.exclude` section now has a `database.exclude.tables` and `database.exclude.columns` section.  
+
+configuration file update example:
+
+```YAML
+database:
+  # exclude tables or columns
+  exclude:
+    # list of expressions for tables to exclude, source is Schema.TableName
+    tables:
+      - exact: dbo.SchemaVersions
+      - regex: dbo\.SchemaVersions$
+    # list of expressions for columns to exclude, source is Schema.TableName.ColumnName
+    columns:
+      - exact: dbo.User.Password
+      - regex: dbo\.User\.Password$
+```
+
 ### Version 6.0
 
 - upgrade to .net 8
 - add option to turn off temporal table mapping
-- add rowversion options, ByteArray|Long|ULong 
+- add rowversion options, ByteArray|Long|ULong
 - add script template merge
 
 ### Version 5.0

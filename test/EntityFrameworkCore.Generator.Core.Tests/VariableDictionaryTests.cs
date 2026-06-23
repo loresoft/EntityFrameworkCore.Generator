@@ -1,6 +1,6 @@
-﻿using System;
+using System;
 
-using FluentAssertions;
+using EntityFrameworkCore.Generator.Metadata.Generation;
 
 using Xunit;
 
@@ -17,7 +17,7 @@ public class VariableDictionaryTests
         dictionary.Set("Project.Namespace", "{Database.Name}.Core");
 
         var result = dictionary.Get("Project.Namespace");
-        result.Should().Be("Tester.Core");
+        Assert.Equal("Tester.Core", result);
     }
 
     [Fact]
@@ -31,7 +31,7 @@ public class VariableDictionaryTests
         dictionary.Set("Entity.Namespace", "{Project.Namespace}.Data");
 
         var result = dictionary.Get("Entity.Namespace");
-        result.Should().Be("Tester.Core.Data");
+        Assert.Equal("Tester.Core.Data", result);
     }
 
     [Fact]
@@ -42,7 +42,7 @@ public class VariableDictionaryTests
         dictionary.Set("Project.Namespace", "{Database.Name}.Core");
 
         var result = dictionary.Get("Project.Namespace");
-        result.Should().Be(".Core");
+        Assert.Equal(".Core", result);
     }
 
     [Fact]
@@ -54,7 +54,7 @@ public class VariableDictionaryTests
         dictionary.Set("Project.Namespace", "{Database.Name.Core");
 
         Action action = () => dictionary.Get("Project.Namespace");
-        action.Should().Throw<FormatException>();
+        Assert.Throws<FormatException>(action);
     }
 
 
@@ -67,7 +67,7 @@ public class VariableDictionaryTests
         dictionary.Set("Project.Namespace", "{Database.Name}}.Core");
 
         Action action = () => dictionary.Get("Project.Namespace");
-        action.Should().Throw<FormatException>();
+        Assert.Throws<FormatException>(action);
     }
 
 
@@ -80,7 +80,7 @@ public class VariableDictionaryTests
         dictionary.Set("Project.Namespace", "{{{Database.Name}.Core}}");
 
         var result = dictionary.Get("Project.Namespace");
-        result.Should().Be("{Tester.Core}");
+        Assert.Equal("{Tester.Core}", result);
     }
 
     [Fact]
@@ -93,6 +93,32 @@ public class VariableDictionaryTests
         dictionary.Set("Project.Namespace", "{Database.Name}.Core");
 
         var result = dictionary.Get("Project.Namespace");
-        result.Should().Be(".Core");
+        Assert.Equal(".Core", result);
+    }
+
+    [Fact]
+    public void EntityPluralName()
+    {
+        var dictionary = new VariableDictionary();
+        dictionary.Set("Project.Directory", @"c:\projects\tester");
+
+        var entity = new Entity
+        {
+            TableName = "Person",
+            TableSchema = "dbo",
+            EntityClass = "Person",
+            EntityPlural = "People"
+        };
+
+        dictionary.Set(entity);
+
+        Assert.Equal("Person", dictionary.Get(VariableConstants.EntityName));
+        Assert.Equal("People", dictionary.Get(VariableConstants.EntityPlural));
+        Assert.Equal(@"c:\projects\tester\Domain\People\Models", dictionary.Evaluate(@"{Project.Directory}\Domain\{Entity.Plural}\Models"));
+
+        dictionary.Remove(entity);
+
+        Assert.Null(dictionary.Get(VariableConstants.EntityName));
+        Assert.Null(dictionary.Get(VariableConstants.EntityPlural));
     }
 }

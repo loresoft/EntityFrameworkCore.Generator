@@ -2,12 +2,10 @@ using System.ComponentModel;
 
 using EntityFrameworkCore.Generator.Options;
 
-using Microsoft.EntityFrameworkCore;
-
 namespace EntityFrameworkCore.Generator.Serialization;
 
 /// <summary>
-/// EntityFramework <see cref="DbContext"/> generation options
+/// EntityFramework <c>DbContext</c> generation options
 /// </summary>
 /// <seealso cref="ClassOptionsBase" />
 public class ContextClass : ClassBase
@@ -24,15 +22,6 @@ public class ContextClass : ClassBase
         BaseClass = "DbContext";
         PropertyNaming = ContextNaming.Plural;
     }
-
-    /// <summary>
-    /// Gets or sets the base class to inherit from. Default is <see cref="DbContext"/>.
-    /// </summary>
-    /// <value>
-    /// The base class.
-    /// </value>
-    [DefaultValue("DbContext")]
-    public new string BaseClass { get; set; }
 
     /// <summary>
     /// Gets or sets the property naming strategy for entity data set property.

@@ -1,9 +1,7 @@
-using Microsoft.EntityFrameworkCore;
-
 namespace EntityFrameworkCore.Generator.Options;
 
 /// <summary>
-/// Naming strategies for entity data set property on the generated <see cref="DbContext"/>
+/// Naming strategies for entity data set property on the generated <c>DbContext</c>
 /// </summary>
 public enum ContextNaming
 {

@@ -1,6 +1,3 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-
 namespace EntityFrameworkCore.Generator.Metadata.Generation;
 
 /// <summary>
@@ -46,10 +43,7 @@ public class PropertyCollection
     /// <value>
     /// The primary keys properties.
     /// </value>
-    public IEnumerable<Property> PrimaryKeys
-    {
-        get { return this.Where(p => p.IsPrimaryKey == true); }
-    }
+    public IEnumerable<Property> PrimaryKeys => this.Where(p => p.IsPrimaryKey == true);
 
     /// <summary>
     /// Gets the foreign keys properties.
@@ -57,18 +51,18 @@ public class PropertyCollection
     /// <value>
     /// The foreign keys.
     /// </value>
-    public IEnumerable<Property> ForeignKeys
-    {
-        get { return this.Where(p => p.IsForeignKey == true); }
-    }
+    public IEnumerable<Property> ForeignKeys => this.Where(p => p.IsForeignKey == true);
 
     /// <summary>
     /// Gets the property by column name
     /// </summary>
     /// <param name="columnName">Name of the column.</param>
     /// <returns></returns>
-    public Property ByColumn(string columnName)
+    public Property? ByColumn(string? columnName)
     {
+        if (string.IsNullOrEmpty(columnName))
+            return null;
+
         return this.FirstOrDefault(x => x.ColumnName == columnName);
     }
 
@@ -77,8 +71,11 @@ public class PropertyCollection
     /// </summary>
     /// <param name="propertyName">Name of the property.</param>
     /// <returns></returns>
-    public Property ByProperty(string propertyName)
+    public Property? ByProperty(string? propertyName)
     {
+        if (string.IsNullOrEmpty(propertyName))
+            return null;
+
         return this.FirstOrDefault(x => x.PropertyName == propertyName);
     }
 }

@@ -1,12 +1,13 @@
-﻿using EntityFrameworkCore.Generator.Metadata.Generation;
+using EntityFrameworkCore.Generator.Metadata.Generation;
 using EntityFrameworkCore.Generator.Options;
+
 using Microsoft.Extensions.Logging;
 
 namespace EntityFrameworkCore.Generator.Scripts;
 
 public class ContextScriptTemplate : ScriptTemplateBase<ContextScriptVariables>
 {
-    private EntityContext _entityContext;
+    private EntityContext _entityContext = null!;
 
     public ContextScriptTemplate(ILoggerFactory loggerFactory, GeneratorOptions generatorOptions, TemplateOptions templateOptions)
         : base(loggerFactory, generatorOptions, templateOptions)
@@ -15,6 +16,8 @@ public class ContextScriptTemplate : ScriptTemplateBase<ContextScriptVariables>
 
     public void RunScript(EntityContext entityContext)
     {
+        ArgumentNullException.ThrowIfNull(entityContext);
+
         _entityContext = entityContext;
 
         WriteCode();

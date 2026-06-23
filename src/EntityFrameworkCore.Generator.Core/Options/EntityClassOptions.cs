@@ -11,7 +11,7 @@ public class EntityClassOptions : ClassOptionsBase
     /// <summary>
     /// Initializes a new instance of the <see cref="EntityClassOptions"/> class.
     /// </summary>
-    public EntityClassOptions(VariableDictionary variables, string prefix)
+    public EntityClassOptions(VariableDictionary variables, string? prefix)
         : base(variables, AppendPrefix(prefix, "Entity"))
     {
         Namespace = "{Project.Namespace}.Data.Entities";
@@ -20,32 +20,10 @@ public class EntityClassOptions : ClassOptionsBase
         RelationshipNaming = RelationshipNaming.Plural;
         EntityNaming = EntityNaming.Singular;
         PrefixWithSchemaName = false;
+        SystemTypeAnnotation = "Generator:SystemType";
 
         Renaming = new SelectionOptions(variables, AppendPrefix(prefix, "Naming"));
-    }
-
-    /// <summary>
-    /// Gets or sets the entity class name template.
-    /// </summary>
-    /// <value>
-    /// The entity class name template.
-    /// </value>
-    public string Name
-    {
-        get => GetProperty();
-        set => SetProperty(value);
-    }
-
-    /// <summary>
-    /// Gets or sets the base class to inherit from.
-    /// </summary>
-    /// <value>
-    /// The base class.
-    /// </value>
-    public string BaseClass
-    {
-        get => GetProperty();
-        set => SetProperty(value);
+        TypeMapping = [];
     }
 
     /// <summary>
@@ -79,6 +57,25 @@ public class EntityClassOptions : ClassOptionsBase
     /// The renaming expressions.
     /// </value>
     public SelectionOptions Renaming { get; }
+
+    /// <summary>
+    /// Gets or sets if mapping attributes are included on the entity classes. Default false
+    /// </summary>
+    /// <value>
+    /// If mapping attributes are included.
+    /// </value>
+    [DefaultValue(false)]
+    public bool MappingAttributes { get; set; }
+
+    /// <summary>
+    /// Gets the native type to system type mappings.
+    /// </summary>
+    public IList<TypeMappingOptions> TypeMapping { get; }
+
+    /// <summary>
+    /// Gets or sets the column annotation name used to override generated .NET system type names.
+    /// </summary>
+    public string? SystemTypeAnnotation { get; set; }
 
     /// <summary>
     /// Attributes which are added to the generated relationships, ;-separated

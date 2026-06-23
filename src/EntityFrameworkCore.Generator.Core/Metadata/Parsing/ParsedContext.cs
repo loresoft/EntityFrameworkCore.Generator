@@ -1,4 +1,3 @@
-﻿using System.Collections.Generic;
 using System.Diagnostics;
 
 namespace EntityFrameworkCore.Generator.Metadata.Parsing;
@@ -8,10 +7,10 @@ public class ParsedContext
 {
     public ParsedContext()
     {
-        Properties = new List<ParsedEntitySet>();
+        Properties = [];
     }
 
-    public string ContextClass { get; set; }
+    public string ContextClass { get; set; } = null!;
 
     public List<ParsedEntitySet> Properties { get; }
 }

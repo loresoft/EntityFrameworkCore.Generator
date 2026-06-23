@@ -1,18 +1,19 @@
 using System;
+
 using FluentValidation;
 using Tracker.Core.Domain.Models;
 
 namespace Tracker.Core.Domain.Validation;
 
 /// <summary>
-/// Validator class for <see cref="AuditUpdateModel"/> .
+/// Defines FluentValidation rules for the <see cref="Tracker.Core.Domain.Models.AuditUpdateModel" /> update model for the <c>Audit</c> entity mapped to the <c>dbo.Audit</c> table.
 /// </summary>
 [RegisterSingleton<IValidator<AuditUpdateModel>>]
 public partial class AuditUpdateModelValidator
     : AbstractValidator<AuditUpdateModel>
 {
     /// <summary>
-    /// Initializes a new instance of the <see cref="AuditUpdateModelValidator"/> class.
+    /// Initializes a new instance of the <see cref="Tracker.Core.Domain.Validation.AuditUpdateModelValidator"/> class and configures validation rules for <see cref="Tracker.Core.Domain.Models.AuditUpdateModel" />.
     /// </summary>
     public AuditUpdateModelValidator()
     {

@@ -1,77 +1,76 @@
 using System;
 using System.Collections.Generic;
 
-// ReSharper disable once CheckNamespace
 namespace Tracker.Core.Domain.Models;
 
 /// <summary>
-/// View Model class
+/// Represents a create model for the <c>User</c> entity mapped to the <c>User</c> table.
 /// </summary>
 public partial class UserCreateModel
     : EntityCreateModel
 {
     #region Generated Properties
     /// <summary>
-    /// Gets or sets the property value for 'EmailAddress'.
+    /// Gets or sets the <c>EmailAddress</c> value mapped from the <c>EmailAddress</c> column.
     /// </summary>
     /// <value>
-    /// The property value for 'EmailAddress'.
+    /// The <c>EmailAddress</c> model value.
     /// </value>
     public string EmailAddress { get; set; } = null!;
 
     /// <summary>
-    /// Gets or sets the property value for 'IsEmailAddressConfirmed'.
+    /// Gets or sets the <c>IsEmailAddressConfirmed</c> value mapped from the <c>IsEmailAddressConfirmed</c> column.
     /// </summary>
     /// <value>
-    /// The property value for 'IsEmailAddressConfirmed'.
+    /// The <c>IsEmailAddressConfirmed</c> model value.
     /// </value>
     public bool IsEmailAddressConfirmed { get; set; }
 
     /// <summary>
-    /// Gets or sets the property value for 'DisplayName'.
+    /// Gets or sets the <c>DisplayName</c> value mapped from the <c>DisplayName</c> column.
     /// </summary>
     /// <value>
-    /// The property value for 'DisplayName'.
+    /// The <c>DisplayName</c> model value.
     /// </value>
     public string DisplayName { get; set; } = null!;
 
     /// <summary>
-    /// Gets or sets the property value for 'AccessFailedCount'.
+    /// Gets or sets the <c>AccessFailedCount</c> value mapped from the <c>AccessFailedCount</c> column.
     /// </summary>
     /// <value>
-    /// The property value for 'AccessFailedCount'.
+    /// The <c>AccessFailedCount</c> model value.
     /// </value>
     public int AccessFailedCount { get; set; }
 
     /// <summary>
-    /// Gets or sets the property value for 'LockoutEnabled'.
+    /// Gets or sets the <c>LockoutEnabled</c> value mapped from the <c>LockoutEnabled</c> column.
     /// </summary>
     /// <value>
-    /// The property value for 'LockoutEnabled'.
+    /// The <c>LockoutEnabled</c> model value.
     /// </value>
     public bool LockoutEnabled { get; set; }
 
     /// <summary>
-    /// Gets or sets the property value for 'LockoutEnd'.
+    /// Gets or sets the <c>LockoutEnd</c> value mapped from the <c>LockoutEnd</c> column.
     /// </summary>
     /// <value>
-    /// The property value for 'LockoutEnd'.
+    /// The <c>LockoutEnd</c> model value.
     /// </value>
     public DateTimeOffset? LockoutEnd { get; set; }
 
     /// <summary>
-    /// Gets or sets the property value for 'LastLogin'.
+    /// Gets or sets the <c>LastLogin</c> value mapped from the <c>LastLogin</c> column.
     /// </summary>
     /// <value>
-    /// The property value for 'LastLogin'.
+    /// The <c>LastLogin</c> model value.
     /// </value>
     public DateTimeOffset? LastLogin { get; set; }
 
     /// <summary>
-    /// Gets or sets the property value for 'IsDeleted'.
+    /// Gets or sets the <c>IsDeleted</c> value mapped from the <c>IsDeleted</c> column.
     /// </summary>
     /// <value>
-    /// The property value for 'IsDeleted'.
+    /// The <c>IsDeleted</c> model value.
     /// </value>
     public bool IsDeleted { get; set; }
 

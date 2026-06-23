@@ -1,16 +1,17 @@
 project:
-  namespace: '{Database.Name}.Core'
+  namespace: 'Tracker.Core'
   directory: .\
   nullable: true
   fileScopedNamespace: true
 database:
   provider: SqlServer
-  connectionString: Data Source=(local);Initial Catalog=Tracker;Integrated Security=True;TrustServerCertificate=True
+  connectionString: Data Source=(local);Initial Catalog=TrackerGenerator;Integrated Security=True;TrustServerCertificate=True
   exclude:
-    - exact: 'dbo.SchemaVersions'
+    tables:
+      - exact: 'dbo.SchemaVersions'
 data:
   context:
-    name: '{Database.Name}Context'
+    name: 'TrackerContext'
     baseClass: DbContext
     namespace: '{Project.Namespace}.Data'
     directory: '{Project.Directory}\Data'
@@ -18,6 +19,7 @@ data:
   entity:
     namespace: '{Project.Namespace}.Data.Entities'
     directory: '{Project.Directory}\Data\Entities'
+    mappingAttributes: true
     document: true
   mapping:
     namespace: '{Project.Namespace}.Data.Mapping'

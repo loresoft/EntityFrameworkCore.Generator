@@ -16,7 +16,7 @@ public class MatchOptions : OptionsBase
     /// </summary>
     /// <param name="variables">The shared variables dictionary.</param>
     /// <param name="prefix">The variable key prefix.</param>
-    public MatchOptions(VariableDictionary variables, string prefix)
+    public MatchOptions(VariableDictionary variables, string? prefix)
         : base(variables, prefix)
     {
     }
@@ -28,7 +28,7 @@ public class MatchOptions : OptionsBase
     /// The exact string match option.
     /// </value>
     [YamlMember(Alias = "exact")]
-    public string Exact
+    public string? Exact
     {
         get => GetProperty();
         set => SetProperty(value);
@@ -41,7 +41,7 @@ public class MatchOptions : OptionsBase
     /// The regular expression pattern match option.
     /// </value>
     [YamlMember(Alias = "regex")]
-    public string Expression
+    public string? Expression
     {
         get => GetProperty();
         set => SetProperty(value);

@@ -1,6 +1,3 @@
-using System;
-using System.IO;
-
 using EntityFrameworkCore.Generator.Serialization;
 
 using Microsoft.Extensions.Logging;
@@ -13,7 +10,7 @@ namespace EntityFrameworkCore.Generator;
 /// <summary>
 /// Serialization and Deserialization for the <see cref="Generator"/> class
 /// </summary>
-public class ConfigurationSerializer : IConfigurationSerializer
+public partial class ConfigurationSerializer : IConfigurationSerializer
 {
     private readonly ILogger<ConfigurationSerializer> _logger;
 
@@ -37,16 +34,16 @@ public class ConfigurationSerializer : IConfigurationSerializer
     /// <param name="directory">The directory where the file is located.</param>
     /// <param name="file">The name of the options file.</param>
     /// <returns>An instance of <see cref="Generator"/> if the file exists; otherwise <c>null</c>.</returns>
-    public GeneratorModel Load(string directory = null, string file = OptionsFileName)
+    public GeneratorModel? Load(string? directory = null, string file = OptionsFileName)
     {
         var path = GetPath(directory, file);
         if (!File.Exists(path))
         {
-            _logger.LogWarning($"Option file not found: {file}");
+            LogOptionFileNotFound(_logger, file);
             return null;
         }
 
-        _logger.LogInformation($"Loading options file: {file}");
+        LogLoadingOptionsFile(_logger, file);
         using var reader = File.OpenText(path);
 
         return Load(reader);
@@ -59,7 +56,7 @@ public class ConfigurationSerializer : IConfigurationSerializer
     /// <returns>
     /// An instance of <see cref="Generator" />.
     /// </returns>
-    public GeneratorModel Load(TextReader reader)
+    public GeneratorModel? Load(TextReader reader)
     {
         if (reader == null)
             return null;
@@ -79,7 +76,7 @@ public class ConfigurationSerializer : IConfigurationSerializer
     /// <param name="directory">The directory where the file is located.</param>
     /// <param name="file">The name of the options file.</param>
     /// <returns>The full path of the options file.</returns>
-    public string Save(GeneratorModel generatorOptions, string directory = null, string file = OptionsFileName)
+    public string Save(GeneratorModel generatorOptions, string? directory = null, string file = OptionsFileName)
     {
         if (string.IsNullOrWhiteSpace(directory))
             directory = Environment.CurrentDirectory;
@@ -89,11 +86,11 @@ public class ConfigurationSerializer : IConfigurationSerializer
 
         if (!Directory.Exists(directory))
         {
-            _logger.LogTrace($"Creating Directory: {directory}");
+            LogCreatingDirectory(_logger, directory);
             Directory.CreateDirectory(directory);
         }
 
-        _logger.LogInformation($"Saving options file: {file}");
+        LogSavingOptionsFile(_logger, file);
 
         var path = Path.Combine(directory, file);
 
@@ -114,14 +111,14 @@ public class ConfigurationSerializer : IConfigurationSerializer
     /// <param name="directory">The directory where the file is located.</param>
     /// <param name="file">The name of the options file.</param>
     /// <returns><c>true</c> if options file exits; otherwise <c>false</c>.</returns>
-    public bool Exists(string directory = null, string file = OptionsFileName)
+    public bool Exists(string? directory = null, string file = OptionsFileName)
     {
         var path = GetPath(directory, file);
         return File.Exists(path);
     }
 
 
-    private static string GetPath(string directory, string file)
+    private static string GetPath(string? directory, string? file)
     {
         if (string.IsNullOrWhiteSpace(directory))
             directory = Environment.CurrentDirectory;
@@ -132,4 +129,16 @@ public class ConfigurationSerializer : IConfigurationSerializer
         var path = Path.Combine(directory, file);
         return path;
     }
+
+    [LoggerMessage(EventId = 1, Level = LogLevel.Warning, Message = "Option file not found: {file}")]
+    private static partial void LogOptionFileNotFound(ILogger logger, string file);
+
+    [LoggerMessage(EventId = 2, Level = LogLevel.Information, Message = "Loading options file: {file}")]
+    private static partial void LogLoadingOptionsFile(ILogger logger, string file);
+
+    [LoggerMessage(EventId = 3, Level = LogLevel.Trace, Message = "Creating Directory: {directory}")]
+    private static partial void LogCreatingDirectory(ILogger logger, string directory);
+
+    [LoggerMessage(EventId = 4, Level = LogLevel.Information, Message = "Saving options file: {file}")]
+    private static partial void LogSavingOptionsFile(ILogger logger, string file);
 }

@@ -1,0 +1,25 @@
+<Solution>
+  <Folder Name="/Build/">
+    <File Path=".github/workflows/dotnet.yml" />
+    <File Path="Directory.Packages.props" />
+    <File Path="README.md" />
+    <File Path="src/Directory.Build.props" />
+  </Folder>
+  <Folder Name="/Samples/">
+    <Project Path="sample/Tracker/Tracker.Core/Tracker.Core.csproj" />
+    <Project Path="sample/Tracker/Tracker.Database/Tracker.Database.csproj" />
+    <Project Path="sample/Tracker/Tracker.Scaffold/Tracker.Scaffold.csproj" />
+    <Project Path="sample/Tracker/Tracker.Web/Tracker.Web.csproj" />
+  </Folder>
+  <Folder Name="/Tests/">
+    <File Path="test/Directory.Build.props" />
+    <Project Path="test/EntityFrameworkCore.Generator.Core.Tests/EntityFrameworkCore.Generator.Core.Tests.csproj" />
+    <Project Path="test/EntityFrameworkCore.Generator.Migrator/EntityFrameworkCore.Generator.Migrator.csproj" Id="c1a63383-09e3-4425-b731-387f15350c66" />
+    <Project Path="test/EntityFrameworkCore.Generator.MySql.Tests/EntityFrameworkCore.Generator.MySql.Tests.csproj" Id="eb3e24b4-4382-444a-8d51-4feb9697a37f" />
+    <Project Path="test/EntityFrameworkCore.Generator.PostgreSql.Tests/EntityFrameworkCore.Generator.PostgreSql.Tests.csproj" Id="038a7b94-c7c0-4c17-bfc1-3b4045ffb0cb" />
+    <Project Path="test/EntityFrameworkCore.Generator.Sqlite.Tests/EntityFrameworkCore.Generator.Sqlite.Tests.csproj" Id="982bfca5-ac46-4258-80f1-b6281ae5fc95" />
+    <Project Path="test/EntityFrameworkCore.Generator.SqlServer.Tests/EntityFrameworkCore.Generator.SqlServer.Tests.csproj" Id="89829e06-ff24-46cd-8e58-5a0316c1e541" />
+  </Folder>
+  <Project Path="src/EntityFrameworkCore.Generator.Core/EntityFrameworkCore.Generator.Core.csproj" />
+  <Project Path="src/EntityFrameworkCore.Generator/EntityFrameworkCore.Generator.csproj" />
+</Solution>

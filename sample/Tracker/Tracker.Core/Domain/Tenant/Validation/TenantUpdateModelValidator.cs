@@ -1,17 +1,19 @@
 using System;
+
 using FluentValidation;
 using Tracker.Core.Domain.Models;
 
 namespace Tracker.Core.Domain.Validation;
 
 /// <summary>
-/// Validator class for <see cref="TenantUpdateModel"/> .
+/// Defines FluentValidation rules for the <see cref="Tracker.Core.Domain.Models.TenantUpdateModel" /> update model for the <c>Tenant</c> entity mapped to the <c>dbo.Tenant</c> table.
 /// </summary>
+[RegisterSingleton<IValidator<TenantUpdateModel>>]
 public partial class TenantUpdateModelValidator
     : AbstractValidator<TenantUpdateModel>
 {
     /// <summary>
-    /// Initializes a new instance of the <see cref="TenantUpdateModelValidator"/> class.
+    /// Initializes a new instance of the <see cref="Tracker.Core.Domain.Validation.TenantUpdateModelValidator"/> class and configures validation rules for <see cref="Tracker.Core.Domain.Models.TenantUpdateModel" />.
     /// </summary>
     public TenantUpdateModelValidator()
     {

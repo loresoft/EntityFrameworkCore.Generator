@@ -1,6 +1,3 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-
 namespace EntityFrameworkCore.Generator.Metadata.Generation;
 
 /// <summary>
@@ -45,8 +42,11 @@ public class RelationshipCollection
     /// </summary>
     /// <param name="name">The name.</param>
     /// <returns></returns>
-    public Relationship ByName(string name)
+    public Relationship? ByName(string? name)
     {
+        if (string.IsNullOrEmpty(name))
+            return null;
+
         return this.FirstOrDefault(x => x.RelationshipName == name);
     }
 
@@ -55,8 +55,11 @@ public class RelationshipCollection
     /// </summary>
     /// <param name="propertyName">Name of the property.</param>
     /// <returns></returns>
-    public Relationship ByProperty(string propertyName)
+    public Relationship? ByProperty(string propertyName)
     {
+        if (string.IsNullOrEmpty(propertyName))
+            return null;
+
         return this.FirstOrDefault(x => x.PropertyName == propertyName);
     }
 }

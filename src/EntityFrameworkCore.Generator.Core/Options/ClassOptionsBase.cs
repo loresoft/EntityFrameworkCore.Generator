@@ -1,4 +1,3 @@
-using System;
 using System.ComponentModel;
 
 namespace EntityFrameworkCore.Generator.Options;
@@ -11,7 +10,7 @@ public abstract class ClassOptionsBase : OptionsBase
     /// <summary>
     /// Initializes a new instance of the <see cref="ClassOptionsBase"/> class.
     /// </summary>
-    protected ClassOptionsBase(VariableDictionary variables, string prefix)
+    protected ClassOptionsBase(VariableDictionary variables, string? prefix)
         : base(variables, prefix)
     {
         Namespace = "{Project.Namespace}";
@@ -25,7 +24,7 @@ public abstract class ClassOptionsBase : OptionsBase
     /// <value>
     /// The class namespace.
     /// </value>
-    public string Namespace
+    public string? Namespace
     {
         get => GetProperty();
         set => SetProperty(value);
@@ -37,7 +36,7 @@ public abstract class ClassOptionsBase : OptionsBase
     /// <value>
     /// The output directory.
     /// </value>
-    public string Directory
+    public string? Directory
     {
         get => GetProperty();
         set => SetProperty(value);
@@ -58,7 +57,7 @@ public abstract class ClassOptionsBase : OptionsBase
     /// <value>
     /// The class name template.
     /// </value>
-    public string Name
+    public string? Name
     {
         get => GetProperty();
         set => SetProperty(value);
@@ -70,7 +69,7 @@ public abstract class ClassOptionsBase : OptionsBase
     /// <value>
     /// The base class.
     /// </value>
-    public string BaseClass
+    public string? BaseClass
     {
         get => GetProperty();
         set => SetProperty(value);
@@ -82,7 +81,16 @@ public abstract class ClassOptionsBase : OptionsBase
     /// <value>
     /// The attributes to add to the class
     /// </value>
-    public string Attributes
+    public string? Attributes
+    {
+        get => GetProperty();
+        set => SetProperty(value);
+    }
+
+    /// <summary>
+    /// Gets or sets the file header.
+    /// </summary>
+    public string? Header
     {
         get => GetProperty();
         set => SetProperty(value);

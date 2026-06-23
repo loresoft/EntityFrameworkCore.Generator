@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-
+using EntityFrameworkCore.Generator.Extensions;
 using EntityFrameworkCore.Generator.Metadata.Parsing;
 
 using Microsoft.CodeAnalysis.CSharp;
@@ -10,23 +8,23 @@ namespace EntityFrameworkCore.Generator.Parsing;
 
 public class ContextVisitor : CSharpSyntaxWalker
 {
-    private string _currentClass;
+    private string? _currentClass;
 
     public ContextVisitor()
     {
-        DataSetTypes = new HashSet<string> { "DbSet", "IDbSet" };
+        DataSetTypes = ["DbSet", "IDbSet"];
     }
 
     public HashSet<string> DataSetTypes { get; set; }
 
-    public ParsedContext ParsedContext { get; set; }
+    public ParsedContext? ParsedContext { get; set; }
 
     public override void VisitClassDeclaration(ClassDeclarationSyntax node)
     {
-        var hasBaseType = node.BaseList != null && node.BaseList
-            .DescendantNodes()
+        var hasBaseType = node.BaseList
+            ?.DescendantNodes()
             .OfType<IdentifierNameSyntax>()
-            .Any();
+            .Any() == true;
 
         if (hasBaseType)
             _currentClass = node.Identifier.Text;
@@ -42,6 +40,9 @@ public class ContextVisitor : CSharpSyntaxWalker
 
     private void ParseProperty(PropertyDeclarationSyntax node)
     {
+        if (_currentClass.IsNullOrEmpty())
+            return;
+
         var returnType = node.Type
             .DescendantNodesAndSelf()
             .OfType<GenericNameSyntax>()
@@ -60,6 +61,9 @@ public class ContextVisitor : CSharpSyntaxWalker
             .Arguments
             .FirstOrDefault();
 
+        if (firstArgument == null)
+            return;
+
         // last identifier is class name
         var className = firstArgument
             .DescendantNodesAndSelf()
@@ -72,8 +76,7 @@ public class ContextVisitor : CSharpSyntaxWalker
         if (string.IsNullOrEmpty(className) || string.IsNullOrEmpty(propertyName))
             return;
 
-        if (ParsedContext == null)
-            ParsedContext = new ParsedContext { ContextClass = _currentClass };
+        ParsedContext ??= new ParsedContext { ContextClass = _currentClass };
 
         var entitySet = new ParsedEntitySet
         {

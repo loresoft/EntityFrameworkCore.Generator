@@ -5,30 +5,31 @@ using AutoMapper;
 using Tracker.Core.Data.Entities;
 using Tracker.Core.Domain.Models;
 
-// ReSharper disable once CheckNamespace
 namespace Tracker.Core.Domain.Mapping;
 
 /// <summary>
-/// Mapper class for entity <see cref="Task"/> .
+/// Configures AutoMapper mappings for the <see cref="Tracker.Core.Data.Entities.Task" /> entity mapped to the <c>dbo.Task</c> table and its generated create, read, and update models.
 /// </summary>
 public partial class TaskProfile
     : Profile
 {
     /// <summary>
-    /// Initializes a new instance of the <see cref="TaskProfile"/> class.
+    /// Initializes a new instance of the <see cref="Tracker.Core.Domain.Mapping.TaskProfile"/> class and creates mappings for <see cref="Tracker.Core.Data.Entities.Task" />.
     /// </summary>
     public TaskProfile()
     {
-        CreateMap<Task, TaskReadModel>()
-            .ForMember(d => d.RowVersion, opt => opt.MapFrom(s => Convert.ToBase64String(s.RowVersion)))
-            .ForMember(d => d.PriorityName, opt => opt.MapFrom(s => s.Priority != null ? s.Priority.Name : default))
-            .ForMember(d => d.StatusName, opt => opt.MapFrom(s => s.Status.Name))
-            .ForMember(d => d.AssignedEmail, opt => opt.MapFrom(s => s.AssignedUser != null ? s.AssignedUser.EmailAddress : default));
+        CreateMap<Tracker.Core.Data.Entities.Task, Tracker.Core.Domain.Models.TaskReadModel>();
 
-        CreateMap<TaskCreateModel, Task>();
+        CreateMap<Tracker.Core.Domain.Models.TaskCreateModel, Tracker.Core.Data.Entities.Task>();
 
-        CreateMap<TaskUpdateModel, Task>()
-            .ForMember(d => d.RowVersion, opt => opt.MapFrom(s => Convert.FromBase64String(s.RowVersion)));
+        CreateMap<Tracker.Core.Data.Entities.Task, Tracker.Core.Domain.Models.TaskCreateModel>();
+
+        CreateMap<Tracker.Core.Data.Entities.Task, Tracker.Core.Domain.Models.TaskUpdateModel>();
+
+        CreateMap<Tracker.Core.Domain.Models.TaskUpdateModel, Tracker.Core.Data.Entities.Task>();
+
+        CreateMap<Tracker.Core.Domain.Models.TaskReadModel, Tracker.Core.Domain.Models.TaskUpdateModel>();
+
     }
 
 }
