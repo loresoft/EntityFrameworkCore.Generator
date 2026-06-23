@@ -150,6 +150,7 @@ public static class OptionMapper
         option.PrefixWithSchemaName = entity.PrefixWithSchemaName;
         option.MappingAttributes = entity.MappingAttributes;
         option.SystemTypeAnnotation = entity.SystemTypeAnnotation;
+        option.AdditionalUsings = entity.AdditionalUsings;
 
         MapSelection(option.Renaming, entity.Renaming);
 

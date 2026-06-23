@@ -76,4 +76,9 @@ public class EntityClassOptions : ClassOptionsBase
     /// Gets or sets the column annotation name used to override generated .NET system type names.
     /// </summary>
     public string? SystemTypeAnnotation { get; set; }
+
+    /// <summary>
+    /// Additional using statements, ;-separated - example: MyLib;MyLib.Data;MyLib.Domain;MyLib.Domain.Interfaces
+    /// </summary>
+    public string AdditionalUsings { get; set; }
 }

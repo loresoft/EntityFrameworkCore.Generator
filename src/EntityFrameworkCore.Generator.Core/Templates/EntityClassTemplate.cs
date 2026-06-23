@@ -27,6 +27,14 @@ public class EntityClassTemplate : CodeTemplateBase
             CodeBuilder.AppendLine("using System.ComponentModel.DataAnnotations;");
             CodeBuilder.AppendLine("using System.ComponentModel.DataAnnotations.Schema;");
         }
+        if (!Options.Data.Entity.AdditionalUsings.IsNullOrWhiteSpace())
+        {
+            var splittedUsingEntries = Options.Data.Entity.AdditionalUsings.Split(';').Distinct()
+                .Where(s => !s.IsNullOrWhiteSpace());
+
+            foreach (var usingEntry in splittedUsingEntries)
+                CodeBuilder.AppendLine($"using {usingEntry};");
+        }
         CodeBuilder.AppendLine();
 
         CodeBuilder.Append($"namespace {_entity.EntityNamespace}");
