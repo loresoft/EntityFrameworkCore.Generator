@@ -6,7 +6,7 @@
   <ItemGroup>
     <PackageVersion Include="AssemblyMetadata.Generators" Version="2.2.0" />
     <PackageVersion Include="AwesomeAssertions" Version="9.4.0" />
-    <PackageVersion Include="AutoMapper" Version="16.1.1" />
+    <PackageVersion Include="AutoMapper" Version="16.2.0" />
     <PackageVersion Include="coverlet.MTP" Version="10.0.1" />
     <PackageVersion Include="dbup-postgresql" Version="4.5.0" />
     <PackageVersion Include="dbup-sqlserver" Version="7.2.0" />
