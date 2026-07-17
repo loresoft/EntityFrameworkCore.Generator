@@ -47,7 +47,7 @@
     <PackageVersion Include="Testcontainers.MsSql" Version="4.13.0" />
     <PackageVersion Include="Testcontainers.MySql" Version="4.13.0" />
     <PackageVersion Include="Testcontainers.Postgresql" Version="4.13.0" />
-    <PackageVersion Include="Verify.XunitV3" Version="31.24.2" />
+    <PackageVersion Include="Verify.XunitV3" Version="31.24.3" />
     <PackageVersion Include="XUnit.Hosting" Version="4.0.0" />
     <PackageVersion Include="xunit.v3.mtp-v2" Version="3.2.2" />
     <PackageVersion Include="YamlDotNet" Version="18.1.0" />
