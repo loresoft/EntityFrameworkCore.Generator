@@ -415,7 +415,12 @@ public class MappingClassTemplate : CodeTemplateBase
             CodeBuilder.Append($".HasDefaultValueSql({property.Default.ToLiteral()})");
         }
 
-        if (property.IsIdentity == true)
+        if (property.IsPrimaryKey == true && Options.Data.Entity.GeneratePkValue)
+        {
+            CodeBuilder.AppendLine();
+            CodeBuilder.Append(".ValueGeneratedNever()");
+        }
+        else if(property.IsIdentity == true)
         {
             CodeBuilder.AppendLine();
             CodeBuilder.Append(".ValueGeneratedOnAdd()");
