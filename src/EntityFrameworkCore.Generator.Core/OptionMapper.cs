@@ -139,6 +139,7 @@ public static class OptionMapper
 
         option.Temporal = mapping.Temporal;
         option.RowVersion = mapping.RowVersion;
+        option.DeleteUnusedFiles = mapping.DeleteUnusedFiles;
     }
 
     private static void MapEntity(EntityClassOptions option, EntityClass entity)
@@ -150,6 +151,7 @@ public static class OptionMapper
         option.PrefixWithSchemaName = entity.PrefixWithSchemaName;
         option.MappingAttributes = entity.MappingAttributes;
         option.SystemTypeAnnotation = entity.SystemTypeAnnotation;
+        option.DeleteUnusedFiles = entity.DeleteUnusedFiles;
 
         MapSelection(option.Renaming, entity.Renaming);
 
