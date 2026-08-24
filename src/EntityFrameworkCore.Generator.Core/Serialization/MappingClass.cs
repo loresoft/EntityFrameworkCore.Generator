@@ -38,4 +38,10 @@ public class MappingClass : ClassBase
     [DefaultValue(RowVersionMapping.ByteArray)]
     public RowVersionMapping RowVersion { get; set; } = RowVersionMapping.ByteArray;
 
+    /// <summary>
+    /// If true, files without a corresponding database table will be removed in the folder
+    /// </summary>
+    [DefaultValue(false)]
+    public bool DeleteUnusedFiles { get; set; }
+
 }
