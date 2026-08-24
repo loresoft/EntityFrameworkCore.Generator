@@ -269,6 +269,15 @@ public class EntityClassTemplate : CodeTemplateBase
                     GenerateCollectionRelationshipDocumentation(primaryFullName);
                 }
 
+                if (!Options.Data.Entity.RelationshipAttributes.IsNullOrWhiteSpace())
+                {
+                    var splittedAttributes = Options.Data.Entity.RelationshipAttributes.Split(';').Distinct()
+                        .Where(s => !s.IsNullOrWhiteSpace());
+
+                    foreach (var attribute in splittedAttributes)
+                        CodeBuilder.AppendLine($"[{attribute}]");
+                }
+
                 CodeBuilder.AppendLine($"public virtual ICollection<{primaryFullName}> {propertyName} {{ get; set; }}");
                 CodeBuilder.AppendLine();
             }
@@ -283,6 +292,15 @@ public class EntityClassTemplate : CodeTemplateBase
                         var relatedPropertyName = property.PropertyName.ToSafeName();
                         CodeBuilder.AppendLine($"/// <seealso cref=\"{relatedPropertyName}\" />");
                     }
+                }
+
+                if (!Options.Data.Entity.RelationshipAttributes.IsNullOrWhiteSpace())
+                {
+                    var splittedAttributes = Options.Data.Entity.RelationshipAttributes.Split(';').Distinct()
+                        .Where(s => !s.IsNullOrWhiteSpace());
+
+                    foreach (var attribute in splittedAttributes)
+                        CodeBuilder.AppendLine($"[{attribute}]");
                 }
 
                 if (!Options.Project.Nullable)
