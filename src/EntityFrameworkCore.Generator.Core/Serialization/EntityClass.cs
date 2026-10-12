@@ -74,4 +74,9 @@ public class EntityClass : ClassBase
     /// Gets or sets the column annotation name used to override generated .NET system type names.
     /// </summary>
     public string? SystemTypeAnnotation { get; set; }
+
+    /// <summary>
+    /// Attributes which are added to the generated relationships, ;-separated
+    /// </summary>
+    public string RelationshipAttributes { get; set; }
 }

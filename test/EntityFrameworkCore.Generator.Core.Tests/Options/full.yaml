@@ -38,6 +38,7 @@ data:
     relationshipNaming: Plural
     document: false
     prefixWithSchemaName: false
+    relationshipAttributes: ''
     typeMapping:
       - nativeType: geometry
         systemType: NetTopologySuite.Geometries.Geometry
