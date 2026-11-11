@@ -22,7 +22,7 @@ public partial class GenerateCommand : AsyncCommand<GenerateSettings>
         _codeGenerator = codeGenerator;
     }
 
-    protected override async Task<int> ExecuteAsync(CommandContext context, GenerateSettings settings, CancellationToken cancellationToken)
+    public override async Task<int> ExecuteAsync(CommandContext context, GenerateSettings settings, CancellationToken cancellationToken)
     {
         try
         {

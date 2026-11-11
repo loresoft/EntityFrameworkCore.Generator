@@ -1,9 +1,19 @@
 {
   "profiles": {
-    "EntityFrameworkCore.Generator": {
+    "Tracker": {
       "commandName": "Project",
       "commandLineArgs": "generate",
       "workingDirectory": "..\\..\\sample\\Tracker\\Tracker.Core"
+    },
+    "Magnolia": {
+      "commandName": "Project",
+      "commandLineArgs": "generate",
+      "workingDirectory": "D:\\Projects\\Bitbucket\\magnolia\\src\\ReadyCredit.Magnolia.Core"
+    },
+    "Bristol": {
+      "commandName": "Project",
+      "commandLineArgs": "generate",
+      "workingDirectory": "D:\\Projects\\Azure\\BristolPlaceCaseManagement\\src\\BristolPlace.CaseManagement.Core"
     }
   }
 }

@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>net10.0</TargetFramework>
+    <TargetFramework>net11.0</TargetFramework>
     <UserSecretsId>984ef0cf-2b22-4fd1-876d-e01499da4c1f</UserSecretsId>
     <IsPackable>false</IsPackable>
   </PropertyGroup>
@@ -12,7 +12,6 @@
 
   <ItemGroup>
     <PackageReference Include="Scrutor" />
-    <PackageReference Include="Swashbuckle.AspNetCore" />
   </ItemGroup>
 
   <ItemGroup>

@@ -18,7 +18,7 @@ public partial class InitializeCommand : AsyncCommand<InitializeSettings>
         _serializer = serializer;
     }
 
-    protected override Task<int> ExecuteAsync(CommandContext context, InitializeSettings settings, CancellationToken cancellationToken)
+    public override Task<int> ExecuteAsync(CommandContext context, InitializeSettings settings, CancellationToken cancellationToken)
     {
         try
         {

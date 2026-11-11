@@ -4,7 +4,6 @@
     <Description>.NET Core command-line (CLI) tool to generate Entity Framework Core source files.</Description>
     <Copyright>Copyright © $([System.DateTime]::Now.ToString(yyyy)) LoreSoft</Copyright>
     <Authors>LoreSoft</Authors>
-    <NeutralLanguage>en-US</NeutralLanguage>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <PackageTags>Entity Framework Core;EF;Data;EntityFramework;EntityFrameworkCore;EFCore;Generation;Generator</PackageTags>
     <PackageProjectUrl>https://github.com/loresoft/EntityFrameworkCore.Generator</PackageProjectUrl>
@@ -28,10 +27,15 @@
 
   <PropertyGroup Label="Options">
     <DefaultLanguage>en-US</DefaultLanguage>
+    <NeutralLanguage>en-US</NeutralLanguage>
     <LangVersion>latest</LangVersion>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <NoWarn>1591</NoWarn>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(TargetFramework)' == 'net11.0'">
+    <Features>runtime-async=on</Features>
   </PropertyGroup>
 
   <PropertyGroup>

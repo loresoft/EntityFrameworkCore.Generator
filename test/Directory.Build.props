@@ -24,6 +24,11 @@
     <MinVerTagPrefix>v</MinVerTagPrefix>
   </PropertyGroup>
 
+  <PropertyGroup>
+    <Verify_SponsorshipExemption>OpenSource</Verify_SponsorshipExemption>
+    <Verify_SponsorshipExemptionUntil>$([System.DateTime]::Now.AddYears(1).ToString('yyyy-MM'))</Verify_SponsorshipExemptionUntil>
+  </PropertyGroup>
+  
   <ItemGroup>
     <PackageReference Include="AwesomeAssertions" />
     <PackageReference Include="XUnit.Hosting" />
