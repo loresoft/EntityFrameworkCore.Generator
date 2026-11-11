@@ -26,6 +26,7 @@
     <PackageReference Include="dbup-sqlserver" />
     <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" />
     <PackageReference Include="NetTopologySuite" />
     <PackageReference Include="xunit.v3.mtp-v2" />
   </ItemGroup>
